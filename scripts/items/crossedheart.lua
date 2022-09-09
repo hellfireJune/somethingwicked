@@ -18,12 +18,21 @@ function this:PickupHeart(pickup, player)
 end
 
 function this:DMGup(player, flags)
-    player.Damage = SomethingWicked.StatUps:DamageUp(player, (1.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)))
+    player.Damage = SomethingWicked.StatUps:DamageUp(player, (1 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)))
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupHeart, PickupVariant.PICKUP_HEART)
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.DMGup, CacheFlag.CACHE_DAMAGE)
 
 this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_CROSSED_HEART] = {
+        desc = "↑ +1 damage up#↑ Picking up a red heart has a 50% chance to heal for a bonus half red heart",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Damage up by 1", "Picking up a red heart has a 50% chance to heal for a bonus half red heart"}),
+        pools = {
+            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE,
+            SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME
+        }
+    }
 }
 return this

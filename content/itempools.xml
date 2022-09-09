@@ -21,6 +21,7 @@
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -146,6 +147,7 @@
 		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shellGame">
@@ -201,6 +203,7 @@
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

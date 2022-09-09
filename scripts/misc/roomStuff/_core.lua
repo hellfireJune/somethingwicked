@@ -1,4 +1,3 @@
-print("loaded core!")
 local this = {}
 this.roomFolderDirectory = "scripts/misc/roomStuff/"
 
@@ -12,7 +11,7 @@ function this:NewLevel()
     local rng = RNG()
     if SomethingWicked.RedKeyRoomHelpers:RoomTypeCurrentlyExists(RoomType.ROOM_SECRET, level, rng) then
         local sroomIndex = level:QueryRoomTypeIndex(RoomType.ROOM_SECRET, true, rng)
-        SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(SomethingWicked.roomStuff.SmokeShop.roomData, sroomIndex, rng)
+        --SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(SomethingWicked.roomStuff.SmokeShop.roomData, sroomIndex, rng)
     end
 end
 

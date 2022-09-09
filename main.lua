@@ -312,13 +312,15 @@ local cardsToLoad = {
 }
 
 local earlyMiscLoad = {
+  "saveHandler",
+
   "redkeyLevelGenStuff",
   "roomStuff/_core",
 
   "ezEnums",
+  
   "dirtystatupsdonedirtquick",
   "itemHelpers",
-  "saveHandler",
   "newcallbacks",
   "enemyHelpers",
   "slotmachinesfuckingsuck",

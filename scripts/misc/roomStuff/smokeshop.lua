@@ -1,4 +1,3 @@
-print("loaded smokeshop stuff!")
 local this = {}
 this.minvariant = 13000 this.maxvariant = 13001
 this.roomType = RoomType.ROOM_SUPERSECRET
