@@ -6,6 +6,8 @@ SomethingWicked.roomStuff = {}
 SomethingWicked.roomStuff.SmokeShop = include(this.roomFolderDirectory.."smokeshop")
 
 function this:NewLevel()
+    SomethingWicked.roomStuff.SmokeShop:Init()
+
     local level = SomethingWicked.game:GetLevel()
     local rng = RNG()
     if SomethingWicked.RedKeyRoomHelpers:RoomTypeCurrentlyExists(RoomType.ROOM_SECRET, level, rng) then
