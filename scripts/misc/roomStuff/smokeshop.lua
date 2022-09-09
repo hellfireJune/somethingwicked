@@ -1,3 +1,4 @@
 local this = {}
+this.minvariant = 13000 this.maxvariant = 13001
 
---this.roomData = 
+--SomethingWicked.RedKeyRoomHelpers:InitializeRoomData(RoomType) 
