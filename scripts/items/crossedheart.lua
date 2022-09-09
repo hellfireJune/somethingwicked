@@ -18,7 +18,7 @@ function this:PickupHeart(pickup, player)
 end
 
 function this:DMGup(player, flags)
-    player.Damage = player.Damage + SomethingWicked.StatUps:DamageUp(player, 1.3)
+    player.Damage = SomethingWicked.StatUps:DamageUp(player, (1.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)))
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupHeart, PickupVariant.PICKUP_HEART)

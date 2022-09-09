@@ -312,6 +312,7 @@ local cardsToLoad = {
 }
 
 local earlyMiscLoad = {
+  "redkeyLevelGenStuff",
   "roomStuff/_core",
 
   "ezEnums",
@@ -322,13 +323,9 @@ local earlyMiscLoad = {
   "enemyHelpers",
   "slotmachinesfuckingsuck",
   "familiarHelpers",
-  "redkeyLevelGenStuff"
 }
 local postMiscLoad = {
   "EIDadder",
-  "wickedshops",
-  "newitempools",
-  "backdropAdder",
   "unlockHandler"
 }
 local enemiesToLoad = {

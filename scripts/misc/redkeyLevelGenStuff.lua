@@ -336,8 +336,35 @@ function SomethingWicked.RedKeyRoomHelpers:RoomTypeCurrentlyExists(roomtype, lev
 	return false
 end
 
---Some Even More #EPIC code i stole from tainted treasures, this time constants
+function SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(dataset, idx, rng)
+	local level = game:GetLevel()
+	local setcopy = dataset
+	
+	--for i, data in pairs(dataset) do
+		--table.insert(setcopy, data)
+	--end
+	
+	SomethingWicked:UtilShuffleTable(setcopy, rng)
+	
+	for i, data in pairs(setcopy) do
+		if data.Shape == RoomShape.ROOMSHAPE_1x1 then
+			local roomidx = idx
+			local roomdesc = level:GetRoomByIdx(roomidx)
+			if roomdesc.Data and level:GetRoomByIdx(roomdesc.GridIndex).GridIndex ~= -1--[[and SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(deadendslot) and data.Doors & (1 << SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(deadendslot)) > 0]] then
+				roomdesc.Data = data
+				roomdesc.Flags = 0
+				SomethingWicked.RedKeyRoomHelpers:UpdateRoomDisplayFlags(roomdesc)
+				level:UpdateVisibility()
+				--table.insert(SomethingWicked.RedKeyRoomHelpers.minimaprooms, newroomdesc.GridIndex)
+				return roomdesc
+			end
+		end
+	end
+end
 
+
+
+--Some Even More #EPIC code i stole from tainted treasures, this time constants
 SomethingWicked.RedKeyRoomHelpers.adjindexes = {
 	[RoomShape.ROOMSHAPE_1x1] = {
 		[DoorSlot.LEFT0] = -1, 
