@@ -1,0 +1,93 @@
+<items gfxroot="gfx/items/" version="1">
+  <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
+  <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive summonable"/>
+  <active id="3" name="Balrog's Head" description="Reusable ranged fires" gfx="balrog.png" maxcharges="1" quality="2" tags="offensive"/>
+  <passive id="4" name="Disciple's Eye" description = "See what I can't see..." gfx="discipleseye.png" quality="3" tags="nogreed" achievement="415"/> 
+  <passive id="5" name="Red Lockbox" description = "Free souls" gfx="redlockbox.png" quality="1" tags="nolostbr"/> <!--Needs costume-->
+  <passive id="6" name="Electric Dice" description = "Active power up... sometimes..." gfx="electricdice.png" quality="3" tags="offensive battery summonable"/> <!--Needs costume-->
+  <passive id="7" name="Star of the Bottomless Pit" description = "Bearer of the Key" gfx="starofthebottomlesspit.png" quality="4" devilprice="2" tags="offensive devil summonable" achievement="340"/>
+  <passive id="8" name="Void Bombs" description="Abyssal bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
+  <passive id="9" name="Cat Food" description="HP Up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
+  <active id="10" name="Possum's Ear" description="Into bones" gfx="possumsear.png" quality="3" tags="nolostbr" achievement="391"/> 
+  <active id="11" name="Osteophagy" description="Bone eater" gfx="osteophagyitem.png" quality="3" tags="nolostbr nogreed" achievement="391"/>
+  <active id="12" name="Possum's Head" description="Scavenger" gfx="possumshead.png" tags="offensive" quality="2" maxcharges="2"/> 
+  <passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> <!--Needs costume-->
+  <passive id="14" name="Star Shot" description="Wormwood's Wrath" gfx="whiterobe.png" quality="4" hidden="true"/>
+  <passive id="15" name="Wooden Horn" description="DMG + Evil Up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
+  <passive id="16" name="Silver Ring" description="DMG Up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
+  <!--<passive id="17" name="Lantern" description="DMG Up + Guiding Light" gfx="lantern.png" quality="2" tags="offensive" cache="damage"/> Needs costume-->
+  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> <!--Needs costume--> 
+  <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="offensive summonable"/> <!--Needs costume-->
+  <active id="19" name="Book of Lucifer" gfx="bookoflucifer.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
+  <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive" persistent="true"/>
+  <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
+  <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
+  <active id="23" name="Tiamat's Dice" gfx="tiamatsdice.png" description="Chaos reroll" quality="4" maxcharges="6" tags="offensive" achievement="29"/>
+  <familiar id="24" name="Apollyon's Crown" gfx="apollyonscrown.png" description="Abyss buddies" quality="3" tags="offensive devil summonable" cache="familiars" achievement="597"/> <!--Needs costume-->
+  <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8"/> <!--Needs costume--> 
+  <active id="26" name="Cursed Candle" gfx="cursedcandle.png" description="Reusable malediction" quality="3" tags="offensive" maxcharges="247" chargetype="timed"/> 
+  <passive id="27" name="Biretta" gfx="biretta2.png" description="You feel relieved" quality="2" tags="nolostbr summonable" achievement="616"/> 
+  <familiar id="28" name="Rogue planet" gfx="planetoid.png" description="Buddy-orbiting tears + Range UP " quality="0" tags="offensive summonable" cache="familiars range firedelay tearflag"/> 
+  <passive id="29" name="Wrath" gfx="wrath.png" description="Sinner's tears" quality="3" tags="nolostbr"/> <!--costume-->
+  <passive id="30" name="Mammon's Tooth" gfx="mammonstooth.png" description="DMG Up" quality="2" tags="offensive" cache="damage"/> <!--unlock sprite, crastume-->
+  <passive id="31" name="Bravery" gfx="bravery2.png" description="DMG Up against strong foes" quality="1" tags="offensive"/> <!--castume-->
+  <passive id="32" name="Pig Ear" gfx="pigear.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> <!--constum-->
+  <passive id="33" name="White Rose" gfx="whiterose.png" description="Tears + Faith Up" quality="2" tags="offensive" cache="firedelay" tags="offensive" soulhearts="2" achievement="404"/> <!--costume-->
+  <passive id="34" name="Ram's Head" gfx="ramshead.png" description="DMG + Tears Up" quality="3" tags="offensive" cache="damage firedelay" tags="offensive"/> <!--dingleshmorf (costume)-->
+  <passive id="35" name="Chili" gfx="chili.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> <!--cobstume-->
+  <passive id="36" name="Superiority" gfx="superiority.png" description="DMG up against weaker phonies" quality="3" tags="offensive"/> <!--consume-->
+  <active id="37" name="Joel!" gfx="oldurn.png" description="Voidy brother" quality="1" tags="offensive" hidden="true"/> 
+  <active id="38" name="Void Egg" gfx="nonagonegg.png" description="Locust generator" quality="2" maxcharges="3" tags="offensive" achievement="340"/>
+  <!--<passive id="39" name="Ark of the Covenant" gfx="oldurn.png" description="Misfortune follows you" quality="3" tags="offensive"/> saved for next update-->
+  <!--<familiar id="40" name="Samuel" gfx="planetoid.png" description="Prophet Buddy" quality="2" tags="offensive summonable" cache="familiars"/> saved for next update-->
+  <active id="41" name="Lost Wallet" gfx="lostwallet.png" description="Almost empty..." quality="2" tags="offensive" maxcharges="4" chargetype="special"/> 
+  <familiar id="42" name="Minos" gfx="minos_spritesheet.png" description="Rattle, rattle, rattle" quality="3" tags="offensive" cache="familiars"/> <!--sewing machine-->
+  <passive id="43" name="Wicked Soul" gfx="wickedsoul.png" description="All stats up, curse up" quality="3" tags="offensive" cache="all"/> <!--costumes-->
+  <active id="44" name="Book of Insanity" gfx="bookofinsanity.png" description="Split your mind" quality="2" tags="offensive book" maxcharges="4"/> 
+  <passive id="45" name="Yellow Sigil" gfx="yellowsign.png" description="Nightmare stone" quality="2" tags="nolostbr"/> <!--costumes-->
+  <active id="46" name="Chaos Heart" gfx="chaosheart.png" description="Volatile healing" quality="1"/> 
+  <active id="47" name="Cursed Mushroom" gfx="cursedmushroom.png" description="Temporary room debuff" quality="2" tags="offensive" maxcharges="3"/>
+  <familiar id="48" name="Solomon" gfx="solomon.png" description="Summoner Buddy" quality="4" tags="summonable offensive" devilprice="2" achievement="599"/> 
+  <passive id="49" name="Cursed Credit Card" gfx="cursedcreditcard.png" description="???" quality="1" tags="nolostbr" blackhearts="2"/> <!--costume-->
+  <active id="50" name="Old Dice" description="Reroll destiny overhead" gfx="olddice.png" maxcharges="2" quality="3" tags="offensive" achievement="29"/> 
+  <passive id="51" name="Spider Egg" gfx="spideregg.png" description="Spider lumps" quality="3" tags="offensive spider"/> <!--costume-->
+  <passive id="52" name="3D Glasses" gfx="3dglasses.png" description="Cellophane shot" quality="3" tags="offensive"/>
+  <familiar id="53" name="Legion" gfx="placeholder.png" hidden="true"/>
+  <passive id="54" name="Teratoma Chunk" gfx="teratomachunk.png" maxhearts="2" quality="1" description="HP up + tumor friends"/>
+  <passive id="55" name="Sacrificial Effigy" gfx="meateffigy.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed"/>
+  <active id="56" name="Encyclopedia" gfx="encyclopedia.png" maxcharges="1" chargetype="special" initcharge="0" tags="offensive book nogreed" quality="3"/>
+  <active id="57" name="Trinket Smasher" gfx="crushers.png" description="Recycle your trinkets!" quality="1" tags="offensive"/>
+  <active id="58" name="Chasm" gfx="chasm.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
+  <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive"/>
+  <active id="60" name="Fetus in Fetu" gfx="fetusinfeta.png" maxcharges="8" description="Teratoma Baby" tags="offensive" quality="2"/>
+  <passive id="61" name="GLITCHCITY" gfx="placeholder.png" description="99 2 99 2 99 2 99 2" hidden="true"/> <!-- on the back burner for now-->
+  <passive id="62" name="Crossed Heart" gfx="placeholder.png" description="DMG up + you feel healthier" cache="damage" quality="2"/>
+
+  <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
+  <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/>
+  <trinket id="3" name="Bob's Heart" description="More rotten" gfx="bobsheart.png" achievement="411"/>
+  <trinket id="4" name="Godly Tomato" description="Oh, to change your design!" gfx="godlytomato.png"/>
+  <trinket id="5" name="Scorched Wood" description="Balrog skin" gfx="scorchedwood.png"/>
+  <trinket id="6" name="Two of Coins" description="Hearts into coins" gfx="twoofcoins.png"/>
+  <trinket id="7" name="Damned Soul" description="Thrive off wickedness" gfx="damnedsoul.png" cache="all"/> 
+  <trinket id="8" name="Virtuous Soul" description="Thrive off purity" gfx="virtuoussoul.png" cache="all"/> 
+  <trinket id="9" name="Sugar Coated Pill" description="Keep you from feeling so woozy" gfx="sugarcoatedpill.png"/> 
+  <trinket id="10" name="Treasurer's Key" description="Treasure rooms are open" gfx="treasurerskey.png"/>
+  <trinket id="11" name="Cursed Key" description="Unlocks doors...?" gfx="cursedkey.png"/> 
+  <trinket id="12" name="Void Heart" description="Void bleeds" gfx="voidheart.png"/> 
+  <trinket id="13" name="Demon Core" description=">clueless" gfx="demoncore.png"/> 
+  <trinket id="14" name="Nightmare Fuel" description="Terror friend" gfx="nightmarefuel.png" cache="familiars"/> 
+  <trinket id="16" name="Black Amulet" description="Wicked luck" gfx="crookednecklace.png"/>
+  <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
+  <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
+  <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
+  <!--<trinket id="12" name="Torn Judgement" description="To your, generosity" gfx="cursedkey.png"/> saving this for next update-->
+  
+  
+  <passive name="dummy item 001" description="tell blazey if u see this" hidden="true"/>
+  <passive id="705" name="lust dummy helper" description="also tell blazey if u see this" hidden="true" cache="speed"/>
+
+  <!--<passive id="14" name="Tech V" description="Tech aura" gfx="balrog.png" tags="offensive"/> Not done-->
+  <!--<active id="15" name="Void heart" description="Bleed void" gfx="balrog.png" tags="offensive" maxcharges="3"/> Not done-->
+  <!--<active id="16" name="Makeshift Bombapult" description="Aerial bombardment" gfx="balrog.png"/> this one might be a bit too hard to do rn--> 
+</items>

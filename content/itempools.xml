@@ -1,0 +1,256 @@
+<ItemPools>
+	<Pool Name="treasure">
+		<Item Name="Balrog's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cat Food" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wicked Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Teratoma Chunk" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="shop">
+		<Item Name="D-Stock" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Electric Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Toybox" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fitus Fortunus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Urn" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Cursed Candle" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lost Wallet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wooden Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Possum's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="library">
+		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
+		<Item Name="Book of Insanity" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
+		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="curse">
+		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Wicked Soul" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Cursed Credit Card" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Planchette" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="boss">
+		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wooden Horn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Mammon's Tooth" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Avenger Emblem" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+	</Pool> 
+
+	<Pool Name="secret">
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Urn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Osteophagy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="devil">
+		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+	</Pool>
+
+	
+	<Pool Name="angel">
+		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="goldenChest">
+		<Item Name="Silver Ring" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Toybox" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="redChest">
+		<Item Name="Red Lockbox" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Yellow Sigil" Weight="0.5" DecreaseBy="0.2" RemoveOn="0.05"/>
+	</Pool>
+	
+	<Pool Name="beggar">
+		<Item Name="Cat Food" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="demonBeggar">
+		<Item Name="Red Lockbox" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="0.4" DecreaseBy="0.2" RemoveOn="0.04"/>
+	</Pool>
+
+	<Pool Name="keyMaster">
+		<Item Name="Spider Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Toybox" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Red Lockbox" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Teratoma Chunk" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="bombBum">
+		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="planetarium">
+
+	</Pool>
+
+	<Pool Name="ultraSecret">
+		<Item Name="Red Lockbox" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Disciple's Eye" Weight="0.1" DecreaseBy="0.1" RemoveOn="0.01"/>
+		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cursed Credit Card" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+	</Pool>
+	
+	<Pool Name="craneGame">
+		<Item Name="Silver Ring" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cat Food" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="shellGame">
+
+	</Pool>
+
+	<Pool Name="rottenBeggar">
+		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="batteryBum">
+		<Item Name="Electric Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="oldChest">
+		<Item Name="Lost Wallet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="woodenChest">
+		<Item Name="Wooden Horn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="momsChest">
+
+	</Pool>
+
+	<Pool Name="babyShop">
+		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<!--Greed/Greedier mode-->
+	<Pool Name="greedTreasure">
+		<Item Name="Balrog's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wicked Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+	
+	<Pool Name="greedShop">
+		<Item Name="D-Stock" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Electric Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Toybox" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fitus Fortunus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Urn" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Cursed Candle" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lost Wallet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wooden Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool name="greedBoss">
+		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wooden Horn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Avenger Emblem" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Teratoma Chunk" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedDevil">
+		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedCurse">
+		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedAngel">
+		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+
+	<Pool Name="greedSecret">
+		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Old Urn" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Osteophagy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+	</Pool>
+</ItemPools>

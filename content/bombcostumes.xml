@@ -1,0 +1,10 @@
+<bombcostumes anm2root="gfx/items/pick ups/bombs/">
+	<bomb variant="7001"> 
+		<rule body="void.anm2" />
+		
+		<rule includeFlags="125" suffix2="_gold" />
+		
+		<rule includeFlags="22" back="flame.anm2" />
+		<rule includeFlags="35" overlay="glitter_sparkle.anm2" />
+	</bomb>
+</bombcostumes>

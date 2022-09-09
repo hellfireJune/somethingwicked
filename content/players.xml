@@ -1,0 +1,16 @@
+<players root="gfx/characters/costumes/" 
+         portraitroot="gfx/ui/stage/" 
+         nameimageroot="gfx/ui/boss/">
+         
+
+        <player name="Abiah" skinColor="5" black="6"
+        birthright="Your greed grows"
+        skin="smokeabiah_base.png"
+        portrait="bosscard_abiah.png"
+        hidden="true"
+        />
+
+        <player name="Wormwood" skinColor="-1" armor="2" black="4"
+        birthright="Power of an Angel"
+        hidden="true"/>
+</players>

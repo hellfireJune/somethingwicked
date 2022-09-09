@@ -1,0 +1,30 @@
+<pocketitems>
+    <!--Runes n' Objects-->
+    <card type="rune" name="Stone of the Pit" description="Conjure" pickup="7001" mimiccharge="6" hud="StoneOfThePit"/>
+    <!--<card type="object" name="k0" description="NULL" pickup="7006" mimiccharge="5" hud="k0" achievement="500"/>
+    ipecac does this and ipecac does this better-->
+    <!--<card type="object" name="Brittle Coin" description="Less card room, more coins" pickup="7001" mimiccharge="1" hud="BrittleCoin"/>
+    <card type="object" name="Brittle Coin" description="Discard your more coins" pickup="7001" mimiccharge="1" hud="BrittleCoinBoon"/>also saving this for next update-->
+
+    <!--Leshy's Cards-->    
+    <!--<card type="special" name="Mantis" description="Bifurcated Strike" pickup="7002" mimiccharge="4" hud="Mantis"/> shnooork
+    <card type="special" name="Mantis God" description="Trifurcated Strike" pickup="7002" mimiccharge="4" hud="MantisGod"/>--> 
+    <!--<card type="special" name="Turkey Vulture" description="Carrion Eater" pickup="7002" mimiccharge="6" hud="TurkeyVulture" hidden="true"/>-->
+    <card type="special" name="Boon of the Magpie's Eye" description="Less card room, more options" pickup="7002" mimiccharge="1" hud="MagpieEye"/>
+    <card type="special" name="Boon of the Magpie's Eye" description="Discard your more options" pickup="7002" mimiccharge="1" hud="MagpieEyeBoon"/>
+
+    <!--Thoth Cards (Unreversed)-->
+    <card type="tarot" name="I - The Magus" description="May you manifest your energy" pickup="7003" mimiccharge="12" hud="TheMagus"/>
+    <card type="tarot" name="VIII - Lust" description="Your fortitude grows" pickup="7003" mimiccharge="8" hud="Lust"/>
+    <card type="tarot" name="X - Fortune" description="Favours bravery" pickup="7003" mimiccharge="3" hud="Fortune"/>
+    <card type="tarot" name="XI - The Adjustment" description="May you get what you need" pickup="7003" mimiccharge="6" hud="TheAdjustment"/>
+    <card type="tarot" name="XIV - Art" description="Life / Death" pickup="7003" mimiccharge="8" hud="TheArt"/>
+    <card type="tarot" name="XX - The Aeon" description="Infinity" pickup="7003" mimiccharge="6" hud="TheAeon"/> 
+
+    <!--Bourgeois Tarot-->
+    <card type="suit" name="Knight of Clubs" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfClubs"/>
+    <card type="suit" name="Knight of Spades" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfSpades"/>
+    <card type="suit" name="Knight of Hearts" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfHearts"/>
+    <card type="suit" name="Knight of Diamonds" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfDiamonds"/>
+    <card type="special" name="XX - The Game" description="Draw of the cards" pickup="7004" mimiccharge="12" hud="TheGame"/>
+</pocketitems>
