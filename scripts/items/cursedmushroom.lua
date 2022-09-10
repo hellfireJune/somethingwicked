@@ -38,6 +38,22 @@ function this:OnWispDie(entity)
     end
 end
 
+function this:LocustDidDamage(ent, amount, flags, source, dmgCooldown)
+    
+    local e_data = ent:GetData()
+    local locust = source.Entity
+
+    if locust ~= nil
+    and locust.Type == EntityType.ENTITY_FAMILIAR
+    and locust.Variant == FamiliarVariant.ABYSS_LOCUST
+    and locust.SubType == CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM then
+        if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
+            SomethingWicked:UtilAddCurse(ent, 1)
+        end
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.LocustDidDamage)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, this.OnWispDie, EntityType.ENTITY_FAMILIAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM)
 

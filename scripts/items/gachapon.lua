@@ -73,6 +73,12 @@ function this:UseCrusher(_, rngobj, player, flags)
             freq = freq + 1
         end
 
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) then
+            for i = 1, (freq - 1) * 2, 1 do
+                player:AddWisp(CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER, player.Position)
+            end
+        end
+
         this:SpawnALOTAPickups(freq * rngobj:RandomInt(this.MaximumDrops - this.MinimumDrops) + this.MinimumDrops, player.Position--[[+ Vector(0, 20)]], player, rngobj)
         player:TryRemoveTrinket(currTrinket)
 
@@ -82,6 +88,7 @@ function this:UseCrusher(_, rngobj, player, flags)
         SomethingWicked.sfx:Play(SoundEffect.SOUND_METAL_BLOCKBREAK)
         return true
     end
+    return {ShowAnim = true, Discharge = false}
 end
 
 function this:SpawnALOTAPickups(frequency, position, spanwer, rng)

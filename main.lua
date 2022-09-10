@@ -254,6 +254,7 @@ local itemsToLoad = {
   "planchette",
   "glitchcity",
   "crossedheart",
+  "devilstail",
   
   "rogueplanet",
   "minos",

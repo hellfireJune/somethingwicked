@@ -34,11 +34,14 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
         fireSprite:Play("Disappear")
         fire.CollisionDamage = 0]]--
 
-        if ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) ~= true then
+        if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
             SomethingWicked:UtilAddCurse(ent, this.CurseDuration)
         end
-    elseif e_data.somethingWicked_curseTick and e_data.somethingWicked_curseTick > 0 and flags & DamageFlag.DAMAGE_CLONES == 0 then
-        ent:TakeDamage(amount * 0.5, flags | DamageFlag.DAMAGE_CLONES, EntityRef(ent), dmgCooldown)
+    elseif e_data.somethingWicked_curseTick and e_data.somethingWicked_curseTick > 0 and e_data.somethingWicked_isDoingCurseDamage ~= true then
+        e_data.somethingWicked_isDoingCurseDamage = true
+        ent:TakeDamage(amount * 1.5, flags, EntityRef(ent), dmgCooldown)
+        e_data.somethingWicked_isDoingCurseDamage = nil
+        return true
     end
 end
 
