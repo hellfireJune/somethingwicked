@@ -17,7 +17,7 @@ function this:OnCache(player, flags)
     if flags == CacheFlag.CACHE_DAMAGE then
         player.Damage = SomethingWicked.StatUps:DamageUp(player, this.dmgUp * mult) end
     if flags == CacheFlag.CACHE_FIREDELAY then
-        player.MaxFireDelay = SomethingWicked.StatUps:GetFireDelay(SomethingWicked.StatUps:GetTears(player.MaxFireDelay) + (this.tearsUp * mult)) end
+        player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, 0, 0.5 * mult) end
     if flags == CacheFlag.CACHE_LUCK then
         player.Luck = player.Luck + (this.luckup * mult) end
     if flags == CacheFlag.CACHE_SPEED then

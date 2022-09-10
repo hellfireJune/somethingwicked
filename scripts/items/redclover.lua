@@ -9,8 +9,7 @@ function this:BossPoolEdit(collectible, itempooltype, decrease, seed)
         return
     end
 
-    for index, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        if player:HasTrinket(TrinketType.SOMETHINGWICKED_BLACK_AMULET) then
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BLACK_AMULET) then
             while this.crashPreventer < 100 do
                 local config = Isaac.GetItemConfig()
                 local itempool = SomethingWicked.game:GetItemPool()
@@ -24,8 +23,6 @@ function this:BossPoolEdit(collectible, itempooltype, decrease, seed)
             end
         end
     end
-
-end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, this.BossPoolEdit)
 

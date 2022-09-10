@@ -41,7 +41,7 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
         e_data.somethingWicked_isDoingCurseDamage = true
         ent:TakeDamage(amount * 1.5, flags, EntityRef(ent), dmgCooldown)
         e_data.somethingWicked_isDoingCurseDamage = nil
-        return true
+        return false
     end
 end
 

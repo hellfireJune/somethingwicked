@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_WHITE_ROSE = Isaac.GetItemIdByName("White Rose")
 
 function this:TearsCache(player)
-    player.MaxFireDelay = SomethingWicked.StatUps:GetFireDelay(SomethingWicked.StatUps:GetTears(player.MaxFireDelay) * (1 + (0.15 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))))
+    player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE)) --SomethingWicked.StatUps:GetFireDelay(SomethingWicked.StatUps:GetTears(player.MaxFireDelay) * (1 + (0.15 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))))
 end
 
 function this:OnPickup(player, room)
@@ -17,7 +17,7 @@ SomethingWicked:AddPickupFunction(this.OnPickup, CollectibleType.SOMETHINGWICKED
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_WHITE_ROSE] = {
-        desc = "↑ +15% Tears multiplier#1 soul heart#Spawns four Book of Virtues wisps on pickup",
+        desc = "↑ +0.5 tears up#1 soul heart#Spawns four Book of Virtues wisps on pickup",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_BOSS,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_BOSS

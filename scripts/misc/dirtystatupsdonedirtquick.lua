@@ -24,9 +24,8 @@ function SomethingWicked.StatUps:GetCurrentDamageMultiplier(player)
     if charMult ~= nil then mult = charMult end
     
     --Also, stolen from the damage multiplier stat mod. Thanks to "FainT" so so so much
-    local effects = player:GetEffects()
     for collectible, multiplier in pairs(this.DamageMultiplers) do
-        if player:HasCollectible(collectible) or effects:HasCollectibleEffect(collectible) then
+        if player:HasCollectible(collectible) then
             if type(multiplier) == "function" then multiplier = multiplier(player) end
             mult = mult * multiplier
         end
@@ -34,7 +33,33 @@ function SomethingWicked.StatUps:GetCurrentDamageMultiplier(player)
     return mult
 end
 
---shamelessly nabbed from an old message from mr.seemsgood i found
+function SomethingWicked.StatUps:GetCurrentTearsMultiplier(player)
+  local mult = 1
+  for collectible, multiplier in pairs(this.DamageMultiplers) do
+    if player:HasCollectible(collectible) then
+        if type(multiplier) == "function" then multiplier = multiplier(player) end
+        mult = mult * multiplier
+    end
+end
+return mult
+end
+
+function SomethingWicked.StatUps:TearsUp(player, tears, flat, mult)
+  tears = tears or 0
+  flat = flat or 0
+  mult = mult or 1
+
+  local baseMult = SomethingWicked.StatUps:GetCurrentDamageMultiplier(player)
+  
+  tears = tears * baseMult
+  flat = flat * baseMult
+
+  local currentTears = SomethingWicked.StatUps:GetTears(player.MaxFireDelay)
+  tears = math.min(tears + currentTears, 5 * baseMult * mult) - currentTears
+  return SomethingWicked.StatUps:GetFireDelay((currentTears + (tears*1.08) + flat) * mult)
+end
+
+--shamelessly nabbed from an old message from mr.seemsgood i found.
 -- Helper functions to turn fire delay into equivalent tears up (since via api only fire delay is accessible, not tears)
  function SomethingWicked.StatUps:GetTears(fireDelay)
     return 30 / (fireDelay + 1)
