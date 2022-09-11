@@ -18,7 +18,7 @@
   <!--<passive id="17" name="Lantern" description="DMG Up + Guiding Light" gfx="lantern.png" quality="2" tags="offensive" cache="damage"/> Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> <!--Needs costume--> 
   <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="offensive summonable"/> <!--Needs costume-->
-  <active id="19" name="Book of Lucifer" gfx="bookoflucifer.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
+  <active id="19" name="Book of Lucifer" gfx="bookoflucifer2.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive" persistent="true"/>
   <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
   <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
@@ -43,7 +43,7 @@
   <active id="41" name="Lost Wallet" gfx="lostwallet.png" description="Almost empty..." quality="2" tags="offensive" maxcharges="4" chargetype="special"/> 
   <familiar id="42" name="Minos" gfx="minos_spritesheet.png" description="Rattle, rattle, rattle" quality="3" tags="offensive summonable" cache="familiars"/> <!--sewing machine-->
   <passive id="43" name="Wicked Soul" gfx="wickedsoul.png" description="All stats up, curse up" quality="3" tags="offensive summonable" cache="all"/> <!--costumes-->
-  <active id="44" name="Book of Insanity" gfx="bookofinsanity.png" description="Split your mind" quality="2" tags="offensive book" maxcharges="4"/> 
+  <active id="44" name="Book of Insanity" gfx="bookofinsanity2.png" description="Split your mind" quality="2" tags="offensive book" maxcharges="4"/> 
   <passive id="45" name="Yellow Sigil" gfx="yellowsign.png" description="Nightmare stone" quality="2" tags="nolostbr summonable"/> <!--costumes-->
   <active id="46" name="Chaos Heart" gfx="chaosheart.png" description="Volatile healing" quality="1"/> 
   <active id="47" name="Cursed Mushroom" gfx="cursedmushroom.png" description="Temporary room debuff" quality="2" tags="offensive" maxcharges="3"/>

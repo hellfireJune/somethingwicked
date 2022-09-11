@@ -56,7 +56,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.LocustUpdate, 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_DEVILSTAIL] = {
         desc = "!!! Taking damage with empty heart containers will remove all empty heart containers, and give half a black heart and an abyss locust",
-        encycloDesc = SomethingWicked.UtilGenerateWikiDesc({"Taking damage with empty heart containers will remove all empty heart containers, and give half a black heart and an abyss locust"}),
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Taking damage with empty heart containers will remove all empty heart containers, and give half a black heart and an abyss locust"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL
