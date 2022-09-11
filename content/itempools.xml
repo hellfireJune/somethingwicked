@@ -82,6 +82,7 @@
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	
@@ -238,6 +239,7 @@
 		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
