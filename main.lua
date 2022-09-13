@@ -316,7 +316,7 @@ local earlyMiscLoad = {
   "saveHandler",
 
   "redkeyLevelGenStuff",
-  "roomStuff/_core",
+  --"roomStuff/_core",
 
   "ezEnums",
   
@@ -415,7 +415,7 @@ for _, i in ipairs(cardsToLoad) do
 for _, i in ipairs(enemiesToLoad) do
   include("scripts/enemies/"..i)
 end
-include("scripts/players/abiah")
+--include("scripts/players/abiah")
 include("scripts/players/bsides")
 for _, i in ipairs(postMiscLoad) do
   include("scripts/misc/"..i)
