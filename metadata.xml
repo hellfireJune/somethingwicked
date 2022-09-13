@@ -4,7 +4,7 @@
     <directory>somethingwicked</directory>
     <id>2628422967</id>
     <description>Something Wicked is a new content mod, adding 60ish new items, 18 new trinkets, and 6 new consumables. The core goal of the mod is to spice up your runs, adding more run variety, as opposed to adding new unlocks to get (new unlocks are planned, but scarcely, albeit, moreso existing just for those who really want new stuff to do, or to prevent sequence breaking on new save files).</description>
-    <version>0.27640</version>
+    <version>0.27641</version>
     <visibility>Private</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
