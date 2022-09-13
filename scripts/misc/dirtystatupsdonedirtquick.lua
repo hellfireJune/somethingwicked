@@ -35,7 +35,7 @@ end
 
 function SomethingWicked.StatUps:GetCurrentTearsMultiplier(player)
   local mult = 1
-  for collectible, multiplier in pairs(this.DamageMultiplers) do
+  for collectible, multiplier in pairs(this.TearMultipliers) do
     if player:HasCollectible(collectible) then
         if type(multiplier) == "function" then multiplier = multiplier(player) end
         mult = mult * multiplier
@@ -49,7 +49,7 @@ function SomethingWicked.StatUps:TearsUp(player, tears, flat, mult)
   flat = flat or 0
   mult = mult or 1
 
-  local baseMult = SomethingWicked.StatUps:GetCurrentDamageMultiplier(player)
+  local baseMult = SomethingWicked.StatUps:GetCurrentTearsMultiplier(player)
   
   tears = tears * baseMult
   flat = flat * baseMult

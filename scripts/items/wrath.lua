@@ -6,7 +6,11 @@ function this:TearFire(tear)
 
     if t_data.somethingWicked_trueHoming ~= nil 
     and t_data.somethingWicked_trueHoming.target ~= nil then
-        local enemy = t_data.somethingWicked_trueHoming.target
+        local variance = t_data.somethingWicked_trueHoming.angleVariance
+        local speed = 15
+        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance, 0.4)
+    end
+        --[[local enemy = t_data.somethingWicked_trueHoming.target
         local enemypos = enemy.Position
 
         local angleToEnemy = (enemypos - tear.Position):GetAngleDegrees()
@@ -25,8 +29,7 @@ function this:TearFire(tear)
         local differenceB = (Vector.FromAngle(angleToEnemy) - vectorB):Length()
         
         local vectorToUse = differenceA > differenceB and vectorB or vectorA
-        tear.Velocity = ((t_data.somethingWicked_trueHoming.usesShotspeed and SomethingWicked:UtilGetPlayerFromTear(tear) ~= nil) and SomethingWicked:UtilGetPlayerFromTear(tear).ShotSpeed * 10 or tear.Velocity:Length()) * vectorToUse
-    end
+        tear.Velocity = ((t_data.somethingWicked_trueHoming.usesShotspeed and SomethingWicked:UtilGetPlayerFromTear(tear) ~= nil) and SomethingWicked:UtilGetPlayerFromTear(tear).ShotSpeed * 10 or tear.Velocity:Length()) * vectorToUse]]
 end
 
 function this:TearOnHit(tear, collider, player, procChance)
@@ -41,7 +44,7 @@ function this:TearOnHit(tear, collider, player, procChance)
             local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180), false, true, false, nil, 0.1 * borkdHearts)
             wisp.Velocity = wisp.Velocity * player.ShotSpeed * 15
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
-            --wisp.Height = wisp.Height * 3
+            wisp.Height = wisp.Height * 3
             
 			local colour = Color(1, 1, 1, 1)
 			colour:SetColorize(2, 0, 0, 0.5)

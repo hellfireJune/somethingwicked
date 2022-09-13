@@ -2,10 +2,10 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_MINOS_ITEM = Isaac.GetItemIdByName("Minos")
 FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
 FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
-this.angleVariance = 15
-this.MoveSpeed = 7
+this.angleVariance = 10
+this.MoveSpeed = 6
 this.MinimumReturnDistance = 100
-this.FrameDifferences = 2
+this.FrameDifferences = 1
 this.Flags = 1 | 8 | 16
 
 this.AnimationEnum = {
@@ -44,17 +44,15 @@ function this:HeadUpdate(familiar)
         familiar.State = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 3)
     end
 
-    f_data.somethingWicked_FramesSpentInSpeedyMode = f_data.somethingWicked_FramesSpentInSpeedyMode or 0
-    local mult = math.max(1, math.min(1 + (f_data.somethingWicked_FramesSpentInSpeedyMode / 30), 1.5))
-    local moveSpeed = this.MoveSpeed * mult
-    local variance = this.angleVariance * mult
+    f_data.somethingWicked_SpeedMult = f_data.somethingWicked_SpeedMult or 1
+    local moveSpeed = this.MoveSpeed * f_data.somethingWicked_SpeedMult
+    local variance = this.angleVariance 
 
     if familiar.State == 1 then
-        f_data.somethingWicked_FramesSpentInSpeedyMode = math.max(f_data.somethingWicked_FramesSpentInSpeedyMode - 1, 0)
         if familiar.Position:Distance(familiar.Player.Position) < this.MinimumReturnDistance then
             f_data.somethingWicked_AttackFrameOne = true
         else
-            this:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance)
+            SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance * 3, 0.3)
             if not f_data.somethingWicked_AttackFrameOne then
                 familiar.State = 3
             else
@@ -62,7 +60,7 @@ function this:HeadUpdate(familiar)
         end
     else
         local lastTarget = familiar.Target
-        familiar:PickEnemyTarget(80000, 0, this.Flags, familiar.Velocity, 90)
+        familiar:PickEnemyTarget(80000, 0, this.Flags, familiar.Velocity, 135)
         if familiar.Target == nil then
             familiar.Target = lastTarget
         end
@@ -71,28 +69,31 @@ function this:HeadUpdate(familiar)
 
             if  familiar.Target and familiar.Target:Exists() then
 
-                f_data.somethingWicked_FramesSpentInSpeedyMode = math.min(f_data.somethingWicked_FramesSpentInSpeedyMode + 1, 60)
-                this:AngularMovementFunction(familiar, familiar.Target, moveSpeed, variance)
+                local distance = familiar.Target.Position:Distance(familiar.Position)
+                local varMult = math.min((distance/10), 5)
+                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Target, moveSpeed, variance * (3.5 + varMult), 0.3)
                 f_data.somethingWicked_AttackFrameOne = false
             else
                 familiar.State = 3
             end
         end
-        if familiar.State == 3 then
+        if familiar.State == 3 and (familiar.Target == nil or not familiar.Target:Exists()) then
             if familiar.Position:Distance(familiar.Player.Position) > this.MinimumReturnDistance then
 
-                f_data.somethingWicked_FramesSpentInSpeedyMode = math.max(f_data.somethingWicked_FramesSpentInSpeedyMode - 1, 0)
-                this:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance)
+                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance * 3, 0.3)
             else
                 familiar.State = 1
             end
         end
     end
+
+    local intendedMult = (familiar.State == 2 and 2 or 1)
+    f_data.somethingWicked_SpeedMult = SomethingWicked.EnemyHelpers:Lerp(f_data.somethingWicked_SpeedMult, intendedMult, 0.1)
     
     local direction = familiar.Velocity:Normalized()
     local anim = "IdleDown" local diff = 999
     for key, value in pairs(this.AnimationEnum) do
-        local currentDiff = (direction - key):Length()
+        local currentDiff = math.abs(SomethingWicked.EnemyHelpers:GetAngleDifference(key, direction))
         if currentDiff < diff then
             diff = currentDiff
             anim = value
@@ -115,26 +116,23 @@ function this:HeadUpdate(familiar)
         end
     end
 
+    if familiar.Velocity.X == Vector.Zero.X
+    and familiar.Velocity.Y == Vector.Zero.Y then
+        familiar.Velocity = Vector(this.MoveSpeed, 0)
+    end
+
     this:HandlePositionFramesTable(familiar)
 end
 
-function this:AngularMovementFunction(familiar, target, speed, variance)
-    local enemypos = target.Position
-        
-    local angleToEnemy = (enemypos - familiar.Position):GetAngleDegrees()
-    local angleVel = familiar.Velocity:GetAngleDegrees()
+--[[local mult = math.max(math.min(math.abs(angleVel - angleToEnemy) / (5 * variance), 1), 0.5)
+local check = (math.abs(angleVel - angleToEnemy) < variance * mult and math.abs(angleVel - angleToEnemy) or nil)
+local vectorA = Vector.FromAngle((angleVel - (check == nil and variance * mult or check)))
+local vectorB = Vector.FromAngle((angleVel + (check == nil and variance * mult or check)))
 
-    local mult = math.max(math.min(math.abs(angleVel - angleToEnemy) / (5 * variance), 1), 0.5)
-    local check = (math.abs(angleVel - angleToEnemy) < variance * mult and math.abs(angleVel - angleToEnemy) or nil)
-    local vectorA = Vector.FromAngle((angleVel - (check == nil and variance * mult or check)))
-    local vectorB = Vector.FromAngle((angleVel + (check == nil and variance * mult or check)))
+local differenceA = (Vector.FromAngle(angleToEnemy) - vectorA):Length()
+local differenceB = (Vector.FromAngle(angleToEnemy) - vectorB):Length()
 
-    local differenceA = (Vector.FromAngle(angleToEnemy) - vectorA):Length()
-    local differenceB = (Vector.FromAngle(angleToEnemy) - vectorB):Length()
-
-    local vectorToUse = differenceA > differenceB and vectorB or vectorA
-    familiar.Velocity = vectorToUse * speed
-end
+local vectorToUse = differenceA > differenceB and vectorB or vectorA]]
 
 function this:BodyUpdate(familiar)
     local heads = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
@@ -162,7 +160,7 @@ function this:BodyUpdate(familiar)
     f_data.somethingWicked_PositionFramesTable = f_data.somethingWicked_PositionFramesTable or {}
     p_data.somethingWicked_PositionFramesTable = p_data.somethingWicked_PositionFramesTable or {}
     if f_data.somethingwicked_visFrame == nil and p_data.somethingwicked_visFrame ~= nil then
-        f_data.somethingwicked_visFrame = p_data.somethingwicked_visFrame + (this.FrameDifferences * 2)
+        f_data.somethingwicked_visFrame = math.max(0, (p_data.somethingwicked_visFrame - familiar.Parent.FrameCount + 5)) + (this.FrameDifferences * 2)
     end
     if (roomFrame >= this.FrameDifferences
     and familiarFrame >= this.FrameDifferences)
