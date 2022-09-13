@@ -13,7 +13,7 @@ end
 function SomethingWicked.ItemHelpers:GlobalGetCollectibleNum(type, ignoreModifs)
     local num = 0
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-            num = num + value:GetCollectibleNum()
+            num = num + value:GetCollectibleNum(type)
     end
     return num
 end
@@ -40,7 +40,7 @@ end
 function SomethingWicked.ItemHelpers:GlobalGetTrinketNum(type, ignoreModifs)
     local num = 0
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-            num = num + value:GetTrinketMultiplier()
+            num = num + value:GetTrinketMultiplier(type)
     end
     return num
 end

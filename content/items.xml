@@ -63,6 +63,11 @@
   <passive id="61" name="GLITCHCITY" gfx="placeholder.png" description="99 2 99 2 99 2 99 2" hidden="true"/> <!-- on the back burner for now-->
   <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive"/>
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="DMG inflicts suffering" quality="2" tags="nolostbr devil"/>
+  <!--The Final Wicked: Thoth, Red, Masochist's Mask, Hydrus, Scutum, Balrog's Heart, Goat Milk, Phobos and Deimos, Abandoned Box, Brittle Dagger, Casey, Jacinth Sword, 
+  Temperance, Samuel's Eye, Shroud of Turin, Locust Shield, Fistula Heart, Bloodstained Dice, Minotaur, Fear Stalks The Land, Ganymede, Lil' Hollow, Vortex, Tapeworms
+  Premium, Parasite II, Locust Blaster, Spider Detonator, Mind Electric, Vintage Battery, Wrathful Soul, Turdy Crown, Pocket Apothecary, Heart of the Leviathan, Generic Statups,
+  Leviathan's Tooth, Zen cactus thing and star of the bottomless pit thing -->
+  <!--CLEAR THIS LIST OUT SOMETIME. THERES A LOT.-->
 
   <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
   <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/>
@@ -82,6 +87,8 @@
   <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
+  <!--The Final Wicked: Small Intestine, Pink Penny, Meal Coupon, Electric Roller, Starry Clot, Surgery Mask, Hermit Crab, Blank Baby, Onyx Heart, Black Book, Onyx Fly, 
+  Floating Number Bug-->
   <!--<trinket id="12" name="Torn Judgement" description="To your, generosity" gfx="cursedkey.png"/> saving this for next update-->
   
   

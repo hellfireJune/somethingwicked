@@ -27,7 +27,6 @@ this.MovementSpeedCap = 30
 
 this.HeadSprites = {
     [this.SubTypes.NIGHTMARE_STANDARD] = {
-        "nightmare_sheet_01",
         "nightmare_sheet_02",
         "nightmare_sheet_03",
     },
@@ -80,7 +79,7 @@ function this:FamiliarUpdate(familiar)
         if velocity:Length() > this.MovementSpeedCap then
             velocity:Resize(this.MovementSpeedCap)
         end
-        familiar.Velocity = velocity
+        familiar.Velocity = SomethingWicked.EnemyHelpers:Lerp(familiar.Velocity, velocity, 0.25)
     end
 
     familiar:PickEnemyTarget(this.Distance, 13, 1)
@@ -132,7 +131,7 @@ function this:FamiliarUpdate(familiar)
     SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, true, false, true)
 end
 
-function this.FamiliarDeath(familiar)
+function this:FamiliarDeath(familiar)
     if familiar.Variant ~= FamiliarVariant.SOMETHINGWICKED_NIGHTMARE then
         return
     end

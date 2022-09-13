@@ -234,3 +234,37 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_GET_CARD, this.BoonPreventCardSpawn)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.BoonOverrideHold)
 SomethingWicked:AddCallback(ModCallbacks.MC_INPUT_ACTION, this.BoonCheckForHold)
+
+this.bossRoomClearCallbacks = {}
+--args: pos, isBossRush
+function SomethingWicked:AddBossRoomClearCallback(func)
+    table.insert(this.bossRoomClearCallbacks , func)
+end
+
+this.onKillPos = nil
+function this:OnKill(enemy)
+        if enemy:IsBoss() then
+            local room = SomethingWicked.game:GetRoom(_, _, _)
+            local rType = room:GetType()
+            if (rType == RoomType.ROOM_BOSS or rType == RoomType.ROOM_BOSSRUSH) then
+                this.onKillPos = enemy.Position
+        end
+    end
+end
+
+function this:DelayShit()
+    if this.onKillPos
+    and Isaac.CountBosses() == 0 then
+        local r = SomethingWicked.game:GetRoom()
+        local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
+        for key, value in pairs(this.bossRoomClearCallbacks) do
+            print("callin")
+            value(this.bossRoomClearCallbacks, this.onKillPos, isBossRush)
+        end
+        this.onKillPos = nil
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.DelayShit)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
+

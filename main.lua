@@ -294,7 +294,8 @@ local itemsToLoad = {
   "emptybook",
   "redclover", -- black amulet
   "gachapon",
-  "voidheart"
+  "voidheart",
+  "mrskits",
 }
 
 local cardsToLoad = {
