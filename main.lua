@@ -227,6 +227,7 @@ local itemsToLoad = {
   "whiterose",
   "ramshead",
   "corruption",
+  "onyxcharm",
 
   "discipleseye",
   "redlockbox",

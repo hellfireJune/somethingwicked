@@ -53,20 +53,22 @@
   <passive id="51" name="Spider Egg" gfx="spideregg.png" description="Spider lumps" quality="3" tags="offensive spider summonable"/> <!--costume-->
   <passive id="52" name="3D Glasses" gfx="3dglasses.png" description="Cellophane shot" quality="3" tags="offensive summonable"/>
   <familiar id="53" name="Legion" gfx="placeholder.png" hidden="true"/>
-  <passive id="54" name="Teratoma Chunk" gfx="teratomachunk.png" maxhearts="2" quality="1" description="HP up + tumor friends"/>
-  <passive id="55" name="Sacrificial Effigy" gfx="meateffigy.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed"/>
+  <passive id="54" name="Teratoma Chunk" gfx="teratomachunk.png" maxhearts="2" quality="1" description="HP up + tumor friends"/> <!--costume-->
+  <passive id="55" name="Sacrificial Effigy" gfx="meateffigy.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed"/> <!--costume-->
   <active id="56" name="Encyclopedia" gfx="encyclopedia.png" maxcharges="1" chargetype="special" initcharge="0" tags="offensive book nogreed" quality="3"/>
   <active id="57" name="Trinket Smasher" gfx="crushers.png" description="Recycle your trinkets!" quality="1" tags="offensive"/>
   <active id="58" name="Chasm" gfx="chasm.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
-  <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive summonable"/>
+  <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive summonable"/> <!--costume-->
   <active id="60" name="Fetus in Fetu" gfx="fetusinfeta.png" maxcharges="8" description="Teratoma Baby" tags="offensive" quality="2"/>
   <passive id="61" name="GLITCHCITY" gfx="placeholder.png" description="99 2 99 2 99 2 99 2" hidden="true"/> <!-- on the back burner for now-->
-  <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive"/>
-  <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="DMG inflicts suffering" quality="2" tags="nolostbr devil"/>
-  <!--The Final Wicked: Thoth, Red, Masochist's Mask, Hydrus, Scutum, Balrog's Heart, Goat Milk, Phobos and Deimos, Abandoned Box, Brittle Dagger, Casey, Jacinth Sword, 
-  Temperance, Samuel's Eye, Shroud of Turin, Locust Shield, Fistula Heart, Bloodstained Dice, Minotaur, Fear Stalks The Land, Ganymede, Lil' Hollow, Vortex, Tapeworms
-  Premium, Parasite II, Locust Blaster, Spider Detonator, Mind Electric, Vintage Battery, Wrathful Soul, Turdy Crown, Pocket Apothecary, Heart of the Leviathan, Generic Statups,
-  Leviathan's Tooth, Zen cactus thing and star of the bottomless pit thing -->
+  <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive summonable"/> <!--costume-->
+  <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil"/> <!--costume-->
+  <passive id="64" name="Onyx Charm" gfx="placeholder.png" description="DMG up" quality="2" tags="offensive summonable" cache="damage"/> <!--costume-->
+  <passive id="65" name="Parasite 2"/>
+  <!--The Final Wicked: Red, Masochist's Mask, Hydrus, Balrog's Heart, Phobos and Deimos, Abandoned Box, Brittle Dagger,
+  Temperance, Shroud of Turin, Fistula Heart, Minotaur, Fear Stalks The Land, Lil' Hollow, Tapeworms, Skull of Phobos
+  Premium Stock, Parasite II, Locust Blaster, Mind Electric, Vintage Battery, Heart of the Leviathan,
+  Leviathan's Tooth-->
   <!--CLEAR THIS LIST OUT SOMETIME. THERES A LOT.-->
 
   <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
@@ -87,8 +89,8 @@
   <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
-  <!--The Final Wicked: Small Intestine, Pink Penny, Meal Coupon, Electric Roller, Starry Clot, Surgery Mask, Hermit Crab, Blank Baby, Onyx Heart, Black Book, Onyx Fly, 
-  Floating Number Bug-->
+  <!--The Final Wicked: Small Intestine, Meal Coupon, Surgery Mask, Hermit Crab, Blank Baby, Onyx Heart, 
+  Floating Number Bug, Virtue-->
   <!--<trinket id="12" name="Torn Judgement" description="To your, generosity" gfx="cursedkey.png"/> saving this for next update-->
   
   
