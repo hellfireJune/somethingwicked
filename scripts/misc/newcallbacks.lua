@@ -110,7 +110,7 @@ this.forgottenEsqueBones = {1, 2, 3, 4, 9}
 
 function this:OnTearHit(tear, collider)
     local procCoefficient = 1
-    local hasntHitBefore = true
+    local notSticking = true
     local t_data = tear:GetData()
     if tear.Type == EntityType.ENTITY_KNIFE then
         if SomethingWicked:UtilTableHasValue(this.forgottenEsqueBones, tear.Variant)
@@ -120,19 +120,14 @@ function this:OnTearHit(tear, collider)
             procCoefficient = 0.1
         end
     else
-        if t_data.somethingWicked_hasntHitBefore == nil then
-            t_data.somethingWicked_hasntHitBefore = true
-        end
-        hasntHitBefore = t_data.somethingWicked_hasntHitBefore
+        notSticking = tear.StickTarget == nil
     end
 
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
 
     if collider:IsVulnerableEnemy()
-    and player
-    and hasntHitBefore == true then
+    and player and notSticking then
         this:CallOnhitCallback(tear, collider, player, procCoefficient)
-        t_data.somethingWicked_hasntHitBefore = false
     end
 end
 

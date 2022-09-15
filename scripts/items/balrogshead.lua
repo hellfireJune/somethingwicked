@@ -10,17 +10,16 @@ function  this:PlayerUpdate(player)
     if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_BALROGS_HEAD) then
         local tear = player:FireTear(player.Position, (SomethingWicked.HoldItemHelpers:GetUseDirection(player)), false, true, false)
         tear:ChangeVariant(this.head)
-    end
-end
-
-function this:TearUpdate(tear) 
-    
-    if tear:IsDead() or tear.Height == 0 then
-        this:onTearHitsShit(tear)
+        local t_data = tear:GetData()
+        t_data.somethingwicked_isTheBalrogsHead = true
     end
 end
 
 function this:TearCollision(tear) 
+    local t_data = tear:GetData()
+    if not t_data.somethingwicked_isTheBalrogsHead then
+       return 
+    end
     this:onTearHitsShit(tear)
 end
 
@@ -48,8 +47,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.ItemUse, CollectibleType.SOMETHINGWICKED_BALROGS_HEAD)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearUpdate, this.head)
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.TearCollision, this.head)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, this.TearCollision, EntityType.ENTITY_TEAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, this.OnWispDie, EntityType.ENTITY_FAMILIAR)
 
 this.EIDEntries = {

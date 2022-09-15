@@ -65,9 +65,11 @@
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil"/> <!--costume-->
   <passive id="64" name="Onyx Charm" gfx="placeholder.png" description="DMG up" quality="2" tags="offensive summonable" cache="damage"/> <!--costume-->
   <passive id="65" name="Parasite 2"/>
+  <passive id="66" name="Hydra"/>
+  <passive id="67" name="Hydrus"/>
   <!--The Final Wicked: Red, Masochist's Mask, Hydrus, Balrog's Heart, Phobos and Deimos, Abandoned Box, Brittle Dagger,
   Temperance, Shroud of Turin, Fistula Heart, Minotaur, Fear Stalks The Land, Lil' Hollow, Tapeworms, Skull of Phobos
-  Premium Stock, Parasite II, Locust Blaster, Mind Electric, Vintage Battery, Heart of the Leviathan,
+  Premium Stock, Locust Blaster, Mind Electric, Vintage Battery, Heart of the Leviathan,
   Leviathan's Tooth-->
   <!--CLEAR THIS LIST OUT SOMETIME. THERES A LOT.-->
 

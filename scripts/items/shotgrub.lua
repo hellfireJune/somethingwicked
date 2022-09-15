@@ -2,15 +2,16 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Parasite 2")
 
 function this:FireGrubbyTear(tear)
-    if tear.FrameCount > 1 then
+    if tear.FrameCount ~= 1 then
         return
     end
 
     local p = SomethingWicked:UtilGetPlayerFromTear(tear)
     local t_data = tear:GetData()
     if p:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB)then
-        if not t_data.somethinWicked_isShotgrubTear then
+        if not t_data.somethingWicked_isShotgrubSplitTear then
             tear:AddTearFlags(TearFlags.TEAR_WIGGLE)
+            t_data.somethingWicked_isShotgrubTear = true
         else
             local p_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SHOTGRUB)
             local chance = p.Luck * 0.05
@@ -21,7 +22,32 @@ function this:FireGrubbyTear(tear)
     end
 end
 
+this.angle = 75
+this.damageMult = 0.3
+function this:OnHitEnemy(tear)
+    tear = tear:ToTear()
+    if tear.Height > -5 then
+        return
+    end
+
+    local t_data = tear:GetData()
+    if t_data.somethingWicked_isShotgrubTear
+    and tear.StickTarget == nil then
+        local p = SomethingWicked:UtilGetPlayerFromTear(tear)
+        if p then
+            for i = -this.angle, this.angle, this.angle do
+                local newAngle = tear.Velocity:Rotated(i) * -1
+                local new = p:FireTear(tear.Position, newAngle, false, false, false, nil, this.damageMult)
+
+                local n_data = new:GetData()
+                n_data.somethingWicked_isShotgrubSplitTear = true
+            end
+        end
+    end
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.FireGrubbyTear)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, this.OnHitEnemy, EntityType.ENTITY_TEAR)
 
 this.EIDEntries = {}
 return this

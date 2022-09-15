@@ -8,6 +8,8 @@ this.MinimumReturnDistance = 100
 this.FrameDifferences = 1
 this.Flags = 1 | 8 | 16
 
+CollectibleType.SOMETHINGWICKED_HYDRA = Isaac.GetItemIdByName("Hydra")
+
 this.AnimationEnum = {
     [Vector(0, 1)] = "IdleDown",
     [Vector(-1, 0)] = "IdleLeft",
@@ -22,13 +24,11 @@ end
 --https://cdn.discordapp.com/attachments/907577522403803197/973850950261420052/attachment.gif
 function this:HeadUpdate(familiar)
     local f_data = familiar:GetData()
-    if f_data.somethingWicked_AttackFrameOne == nil then
-        f_data.somethingWicked_AttackFrameOne = true
-    end
     f_data.somethingwicked_visFrame = 2
 
     local player = familiar.Player
     local f_sprite = familiar:GetSprite()
+    familiar.State = this:HeadMovementFunc(familiar, familiar.State, familiar.Target, player)
     if player:GetFireDirection() ~= Direction.NO_DIRECTION then
         local lastTarget = familiar.Target
         familiar:PickEnemyTarget(80000, 5, this.Flags, player:GetAimDirection(), 45)
@@ -37,59 +37,16 @@ function this:HeadUpdate(familiar)
             familiar.Target = lastTarget
         end
     end
-
-    if familiar.State == 0 or familiar.State == 1 then
-        familiar.State = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 1)
-    elseif familiar.State == 3 then 
-        familiar.State = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 3)
-    end
-
-    f_data.somethingWicked_SpeedMult = f_data.somethingWicked_SpeedMult or 1
-    local moveSpeed = this.MoveSpeed * f_data.somethingWicked_SpeedMult
-    local variance = this.angleVariance 
-
-    if familiar.State == 1 then
-        if familiar.Position:Distance(familiar.Player.Position) < this.MinimumReturnDistance then
-            f_data.somethingWicked_AttackFrameOne = true
-        else
-            SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance * 3, 0.3)
-            if not f_data.somethingWicked_AttackFrameOne then
-                familiar.State = 3
-            else
-            end
-        end
-    else
+    
+    if familiar.State > 1 then
+        
         local lastTarget = familiar.Target
         familiar:PickEnemyTarget(80000, 0, this.Flags, familiar.Velocity, 135)
         if familiar.Target == nil then
             familiar.Target = lastTarget
         end
-
-        if familiar.State == 2 then
-
-            if  familiar.Target and familiar.Target:Exists() then
-
-                local distance = familiar.Target.Position:Distance(familiar.Position)
-                local varMult = math.min((distance/10), 5)
-                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Target, moveSpeed, variance * (3.5 + varMult), 0.3)
-                f_data.somethingWicked_AttackFrameOne = false
-            else
-                familiar.State = 3
-            end
-        end
-        if familiar.State == 3 and (familiar.Target == nil or not familiar.Target:Exists()) then
-            if familiar.Position:Distance(familiar.Player.Position) > this.MinimumReturnDistance then
-
-                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, familiar.Player, moveSpeed, variance * 3, 0.3)
-            else
-                familiar.State = 1
-            end
-        end
     end
 
-    local intendedMult = (familiar.State == 2 and 2 or 1)
-    f_data.somethingWicked_SpeedMult = SomethingWicked.EnemyHelpers:Lerp(f_data.somethingWicked_SpeedMult, intendedMult, 0.1)
-    
     local direction = familiar.Velocity:Normalized()
     local anim = "IdleDown" local diff = 999
     for key, value in pairs(this.AnimationEnum) do
@@ -121,18 +78,53 @@ function this:HeadUpdate(familiar)
         familiar.Velocity = Vector(this.MoveSpeed, 0)
     end
 
-    this:HandlePositionFramesTable(familiar)
+    f_data.somethingWicked_PositionFramesTable = this:HandlePositionFramesTable(familiar, SomethingWicked.game:GetRoom():GetFrameCount(), f_data.somethingWicked_PositionFramesTable and f_data.somethingWicked_PositionFramesTable or {})
 end
 
---[[local mult = math.max(math.min(math.abs(angleVel - angleToEnemy) / (5 * variance), 1), 0.5)
-local check = (math.abs(angleVel - angleToEnemy) < variance * mult and math.abs(angleVel - angleToEnemy) or nil)
-local vectorA = Vector.FromAngle((angleVel - (check == nil and variance * mult or check)))
-local vectorB = Vector.FromAngle((angleVel + (check == nil and variance * mult or check)))
+function this:HeadMovementFunc(familiar, state, target, player)
+    local f_data = familiar:GetData()
+    f_data.somethingWicked_SpeedMult = f_data.somethingWicked_SpeedMult or 1
+    local moveSpeed = this.MoveSpeed * f_data.somethingWicked_SpeedMult
+    local variance = this.angleVariance 
 
-local differenceA = (Vector.FromAngle(angleToEnemy) - vectorA):Length()
-local differenceB = (Vector.FromAngle(angleToEnemy) - vectorB):Length()
+    if state == 0 or state == 1
+    or state == nil then
+        state = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 1)
+    elseif state == 3 then 
+        state = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 3)
+    end
+    if state == 1 then
+        if familiar.Position:Distance(player.Position) > this.MinimumReturnDistance then
+            SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, player, moveSpeed, variance * 3, 0.3)
+        end
+    else
 
-local vectorToUse = differenceA > differenceB and vectorB or vectorA]]
+        if state == 2 then
+
+            if  target and target:Exists() then
+
+                local distance = target.Position:Distance(familiar.Position)
+                local varMult = math.min((distance/10), 5)
+                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, target, moveSpeed, variance * (3.5 + varMult), 0.3)
+            else
+                state = 3
+            end
+        end
+        if state == 3 and (familiar.Target == nil or not familiar.Target:Exists()) then
+            if familiar.Position:Distance(player.Position) > this.MinimumReturnDistance then
+
+                SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, player, moveSpeed, variance * 3, 0.3)
+            else
+                state = 1
+            end
+        end
+    end
+
+    local intendedMult = (state == 2 and 2 or 1)
+    f_data.somethingWicked_SpeedMult = SomethingWicked.EnemyHelpers:Lerp(f_data.somethingWicked_SpeedMult, intendedMult, 0.1)
+
+    return state
+end
 
 function this:BodyUpdate(familiar)
     local heads = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
@@ -156,40 +148,43 @@ function this:BodyUpdate(familiar)
     local roomFrame = SomethingWicked.game:GetRoom():GetFrameCount()
     local familiarFrame = familiar.FrameCount - 5
     local f_sprite = familiar:GetSprite()
-    
-    f_data.somethingWicked_PositionFramesTable = f_data.somethingWicked_PositionFramesTable or {}
     p_data.somethingWicked_PositionFramesTable = p_data.somethingWicked_PositionFramesTable or {}
     if f_data.somethingwicked_visFrame == nil and p_data.somethingwicked_visFrame ~= nil then
         f_data.somethingwicked_visFrame = math.max(0, (p_data.somethingwicked_visFrame - familiar.Parent.FrameCount + 5)) + (this.FrameDifferences * 2)
     end
-    if (roomFrame >= this.FrameDifferences
-    and familiarFrame >= this.FrameDifferences)
-    and p_data.somethingWicked_PositionFramesTable[roomFrame - this.FrameDifferences] then
-        familiar.Velocity = p_data.somethingWicked_PositionFramesTable[roomFrame - this.FrameDifferences] - familiar.Position
-    else 
-        familiar.Velocity = Vector.Zero
-    end
+    this:FollowPositionFramesTable(p_data.somethingWicked_PositionFramesTable, familiar, roomFrame, this.FrameDifferences)
 
     if f_data.somethingwicked_visFrame and 
     f_data.somethingwicked_visFrame == familiarFrame then
-        local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
         familiar.Visible = true
         f_sprite:Play("Idle", true)
     end
 
-    this:HandlePositionFramesTable(familiar)
+    f_data.somethingWicked_PositionFramesTable = this:HandlePositionFramesTable(familiar, roomFrame, f_data.somethingWicked_PositionFramesTable and f_data.somethingWicked_PositionFramesTable or {})
 end
 
-function this:HandlePositionFramesTable(familiar)
-    local f_data = familiar:GetData()
-    local room = SomethingWicked.game:GetRoom()
-    local roomFrame = room:GetFrameCount()
+function this:GenerateVisFrame(parent, oldVisFrame)
+    return math.max(0, (oldVisFrame - parent.FrameCount + 5)) + (this.FrameDifferences * 2)
+end
 
-    f_data.somethingWicked_PositionFramesTable = f_data.somethingWicked_PositionFramesTable or {}
-    if roomFrame == 0 then
-        f_data.somethingWicked_PositionFramesTable = {}
+function this:FollowPositionFramesTable(frameTable, familiar, roomFrame, frameDiff)
+    if (roomFrame >= frameDiff
+    and familiar.FrameCount - 5 >= frameDiff)
+    and frameTable[roomFrame - frameDiff] then
+        familiar.Velocity = frameTable[roomFrame - frameDiff] - familiar.Position
+    else 
+        familiar.Velocity = Vector.Zero
     end
-    f_data.somethingWicked_PositionFramesTable[roomFrame] = familiar.Position
+end
+
+function this:HandlePositionFramesTable(familiar, roomFrame, fTable)
+    fTable = fTable or {}
+    if roomFrame == 0 then
+        fTable = {}
+    end
+    fTable[roomFrame] = familiar.Position
+    return fTable
 end
 
 function this:OnCache(player)
@@ -216,6 +211,110 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.HeadUpdate, Fa
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.HeadInit, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.BodyInit, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.BodyUpdate, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
+
+SomethingWicked.enums.SnakeTearType = {
+    SNAKE_HYDRA = 1,
+    SNAKE_HYDRUS = 2,
+}
+--Hydra
+function this:HydraTearUpdate(tear)
+    local t_data = tear:GetData()
+    if t_data.snakeTearData == nil then
+        return
+    end
+
+    if tear.Parent == nil then
+        t_data.snakeTearData.isHead = true
+
+        if t_data.snakeTearData.type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA then
+            local c = tear.Color
+            tear:AddTearFlags(TearFlags.TEAR_HOMING)
+            tear.Color = tear.Color
+        end
+    end
+
+    local rf = SomethingWicked.game:GetRoom():GetFrameCount()
+    if t_data.snakeTearData.isHead then
+        t_data.snakeTearData.state = this:HeadMovementFunc(tear, t_data.snakeTearData.state, tear.Target, tear.SpawnerEntity)
+        tear.Velocity = tear.Velocity:Resized(this.MoveSpeed)
+    else
+        local p_data = tear.Parent:GetData()
+        if p_data.snakeTearData and p_data.snakeTearData.posFramesTable then
+            this:FollowPositionFramesTable(p_data.snakeTearData.posFramesTable, tear, rf, this.FrameDifferences)
+        end
+    end
+    t_data.snakeTearData.posFramesTable = this:HandlePositionFramesTable(tear, rf, t_data.snakeTearData.posFramesTable)
+
+    tear.FallingSpeed = 0
+    tear.Height = -20
+end
+
+this.flagsToClearIfOnBody = TearFlags.TEAR_WIGGLE | TearFlags.TEAR_SPIRAL | TearFlags.TEAR_ORBIT| TearFlags.TEAR_SQUARE| TearFlags.TEAR_BIG_SPIRAL| TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_TURN_HORIZONTAL| TearFlags.TEAR_LUDOVICO
+function this:HydraPlayerUpdate(player)
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRA) then
+        local p_data = player:GetData()
+        if not p_data.somethingwicked_HydraTear or
+        not p_data.somethingwicked_HydraTear:Exists()then
+            local lastTear = nil
+            local lastTearData = nil
+            for i = 1, 10, 1 do
+                local nt = player:FireTear(player.Position, Vector(1, 0), false, false, false, nil, 2)
+                nt:AddTearFlags(TearFlags.TEAR_SPECTRAL)
+                nt:ClearTearFlags(TearFlags.TEAR_PIERCING)
+
+                local ntd = nt:GetData()
+                ntd.snakeTearData = {}
+                ntd.snakeTearData.type = SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA
+                if lastTear then
+                    nt.Parent = lastTear
+                    ntd.snakeTearData.visFrame = this:GenerateVisFrame(lastTear, lastTearData.snakeTearData.visFrame)
+                    lastTear.Child = nt
+                    nt:ClearTearFlags(this.flagsToClearIfOnBody)
+                else
+                    ntd.snakeTearData.isHead = true
+                    ntd.snakeTearData.visFrame = 2
+                    p_data.somethingwicked_HydraTear = nt 
+                    nt:AddTearFlags(TearFlags.TEAR_HOMING)
+                end
+                lastTear = nt
+                lastTearData = ntd
+            end
+        end
+    end
+end
+
+function this:HydraTearRemove(tear)
+    local t_data = tear:GetData()
+    if t_data.snakeTearData == nil
+    or t_data.snakeTearData.type ~= SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA then
+        return
+    end
+
+    local spwnr = tear.SpawnerEntity
+    if spwnr == nil then
+        return
+    end
+    local s_data = spwnr:GetData()
+    if tear.Child then
+        s_data.somethingwicked_HydraTear = tear.Child
+    else
+        local allTears = Isaac.FindByType(EntityType.ENTITY_TEAR)
+        for index, nt in ipairs(allTears) do
+            if GetPtrHash(spwnr) == GetPtrHash(nt.SpawnerEntity) then
+                local n_data = nt:GetData()
+                if n_data.snakeTearData
+                and n_data.snakeTearData.type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA then
+                    s_data.somethingwicked_HydraTear = nt
+                    break
+                end
+            end
+        end
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.HydraPlayerUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.HydraTearUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, this.HydraTearRemove, EntityType.ENTITY_TEAR)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_MINOS_ITEM] = {

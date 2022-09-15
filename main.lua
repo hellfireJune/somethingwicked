@@ -256,6 +256,7 @@ local itemsToLoad = {
   "glitchcity",
   "crossedheart",
   "devilstail",
+  "shotgrub",
   
   "rogueplanet",
   "minos",
