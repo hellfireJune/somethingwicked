@@ -253,7 +253,6 @@ function this:DelayShit()
         local r = SomethingWicked.game:GetRoom()
         local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
         for key, value in pairs(this.bossRoomClearCallbacks) do
-            print("callin")
             value(this.bossRoomClearCallbacks, this.onKillPos, isBossRush)
         end
         this.onKillPos = nil

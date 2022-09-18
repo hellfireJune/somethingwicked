@@ -1,14 +1,17 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Parasite 2")
+this.color = Color()
 
 function this:FireGrubbyTear(tear)
-    if tear.FrameCount ~= 1 then
+    if tear.FrameCount ~= 1
+    or tear.Parent == nil
+    or tear.Parent.Type ~= 1 then
         return
     end
 
     local p = SomethingWicked:UtilGetPlayerFromTear(tear)
     local t_data = tear:GetData()
-    if p:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB)then
+    if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB)then
         if not t_data.somethingWicked_isShotgrubSplitTear then
             tear:AddTearFlags(TearFlags.TEAR_WIGGLE)
             t_data.somethingWicked_isShotgrubTear = true
@@ -37,7 +40,8 @@ function this:OnHitEnemy(tear)
         if p then
             for i = -this.angle, this.angle, this.angle do
                 local newAngle = tear.Velocity:Rotated(i) * -1
-                local new = p:FireTear(tear.Position, newAngle, false, false, false, nil, this.damageMult)
+                local new = p:FireTear(tear.Position - tear.Velocity, newAngle:Resized(p.ShotSpeed * 10), false, false, false, nil, this.damageMult * (tear.CollisionDamage / p.Damage))
+                new.Height = new.Height / 4
 
                 local n_data = new:GetData()
                 n_data.somethingWicked_isShotgrubSplitTear = true

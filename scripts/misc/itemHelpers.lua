@@ -48,6 +48,7 @@ end
 function SomethingWicked.ItemHelpers:AllPlayersWithTrinket(type, ignoreModifs)
     local t = {}
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
+        print(type)
         if value:HasTrinket(type, ignoreModifs) then
             table.insert(t, value)
         end
