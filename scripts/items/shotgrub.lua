@@ -1,6 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Parasite 2")
-this.color = Color()
+--this.color = Color()
 
 function this:FireGrubbyTear(tear)
     if tear.FrameCount ~= 1

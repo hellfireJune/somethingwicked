@@ -298,6 +298,7 @@ local itemsToLoad = {
   "gachapon",
   "voidheart",
   "mrskits",
+  "giftcard",
 }
 
 local cardsToLoad = {

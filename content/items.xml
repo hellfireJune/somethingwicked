@@ -91,6 +91,7 @@
   <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
+  <trinket id="20" name="Gift Card" description="3 percent off!" gfx="blankbook.png" hidden="true"/>
   <!--The Final Wicked: Small Intestine, Meal Coupon, Surgery Mask, Hermit Crab, Blank Baby, Onyx Heart, 
   Floating Number Bug, Virtue-->
   <!--<trinket id="12" name="Torn Judgement" description="To your, generosity" gfx="cursedkey.png"/> saving this for next update-->
