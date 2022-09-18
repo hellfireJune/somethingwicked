@@ -16,7 +16,7 @@ function this:PEffectUpdate(player)
 
                 local rng = player:GetDropRNG()
                 local f = rng:RandomFloat()
-                if f <= 0.06 then
+                if f <= 0.05 then
                     player:TryRemoveTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD)
                     SomethingWicked.sfx:Play(SoundEffect.SOUND_DIMEPICKUP)
                 else
@@ -32,7 +32,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpd
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_GIFT_CARD] = {
         desc = "While held, your coins can never fall below 3 coins"..
-        "#!!! 6% chance for the trinket to break upon refilling coins",
+        "#!!! 5% chance for the trinket to break upon refilling coins",
         isTrinket = true
     }
 }
