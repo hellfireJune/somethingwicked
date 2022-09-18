@@ -32,7 +32,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpd
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_GIFT_CARD] = {
         desc = "While held, your coins can never fall below 3 coins"..
-        "#!!! 4% chance for the trinket to break upon refilling coins",
+        "#!!! 6% chance for the trinket to break upon refilling coins",
         isTrinket = true
     }
 }
