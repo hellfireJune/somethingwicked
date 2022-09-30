@@ -19,7 +19,7 @@ function this:ShootTear(tear)
 end
 
 this.validLasers = {
-    1, 9, 11, 14, --brimmies
+    SomethingWicked.enums.LaserVariant.BRIM, SomethingWicked.enums.LaserVariant.BRIM_TECH, SomethingWicked.enums.LaserVariant.THICK_BRIM, SomethingWicked.enums.LaserVariant.THICK_BRIM_TECH, --brimmies
     2,  --techos
 }
 function this:ShootLaser(laser)
@@ -67,7 +67,9 @@ function this:ShootLaser(laser)
                 break
             end
         end
-    elseif laser.SubType == 3 then
+    elseif laser.SubType == 3
+    and l_data.somethingwicked_rogueplanetlaser
+    and laser.SpawnerEntity then
         laser.Velocity = laser.SpawnerEntity.Position - laser.Position
     end
 end
@@ -97,12 +99,13 @@ function this:OnCache(player, flags)
     end
 
     if flags == CacheFlag.CACHE_RANGE then
-        player.TearRange = player.TearRange * (player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM) and this.rangeMult or 1)
+        local hasTheFuckinThing = player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM)
+        player.TearRange = (player.TearRange * (hasTheFuckinThing and this.rangeMult or 1)) + (hasTheFuckinThing and 10*40 or 0)
     end
     
     if flags == CacheFlag.CACHE_FIREDELAY and player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM)
     and player:HasWeaponType(WeaponType.WEAPON_LASER | WeaponType.WEAPON_BRIMSTONE | WeaponType.WEAPON_TECH_X) == false then
-        player.MaxFireDelay = SomethingWicked.StatUps:GetFireDelay(SomethingWicked.StatUps:GetTears(player.MaxFireDelay) + 1)
+        player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, 0, 1)
     end
 
     if flags == CacheFlag.CACHE_TEARFLAG and player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM) then
@@ -110,7 +113,7 @@ function this:OnCache(player, flags)
     end
 end
 
-this.rangeMult = 3.5
+this.rangeMult = 2
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.OnCache)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.FamiliarInit, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)

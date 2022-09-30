@@ -54,7 +54,7 @@ function this:TeratomaChunkPickup(player, room)
     end
 end
 
-SomethingWicked:AddPickupFunction(this.TeratomaChunkPickup, CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.TeratomaChunkPickup, CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK] = {

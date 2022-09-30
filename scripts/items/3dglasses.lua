@@ -1,11 +1,15 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_3D_GLASSES = Isaac.GetItemIdByName("3D Glasses")
+CollectibleType.SOMETHINGWICKED_3D_GLASSES = Isaac.GetItemIdByName(" 3D Glasses ")
 this.procChance = 0.25
 this.damageMult = 0.5
 this.angle = 10
 this.Colors = {
     [-this.angle] = Color(0.5, 0, 0, 0.75),
     [this.angle] = Color(0, 0, 0.5, 0.75)
+}
+this.LaserColors = {
+    [-this.angle] = Color(1, 1, 1, 0.75, 0.5),
+    [this.angle] = Color(1, 1, 1, 0.75, 0, 0, 0.5)
 }
 
 function this:SplitTearsSometimes(tear)
@@ -20,8 +24,9 @@ function this:SplitTearsSometimes(tear)
             if proc < this.procChance then
                 for i = -this.angle, this.angle, this.angle * 2 do
                     local newAngle = tear.Velocity:Rotated(i)
+                    local damagemult = this.damageMult * math.min(1, (tear.CollisionDamage / player.Damage)) 
                     local new = player:FireTear(tear.Position - tear.Velocity, newAngle, false, false, false, nil, this.damageMult)
-                    new.Color = this.Colors[i]
+                    new.Color = this.LaserColors[i]
 
                     local n_data = new:GetData()
                     n_data.somethingwicked_3DglassesChecked = true
@@ -32,7 +37,34 @@ function this:SplitTearsSometimes(tear)
     end
 end
 
+this.isFiringMoreLasers = false
+function this:SplitLasersToo(laser, player)
+    if this.isFiringMoreLasers then
+        return
+    end
+    if player 
+    and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES) then
+        local rng = laser:GetDropRNG()
+        local proc = rng:RandomFloat()
+        if proc < this.procChance then
+            this.isFiringMoreLasers = true
+            for i = -this.angle, this.angle, this.angle * 2 do
+                local newAngle = Vector.FromAngle(laser.Angle + i)
+                local new
+                if laser.Variant == SomethingWicked.enums.LaserVariant.TECH then
+                    new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, this.damageMult)
+                else
+                    new = player:FireBrimstone(newAngle, nil, this.damageMult)
+                end
+                new.Color = this.LaserColors[i]
+            end
+            this.isFiringMoreLasers = false
+        end
+    end
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.SplitTearsSometimes)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_LASER_FIRED, this.SplitLasersToo)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_3D_GLASSES] = {

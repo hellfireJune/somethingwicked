@@ -34,7 +34,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.WispFire)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.BuffFamiliarHP)
-SomethingWicked:AddPickupFunction(function (_, player, room)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, room)
     for i = 1, 4, 1 do
         player:AddWisp(CollectibleType.SOMETHINGWICKED_PLANCHETTE, player.Position)
     end

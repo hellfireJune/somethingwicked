@@ -1,16 +1,22 @@
 local this = {}
 TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coins")
 
-function this:PickupCollision(heart, entity, low)
-    local player = entity:ToPlayer()
+function this:PickupCollision(heart, player)
+    if heart.SubType ~= HeartSubType.HEART_FULL 
+    and heart.SubType ~= HeartSubType.HEART_HALF 
+    and heart.SubType ~= HeartSubType.HEART_SCARED
+    and heart.SubType ~= HeartSubType.HEART_DOUBLEPACK 
+    and heart.SubType ~= HeartSubType.HEART_BLENDED then
+        return
+    end
+
+    player = player:ToPlayer()
     if player ~= nil
     and player:HasTrinket(TrinketType.SOMETHINGWICKED_TWO_OF_COINS)
-    and player:CanPickRedHearts()
-    and (heart.SubType == HeartSubType.HEART_FULL 
-    or heart.SubType == HeartSubType.HEART_HALF) then
+    and SomethingWicked.ItemHelpers:WillHeartBePickedUp(heart, player) then
         local pickupRNG = heart:GetDropRNG()
         for i = 1, 1 + pickupRNG:RandomInt(4), 1 do            
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, entity.Position, Vector.FromAngle(pickupRNG:RandomInt(360)) * 3, player)  
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, player.Position, Vector.FromAngle(RandomVector) * 3, player)  
         end 
     end
 end

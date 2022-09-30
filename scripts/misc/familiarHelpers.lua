@@ -34,3 +34,15 @@ function SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, bloc
     end
     --thanke deliverance team
 end
+
+function SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, collectible)
+    local rng = player:GetCollectibleRNG(collectible)
+    local sourceItem = Isaac.GetItemConfig():GetCollectible(collectible)
+    local boxEffect = player:GetEffects():GetCollectibleEffect(CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
+    local boxStacks = 0
+    if boxEffect ~= nil then
+        boxStacks = boxEffect.Count
+    end
+    local itemStacks = player:GetCollectibleNum(collectible)
+    return itemStacks * (1 + boxStacks), rng, sourceItem
+end

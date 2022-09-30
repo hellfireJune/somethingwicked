@@ -22,7 +22,7 @@ function this:OnUse(_, rngObj, player, flags)
 
     local collectible = -1
     while collectible == -1 do
-        local newCollectible = pool:GetCollectible(poolType, true)
+        local newCollectible = pool:GetCollectible(poolType, false)
         local conf = itemConfig:GetCollectible(newCollectible)
         if conf.Type ~= ItemType.ITEM_ACTIVE then
             collectible = newCollectible

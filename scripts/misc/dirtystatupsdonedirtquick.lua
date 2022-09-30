@@ -55,8 +55,9 @@ function SomethingWicked.StatUps:TearsUp(player, tears, flat, mult)
   flat = flat * baseMult
 
   local currentTears = SomethingWicked.StatUps:GetTears(player.MaxFireDelay)
-  tears = math.min(tears + currentTears, 5 * baseMult * mult) - currentTears
-  return SomethingWicked.StatUps:GetFireDelay((currentTears + (tears*1.08) + flat) * mult)
+  local currmax = 5 + (player:GetTrinketMultiplier(TrinketType.TRINKET_CANCER))
+  tears = math.min(tears*1.08 + currentTears, math.max(currmax * baseMult * mult, currentTears)) - currentTears
+  return SomethingWicked.StatUps:GetFireDelay((currentTears + (tears) + flat) * mult)
 end
 
 --shamelessly nabbed from an old message from mr.seemsgood i found.
@@ -70,7 +71,7 @@ end
 
 this.CharacterDamageMultipliers = {
     [PlayerType.PLAYER_EVE] = function(player)
-    if player:GetRedHearts() > 2 then
+    if player:GetHearts() > 2 then
         return 0.75
     end end,
     [PlayerType.PLAYER_MAGDALENA_B] = 0.75,

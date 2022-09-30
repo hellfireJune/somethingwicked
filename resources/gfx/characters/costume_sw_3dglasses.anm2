@@ -2,7 +2,7 @@
 	<Info CreatedBy="Unknown" CreatedOn="28/03/2022 22:15:17" Version="7" Fps="30"/>
 	<Content>
 		<Spritesheets>
-			<Spritesheet Path="costumes\costume_3dglasses.png" Id="0"/>
+			<Spritesheet Path="costumes\costume_sw_3dglasses.png" Id="0"/>
 		</Spritesheets>
 		<Layers>
 			<Layer Name="head0" Id="0" SpritesheetId="0"/>

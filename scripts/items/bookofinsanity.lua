@@ -68,18 +68,9 @@ function this:FamiliarUpdate(familiar)
     familiar.OrbitDistance = Vector(75, 75) 
 	familiar.OrbitSpeed = 0.01 
 
-    local position = (familiar:GetOrbitPosition(player.Position + player.Velocity))
-    position = player.Position + player.Velocity + ((player.Position + player.Velocity) - position) * math.sin(0.1 * familiar.FrameCount)
-    if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
-        familiar.Velocity = Vector.Zero
-        familiar.Position = position
-        --we stan a weird ass fuckin visual glitch
-    else
-        local velocity = (position) - familiar.Position
-        if velocity:Length() > this.MovementSpeedCap then
-            velocity:Resize(this.MovementSpeedCap)
-        end
-        familiar.Velocity = SomethingWicked.EnemyHelpers:Lerp(familiar.Velocity, velocity, 0.25)
+    SomethingWicked.EnemyHelpers:FluctuatingOrbitFunc(familiar, player)
+    if familiar.Velocity:Length() > this.MovementSpeedCap then
+        familiar.Velocity:Resize(this.MovementSpeedCap)
     end
 
     familiar:PickEnemyTarget(this.Distance, 13, 1)
@@ -165,16 +156,7 @@ function  this:WispUpdate(familiar)
     if familiar.SubType == CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY then    
         local player = familiar.Player
         
-        local position = (familiar:GetOrbitPosition(player.Position + player.Velocity))
-        position = player.Position + player.Velocity + ((player.Position + player.Velocity) - position) * math.sin(0.125 * familiar.FrameCount)
-        if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
-            familiar.Velocity = Vector.Zero
-            familiar.Position = position
-            --we stan a weird ass fuckin visual glitch
-        else
-            local velocity = (position) - familiar.Position
-            familiar.Velocity = velocity
-        end
+        SomethingWicked.EnemyHelpers:FluctuatingOrbitFunc(familiar, player)
     end
 end
 

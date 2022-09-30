@@ -30,8 +30,6 @@ function this:UpdateFamiliar(familiar)
             local conf = itemConfig:GetCollectible(newCollectible)
             if conf:HasTags(ItemConfig.TAG_SUMMONABLE) then
                 collectible = newCollectible
-                
-
                 SomethingWicked.game:GetHUD():ShowItemText(player, conf)
             end
         end
@@ -47,21 +45,13 @@ function this:UpdateFamiliar(familiar)
 end
 
 function this:cacheEval(player)
-    player = player:ToPlayer()
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM)
-    local sourceItem = Isaac.GetItemConfig():GetCollectible(CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM)
-    local boxEffect = player:GetEffects():GetCollectibleEffect(CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
-    local boxStacks = 0
-    if boxEffect ~= nil then
-        boxStacks = boxEffect.Count
-    end
-
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_SOLOMON, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM) * (1 + boxStacks), rng, sourceItem)
+    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_SOLOMON, stacks, rng, sourceItem)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.UpdateFamiliar, FamiliarVariant.SOMETHINGWICKED_SOLOMON)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.InitFamiliar, FamiliarVariant.SOMETHINGWICKED_SOLOMON)
-SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.cacheEval, CacheFlag.CACHE_FAMILIAR)
+SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.cacheEval, CacheFlag.CACHE_FAMILIARS)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM] = {

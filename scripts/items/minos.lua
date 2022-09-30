@@ -180,16 +180,8 @@ function this:HandlePositionFramesTable(familiar, roomFrame, fTable)
 end
 
 function this:OnCache(player)
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
-    local sourceItem = Isaac.GetItemConfig():GetCollectible(CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
+    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, (player:HasCollectible(CollectibleType.SOMETHINGWICKED_MINOS_ITEM) and 1 or 0), rng, sourceItem)
-    local boxEffect = player:GetEffects():GetCollectibleEffect(CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
-    local stacks = 0
-    if boxEffect ~= nil then
-        stacks = boxEffect.Count
-    end
-
-    stacks = (stacks + 1) * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, sourceItem)
 end
 

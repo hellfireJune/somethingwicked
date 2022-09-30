@@ -1,19 +1,37 @@
 local this = {}
 
-this.UniversalPickupCallbacks = {}
-this.IDBasedPickupCallbacks = {}
+local ccabEnum = SomethingWicked.enums.CustomCallbacks
+this.CustomCallbacks = {
+    [ccabEnum.SWCB_PICKUP_ITEM] = {
+        UniversalPickupCallbacks = {},
+        IDBasedPickupCallbacks = {}
+    },
+    [ccabEnum.SWCB_ON_ENEMY_HIT] = {},
+    [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
+    [ccabEnum.SWCB_ON_LASER_FIRED] = {},
+}
 
---function takes a player argument and a room argument
-function SomethingWicked:AddPickupFunction(func, id)
-    id = id or -1
-
-    if id == -1 then
-        table.insert(this.UniversalPickupCallbacks, func)
+function SomethingWicked:AddCustomCBack(type, funct, id)
+    if type == ccabEnum.SWCB_PICKUP_ITEM then
+        this:AddPickupFunction(funct, id)
         return
     end
 
-    this.IDBasedPickupCallbacks[id] = this.IDBasedPickupCallbacks[id] or {}
-    table.insert(this.IDBasedPickupCallbacks[id], func)
+    local cBackTable = this.CustomCallbacks[type]
+    table.insert(cBackTable, funct)
+end
+
+--function takes a player argument and a room argument
+function this:AddPickupFunction(func, id)
+    id = id or -1
+
+    if id == -1 then
+        table.insert(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, func)
+        return
+    end
+
+    this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] = this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] or {}
+    table.insert(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], func)
 end
 
 --This is a **heavily** modified version of some of AgentCucco's code, shoutouts to her
@@ -22,14 +40,14 @@ function this:PickupMethod(player)
     if p_data.SomethingWickedPData.heldItem then
         if player:IsExtraAnimationFinished() then
             local room = SomethingWicked.game:GetRoom(_, _, _)
-            for _, func in ipairs(this.UniversalPickupCallbacks) do
-                func(this.UniversalPickupCallbacks, player, room)
+            for _, func in ipairs(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks) do
+                func(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, player, room)
             end  
 
             local id = p_data.SomethingWickedPData.heldItem
-            if this.IDBasedPickupCallbacks[id] then        
-                for _, func in ipairs(this.IDBasedPickupCallbacks[id]) do
-                    func(this.IDBasedPickupCallbacks[id], player, room)
+            if this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] then        
+                for _, func in ipairs(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id]) do
+                    func(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], player, room)
                 end  
             end
             p_data.SomethingWickedPData.heldItem = nil 
@@ -45,65 +63,6 @@ function this:PickupMethod(player)
         
         p_data.SomethingWickedPData.heldItem = targetItem.ID
     end
-end
-SomethingWicked.HoldItemHelpers = {}
-
-function SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, item)
-    
-    local d = player:GetData()
-
-    if flags & UseFlag.USE_CARBATTERY ~= 0 then
-        return
-    end
-    d.somethingWicked_isHoldingItem = d.somethingWicked_isHoldingItem or {}
-    if not player:IsHoldingItem () then
-        player:AnimateCollectible(item, "LiftItem", "PlayerPickupSparkle")
-        d.somethingWicked_isHoldingItem[item] = true
-    else
-        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
-        d.somethingWicked_isHoldingItem[item] = false
-    end
-
-    local returnArray = {
-        Discharge = false,
-        ShowAnim = false,
-        Remove = false
-    }
-    return returnArray
-end
-
-function SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, item)
-    
-    local d = player:GetData()
-    d.somethingWicked_isHoldingItem = d.somethingWicked_isHoldingItem or {}
-    local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, item)
-
-    if player:IsHoldingItem() 
-    and d.somethingWicked_isHoldingItem[item] == true 
-    and Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
-        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
-        d.somethingWicked_isHoldingItem[item] = false
-    end
-
-    if player:IsHoldingItem() 
-    and player:GetFireDirection() ~= Direction.NO_DIRECTION 
-    and d.somethingWicked_isHoldingItem[item] == true then
-        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
-        d.somethingWicked_isHoldingItem[item] = false
-        player:DischargeActiveItem(slot)
-        return true
-    end
-
-    return false
-end
-
-function SomethingWicked.HoldItemHelpers:GetUseDirection(player)
-    return player:GetAimDirection() * (player.ShotSpeed * 10) + player.Velocity
-end
-
-this.OnHitFunctions = {}
-function SomethingWicked:AddOnEnemyHitFunction(func)
-    table.insert(this.OnHitFunctions, func)
 end
 
 this.forgottenEsqueBones = {1, 2, 3, 4, 9}
@@ -132,7 +91,7 @@ function this:OnTearHit(tear, collider)
 end
 
 function this:CallOnhitCallback(tear, collider, player, procCoefficient)
-    for _, v in pairs(this.OnHitFunctions) do
+    for _, v in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_ENEMY_HIT]) do
         v(this, tear, collider, player, procCoefficient)
     end
 end
@@ -230,12 +189,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_GET_CARD, this.BoonPreventCardSpawn)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.BoonOverrideHold)
 SomethingWicked:AddCallback(ModCallbacks.MC_INPUT_ACTION, this.BoonCheckForHold)
 
-this.bossRoomClearCallbacks = {}
---args: pos, isBossRush
-function SomethingWicked:AddBossRoomClearCallback(func)
-    table.insert(this.bossRoomClearCallbacks , func)
-end
-
 this.onKillPos = nil
 function this:OnKill(enemy)
         if enemy:IsBoss() then
@@ -252,8 +205,8 @@ function this:DelayShit()
     and Isaac.CountBosses() == 0 then
         local r = SomethingWicked.game:GetRoom()
         local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
-        for key, value in pairs(this.bossRoomClearCallbacks) do
-            value(this.bossRoomClearCallbacks, this.onKillPos, isBossRush)
+        for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED]) do
+            value(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED], this.onKillPos, isBossRush)
         end
         this.onKillPos = nil
     end
@@ -262,3 +215,20 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.DelayShit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
 
+function this:LaserUpdate(laser)
+    if laser.FrameCount == 1 then
+        if laser.Variant == SomethingWicked.enums.LaserVariant.SHIT
+        or laser.Variant == SomethingWicked.enums.LaserVariant.TRACTOR_BEAM
+        or laser.Variant == SomethingWicked.enums.LaserVariant.DADS_RING then
+            return
+        end
+
+        local player = SomethingWicked:UtilGetPlayerFromTear(laser)
+        
+        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
+            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player)
+        end
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)

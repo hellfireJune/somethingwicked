@@ -15,7 +15,7 @@
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Old Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name=" 3D Glasses " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Teratoma Chunk" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -39,6 +39,7 @@
 		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="library">
@@ -61,8 +62,8 @@
 	<Pool Name="boss">
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wooden Horn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Mammon's Tooth" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Avenger Emblem" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Avenger Emblem" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Old Urn" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 	</Pool> 
 
 	<Pool Name="secret">
@@ -70,7 +71,6 @@
 		<Item Name="Old Urn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Osteophagy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="devil">
@@ -144,7 +144,7 @@
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cat Food" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name=" 3D Glasses " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -199,7 +199,7 @@
 		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="3D Glasses" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name=" 3D Glasses " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -221,6 +221,7 @@
 		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool name="greedBoss">
@@ -256,6 +257,5 @@
 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Old Urn" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<Item Name="Osteophagy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 </ItemPools>

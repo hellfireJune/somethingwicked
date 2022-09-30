@@ -18,7 +18,7 @@ function this:OnPickup(player, room)
     end 
 end
 
-SomethingWicked:AddPickupFunction(this.OnPickup, CollectibleType.SOMETHINGWICKED_OLD_URN)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_OLD_URN)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_OLD_URN] = {

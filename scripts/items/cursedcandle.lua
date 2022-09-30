@@ -46,15 +46,11 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
 end
 
 function SomethingWicked:UtilAddCurse(ent, time)
-
-    if ent:ToNPC() then
-        local e_data = ent:GetData()
-        --time = 30 * time
-
-        time = 30 * time
-        e_data.somethingWicked_curseTick = (e_data.somethingWicked_curseTick or 0) + time
-        ent:SetColor(this.CurseColor, e_data.somethingWicked_curseTick, 1, false, false)
-    end
+    local e_data = ent:GetData()
+    
+    time = 30 * time
+    e_data.somethingWicked_curseTick = (e_data.somethingWicked_curseTick or 0) + time
+    ent:SetColor(this.CurseColor, e_data.somethingWicked_curseTick, 1, false, false)
 end
 
 function this:NPCUpdate(ent)

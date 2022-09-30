@@ -48,7 +48,6 @@ end
 function SomethingWicked.ItemHelpers:AllPlayersWithTrinket(type, ignoreModifs)
     local t = {}
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        print(type)
         if value:HasTrinket(type, ignoreModifs) then
             table.insert(t, value)
         end
@@ -307,3 +306,114 @@ function this:PickupHeart(pickup, player)
         player:AddHearts(1)
     end
 end]]
+
+--shame this didnt work :/
+--[[this.isTrackingPools = false
+function SomethingWicked.ItemHelpers:ClearPlayerItemsThenGetNoOfItems(player)
+    local noOfItems = 0
+    this.trackedPools = {}
+    this.trackedCollectibles = {}
+    this.isTrackingPools = true
+    player:UseActiveItem(CollectibleType.COLLECTIBLE_D4, UseFlag.USE_NOANIM)
+    this.isTrackingPools = false
+    
+    --because GetCollectible callbacks are wacky and will break if another mod is doing shit (prolly)
+    local fakePlayer = SomethingWicked.ItemHelpers:CreateFakePlayer(player, Vector.Zero, PlayerType.PLAYER_ISAAC)
+    fakePlayer:AddCollectible(CollectibleType.COLLECTIBLE_TMTRAINER)
+
+    player:UseActiveItem(CollectibleType.COLLECTIBLE_D4, UseFlag.USE_NOANIM)
+
+    local gItem = SomethingWicked.game:GetItemPool():GetCollectible(ItemPoolType.POOL_TREASURE, false)
+    print(gItem)
+
+    for i = 1, math.abs(gItem), 1 do
+        if player:HasCollectible(-i) then
+            --player:RemoveCollectible(-i)
+            noOfItems = noOfItems + 1
+        end
+    end
+
+    fakePlayer:RemoveCollectible(CollectibleType.COLLECTIBLE_TMTRAINER)
+    --fakePlayer:Remove()
+    print(noOfItems)
+    return noOfItems, this.trackedPools
+end
+
+--not good, but better than nothing
+function this:CheckForPoolsAndCollectible(item, itempool)
+    if this.isTrackingPools then
+        if not SomethingWicked:UtilTableHasValue(this.trackedCollectibles, item) then
+            table.insert(this.trackedCollectibles, item)
+            table.insert(this.trackedPools, item)
+        end
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, this.CheckForPoolsAndCollectible)
+
+--stolen from fiendfolio, makes a fake player thing idk
+function SomethingWicked.ItemHelpers:CreateFakePlayer(parent, pos, playerType)
+    parent = parent or Isaac.GetPlayer()
+    Isaac.ExecuteCommand("addplayer " .. playerType.. " " .. parent.ControllerIndex)
+
+    local player = Isaac.GetPlayer(SomethingWicked.game:GetNumPlayers() - 1)
+    player.Parent = parent
+
+    player.Position = pos
+
+    return player
+end]]
+SomethingWicked.HoldItemHelpers = {}
+
+function SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, item)
+    
+    local d = player:GetData()
+
+    if flags & UseFlag.USE_CARBATTERY ~= 0 then
+        return
+    end
+    d.somethingWicked_isHoldingItem = d.somethingWicked_isHoldingItem or {}
+    if not player:IsHoldingItem () then
+        player:AnimateCollectible(item, "LiftItem", "PlayerPickupSparkle")
+        d.somethingWicked_isHoldingItem[item] = true
+    else
+        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
+        d.somethingWicked_isHoldingItem[item] = false
+    end
+
+    local returnArray = {
+        Discharge = false,
+        ShowAnim = false,
+        Remove = false
+    }
+    return returnArray
+end
+
+function SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, item)
+    
+    local d = player:GetData()
+    d.somethingWicked_isHoldingItem = d.somethingWicked_isHoldingItem or {}
+    local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, item)
+
+    if player:IsHoldingItem() 
+    and d.somethingWicked_isHoldingItem[item] == true 
+    and Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
+        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
+        d.somethingWicked_isHoldingItem[item] = false
+    end
+
+    if player:IsHoldingItem() 
+    and player:GetFireDirection() ~= Direction.NO_DIRECTION 
+    and d.somethingWicked_isHoldingItem[item] == true then
+        player:AnimateCollectible(item, "HideItem", "PlayerPickupSparkle")
+        d.somethingWicked_isHoldingItem[item] = false
+        player:DischargeActiveItem(slot)
+        return true
+    end
+
+    return false
+end
+
+function SomethingWicked.HoldItemHelpers:GetUseDirection(player)
+    return (player:GetAimDirection() * (player.ShotSpeed * 10) + player.Velocity):Resized(player.ShotSpeed * 10) 
+end

@@ -5,17 +5,10 @@ FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion 
 
 function this:OnCache(player, flags)
     if flags == CacheFlag.CACHE_FAMILIARS then
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LEGION_ITEM)
-        local sourceItem = Isaac.GetItemConfig():GetCollectible(CollectibleType.SOMETHINGWICKED_LEGION_ITEM)
-        local boxEffect = player:GetEffects():GetCollectibleEffect(CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
-        local boxStacks = 0
-        if boxEffect ~= nil then
-            boxStacks = boxEffect.Count
-        end
-        local itemStacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LEGION_ITEM)
 
-        player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION, itemStacks * (1 + boxStacks) , rng, sourceItem)
-        player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION_B, (itemStacks * (1 + boxStacks)) * 3 , rng, sourceItem)
+        local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_LEGION_ITEM)
+        player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION, stacks, rng, sourceItem)
+        player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION_B, stacks * 3 , rng, sourceItem)
         
     end
 end
@@ -47,10 +40,10 @@ function this:FamiliarUpdate(familiar)
     --firing
     if familiar.FireCooldown <= 0 then
         if player:GetFireDirection() ~= Direction.NO_DIRECTION then
-            local angle = player:GetAimDirection() * (player.ShotSpeed * 10)
+            local angle = SomethingWicked.HoldItemHelpers:GetUseDirection(player)
             player:FireTear(familiar.Position, angle, false, false, false, familiar, this.damageMult)
 
-            familiar.FireCooldown = player.MaxFireDelay
+            familiar.FireCooldown = math.ceil(player.MaxFireDelay)
         end
     else
         familiar.FireCooldown = familiar.FireCooldown - 1

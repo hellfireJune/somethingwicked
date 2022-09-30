@@ -9,6 +9,7 @@ end
 function  this:PlayerUpdate(player)
     if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_BALROGS_HEAD) then
         local tear = player:FireTear(player.Position, (SomethingWicked.HoldItemHelpers:GetUseDirection(player)), false, true, false)
+        tear.Velocity = tear.Velocity:Resized(15)
         tear:ChangeVariant(this.head)
         local t_data = tear:GetData()
         t_data.somethingwicked_isTheBalrogsHead = true
@@ -32,7 +33,7 @@ function this:onTearHitsShit(tear)
     bigFire.CollisionDamage = 40
     bigFire.SpriteScale = Vector(1.25, 1.25)
     for i = 1, 4 do
-        local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, tear.Position, (Vector.FromAngle(theRNG:RandomInt(360)) * 5), tear)
+        local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, tear.Position, (RandomVector()) * 5, tear)
         thefloatingfire.CollisionDamage = 25
     end
 end

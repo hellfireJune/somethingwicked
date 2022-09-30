@@ -1,5 +1,5 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CORRUPTION = Isaac.GetItemIdByName("Wicked Soul")
+CollectibleType.SOMETHINGWICKED_WICKED_SOUL = Isaac.GetItemIdByName("Wicked Soul")
 
 this.AvailableCurses = {
     LevelCurse.CURSE_OF_DARKNESS,
@@ -10,7 +10,7 @@ this.AvailableCurses = {
 }
 
 function this:OnCache(player, flags)
-    local mult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CORRUPTION)
+    local mult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
 
     if flags == CacheFlag.CACHE_DAMAGE then
         player.Damage = SomethingWicked.StatUps:DamageUp(player, 0.5 * mult, 0, 1 + (mult > 1 and 0.3 or 0)) end
@@ -27,7 +27,7 @@ end
 
 function this:onNewLevel()
     for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        for i = 1, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CORRUPTION), 1 do
+        for i = 1, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL), 1 do
             this:OnPickup(player)
         end
     end
@@ -35,7 +35,7 @@ end
 
 function this:OnPickup(player)
     local level = SomethingWicked.game:GetLevel()
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CORRUPTION)
+    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
     local possibleCurses = {}
     for index, value in ipairs(this.AvailableCurses) do
         if level:GetCurses() & value == 0 then
@@ -48,12 +48,12 @@ function this:OnPickup(player)
     end
 end
 
-SomethingWicked:AddPickupFunction(this.OnPickup, CollectibleType.SOMETHINGWICKED_CORRUPTION)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.onNewLevel)
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.OnCache)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CORRUPTION] = {
+    [CollectibleType.SOMETHINGWICKED_WICKED_SOUL] = {
         desc = "↑ +30% damage Multiplier#↑ +0.5 damage#↑ +1 luck#↑ +0.25 speed#↑ +0.05 shot speed#↑ +1.2 range#!!! A bonus curse will be added every floor",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,

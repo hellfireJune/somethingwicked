@@ -35,7 +35,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDamage, EntityType.ENTITY_PLAYER)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, this.PlayerUpdate)
 --SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddPickupFunction(this.OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
+SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
 
 
 if MinimapAPI then

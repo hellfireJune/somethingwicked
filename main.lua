@@ -144,6 +144,19 @@ function SomethingWicked:UtilWeightedGetThing(pool, myRNG)
   end
 end
 
+function SomethingWicked:UtilCompareColors(color1, color2)
+  if color1.R == color2.R
+  and color1.G == color2.G
+  and color1.B == color2.B
+  and color1.A == color2.A
+  and color1.RO == color2.RO
+  and color1.GO == color2.GO
+  and color1.BO == color2.BO then
+    return true
+  end
+  return false
+end
+
 function SomethingWicked:UtilGenerateWikiDesc(strings, quoteString)
   local wikiTable = 
   {
@@ -153,9 +166,6 @@ function SomethingWicked:UtilGenerateWikiDesc(strings, quoteString)
   for index, value in ipairs(strings) do
     table.insert(wikiTable,
   {str = "-"..value})
-  if string.match(value, "#") then
-    print(value)
-  end
   end
 
   if quoteString ~= nil then
@@ -228,6 +238,7 @@ local itemsToLoad = {
   "ramshead",
   "corruption",
   "onyxcharm",
+  "samyazasfeather",
 
   "discipleseye",
   "redlockbox",
@@ -257,11 +268,16 @@ local itemsToLoad = {
   "crossedheart",
   "devilstail",
   "shotgrub",
+  "minotaur",
+  "balrogsheart",
+  "vulturefeather",
   
   "rogueplanet",
   "minos",
   "yellowshard",
   "solomon",
+  "devilsknife",
+  "phobosanddeimos",
 
   "dstock",
   "balrogshead",
@@ -281,6 +297,8 @@ local itemsToLoad = {
   "encyclopedia",
   "chasm",
   "fetusinfetu",
+  "edenshead",
+  "abandonedbox",
   
   --"themistake"
   "twofcoins",
