@@ -353,11 +353,11 @@ local postMiscLoad = {
   "EIDadder",
   "unlockHandler"
 }
-local enemiesToLoad = {
+--[[local enemiesToLoad = {
   --"experiment",
   "menacefly",
   "dukeoftheabyss"
-}
+}]]
 
 SomethingWicked.addedCollectibles = {}
 SomethingWicked.addedTrinkets = {}
@@ -434,9 +434,9 @@ for _, i in ipairs(cardsToLoad) do
       end
     end
   end
-for _, i in ipairs(enemiesToLoad) do
+--[[for _, i in ipairs(enemiesToLoad) do
   include("scripts/enemies/"..i)
-end
+end]]
 --include("scripts/players/abiah")
 include("scripts/players/bsides")
 for _, i in ipairs(postMiscLoad) do

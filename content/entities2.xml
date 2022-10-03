@@ -65,7 +65,7 @@
 
 
     <!--Enemies-->
-    <entity anm2path="sw_001_experiment.anm2" baseHP="10" boss="0" champion="1" collisionDamage="1" collisionMass="5" collisionRadius="13" friction="1" id="284" name="Experiment" numGridCollisionPoints="12" portrait="130" reroll="true" shadowSize="14" stageHP="2">
+ <!--<entity anm2path="sw_001_experiment.anm2" baseHP="10" boss="0" champion="1" collisionDamage="1" collisionMass="5" collisionRadius="13" friction="1" id="284" name="Experiment" numGridCollisionPoints="12" portrait="130" reroll="true" shadowSize="14" stageHP="2">
         <gibs amount="6" blood="1" bone="1" eye="1" gut="1" large="0"/>
     </entity>
     <entity anm2path="familiar_rogueplanet.anm2" baseHP="10" boss="0" champion="1" collisionDamage="0" collisionMass="100" collisionRadius="13" friction="1" id="761" name="Menace Fly" numGridCollisionPoints="12" portrait="130" reroll="true" shadowSize="14" stageHP="0" champion="1" gridCollision="none">
@@ -73,7 +73,7 @@
     </entity>
     <entity anm2path="sw_duke_of_the_abyss.anm2" baseHP="10" boss="0" champion="1" collisionDamage="0" collisionMass="100" collisionRadius="13" friction="1" id="67" variant="761" name="Duke of the Abyss" numGridCollisionPoints="12" portrait="130" reroll="true" shadowSize="14" stageHP="0" champion="1" gridCollision="none">
         <gibs amount="6" blood="1" bone="1" eye="1" gut="1" large="0"/>
-    </entity>
+    </entity>-->
 
     <!--Familiars (probably spelt that wrong lol)-->
     <entity anm2path="familiar_rogueplanet.anm2" baseHP="0" boss="0" champion="0" collisionInterval="4" collisionMass="3" collisionRadius="8" friction="1" id="3" name="Rogue planet" numGridCollisionPoints="12" shadowSize="11" stageHP="0" tags="cansacrifice">
