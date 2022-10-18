@@ -9,12 +9,7 @@ this.HeartValues = {
 }
 
 function this:UseItem(_, rng, player)
-    for i = 1, rng:RandomInt(2) + 1, 1 do
-        local subtype = rng:RandomInt(5) + 1
-        for ii = 1, 1 + (subtype == LocustSubtypes.LOCUST_OF_CONQUEST and rng:RandomInt(3) or 0), 1 do
-            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, subtype, player.Position, Vector.Zero, player)
-        end
-    end
+    SomethingWicked.FamiliarHelpers:AddLocusts(player, rng:RandomInt(2) + 1, rng)
 
     return true
 end

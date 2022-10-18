@@ -46,3 +46,19 @@ function SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, collectible)
     local itemStacks = player:GetCollectibleNum(collectible)
     return itemStacks * (1 + boxStacks), rng, sourceItem
 end
+
+function SomethingWicked.FamiliarHelpers:AddLocusts(player, amount, rng, position)
+    position = position or player.Position
+    for i = 1, amount, 1 do
+        local subtype = rng:RandomInt(5) + 1
+        local amountToSpawn = 1
+        if subtype == LocustSubtypes.LOCUST_OF_CONQUEST then
+            amountToSpawn = amountToSpawn + rng:RandomInt(3)
+        end
+        for _ = 1, amountToSpawn, 1 do
+            local locust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, subtype, position, Vector.Zero, player):ToFamiliar()
+            locust.Parent = player
+            locust.Player = player
+        end
+    end
+end

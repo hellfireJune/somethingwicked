@@ -1,11 +1,12 @@
-SomethingWicked.enums = {}
-SomethingWicked.enums.CustomCallbacks = {
+SomethingWicked.CustomCallbacks = {
     SWCB_PICKUP_ITEM = 1,
     SWCB_ON_ENEMY_HIT = 2,
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
+    SWCB_ON_FIRE_PURE = 5,
+    SWCB_LUDO_TEAR_EVAL = 6
 }
-SomethingWicked.enums.MachineVariant = {
+SomethingWicked.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
     MACHINE_FORTUNE = 3,
@@ -25,7 +26,7 @@ SomethingWicked.enums.MachineVariant = {
     MACHINE_CONFESSIONAL = 17,
     MACHINE_BEGGAR_ROTTEN = 18
 }
-SomethingWicked.enums.LaserVariant = {
+SomethingWicked.LaserVariant = {
     BRIM = 1,
     TECH = 2,
     SHOOP = 3,
@@ -41,4 +42,7 @@ SomethingWicked.enums.LaserVariant = {
     BEAST = 13,
     THICK_BRIM_TECH = 14,
     MEGA_BRIM_TECH = 15,
+}
+SomethingWicked.ItemPoolEnum = {
+    TERATOMA_BEGGAR = 1
 }

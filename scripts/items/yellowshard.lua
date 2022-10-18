@@ -6,7 +6,6 @@ function this:OnDamage(entity, amount, flag)
     local player = entity:ToPlayer()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL) then
         if player:GetDropRNG():RandomFloat() <= this.ProcChance then
-            local room = SomethingWicked.game:GetRoom(_, _, _)
             local ent = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, 0, player.Position, Vector.Zero, player)
             ent:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
         end

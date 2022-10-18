@@ -22,6 +22,11 @@
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Carolina Reaper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Naga Viper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Hydrus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -205,6 +210,9 @@
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Carolina Reaper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Naga Viper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hydrus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

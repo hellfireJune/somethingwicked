@@ -48,7 +48,7 @@ function this:OnPickup(player)
     end
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.onNewLevel)
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.OnCache)
 

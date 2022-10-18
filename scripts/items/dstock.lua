@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_D_STOCK = Isaac.GetItemIdByName("D-Stock")
 
 function this:ItemUse()
-    local room = SomethingWicked.game:GetRoom(_, _, _)
+    local room = SomethingWicked.game:GetRoom()
     if room:GetType() == RoomType.ROOM_SHOP then
         room:ShopRestockFull()
     end

@@ -13,7 +13,7 @@ function this:OnKillBoss(_, br)
     end
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, this.OnKillBoss)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, this.OnKillBoss)
 
 this.EIDEntries = {}
 return this

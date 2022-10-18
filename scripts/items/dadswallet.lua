@@ -1,5 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_DADS_WALLET = Isaac.GetItemIdByName("Lost Wallet")
+TrinketType.SOMETHINGWICKED_MEAL_COUPON = Isaac.GetTrinketIdByName("Meal Coupon")
 
 this.PickupCollisionChecks = {
     [PickupVariant.PICKUP_HEART] = {
@@ -48,13 +49,9 @@ function this:PickupUpdate(pickup)
         return
     end
 
-    for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
-            if pickup.Price > 0 then
-                pickup.Price = PickupPrice.PRICE_FREE
-            end
-
-            break
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
+        if pickup.Price > 0 then
+            pickup.Price = PickupPrice.PRICE_FREE
         end
     end
 end
@@ -62,6 +59,48 @@ end
 function this:UseItem()
     return { Discharge = false}
 end
+
+function this:HeartUpdate(pickup)
+    if not pickup:IsShopItem() then
+        return
+    end
+
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_MEAL_COUPON) then
+        if pickup.Price > 0 then
+            pickup.Price = PickupPrice.PRICE_FREE
+        end
+    end
+end
+
+this.hasInitCHAPIHook = false
+this.chapiPickupUpdateFunction = nil
+function this:RunStart()
+    if not this.hasInitCHAPIHook then
+        this:InitCHAPIHook()
+    end
+end
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, this.RunStart)
+
+function this:InitCHAPIHook()
+    this.hasInitCHAPIHook = true
+    if not CustomHealthAPI then
+        return
+    end
+
+    this.chapiPickupUpdateFunction = CustomHealthAPI.Helper.GetPriceOfPickup
+    CustomHealthAPI.Helper.GetPriceOfPickup = function (pickup, force)
+        if (SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_MEAL_COUPON)
+        and pickup.Variant == PickupVariant.PICKUP_HEART) or SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
+            return PickupPrice.PRICE_FREE
+        end
+        return this.chapiPickupUpdateFunction(pickup, force)
+    end
+end
+if SomethingWicked.game:GetFrameCount() > 0 then
+    this:InitCHAPIHook()
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, this.HeartUpdate, PickupVariant.PICKUP_HEART)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, this.PickupUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_DADS_WALLET)

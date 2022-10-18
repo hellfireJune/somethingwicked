@@ -1,6 +1,6 @@
 local this = {}
 
-local ccabEnum = SomethingWicked.enums.CustomCallbacks
+local ccabEnum = SomethingWicked.CustomCallbacks
 this.CustomCallbacks = {
     [ccabEnum.SWCB_PICKUP_ITEM] = {
         UniversalPickupCallbacks = {},
@@ -9,6 +9,8 @@ this.CustomCallbacks = {
     [ccabEnum.SWCB_ON_ENEMY_HIT] = {},
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_ON_LASER_FIRED] = {},
+    [ccabEnum.SWCB_ON_FIRE_PURE] = {},
+    [ccabEnum.SWCB_LUDO_TEAR_EVAL] = {}
 }
 
 function SomethingWicked:AddCustomCBack(type, funct, id)
@@ -39,7 +41,7 @@ function this:PickupMethod(player)
     local p_data = player:GetData()
     if p_data.SomethingWickedPData.heldItem then
         if player:IsExtraAnimationFinished() then
-            local room = SomethingWicked.game:GetRoom(_, _, _)
+            local room = SomethingWicked.game:GetRoom()
             for _, func in ipairs(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks) do
                 func(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, player, room)
             end  
@@ -192,7 +194,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_INPUT_ACTION, this.BoonCheckForHold)
 this.onKillPos = nil
 function this:OnKill(enemy)
         if enemy:IsBoss() then
-            local room = SomethingWicked.game:GetRoom(_, _, _)
+            local room = SomethingWicked.game:GetRoom()
             local rType = room:GetType()
             if (rType == RoomType.ROOM_BOSS or rType == RoomType.ROOM_BOSSRUSH) then
                 this.onKillPos = enemy.Position
@@ -217,9 +219,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
 
 function this:LaserUpdate(laser)
     if laser.FrameCount == 1 then
-        if laser.Variant == SomethingWicked.enums.LaserVariant.SHIT
-        or laser.Variant == SomethingWicked.enums.LaserVariant.TRACTOR_BEAM
-        or laser.Variant == SomethingWicked.enums.LaserVariant.DADS_RING then
+        if laser.Variant == SomethingWicked.LaserVariant.SHIT
+        or laser.Variant == SomethingWicked.LaserVariant.TRACTOR_BEAM
+        or laser.Variant == SomethingWicked.LaserVariant.DADS_RING then
             return
         end
 
@@ -232,3 +234,30 @@ function this:LaserUpdate(laser)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
+
+function this:PostFirePureEval(player)
+    if player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) then
+        return
+    end
+
+    local p_data = player:GetData()
+    p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
+    local sprite = player:GetSprite()
+    if (sprite:GetOverlayFrame() == 2)
+    or player.FireDelay >= player.MaxFireDelay then
+        if not p_data.somethingWicked_processedPureFire
+        or player.FireDelay >= player.MaxFireDelay then
+            p_data.somethingWicked_processedPureFire = true
+
+            for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE]) do
+                callb(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE], player, player:GetAimDirection())
+            end
+        end
+    elseif p_data.somethingWicked_processedPureFire then
+        p_data.somethingWicked_processedPureFire = false
+    end
+    --print(player:GetSprite():GetOverlayAnimation(), (player:GetSprite():GetOverlayFrame()))
+    
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PostFirePureEval)

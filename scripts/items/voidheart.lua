@@ -4,10 +4,10 @@ TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart")
 function this:PostPlayerUpdate()
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_VOID_HEART)
     if flag and player then
-        local allBloodMachines = Isaac.FindByType(EntityType.ENTITY_SLOT, SomethingWicked.enums.MachineVariant.MACHINE_BLOOD)
+        local allBloodMachines = Isaac.FindByType(EntityType.ENTITY_SLOT, SomethingWicked.MachineVariant.MACHINE_BLOOD)
 
         for _, machine in ipairs(allBloodMachines) do
-            local nMachine = Isaac.Spawn(EntityType.ENTITY_SLOT, SomethingWicked.enums.MachineVariant.MACHINE_VOIDBLOOD, 0, machine.Position, Vector.Zero, player) 
+            local nMachine = Isaac.Spawn(EntityType.ENTITY_SLOT, SomethingWicked.MachineVariant.MACHINE_VOIDBLOOD, 0, machine.Position, Vector.Zero, player) 
             machine:Remove()
             
             local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, nMachine.Position + Vector(machine.Size, 0), Vector.Zero, nMachine)

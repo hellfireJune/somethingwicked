@@ -19,7 +19,7 @@ function this:ShootTear(tear)
 end
 
 this.validLasers = {
-    SomethingWicked.enums.LaserVariant.BRIM, SomethingWicked.enums.LaserVariant.BRIM_TECH, SomethingWicked.enums.LaserVariant.THICK_BRIM, SomethingWicked.enums.LaserVariant.THICK_BRIM_TECH, --brimmies
+    SomethingWicked.LaserVariant.BRIM, SomethingWicked.LaserVariant.BRIM_TECH, SomethingWicked.LaserVariant.THICK_BRIM, SomethingWicked.LaserVariant.THICK_BRIM_TECH, --brimmies
     2,  --techos
 }
 function this:ShootLaser(laser)

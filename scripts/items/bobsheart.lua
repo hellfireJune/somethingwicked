@@ -8,13 +8,8 @@ function this:PickupInit(entity)
         return
     end
 
-    local players = SomethingWicked:UtilGetAllPlayers()
-
-    for _, player in ipairs(players) do
-        if player:HasTrinket(TrinketType.SOMETHINGWICKED_BOBS_HEART) then
-            entity:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ROTTEN, true)
-            break
-        end
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BOBS_HEART) then
+        entity:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ROTTEN, true)
     end
 end
 

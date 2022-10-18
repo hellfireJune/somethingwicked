@@ -6,7 +6,7 @@ function this:OnDamage(entity, amount, flag)
     local player = entity:ToPlayer()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WHITE_ROBE) then
         if player:GetDropRNG():RandomFloat() <= this.ProcChance then
-            local room = SomethingWicked.game:GetRoom(_, _, _)
+            local room = SomethingWicked.game:GetRoom()
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)
         end
     end

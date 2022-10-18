@@ -14,7 +14,7 @@ function SomethingWicked:UtilGetAllPlayers()
 end
 
 function SomethingWicked:UtilTableHasValue (tab, val)
-  for index, value in ipairs(tab) do
+  for index, value in pairs(tab) do
       if value == val then
           return true
       end
@@ -271,6 +271,9 @@ local itemsToLoad = {
   "minotaur",
   "balrogsheart",
   "vulturefeather",
+  "carolinareapernagaviper",
+  "cursemask",
+  "red",
   
   "rogueplanet",
   "minos",
@@ -317,6 +320,9 @@ local itemsToLoad = {
   "voidheart",
   "mrskits",
   "giftcard",
+  "nightmarefuelvirtue",
+  "zzzzzzmagnet",
+  "heartycoupon"
 }
 
 local cardsToLoad = {
@@ -351,7 +357,8 @@ local earlyMiscLoad = {
 }
 local postMiscLoad = {
   "EIDadder",
-  "unlockHandler"
+  "unlockHandler",
+  "itempools"
 }
 --[[local enemiesToLoad = {
   --"experiment",

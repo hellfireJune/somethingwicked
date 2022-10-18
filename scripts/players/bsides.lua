@@ -2,10 +2,10 @@ local this = {}
 --CollectibleType.SOMETHINGWICKED_MIRROR_SHARD = Isaac.GetItemIdByName("Mirror Shard")
 this.Eden = include("scripts/players/bsides_scripts/eden")
 
-SomethingWicked.enums.MachineVariant.MACHINE_BSIDE_CHEST = Isaac.GetEntityVariantByName("BSideinator")
+SomethingWicked.MachineVariant.MACHINE_BSIDE_CHEST = Isaac.GetEntityVariantByName("BSideinator")
 
 SomethingWicked.SlotHelpers:Init({
-    slotVariant = SomethingWicked.enums.MachineVariant.MACHINE_BSIDE_CHEST,
+    slotVariant = SomethingWicked.MachineVariant.MACHINE_BSIDE_CHEST,
     functionCanPlay = function(player, slot)
         return this:CanPlay(player, slot)
     end,

@@ -205,7 +205,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.HeadInit, Famili
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.BodyInit, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.BodyUpdate, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
 
-SomethingWicked.enums.SnakeTearType = {
+SomethingWicked.SnakeTearType = {
     SNAKE_HYDRUS = 1,
     SNAKE_HYDRA = 2,
 }
@@ -231,7 +231,7 @@ function this:HydrusTearUpdate(tear)
         end
         t_data.snakeTearData.isHead = true
 
-        if t_data.snakeTearData.type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRUS then
+        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
             local c = tear.Color
             tear:AddTearFlags(TearFlags.TEAR_HOMING)
             tear.Color = tear.Color
@@ -251,7 +251,7 @@ function this:HydrusTearUpdate(tear)
         end
         tear.Velocity = tear.Velocity:Resized(this.MoveSpeed)
 
-        if t_data.snakeTearData.type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA then
+        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRA then
             if t_data.snakeTearData.cachedLength
             and t_data.snakeTearData.cachedLastTear and t_data.snakeTearData.cachedLastTear:Exists() then
                 t_data.snakeTearData.hydraRegenCooldown = t_data.snakeTearData.hydraRegenCooldown or 0
@@ -260,7 +260,7 @@ function this:HydrusTearUpdate(tear)
                     t_data.snakeTearData.hydraRegenCooldown = 15
                     t_data.snakeTearData.cachedLength = nil
 
-                    this:MakeTearSnake(s:ToPlayer(), s_data, SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA, 0.5, 1, t_data.snakeTearData.cachedLastTear)
+                    this:MakeTearSnake(s:ToPlayer(), s_data, SomethingWicked.SnakeTearType.SNAKE_HYDRA, 0.5, 1, t_data.snakeTearData.cachedLastTear)
                 end
 
                 if t_data.snakeTearData.hydraRegenCooldown > 0 then
@@ -312,7 +312,7 @@ function this:HydrusPlayerUpdate(player)
         if (not p_data.somethingwicked_HydrusTear or
         not p_data.somethingwicked_HydrusTear:Exists())
         and p_data.somethingwicked_HydrusTearRespawnTime == 0 then
-            this:MakeTearSnake(player, p_data, SomethingWicked.enums.SnakeTearType.SNAKE_HYDRUS, 1.1, 6)
+            this:MakeTearSnake(player, p_data, SomethingWicked.SnakeTearType.SNAKE_HYDRUS, 1.1, 7)
             p_data.somethingwicked_HydrusTearMaxRespawnTime = 300
         end
 
@@ -327,7 +327,7 @@ function this:HydrusPlayerUpdate(player)
 
         if #p_data.somethingwicked_HydraTears < this.minHydraSnakes
         and p_data.somethingwicked_HydraTearRespawnTime == 0  then
-            this:MakeTearSnake(player, p_data, SomethingWicked.enums.SnakeTearType.SNAKE_HYDRA, 0.5, this.hydraLength)
+            this:MakeTearSnake(player, p_data, SomethingWicked.SnakeTearType.SNAKE_HYDRA, 0.5, this.hydraLength)
             p_data.somethingwicked_HydraTearRespawnTime = 15
         end
 
@@ -371,7 +371,7 @@ function this:MakeTearSnake(player, p_data, type, dmgMult, length, lastTear)
         else
             ntd.snakeTearData.isHead = true
             ntd.somethingwicked_visFrame = 2
-            if type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRUS then
+            if type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
                 p_data.somethingwicked_HydrusTear = nt 
                 nt:AddTearFlags(TearFlags.TEAR_HOMING)
             else
@@ -406,7 +406,7 @@ function this:HydrusTearRemove(tear)
             and nt:Exists() then
                 local n_data = nt:GetData()
                 if n_data.snakeTearData
-                and n_data.snakeTearData.type == SomethingWicked.enums.SnakeTearType.SNAKE_HYDRUS then
+                and n_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
                     s_data.somethingwicked_HydrusTear = nt
                     return
                 end

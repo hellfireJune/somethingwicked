@@ -97,6 +97,8 @@ this.otherModsCards = {
     "3 of Hearts",
     "Jack of Hearts",
 
+    "Misprinted Joker",
+
     --REP+
     "Joker?",
     "Bedside Queen",
@@ -112,13 +114,13 @@ this.otherModsCards = {
 this.hasInitOtherModsPlayingCards = false
 function this:RunStart()
     if not this.hasInitOtherModsPlayingCards then
-        this.hasInitOtherModsPlayingCards = true
         this:InitModCards()
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, this.RunStart)
 
 function this:InitModCards()
+    this.hasInitOtherModsPlayingCards = true
     for _, cardHud in ipairs(this.otherModsCards) do
         local card = Isaac.GetCardIdByName(cardHud)
         if card ~= -1 then
@@ -129,4 +131,4 @@ end
 if SomethingWicked.game:GetFrameCount() > 0 then
     this:InitModCards()
 end
-return this 
+return this

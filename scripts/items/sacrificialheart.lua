@@ -25,7 +25,7 @@ function this:OnPickup(player, room)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.NewLevel)
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY] = {

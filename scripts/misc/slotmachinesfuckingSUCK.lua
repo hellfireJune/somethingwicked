@@ -1,12 +1,12 @@
 local this = {}
 SomethingWicked.SlotHelpers = {}
-
 SomethingWicked.SlotHelpers.slots = { }
 
 --[[
     Possible Values for the InitData table
     slotVariant: the variant of the slot in entities2.xml. Necessary
     isBeggar: if this is a beggar. default is False.
+    isEvilBeggar: if this beggar is evil. default is False.
     removeSubTypesAboveOne: if these should be removed if the subtype is above 1. default is True
 
     functionCanPlay: the function to determine if the machine should be played. If return value is nil, cannot pay out, else, return the "amount" to pay out. Takes a player argument and the entity argument of the slot.
@@ -31,6 +31,9 @@ function SomethingWicked.SlotHelpers:Init(initData)
 
     if initData.isBeggar == nil then
         initData.isBeggar = false
+    end
+    if initData.isEvilBeggar == nil then
+        initData.isEvilBeggar = false
     end
     if initData.removeSubTypesAboveOne == nil then
         initData.removeSubTypesAboveOne = true
@@ -60,11 +63,12 @@ function this:MachineUpdate(player)
             local v_slotData = SomethingWicked.SlotHelpers.slots[machine.Variant]
             local v_sprite = machine:GetSprite()
             local v_data = machine:GetData()
+
+            v_data.PersistantBeggarData = v_data.PersistantBeggarData or this:BeggarData(machine)
     
             if machine.SubType == 0 then
                 if v_sprite:IsPlaying(v_slotData.animNamePlaying) and v_sprite:GetFrame() == v_slotData.animFramesPlaying then 
                     if v_data.somethingWicked_payoutAmount == nil then
-                        print("huh?")
                         v_sprite:Play(v_slotData.animNameIdle)
                     else
                         v_sprite:Play(v_slotData.animNamePayout) 
@@ -78,7 +82,15 @@ function this:MachineUpdate(player)
                         v_sprite:Play(v_slotData.animNameDeath)
                         machine.SubType = 1
                         if v_slotData.isBeggar then
-
+                            if v_slotData.functionOnDie then
+                                if not v_slotData.functionOnDie(true, machine, v_data.somethingWicked_payoutPlayer) then
+                                    local flag = LevelStateFlag.STATE_BUM_LEFT
+                                    if v_slotData.isEvilBeggar then
+                                        flag = LevelStateFlag.STATE_EVIL_BUM_LEFT
+                                    end
+                                    SomethingWicked.game:GetLevel():SetStateFlag(flag, true)
+                                end
+                            end
                         else
                             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector.Zero, machine)
                             SomethingWicked.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 1, 0)
@@ -122,8 +134,11 @@ function this:MachineUpdate(player)
     
                 if v_slotData.isBeggar then
                     machine:Kill()
-                    machine:Remove()
-                    SomethingWicked.game:GetLevel():SetStateFlag(LevelStateFlag.STATE_BUM_KILLED, true)
+                    local flag = LevelStateFlag.STATE_BUM_KILLED
+                    if v_slotData.isEvilBeggar then
+                        flag = LevelStateFlag.STATE_EVIL_BUM_KILLED
+                    end
+                    SomethingWicked.game:GetLevel():SetStateFlag(flag, true)
                 else
                     if (not v_sprite:IsPlaying(v_slotData.animNameDeath))
                     and (not (v_sprite:GetAnimation() == v_slotData.animNameBroken)) then
@@ -172,4 +187,42 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.MachineNewRoom)
 function SomethingWicked.SlotHelpers:GetPayoutVector(v_rng)
     local angle = v_rng:RandomInt(120)
     return Vector.FromAngle(angle + 30) * 5
+end
+
+--Slot/Beggar Data
+SomethingWicked.save.runData.BeggarData = {}
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, ent)
+    if ent.Type == 6
+    and SomethingWicked.SlotHelpers.slots[ent.Variant] then
+        SomethingWicked.save.runData.BeggarData[ent.InitSeed] = ent:GetData().PersistantBeggarData
+    end
+end)
+
+function this:BeggarData(machine)
+    local hash = machine.InitSeed
+    if SomethingWicked.save.runData.BeggarData[hash] then
+        return SomethingWicked.save.runData.BeggarData[hash]
+    else
+        return {}
+    end
+end
+
+--Helper Functions
+
+
+function SomethingWicked.SlotHelpers:BaseCoinCanPlay(player, slot, chance)
+    if player:GetNumCoins() > 0 then
+        player:AddCoins(-1)
+        local s_data = slot:GetData()
+        s_data.PersistantBeggarData.TimesSpentMoneyOn = (s_data.PersistantBeggarData.TimesSpentMoneyOn or 0) + 1
+        
+        local v_rng = slot:GetDropRNG()
+        local rndmFloat = v_rng:RandomFloat()
+        if rndmFloat <= chance
+        and (SomethingWicked.game.Difficulty ~= Difficulty.DIFFICULTY_HARD or s_data.PersistantBeggarData.TimesSpentMoneyOn > 6) then
+            return rndmFloat
+        end
+        return 0
+    end
 end

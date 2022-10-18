@@ -77,8 +77,8 @@ function this:NPCUpdate(ent)
     end
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.OnHitFunc)
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_LASER_FIRED, this.FireLaser)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.OnHitFunc)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, this.FireLaser)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEnemyTakeDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)

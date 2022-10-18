@@ -417,3 +417,40 @@ end
 function SomethingWicked.HoldItemHelpers:GetUseDirection(player)
     return (player:GetAimDirection() * (player.ShotSpeed * 10) + player.Velocity):Resized(player.ShotSpeed * 10) 
 end
+
+--ItemPool stuff
+
+function this:GenerateLootData()
+    SomethingWicked.save.runData.LootData = SomethingWicked.NewItemPools
+end
+
+function SomethingWicked.ItemHelpers:RandomItemFromCustomPool(poolEnum, myRNG)
+    if SomethingWicked.save.runData.LootData == nil then
+        this:GenerateLootData()
+    end
+    local itemPool = SomethingWicked.game:GetItemPool()
+
+    for _ = 1, 2, 1 do
+        local pool = SomethingWicked.save.runData.LootData[poolEnum]
+        if #pool > 0 then
+            local totalWeights = 0
+            for _, v in ipairs(pool) do
+                totalWeights = totalWeights + v.weight
+            end
+  
+            local unprocessedItemToGet = myRNG:RandomFloat() * totalWeights
+            local allValues = {}
+            for i, value in ipairs(pool) do
+                unprocessedItemToGet = unprocessedItemToGet - value.weight
+                table.insert(allValues, value.item)
+                if unprocessedItemToGet <= 0 then
+                    if itemPool:RemoveCollectible(value.item) then
+                        return value.item
+                    end
+                    SomethingWicked.save.runData.LootData[poolEnum][i].weight = 0
+                end
+            end
+        end
+    end
+    return -1
+end

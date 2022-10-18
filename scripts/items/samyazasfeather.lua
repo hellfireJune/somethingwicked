@@ -1,11 +1,11 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SAMYAZAS_FEATHER = Isaac.GetItemIdByName("Samyaza's Feather")
+CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME = Isaac.GetItemIdByName("Samyaza's Plume")
 
 this.TearColor = Color(0.35, 0.2, 0.35)
 function this:FireTear(tear)
     local p = SomethingWicked:UtilGetPlayerFromTear(tear)
-    if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_SAMYAZAS_FEATHER) then
-        local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SAMYAZAS_FEATHER)
+    if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME) then
+        local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME)
         if c_rng:RandomFloat() < 0.15 then
             tear:AddTearFlags(TearFlags.TEAR_HOMING)
             tear.Color = this.TearColor
@@ -14,15 +14,15 @@ function this:FireTear(tear)
 end
 
 function this:EvalCache(player)
-   player.Damage = SomethingWicked.StatUps:DamageUp(player, 0.7 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SAMYAZAS_FEATHER)) 
+   player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME)) 
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.EvalCache, CacheFlag.CACHE_DAMAGE)
+SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.EvalCache, CacheFlag.CACHE_FIREDELAY)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_SAMYAZAS_FEATHER] = {
-        desc = "↑ +0.7 Damage up#↑ Small chance for a tear to have homing"
+    [CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME] = {
+        desc = "↑ +0.5 tears up#↑ Small chance for a tear to have homing"
     }
 }
 return this

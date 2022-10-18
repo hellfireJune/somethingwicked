@@ -11,9 +11,9 @@ end
 function this:PlayerUpdate(player)
     if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_CURSED_CANDLE) then
         
-        local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLUE_FLAME, this.wickedFire, player.Position, SomethingWicked.HoldItemHelpers:GetUseDirection(player), player)
+        local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLUE_FLAME, this.wickedFire, player.Position, SomethingWicked.HoldItemHelpers:GetUseDirection(player):Resized(10), player)
         fire = fire:ToEffect()
-        fire.Timeout = 20
+        fire:SetTimeout(20)
         fire.CollisionDamage = 5
     end
 end

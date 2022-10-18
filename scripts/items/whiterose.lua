@@ -13,7 +13,7 @@ function this:OnPickup(player, room)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.TearsCache, CacheFlag.CACHE_FIREDELAY)
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_WHITE_ROSE)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_WHITE_ROSE)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_WHITE_ROSE] = {

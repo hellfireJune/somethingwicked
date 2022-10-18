@@ -25,7 +25,8 @@ function SomethingWicked.RedKeyRoomHelpers:IsDeadEnd(roomidx, shape)
 	return deadend
 end
 
-function SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc)
+function SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc, isRed)
+	isRed = isRed or false
 	local level = game:GetLevel()
 	local roomidx = roomdesc.SafeGridIndex
 	local shape = roomdesc.Data.Shape
@@ -39,7 +40,7 @@ function SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc)
 					oob = true
 				end
 			end
-			if roomdesc.Data.Doors & (1 << i) > 0 and SomethingWicked.RedKeyRoomHelpers:IsDeadEnd(roomidx+adjindex[i]) and level:GetRoomByIdx(roomidx+adjindex[i]).GridIndex == -1 and not oob then
+			if roomdesc.Data.Doors & (1 << i) > 0 and (isRed or SomethingWicked.RedKeyRoomHelpers:IsDeadEnd(roomidx+adjindex[i])) and level:GetRoomByIdx(roomidx+adjindex[i]).GridIndex == -1 and not oob then
 				table.insert(deadends, {Slot = i, GridIndex = roomidx+adjindex[i]})
 			end
 		end
@@ -135,7 +136,6 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom(roomtype, minvari
 				local deadendslot = entry.Slot
 				local deadendidx = entry.GridIndex
 				local roomidx = entry.roomidx
-				local visitcount = entry.visitcount
 				local roomdesc = level:GetRoomByIdx(roomidx)
 				if roomdesc.Data and level:GetRoomByIdx(roomdesc.GridIndex).GridIndex ~= -1 and SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(deadendslot) and data.Doors & (1 << SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(deadendslot)) > 0 then
 						if level:MakeRedRoomDoor(roomidx, deadendslot) then
@@ -307,7 +307,6 @@ end
 function SomethingWicked.RedKeyRoomHelpers:GenericShouldGenerateRoom(level, game)
     return level:GetStage() < LevelStage.STAGE7 and not level:IsAscent() and not game:IsGreedMode()
 end
-
 function SomethingWicked.RedKeyRoomHelpers:GetAllDeadEnds(onnewlevel)
 	local level = game:GetLevel()
 	local floordeadends = {}
@@ -316,10 +315,32 @@ function SomethingWicked.RedKeyRoomHelpers:GetAllDeadEnds(onnewlevel)
 	for i = level:GetRooms().Size, 0, -1 do
 		local roomdesc = level:GetRooms():Get(i-1)
 		if roomdesc and roomdesc.Data.Type == RoomType.ROOM_DEFAULT and roomdesc.Data.Subtype ~= 34 and roomdesc.Data.Subtype ~= 10 then --Subtype checks protect against generation off of Mirror or Mineshaft entrance rooms
-		local deadends = SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc)
+		local deadends = SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc, false)
 			if deadends and not (onnewlevel and roomdesc.GridIndex == currentroomidx) then
 				for j, deadend in pairs(deadends) do
 					table.insert(floordeadends, {Slot = deadend.Slot, GridIndex = deadend.GridIndex, roomidx = roomdesc.GridIndex, visitcount = roomdesc.VisitedCount})
+				end
+			end
+		end
+	end
+	
+    return floordeadends
+end
+
+function SomethingWicked.RedKeyRoomHelpers:GetAllDeadEndsRed()
+	local level = game:GetLevel()
+	local floordeadends = {}
+
+	for i = level:GetRooms().Size, 0, -1 do
+		local roomdesc = level:GetRooms():Get(i-1)
+		if roomdesc then --Subtype checks protect against generation off of Mirror or Mineshaft entrance rooms
+			if roomdesc.Data.Type ~= RoomType.ROOM_DEFAULT or (roomdesc.Data.Subtype ~= 34 and roomdesc.Data.Subtype ~= 10)  then
+				
+				local deadends = SomethingWicked.RedKeyRoomHelpers:GetDeadEnds(roomdesc, true)
+				if deadends then
+					for j, deadend in pairs(deadends) do
+						table.insert(floordeadends, {Slot = deadend.Slot, GridIndex = deadend.GridIndex, roomidx = roomdesc.GridIndex, visitcount = roomdesc.VisitedCount})
+					end
 				end
 			end
 		end
@@ -360,6 +381,10 @@ function SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(dataset, idx, 
 			end
 		end
 	end
+end
+
+function SomethingWicked.RedKeyRoomHelpers:AddDataToRoom(data)
+	
 end
 
 

@@ -2,7 +2,7 @@ local this = {}
 TrinketType.SOMETHINGWICKED_CATS_EYE = Isaac.GetTrinketIdByName("Cat's Eye")
 
 function  this:EnterRoom()
-    local room = SomethingWicked.game:GetRoom(_, _, _)
+    local room = SomethingWicked.game:GetRoom()
     if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CATS_EYE) and (room:GetType() == RoomType.ROOM_SECRET or room:GetType() == RoomType.ROOM_SUPERSECRET) 
     and room:IsFirstVisit() then
         for i = 1, SomethingWicked.ItemHelpers:GlobalGetTrinketNum(TrinketType.SOMETHINGWICKED_CATS_EYE) do

@@ -66,7 +66,7 @@ function this:PEffectUpdate(player)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearFire)
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.TearOnHit)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.TearOnHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 
 this.RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT

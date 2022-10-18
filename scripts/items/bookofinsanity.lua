@@ -2,9 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY = Isaac.GetItemIdByName("Book of Insanity")
 FamiliarVariant.SOMETHINGWICKED_NIGHTMARE = Isaac.GetEntityVariantByName("Nightmare")
 
-TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL = Isaac.GetTrinketIdByName("Nightmare Fuel")
-
-this.SubTypes = {
+SomethingWicked.NightmareSubTypes = {
     NIGHTMARE_STANDARD = 0,
     NIGHTMARE_PERMANENT = 1,
     NIGHTMARE_HOLY = 2
@@ -26,11 +24,13 @@ this.IdleEnum = {
 this.MovementSpeedCap = 30
 
 this.HeadSprites = {
-    [this.SubTypes.NIGHTMARE_STANDARD] = {
+    [SomethingWicked.NightmareSubTypes.NIGHTMARE_STANDARD] = {
         "nightmare_sheet_02",
         "nightmare_sheet_03",
+        "nightmare_sheet_04",
+        "nightmare_sheet_05",
     },
-    [this.SubTypes.NIGHTMARE_PERMANENT] = {
+    [SomethingWicked.NightmareSubTypes.NIGHTMARE_PERMANENT] = {
         "nightmare_sheet_01",
     }
 }
@@ -146,11 +146,6 @@ function this:UseItem(_, _, player, flags)
 end
 
 
-function this:CacheFlag(player)    
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY)
-    local sourceItem = Isaac.GetItemConfig():GetTrinket(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL), rng, sourceItem, this.SubTypes.NIGHTMARE_PERMANENT)
-end
 
 function  this:WispUpdate(familiar)
     if familiar.SubType == CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY then    
@@ -161,21 +156,7 @@ function  this:WispUpdate(familiar)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.WispUpdate, FamiliarVariant.WISP)
-
-SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.CacheFlag, CacheFlag.CACHE_FAMILIARS)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY)
-
-
-function this:NewRoom()
-    for _, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        if value:HasTrinket(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL) then
-           value:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
-           value:EvaluateItems()
-        end
-    end
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoom)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY] = {
@@ -187,11 +168,6 @@ this.EIDEntries = {
             SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a Nightmare familiar upon book use","These nightmare familiars will block bullets and erattically orbit the player, firing homing tears at anything in a nearby radius","Nightmares will die after two hits"})
-    },
-    [TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL] = {
-        desc = "Spawns 1 Nightmare familiar which erattically orbits the player and attacks nearby enemies with homing tears#Familiar respawns each room if it dies",
-        isTrinket = true,
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1 Nightmare familiar which erattically orbits the player and attacks nearby enemies with homing tears","Familiar respawns each room if it dies"})
     }
 }
 return this

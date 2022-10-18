@@ -117,6 +117,7 @@ function this:PickupRender(pickup)
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
         if value:GetPlayerType() == PlayerType.SOMETHINGWICKED_ABIAH then
             rtrn = false
+            break
         end
     end
     if rtrn then

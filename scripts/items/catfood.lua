@@ -38,7 +38,7 @@ function this:BossRoomClear(pos, isBR)
     end
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, this.BossRoomClear)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, this.BossRoomClear)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CAT_FOOD] = {

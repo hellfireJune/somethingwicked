@@ -8,15 +8,13 @@ function this:OnEnemyKill(entity)
     end
     
     if entity:IsEnemy() then
-        for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-            if player:HasCollectible(CollectibleType.SOMETHINGWICKED_NIGHTSHADE) --[[and entity:GetDropRNG():RandomFloat() <= 0.33]] then
+        for _, player in ipairs(SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_NIGHTSHADE)) do--[[and entity:GetDropRNG():RandomFloat() <= 0.33]] 
             
                 local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_NIGHTSHADE)
                 if #wisps <= this.wispsCap then
                     local wisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_NIGHTSHADE, player.Position, Vector.Zero, player)
                     wisp.Parent = player
                 end
-            end
         end
     end
 end

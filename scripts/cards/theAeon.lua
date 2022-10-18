@@ -1,10 +1,10 @@
 local this = {}
 Card.SOMETHINGWICKEDTHOTH_THE_AEON = Isaac.GetCardIdByName("TheAeon")
-SomethingWicked.enums.MachineVariant.MACHINE_VOIDBLOOD = Isaac.GetEntityVariantByName("Abyssal Machine")
+SomethingWicked.MachineVariant.MACHINE_VOIDBLOOD = Isaac.GetEntityVariantByName("Abyssal Machine")
 
 function this:UseCard(_, player)
     local room = SomethingWicked.game:GetRoom()
-    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, SomethingWicked.enums.MachineVariant.MACHINE_VOIDBLOOD, 0, room:FindFreePickupSpawnPosition(player.Position, 40, true), Vector.Zero, player) 
+    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, SomethingWicked.MachineVariant.MACHINE_VOIDBLOOD, 0, room:FindFreePickupSpawnPosition(player.Position, 40, true), Vector.Zero, player) 
     
     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, machine.Position + Vector(machine.Size, 0), Vector.Zero, machine)
     poof.Color = Color(0.1, 0.1, 0.1)
@@ -16,7 +16,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_THE_AEON)
 
 SomethingWicked.SlotHelpers:Init({
-    slotVariant = SomethingWicked.enums.MachineVariant.MACHINE_VOIDBLOOD,
+    slotVariant = SomethingWicked.MachineVariant.MACHINE_VOIDBLOOD,
     functionCanPlay = function (player, slot)
         return this:VoidMachineCanUse(player, slot)
     end,

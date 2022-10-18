@@ -23,7 +23,7 @@ function this:OnPickup(player, room)
 end
 
 function this:OnTakeDamage(player, _, flags, ref)
-    local room = SomethingWicked.game:GetRoom(_, _, _)
+    local room = SomethingWicked.game:GetRoom()
     if player:ToPlayer():HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
     and flags & DamageFlag.DAMAGE_SPIKES ~= 0
     and room:GetType() == RoomType.ROOM_SACRIFICE
@@ -35,16 +35,14 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDamage, EntityType.ENTITY_PLAYER)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, this.PlayerUpdate)
 --SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
 
 
 if MinimapAPI then
     function this.MinimapAPICompatibility(_, room, dflags)
         if room.Descriptor and room.Descriptor.Data.Type == RoomType.ROOM_ULTRASECRET then
-            for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-                if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
-                    return dflags |  1 << 2
-                end
+            if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
+                return dflags |  1 << 2
             end
         end
         return dflags

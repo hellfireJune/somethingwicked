@@ -3,11 +3,10 @@ CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS = Isaac.GetItemIdByName("Boo
 CollectibleType.SOMETHINGWICKED_WOODEN_DICE = Isaac.GetItemIdByName("Wooden Dice")
 
 function this:PickupInit(pickup)
-    local players = SomethingWicked:UtilGetAllPlayers()
+    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS)
 
     for _, player in ipairs(players) do
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS)
-        and (pickup:GetSprite():IsPlaying("Appear") or pickup:GetSprite():IsPlaying("AppearFast")) 
+        if (pickup:GetSprite():IsPlaying("Appear") or pickup:GetSprite():IsPlaying("AppearFast")) 
         and pickup:GetSprite():GetFrame() == 0 then
             if pickup.SpawnerType ~= EntityType.ENTITY_PLAYER then
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, SomethingWicked.game:GetRoom():FindFreePickupSpawnPosition(pickup.Position), pickup.Velocity, player)
@@ -17,13 +16,10 @@ function this:PickupInit(pickup)
 end
 
 function this:NewLevel()
-    local players = SomethingWicked:UtilGetAllPlayers()
+    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_HORN)
 
     for _, player in ipairs(players) do
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) then
-            local p_data = player:GetData()
-            player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
-        end
+        player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
     end
 end
 

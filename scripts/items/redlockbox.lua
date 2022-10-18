@@ -9,7 +9,7 @@ function this:OnPickup(player, room)
     end 
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.enums.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RED_LOCKBOX] = {

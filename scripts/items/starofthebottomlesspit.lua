@@ -13,8 +13,7 @@ function this:FlyUpdate(entity)
     if entity.SubType == 0 
     and player
     and player:HasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT) then
-        local myRNG = RNG()
-        myRNG:SetSeed(Random(), 1)
+        local myRNG = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
         local subtype = myRNG:RandomInt(5) + 1
         if subtype == LocustSubtypes.LOCUST_OF_CONQUEST then
             for i = 1, myRNG:RandomInt(3), 1 do
@@ -33,8 +32,8 @@ end
 
 function this:enemyDeath(enemy)
 
-    for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do    
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT) then
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
+    if flag and player then
             local myRNG = RNG()
             myRNG:SetSeed(Random() + 1, 1)
             local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
@@ -42,8 +41,7 @@ function this:enemyDeath(enemy)
             if chance <= (0.07 + ((1 - 1 / (1 + 0.17 * luck)) * 0.37)) then 
                 player:AddBlueFlies(1, player.Position + player.Velocity, player)
             end
-        end
-    end    
+        end  
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.FlyUpdate, FamiliarVariant.BLUE_FLY)

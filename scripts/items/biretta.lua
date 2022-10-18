@@ -7,11 +7,9 @@ function this:OnRoomClear()
     local room = SomethingWicked.game:GetRoom()
 
     if room:GetType() == RoomType.ROOM_BOSS then
-        for _, pl in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-            if pl:HasCollectible(CollectibleType.SOMETHINGWICKED_BIRETTA) then
-                this:ezSpawn(this.BirettaPosition, SomethingWicked.enums.MachineVariant.MACHINE_CONFESSIONAL, pl)
-                break
-            end
+        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.COLLECTIBLE_BIRETTA)
+        if flag and player then
+            this:ezSpawn(this.BirettaPosition, SomethingWicked.MachineVariant.MACHINE_CONFESSIONAL, player)
         end
     end
 end

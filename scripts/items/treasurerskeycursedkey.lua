@@ -31,8 +31,8 @@ function this:NewRoom()
         if door 
         and SomethingWicked:UtilTableHasValue(this.RooomTypeBlackList, door.TargetRoomType) == false then     
             --Treasurer's Key
-            if (door.TargetRoomType == RoomType.ROOM_TREASURE 
-            or door.TargetRoomType == RoomType.ROOM_PLANETARIUM)
+            if (door:IsRoomType(RoomType.ROOM_TREASURE)
+            or door:IsRoomType(RoomType.ROOM_PLANETARIUM))
             and door:GetVariant() == DoorVariant.DOOR_LOCKED then
                 if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY) then
                     door:SetLocked(false)
