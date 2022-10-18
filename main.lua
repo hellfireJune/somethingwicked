@@ -270,7 +270,6 @@ local itemsToLoad = {
   "shotgrub",
   "minotaur",
   "balrogsheart",
-  "vulturefeather",
   "carolinareapernagaviper",
   "cursemask",
   "red",

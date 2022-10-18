@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" version="1">
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive summonable"/>
-  <active id="3" name="Balrog's Head" description="Reusable ranged fires" gfx="balrog.png" maxcharges="1" quality="2" tags="offensive"/>
+  <active id="3" name="Balrog's Head" description="Reusable ranged fires" gfx="balrog.png" maxcharges="2" quality="2" tags="offensive"/>
   <passive id="4" name="Disciple's Eye" description = "See what I can't see..." gfx="discipleseye.png" quality="3" tags="nogreed nocantrip" achievement="415"/> 
   <passive id="5" name="Red Lockbox" description = "Free souls" gfx="redlockbox.png" quality="1" tags="nolostbr nocantrip"/> <!--Needs costume-->
   <passive id="6" name="Electric Dice" description = "Active power up... sometimes..." gfx="electricdice.png" quality="3" tags="offensive battery summonable"/> <!--Needs costume-->
@@ -64,12 +64,12 @@
   <active id="70" name="Eden's Head" maxcharges="1"  hidden="true"/>
   <familiar id="71" name="Phobos and Deimos" description="Impending"/>
   <familiar id="72" name="Devilsknife"  hidden="true"/>
-  <passive id="73" name="Vulture Feather"  hidden="true"/>
   <passive id="74" name="Samyaza's Plume" cache="firedelay"/>
   <passive id="75" name="Balrog's Heart"  hidden="true"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fires" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="BURNING, BURNING" quality="3" tags="offensive summonable"/>
 
+  <active id="73" name="Cursed Dice" hidden="true"/>
   <active id="78" name="Fear Stalks The Land!" hidden="true"/>
   <passive id="79" name="Plague of Wormwood" hidden="true"/>
   <passive id="80" name="Red" hidden="true"/>
