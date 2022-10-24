@@ -7,15 +7,18 @@ function this:OnHitFunc(tear, collider, player, proc)
     local t_data = tear:GetData()
     if t_data.somethingWicked_applyingDread then
         SomethingWicked:UtilAddDread(collider, 1)
-        t_data.somethingWicked_applyingDread = false
     end
+end
+
+local function ProcChance(player)
+    return (player.Luck >= 0 and (this.baseProcChance * (player.Luck / 2)) or (this.baseProcChance / math.abs(player.Luck)))
 end
 
 function this:FireTear(tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
-    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then --this would be where you would check for the item but theres no item yet so go wild june :)
+    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then 
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
-        local procChance = (player.Luck >= 0 and (this.baseProcChance * (player.Luck / 2)) or (this.baseProcChance / math.abs(player.Luck)))
+        local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
             tear.Color = this.dreadColor
             local t_data = tear:GetData()
@@ -25,16 +28,27 @@ function this:FireTear(tear)
 end
 
 function this:FireLaser(laser, player)
-    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then --this would be where you would check for the item but theres no item yet so go wild june :)
+    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then 
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
-        local procChance = (player.Luck >= 0 and (this.baseProcChance * (player.Luck / 2)) or (this.baseProcChance / math.abs(player.Luck)))
+        local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
             laser.Color = this.dreadColor
             local p_data = player:GetData()
             p_data.somethingWicked_applyingDread = true
+
+            local l_data = laser:GetData()
+            l_data.somethingWicked_dreadLaser = true
         end
     end
 end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, laser)
+    local l_data = laser:GetData()
+    if l_data.somethingWicked_dreadLaser then
+        laser.Parent:GetData().somethingWicked_applyingDread = false
+        
+    end
+end, EntityType.ENTITY_LASER)
 
 function SomethingWicked:UtilAddDread(ent, stacks)
     local e_data = ent:GetData()

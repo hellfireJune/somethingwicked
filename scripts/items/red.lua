@@ -1,8 +1,30 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE = Isaac.GetItemIdByName("Red")
+this.Dataset = {}
+this.hasInit = false
+function this:Init()
+    if this.hasInit then
+        return
+    end
+    SomethingWicked.RedKeyRoomHelpers:InitializeRoomData("ultrasecret", 0, 8, this.Dataset)
+end
+
+local function ShouldMake()
+    local level = SomethingWicked.game:GetLevel()
+
+    local rng = RNG()
+    rng:SetSeed(Random() + 1, 1)
+
+    if SomethingWicked.RedKeyRoomHelpers:RoomTypeCurrentlyExists(RoomType.ROOM_ULTRASECRET, level, rng) then
+        return true
+    end
+    return false
+end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function ()
-    if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE) then
+    this:Init()
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
+    and ShouldMake() then
         this:ProcessNewUltraSecretRoom()
     end
 end)
@@ -13,14 +35,6 @@ local rBlacklist = {
     RoomType.ROOM_ULTRASECRET,
     RoomType.ROOM_BOSS
 }
-
-local function ShouldMake()
-    
-end
-
-local function MakeUSR()
-    
-end
 
 function this:ProcessNewUltraSecretRoom()
     local deadends = SomethingWicked.RedKeyRoomHelpers:GetAllDeadEndsRed()
@@ -83,6 +97,7 @@ function this:ProcessNewUltraSecretRoom()
                 flag = flag or nflag
 
                 if flag then
+                    SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(this.Dataset, value, collectibleRNG)
                     break
                 end
             end
@@ -100,29 +115,14 @@ function this:IsValidUSRSpot(idx)
     for j = 1, 4, 1 do
         j = j - 1
         local RRidx = idx + SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][j]
-        local roomDesc = level:GetRoomByIdx(RRidx)
-        if not roomDesc or roomDesc.GridIndex <= 0 then
-            for i = 1, 3, 1 do
-                local rslot = j - 2 + i
-                if rslot < 0 then rslot = 3 end
-                if rslot >= 4 then rslot = 0 end
-                local oslot = SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(rslot)
-                
-                local trIDX = RRidx + SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][rslot]
-                local realRoom = level:GetRoomByIdx(trIDX)
-
-                if realRoom and realRoom.GridIndex > 0 then
-                    if realRoom.Data.Doors & 1 << oslot == 0
-                    or SomethingWicked:UtilTableHasValue(rBlacklist, realRoom.Data.Type) then
-                        table.insert(uavailableRR, RRidx)
-                    end
-                end
-            end
-        else
-            table.insert(uavailableRR, RRidx)
+        local validRedRoomFunc = function (level, realroom)
+            return SomethingWicked:UtilTableHasValue(rBlacklist, realroom.Data.Type)
+        end
+        if SomethingWicked.RedKeyRoomHelpers:IsValidRedRoomSpot(level, RRidx, validRedRoomFunc) then
+            return false
         end
     end
-    return #uavailableRR < 1
+    return true
 end
 
 function this:GetTargetIDX(deadend, roomdesc, rslot)
@@ -131,5 +131,18 @@ function this:GetTargetIDX(deadend, roomdesc, rslot)
     + (SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][rslot])
 end
 
-this.EIDEntries = {}
+function this:OnPickup(player, room)
+    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
+    for _ = 1, 1 + rng:RandomInt(2), 1 do
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, Card.CARD_CRACKED_KEY, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
+    end
+end
+
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
+
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE] = {
+        desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#↑ Spawns 1-3 {{Card78}} Cracked Keys"
+    }
+}
 return this

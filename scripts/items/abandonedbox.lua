@@ -1,7 +1,15 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_ABANDONED_BOX = Isaac.GetItemIdByName("Abandoned Box")
+CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER = Isaac.GetItemIdByName("Brittle Dagger")
+this.BrittleDaggerIDs = {
+    CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER,
+    Isaac.GetItemIdByName(" Brittle Dagger "),
+    Isaac.GetItemIdByName("  Brittle Dagger  "),
+    Isaac.GetItemIdByName("   Brittle Dagger   "),
+}
+CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE = Isaac.GetItemIdByName("Dagger Handle")
 
-function this:UseItem(_, rngObj, player, flags)
+function this:UseBox(_, rngObj, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 then
         return
     end
@@ -34,7 +42,48 @@ function this:GetFamiliarFromPool(pool, room)
     return CollectibleType.COLLECTIBLE_BROTHER_BOBBY
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_ABANDONED_BOX)
+function this:UseDagger(id, rngObj, player, flags)
+    if not SomethingWicked:UtilTableHasValue(this.BrittleDaggerIDs, id) then
+        if id == CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE then
+            return true
+        end
+        return
+    end
+
+    if flags & (UseFlag.USE_CARBATTERY | UseFlag.USE_CARBATTERY) ~= 0 then
+        return
+    end
+    
+    if player:GetMaxHearts() >= 2 then
+        player:AddMaxHearts(-2)
+        player:TakeDamage(1, DamageFlag.DAMAGE_FAKE, EntityRef(player), 30)
+
+        this:UseBox(id, rngObj, player, flags)
+
+        local _, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, id)
+        if slot ~= -1 then
+            for index, value in ipairs(this.BrittleDaggerIDs) do
+                if value == id then
+                    
+                    local newId
+                    if index == #this.BrittleDaggerIDs then
+                        newId = CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE
+                    else
+                        newId = this.BrittleDaggerIDs[index + 1]
+                    end
+
+                    player:RemoveCollectible(id)
+                    player:AddCollectible(newId, 0, false, slot)
+                end
+            end
+        end
+        return true
+    end
+    return {ShowAnim = true, Discharge = false}
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseBox, CollectibleType.SOMETHINGWICKED_ABANDONED_BOX)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseDagger)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_ABANDONED_BOX] = {

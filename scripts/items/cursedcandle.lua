@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_CURSED_CANDLE = Isaac.GetItemIdByName("Cursed Candle")
 this.wickedFire = 23
 this.CurseColor = Color(1, 1, 1, 1, 0.1, 0, 0.3)
-this.CurseDuration = 6
+this.CurseDuration = 5.5
 
 function this:UseItem(_, _, player, flags)
     return SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_CURSED_CANDLE)

@@ -1,12 +1,12 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM = Isaac.GetItemIdByName("Cursed Mushroom")
-this.CurseDuration = 18
+this.CurseDuration = 15
 this.WispCurseRadius = 100
 
 function this:UseItem(_, rng, player, flags)
     SomethingWicked.sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
 
-    local allEnemies = Isaac.FindInRadius(Vector.Zero, 8000, 8)
+    local allEnemies = Isaac.FindInRadius(Vector.Zero, 80000, 8)
     for key, ent in pairs(allEnemies) do
         this:OnCurse(ent)
     end

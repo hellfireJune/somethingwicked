@@ -2,10 +2,8 @@ local this = {}
 Card.SOMETHINGWICKED_STONE_OF_THE_PIT = Isaac.GetCardIdByName("StoneOfThePit")
 
 function this:CardUse(_, player)
-    local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
-    SomethingWicked:UtilAddSmeltedTrinket(trinket, player)
-    player:AnimateTrinket(trinket)
-
+    local tempEffects = player:GetEffects()
+    tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX, true, 1)
     SomethingWicked.sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
 end
 

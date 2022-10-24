@@ -1,15 +1,20 @@
 local this = {}
-this.BirettaPosition = Vector(520, 200)
-this.ChipPosition = Vector(120, 200)
+this.BirettaPosition = Vector(520, 160)
+this.ScratchTicketPosition = Vector(120, 160)
 CollectibleType.SOMETHINGWICKED_BIRETTA = Isaac.GetItemIdByName("Biretta")
+TrinketType.SOMETHINGWICKED_TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll")
 
 function this:OnRoomClear()
     local room = SomethingWicked.game:GetRoom()
 
     if room:GetType() == RoomType.ROOM_BOSS then
-        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.COLLECTIBLE_BIRETTA)
+        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_BIRETTA)
         if flag and player then
             this:ezSpawn(this.BirettaPosition, SomethingWicked.MachineVariant.MACHINE_CONFESSIONAL, player)
+        end
+        flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TICKET_ROLL)
+        if flag and player then
+            this:ezSpawn(this.ScratchTicketPosition, SomethingWicked.MachineVariant.MACHINE_SLOT, player)
         end
     end
 end

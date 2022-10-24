@@ -4,6 +4,6 @@
     <costume id="19" anm2path="costume_bookoflucifer.anm2" type="active" hasSkinAlts="true"/>
     <costume id="27" anm2path="costume_biretta.anm2" type="passive"/>
     <costume id="52" anm2path="costume_sw_3dglasses.anm2" type="passive"/>
+    <costume id="104" anm2path="costume_starspawnemissary.anm2" type="passive"/>
     <costume id="705" anm2path="character_002_magdalenehead.anm2" type="passive"/>
-    <costume anm2path="character_001_abiahhead.anm2" type="none"/>
 </costumes>

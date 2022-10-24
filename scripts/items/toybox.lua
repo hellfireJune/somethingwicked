@@ -19,7 +19,8 @@ function this:PEffectUpdate(player)
     local stacks = tempEffects:GetCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX) 
 
     if stacks ~= nil and stacks.Count > 0
-    and (p_data.SomethingWickedPData.toyboxTrinket == nil) then
+    and (p_data.SomethingWickedPData.toyboxTrinket == nil)
+    and player:IsExtraAnimationFinished() then
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
         p_data.SomethingWickedPData.toyboxTrinket = trinket
         player:AnimateTrinket(trinket, "UseItem")

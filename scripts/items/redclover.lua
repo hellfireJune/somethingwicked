@@ -1,5 +1,5 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_BLACK_AMULET = Isaac.GetTrinketIdByName("Black Amulet")
+TrinketType.SOMETHINGWICKED_BLACK_AMULET = Isaac.GetTrinketIdByName("Demonium Page")
 this.crashPreventer = 0
 
 function this:BossPoolEdit(collectible, itempooltype, decrease, seed)

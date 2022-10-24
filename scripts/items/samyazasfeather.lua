@@ -8,7 +8,7 @@ function this:FireTear(tear)
         local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME)
         if c_rng:RandomFloat() < 0.15 then
             tear:AddTearFlags(TearFlags.TEAR_HOMING)
-            tear.Color = this.TearColor
+            tear.Color = tear.Color * this.TearColor
         end
     end
 end

@@ -61,7 +61,7 @@ this.EIDEntries = {
             SomethingWicked.encyclopediaLootPools.POOL_BABY_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL
         },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1 Lemegeton wisp every 8 rooms"})
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1 Lemegeton wisp every 8 rooms"}, "...your own soul is nourished when you are kind, it is destroyed when you are cruel...")
     }
 }
 return this

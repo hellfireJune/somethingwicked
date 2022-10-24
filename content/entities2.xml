@@ -6,6 +6,9 @@
     <entity anm2path="tear_balrogtear.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="8" collisionRadius="10" friction="1" id="2" name="Balrog Tear" numGridCollisionPoints="8" shadowSize="20" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
     </entity>
+    <entity anm2path="tear_FACESTABBER.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="8" collisionRadius="10" friction="1" id="2" name="Facestabber" numGridCollisionPoints="8" shadowSize="20" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
+    </entity>
 
     <!--cards-->
     <entity anm2path="card_stoneofthepit.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" variant="300" subtype="7001" name="Stone of the Pit" numGridCollisionPoints="24" shadowSize="16" stageHP="0">
@@ -61,6 +64,9 @@
     <entity anm2path="006.004_beggar.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Void Beggar" numGridCollisionPoints="24" shadowSize="15" stageHP="0">
         <gibs amount="6" blood="1" bone="2" eye="0" gut="1" large="0"/>
     </entity>
+    <entity anm2path="006.004_beggar.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Infinite Beggar" numGridCollisionPoints="24" shadowSize="15" stageHP="0">
+        <gibs amount="6" blood="1" bone="2" eye="0" gut="1" large="0"/>
+    </entity>
     <entity anm2path="slots_void_machine.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="BSideinator" numGridCollisionPoints="24" shadowSize="33" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
@@ -110,6 +116,10 @@
     <entity anm2path="003.035_Sacrificial Dagger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="15" collisionInterval="4" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Devilsknife" numGridCollisionPoints="12" shadowSize="10" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
+    <entity anm2path="003.035_Sacrificial Dagger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="5" collisionInterval="4" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Little Attractor Familiar" numGridCollisionPoints="12" shadowSize="10" stageHP="0" tags="cansacrifice fly">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+
 
 
     <entity anm2path="familiar_rogueplanet.anm2" baseHP="0" boss="0" champion="0" collisionInterval="4" collisionMass="3" collisionRadius="8" friction="1" id="3" name="Phobos Familiar" numGridCollisionPoints="12" shadowSize="11" stageHP="0" tags="cansacrifice">

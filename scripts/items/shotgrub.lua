@@ -1,5 +1,5 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Parasite 2")
+CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Superbug")
 --this.color = Color()
 
 function this:FireGrubbyTear(tear)

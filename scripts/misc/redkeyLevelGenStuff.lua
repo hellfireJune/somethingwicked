@@ -327,6 +327,37 @@ function SomethingWicked.RedKeyRoomHelpers:GetAllDeadEnds(onnewlevel)
     return floordeadends
 end
 
+function SomethingWicked.RedKeyRoomHelpers:IsValidRedRoomSpot(level, RRidx, func)
+	func = func or function()
+		return false
+	end
+
+    local roomDesc = level:GetRoomByIdx(RRidx)
+	if not roomDesc or roomDesc.GridIndex <= 0 then
+        for i = 1, 4, 1 do
+            local rslot = i - 1
+            if rslot < 0 then rslot = 3 end
+            if rslot >= 4 then rslot = 0 end
+            local oslot = SomethingWicked.RedKeyRoomHelpers:GetOppositeDoorSlot(rslot)
+            
+            local trIDX = RRidx + SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][rslot]
+            local realRoom = level:GetRoomByIdx(trIDX)
+
+            if realRoom and realRoom.GridIndex > 0 then
+                if realRoom.Data.Doors & 1 << oslot == 0
+                or realRoom.Data.Type == RoomType.ROOM_BOSS
+                or func(level, realRoom) then
+                    return false
+                end
+            end
+        end
+    else
+        return false
+    end
+
+    return true
+end
+
 function SomethingWicked.RedKeyRoomHelpers:GetAllDeadEndsRed()
 	local level = game:GetLevel()
 	local floordeadends = {}
@@ -383,13 +414,8 @@ function SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(dataset, idx, 
 	end
 end
 
-function SomethingWicked.RedKeyRoomHelpers:AddDataToRoom(data)
-	
-end
-
-
-
 --Some Even More #EPIC code i stole from tainted treasures, this time constants
+
 SomethingWicked.RedKeyRoomHelpers.adjindexes = {
 	[RoomShape.ROOMSHAPE_1x1] = {
 		[DoorSlot.LEFT0] = -1, 

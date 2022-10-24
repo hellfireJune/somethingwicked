@@ -1,0 +1,14 @@
+-make post fire pure callback work with brim, sword, and incubus
+-add legion animations
+-add sfx to star spawn
+-snake eyes, buddy dice
+-prismatic mushroom and crying minotaur vfx
+-electrostun vfx
+-plague of wormwood tear effect
+-sand flies functionality
+-face stabber and balrogs heart tear gfx
+-superbug, samyazas plume, demonium page, red keychain, prismatic mushroom, plague of wormwood, cursed mask, brittle dagger, hydra, crying minotaur, phobos and deimos, devilsknife, facestabber, golden card, meal Coupon
+-basically everything regarding the reversed thoth
+-void, teratoma and infinite beggar sprites
+-void machine implode gfx
+-item pools for new items

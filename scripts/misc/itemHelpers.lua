@@ -418,6 +418,18 @@ function SomethingWicked.HoldItemHelpers:GetUseDirection(player)
     return (player:GetAimDirection() * (player.ShotSpeed * 10) + player.Velocity):Resized(player.ShotSpeed * 10) 
 end
 
+function SomethingWicked.HoldItemHelpers:AimToVector(direction)
+    --stolen from a wofsauge message i found ctrl+f'ing "direction to vector", cheers
+    local dirToVec ={
+        [Direction.NO_DIRECTION] = Vector(0,0),
+        [Direction.LEFT] = Vector(-1,0),
+        [Direction.UP] = Vector(0,-1),
+        [Direction.RIGHT] = Vector(1,0),
+        [Direction.DOWN] = Vector(0,1),
+    }
+    return dirToVec[direction]
+end
+
 --ItemPool stuff
 
 function this:GenerateLootData()
@@ -454,3 +466,235 @@ function SomethingWicked.ItemHelpers:RandomItemFromCustomPool(poolEnum, myRNG)
     end
     return -1
 end
+
+function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player)
+    if player:HasWeaponType(WeaponType.WEAPON_NOTCHED_AXE)
+    or player:HasWeaponType(WeaponType.WEAPON_URN_OF_SOULS)
+    or player:HasWeaponType(WeaponType.WEAPON_BONE)
+    or player:HasWeaponType(WeaponType.WEAPON_SPIRIT_SWORD)
+    or player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) then
+        return nil
+    end
+
+    if player:HasWeaponType(WeaponType.WEAPON_ROCKET) then
+        --FIRE NUKE
+    end
+    if player:HasWeaponType(WeaponType.WEAPON_FETUS) then
+        --fire fetus
+    end
+    if player:HasWeaponType(WeaponType.WEAPON_KNIFE) then
+        --return fire knife
+    end
+    if player:HasWeaponType(WeaponType.WEAPON_BRIMSTONE) then
+        --fire brim
+    end
+    if player:HasWeaponType(WeaponType.WEAPON_BOMBS) then
+        --fire dr.fetus bomb
+    end
+    if player:HasWeaponType(WeaponType.WEAPON_LASER) then
+        --fire laser
+    end
+    --fire tear
+end
+
+
+--Taken from encyclopedia, absolute lifesaver
+--only needed for vanilla stuffs
+SomethingWicked.ItemHelpers.CardNamesProper = {
+	[Card.CARD_FOOL] = "0 - The Fool",
+	[Card.CARD_MAGICIAN] = "I - The Magician",
+	[Card.CARD_HIGH_PRIESTESS] = "II - The High Priestess",
+	[Card.CARD_EMPRESS] = "III - The Empress",
+	[Card.CARD_EMPEROR] = "IV - The Emperor",
+	[Card.CARD_HIEROPHANT] = "V - The Hierophant",
+	[Card.CARD_LOVERS] = "VI - The Lovers",
+	[Card.CARD_CHARIOT] = "VII - The Chariot",
+	[Card.CARD_JUSTICE] = "VIII - Justice",
+	[Card.CARD_HERMIT] = "IX - The Hermit",
+	[Card.CARD_WHEEL_OF_FORTUNE] = "X - Wheel of Fortune",
+	[Card.CARD_STRENGTH] = "XI - Strength",
+	[Card.CARD_HANGED_MAN] = "XII - The Hanged Man",
+	[Card.CARD_DEATH] = "XIII - Death",
+	[Card.CARD_TEMPERANCE] = "XIV - Temperance",
+	[Card.CARD_DEVIL] = "XV - The Devil",
+	[Card.CARD_TOWER] = "XVI - The Tower",
+	[Card.CARD_STARS] = "XVII - The Stars",
+	[Card.CARD_MOON] = "XVIII - The Moon",
+	[Card.CARD_SUN] = "XIX - The Sun",
+	[Card.CARD_JUDGEMENT] = "XX - Judgement",
+	[Card.CARD_WORLD] = "XXI - The World",
+	[Card.CARD_CLUBS_2] = "2 of Clubs",
+	[Card.CARD_DIAMONDS_2] = "2 of Diamonds",
+	[Card.CARD_SPADES_2] = "2 of Spades",
+	[Card.CARD_HEARTS_2] = "2 of Hearts",
+	[Card.CARD_ACE_OF_CLUBS] = "Ace of Clubs",
+	[Card.CARD_ACE_OF_DIAMONDS] = "Ace of Diamonds",
+	[Card.CARD_ACE_OF_SPADES] = "Ace of Spades",
+	[Card.CARD_ACE_OF_HEARTS] = "Ace of Hearts",
+	[Card.CARD_JOKER] = "Joker",
+	[Card.RUNE_HAGALAZ] = "Hagalaz",
+	[Card.RUNE_JERA] = "Jera",
+	[Card.RUNE_EHWAZ] = "Ehwaz",
+	[Card.RUNE_DAGAZ] = "Dagaz",
+	[Card.RUNE_ANSUZ] = "Ansuz",
+	[Card.RUNE_PERTHRO] = "Perthro",
+	[Card.RUNE_BERKANO] = "Berkano",
+	[Card.RUNE_ALGIZ] = "Algiz",
+	[Card.RUNE_BLANK] = "Blank Rune",
+	[Card.RUNE_BLACK] = "Black Rune",
+	[Card.CARD_CHAOS] = "Chaos Card",
+	[Card.CARD_CREDIT] = "Credit Card",
+	[Card.CARD_RULES] = "Rules Card",
+	[Card.CARD_HUMANITY] = "A Card Against Humanity",
+	[Card.CARD_SUICIDE_KING] = "Suicide King",
+	[Card.CARD_GET_OUT_OF_JAIL] = "Get Out Of Jail Free Card",
+	[Card.CARD_QUESTIONMARK] = "? Card",
+	[Card.CARD_DICE_SHARD] = "Dice Shard",
+	[Card.CARD_EMERGENCY_CONTACT] = "Emergency Contact",
+	[Card.CARD_HOLY] = "Holy Card",
+	[Card.CARD_HUGE_GROWTH] = "Huge Growth",
+	[Card.CARD_ANCIENT_RECALL] = "Ancient Recall",
+	[Card.CARD_ERA_WALK] = "Era Walk",
+	[Card.RUNE_SHARD] = "Rune Shard",
+	[Card.CARD_REVERSE_FOOL] = "0 - The Fool?",
+	[Card.CARD_REVERSE_MAGICIAN] = "I - The Magician?",
+	[Card.CARD_REVERSE_HIGH_PRIESTESS] = "II - The High Priestess?",
+	[Card.CARD_REVERSE_EMPRESS] = "III - The Empress?",
+	[Card.CARD_REVERSE_EMPEROR] = "IV - The Emperor?",
+	[Card.CARD_REVERSE_HIEROPHANT] = "V - The Hierophant?",
+	[Card.CARD_REVERSE_LOVERS] = "VI - The Lovers?",
+	[Card.CARD_REVERSE_CHARIOT] = "VII - The Chariot?",
+	[Card.CARD_REVERSE_JUSTICE] = "VIII - Justice?",
+	[Card.CARD_REVERSE_HERMIT] = "IX - The Hermit?",
+	[Card.CARD_REVERSE_WHEEL_OF_FORTUNE] = "X - Wheel of Fortune?",
+	[Card.CARD_REVERSE_STRENGTH] = "XI - Strength?",
+	[Card.CARD_REVERSE_HANGED_MAN] = "XII - The Hanged Man?",
+	[Card.CARD_REVERSE_DEATH] = "XIII - Death?",
+	[Card.CARD_REVERSE_TEMPERANCE] = "XIV - Temperance?",
+	[Card.CARD_REVERSE_DEVIL] = "XV - The Devil?",
+	[Card.CARD_REVERSE_TOWER] = "XVI - The Tower?",
+	[Card.CARD_REVERSE_STARS] = "XVII - The Stars?",
+	[Card.CARD_REVERSE_MOON] = "XVIII - The Moon?",
+	[Card.CARD_REVERSE_SUN] = "XIX - The Sun?",
+	[Card.CARD_REVERSE_JUDGEMENT] = "XX - Judgement?",
+	[Card.CARD_REVERSE_WORLD] = "XXI - The World?",
+	[Card.CARD_CRACKED_KEY] = "Cracked Key",
+	[Card.CARD_QUEEN_OF_HEARTS] = "Queen of Hearts",
+	[Card.CARD_WILD] = "Wild Card",
+	[Card.CARD_SOUL_ISAAC] = "Soul of Isaac",
+	[Card.CARD_SOUL_MAGDALENE] = "Soul of Magdalene",
+	[Card.CARD_SOUL_CAIN] = "Soul of Cain",
+	[Card.CARD_SOUL_JUDAS] = "Soul of Judas",
+	[Card.CARD_SOUL_BLUEBABY] = "Soul of ???",
+	[Card.CARD_SOUL_EVE] = "Soul of Eve",
+	[Card.CARD_SOUL_SAMSON] = "Soul of Samson",
+	[Card.CARD_SOUL_AZAZEL] = "Soul of Azazel",
+	[Card.CARD_SOUL_LAZARUS] = "Soul of Lazarus",
+	[Card.CARD_SOUL_EDEN] = "Soul of Eden",
+	[Card.CARD_SOUL_LOST] = "Soul of the Lost",
+	[Card.CARD_SOUL_LILITH] = "Soul of Lilith",
+	[Card.CARD_SOUL_KEEPER] = "Soul of the Keeper",
+	[Card.CARD_SOUL_APOLLYON] = "Soul of Apollyon",
+	[Card.CARD_SOUL_FORGOTTEN] = "Soul of the Forgotten",
+	[Card.CARD_SOUL_BETHANY] = "Soul of Bethany",
+	[Card.CARD_SOUL_JACOB] = "Soul of Jacob and Esau",
+}
+SomethingWicked.ItemHelpers.CardDescsProper = {
+	[Card.CARD_FOOL] = "Where journey begins",
+	[Card.CARD_MAGICIAN] = "May you never miss your goal",
+	[Card.CARD_HIGH_PRIESTESS] = "Mother is watching you",
+	[Card.CARD_EMPRESS] = "May your rage bring power",
+	[Card.CARD_EMPEROR] = "Challenge me!",
+	[Card.CARD_HIEROPHANT] = "Two prayers for the lost",
+	[Card.CARD_LOVERS] = "May you prosper and be in good health",
+	[Card.CARD_CHARIOT] = "May nothing stand before you",
+	[Card.CARD_JUSTICE] = "May your future become balanced",
+	[Card.CARD_HERMIT] = "May you see what life has to offer",
+	[Card.CARD_WHEEL_OF_FORTUNE] = "Spin the wheel of destiny",
+	[Card.CARD_STRENGTH] = "May your power bring rage",
+	[Card.CARD_HANGED_MAN] = "May you find enlightenment",
+	[Card.CARD_DEATH] = "Lay waste to all that oppose you",
+	[Card.CARD_TEMPERANCE] = "May you be pure in heart",
+	[Card.CARD_DEVIL] = "Revel in the power of darkness",
+	[Card.CARD_TOWER] = "Destruction brings creation",
+	[Card.CARD_STARS] = "May you find what you desire",
+	[Card.CARD_MOON] = "May you find all you have lost",
+	[Card.CARD_SUN] = "May the light heal and enlighten you",
+	[Card.CARD_JUDGEMENT] = "Judge lest ye be judged",
+	[Card.CARD_WORLD] = "Open your eyes and see",
+	[Card.CARD_CLUBS_2] = "Item multiplier",
+	[Card.CARD_DIAMONDS_2] = "Item multiplier",
+	[Card.CARD_SPADES_2] = "Item multiplier",
+	[Card.CARD_HEARTS_2] = "Item multiplier",
+	[Card.CARD_ACE_OF_CLUBS] = "Convert all",
+	[Card.CARD_ACE_OF_DIAMONDS] = "Convert all",
+	[Card.CARD_ACE_OF_SPADES] = "Convert all",
+	[Card.CARD_ACE_OF_HEARTS] = "Convert all",
+	[Card.CARD_JOKER] = "???",
+	[Card.RUNE_HAGALAZ] = "Destruction",
+	[Card.RUNE_JERA] = "Abundance",
+	[Card.RUNE_EHWAZ] = "Passage",
+	[Card.RUNE_DAGAZ] = "Purity",
+	[Card.RUNE_ANSUZ] = "Vision",
+	[Card.RUNE_PERTHRO] = "Change",
+	[Card.RUNE_BERKANO] = "Companionship",
+	[Card.RUNE_ALGIZ] = "Resistance",
+	[Card.RUNE_BLANK] = "???",
+	[Card.RUNE_BLACK] = "Void",
+	[Card.CARD_CHAOS] = "???",
+	[Card.CARD_CREDIT] = "Charge it!",
+	[Card.CARD_RULES] = "???",
+	[Card.CARD_HUMANITY] = "Something stinks...",
+	[Card.CARD_SUICIDE_KING] = "A true ending?",
+	[Card.CARD_GET_OUT_OF_JAIL] = "Open Sesame",
+	[Card.CARD_QUESTIONMARK] = "Double active",
+	[Card.CARD_DICE_SHARD] = "D6 + D20",
+	[Card.CARD_EMERGENCY_CONTACT] = "Help from above",
+	[Card.CARD_HOLY] = "You feel protected",
+	[Card.CARD_HUGE_GROWTH] = "Become immense!",
+	[Card.CARD_ANCIENT_RECALL] = "Draw 3 cards",
+	[Card.CARD_ERA_WALK] = "Savor the moment",
+	[Card.RUNE_SHARD] = "It still glows faintly",
+	[Card.CARD_REVERSE_FOOL] = "Let go and move on",
+	[Card.CARD_REVERSE_MAGICIAN] = "May no harm come to you",
+	[Card.CARD_REVERSE_HIGH_PRIESTESS] = "Run",
+	[Card.CARD_REVERSE_EMPRESS] = "May your love bring protection",
+	[Card.CARD_REVERSE_EMPEROR] = "May you find a worthy opponent",
+	[Card.CARD_REVERSE_HIEROPHANT] = "Two prayers for the forgotten",
+	[Card.CARD_REVERSE_LOVERS] = "May your heart shatter to pieces",
+	[Card.CARD_REVERSE_CHARIOT] = "May nothing walk past you",
+	[Card.CARD_REVERSE_JUSTICE] = "May your sins come back to torment you",
+	[Card.CARD_REVERSE_HERMIT] = "May you see the value of all things in life",
+	[Card.CARD_REVERSE_WHEEL_OF_FORTUNE] = "Throw the dice of fate",
+	[Card.CARD_REVERSE_STRENGTH] = "May you break their resolve",
+	[Card.CARD_REVERSE_HANGED_MAN] = "May your greed know no bounds",
+	[Card.CARD_REVERSE_DEATH] = "May life spring forth from the fallen",
+	[Card.CARD_REVERSE_TEMPERANCE] = "May your hunger be satiated",
+	[Card.CARD_REVERSE_DEVIL] = "Bask in the light of your mercy",
+	[Card.CARD_REVERSE_TOWER] = "Creation brings destruction",
+	[Card.CARD_REVERSE_STARS] = "May your loss bring fortune",
+	[Card.CARD_REVERSE_MOON] = "May you remember lost memories",
+	[Card.CARD_REVERSE_SUN] = "May the darkness swallow all around you",
+	[Card.CARD_REVERSE_JUDGEMENT] = "May you redeem those found wanting",
+	[Card.CARD_REVERSE_WORLD] = "Step into the abyss",
+	[Card.CARD_CRACKED_KEY] = "???",
+	[Card.CARD_QUEEN_OF_HEARTS] = "<3",
+	[Card.CARD_WILD] = "Again",
+	[Card.CARD_SOUL_ISAAC] = "Reroll... or not",
+	[Card.CARD_SOUL_MAGDALENE] = "Give me your love!",
+	[Card.CARD_SOUL_CAIN] = "Opens the unopenable",
+	[Card.CARD_SOUL_JUDAS] = "Right behind you",
+	[Card.CARD_SOUL_BLUEBABY] = "Chemical warfare",
+	[Card.CARD_SOUL_EVE] = "Your very own murder",
+	[Card.CARD_SOUL_SAMSON] = "Slay a thousand",
+	[Card.CARD_SOUL_AZAZEL] = "Demon rage!",
+	[Card.CARD_SOUL_LAZARUS] = "Life after death",
+	[Card.CARD_SOUL_EDEN] = "Embrace chaos",
+	[Card.CARD_SOUL_LOST] = "Leave your body behind",
+	[Card.CARD_SOUL_LILITH] = "Motherhood",
+	[Card.CARD_SOUL_KEEPER] = "$$$",
+	[Card.CARD_SOUL_APOLLYON] = "Bringer of calamity",
+	[Card.CARD_SOUL_FORGOTTEN] = "Skeletal protector",
+	[Card.CARD_SOUL_BETHANY] = "Friends from beyond",
+	[Card.CARD_SOUL_JACOB] = "Bound by blood",
+}

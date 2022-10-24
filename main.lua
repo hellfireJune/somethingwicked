@@ -23,6 +23,10 @@ function SomethingWicked:UtilTableHasValue (tab, val)
   return false
 end
 
+function SomethingWicked:Clamp(val, max, min)
+  return math.max(max, math.min(val, min))
+end
+
 --these two are also from tainted treasures
 function SomethingWicked:utilRunUpdates(tab) --This is from Fiend Folio
   for i = #tab, 1, -1 do
@@ -237,17 +241,16 @@ local itemsToLoad = {
   "whiterose",
   "ramshead",
   "corruption",
-  "onyxcharm",
   "samyazasfeather",
 
   "discipleseye",
   "redlockbox",
   "batteryD",
-  "starofthebottomlesspit",
+  "newlocustitems",
   "voidbombs",
   "catfood",
   "whiterobe",
-  "starshot",
+  --"starshot",
   "nightshade",
   "fitusfortunus",
   "oldurn",
@@ -273,6 +276,8 @@ local itemsToLoad = {
   "carolinareapernagaviper",
   "cursemask",
   "red",
+  "starspawn",
+  "plasmaglobe",
   
   "rogueplanet",
   "minos",
@@ -301,6 +306,8 @@ local itemsToLoad = {
   "fetusinfetu",
   "edenshead",
   "abandonedbox",
+  "facestabber",
+  "goldencard",
   
   --"themistake"
   "twofcoins",
@@ -321,7 +328,7 @@ local itemsToLoad = {
   "giftcard",
   "nightmarefuelvirtue",
   "zzzzzzmagnet",
-  "heartycoupon"
+  "redkeychain",
 }
 
 local cardsToLoad = {
@@ -329,13 +336,19 @@ local cardsToLoad = {
   "boonofthemagpieeye",
   --"k0",
   --"mantis_mantisgod",
+
   "theAeon",
   "theMagus",
   "TheAdjustment",
   "theLust",
   "theFortune",
   "theArt",
-  "turkeyvulture",
+
+  "theAeonReversed",
+  "theMagusReversed",
+  "theFortuneReversed",
+
+  "turkeyvulture", --also void beggar and rotten beggar
   "bourgeoisTarot",
 }
 
@@ -350,6 +363,7 @@ local earlyMiscLoad = {
   "dirtystatupsdonedirtquick",
   "itemHelpers",
   "newcallbacks",
+  "boonHelpers",
   "enemyHelpers",
   "slotmachinesfuckingsuck",
   "familiarHelpers",

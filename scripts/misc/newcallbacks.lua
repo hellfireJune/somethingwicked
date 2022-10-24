@@ -10,7 +10,7 @@ this.CustomCallbacks = {
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_ON_LASER_FIRED] = {},
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
-    [ccabEnum.SWCB_LUDO_TEAR_EVAL] = {}
+    [ccabEnum.SWCB_KNIFE_EFFECT_EVAL] = {}
 }
 
 function SomethingWicked:AddCustomCBack(type, funct, id)
@@ -70,6 +70,12 @@ end
 this.forgottenEsqueBones = {1, 2, 3, 4, 9}
 
 function this:OnTearHit(tear, collider)
+    collider = collider:ToNPC()
+    if not collider
+    or not collider:IsVulnerableEnemy() then
+        return
+    end
+
     local procCoefficient = 1
     local notSticking = true
     local t_data = tear:GetData()
@@ -98,6 +104,18 @@ function this:CallOnhitCallback(tear, collider, player, procCoefficient)
     end
 end
 
+function this:CallKnifeEvalCallback(tear, collider, player)
+    local flag = false
+    for _, v in pairs(this.CustomCallbacks[ccabEnum.SWCB_KNIFE_EFFECT_EVAL]) do
+        local nflag = v(this, tear, collider, player)
+        if nflag ~= nil then
+            flag = flag or nflag
+        end
+    end
+
+    return flag
+end
+
 function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
     if ent:IsVulnerableEnemy() ~= true then
         return
@@ -118,79 +136,15 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
     if player then
         this:CallOnhitCallback(entity, ent, player, 1)
     end
+    if source.Type == EntityType.ENTITY_KNIFE then
+        return this:CallKnifeEvalCallback(entity, ent, player)
+    end
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, this.OnTearHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEntityDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
-
--- Boons
-SomethingWicked.BoonIDs = {}
-function this:BoonCheckForHold(entity, input, action)
-    if action == ButtonAction.ACTION_DROP and entity and entity:ToPlayer() then
-        local player = entity:ToPlayer()
-        local p_data = player:GetData()
-        p_data.somethingWicked_DropButtonHoldcount = (p_data.somethingWicked_DropButtonHoldcount or 0)
-
-        for _, value in ipairs(SomethingWicked.BoonIDs) do
-            if (player:GetCard(0) == value or player:GetCard(1) == value) and  
-            p_data.somethingWicked_DropButtonHoldcount >= 60 then
-                local roomPos = function ()
-                    return SomethingWicked.game:GetRoom():FindFreePickupSpawnPosition(player.Position);
-                end
-
-                for i = 1, 2, 1 do
-                    if (player:GetCard(i) and not SomethingWicked:UtilTableHasValue(SomethingWicked.BoonIDs, player:GetCard(i))) or player:GetPill(i) then
-                        player:DropPocketItem(i, roomPos())
-                    end
-                end
-
-                player:DropTrinket(roomPos(), false)
-                if input == InputHook.IS_ACTION_PRESSED then
-                    return false
-                elseif input == InputHook.IS_ACTION_TRIGGERED then
-                    return true
-                elseif input == InputHook.GET_ACTION_VALUE then
-                    return 0
-                end
-            end
-        end
-    end
-end
-
-function this:BoonOverrideHold(player)
-    local p_data = player:GetData()
-
-    if Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
-        p_data.somethingWicked_DropButtonHoldcount = (p_data.somethingWicked_DropButtonHoldcount or 0) + 1
-    else 
-        p_data.somethingWicked_DropButtonHoldcount = 0
-    end
-end
-
-
-function this:BoonPreventCardSpawn(rng, card, getPlayingCards, getRunes, onlyRunes)
-    if SomethingWicked:UtilTableHasValue(SomethingWicked.BoonIDs, card) then
-        local crashPreventer = 0
-        local nextCard = card
-        while (SomethingWicked:UtilTableHasValue(SomethingWicked.BoonIDs, card) and (crashPreventer < 100)) do
-            crashPreventer = crashPreventer + 1
-            nextCard = SomethingWicked.game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
-        end
-
-        return nextCard
-    end
-end
-
-function SomethingWicked:AddBoon(id)
-    table.insert(SomethingWicked.BoonIDs, id)
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_GET_CARD, this.BoonPreventCardSpawn)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.BoonOverrideHold)
-SomethingWicked:AddCallback(ModCallbacks.MC_INPUT_ACTION, this.BoonCheckForHold)
-
 this.onKillPos = nil
 function this:OnKill(enemy)
         if enemy:IsBoss() then

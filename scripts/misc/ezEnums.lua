@@ -4,7 +4,7 @@ SomethingWicked.CustomCallbacks = {
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
     SWCB_ON_FIRE_PURE = 5,
-    SWCB_LUDO_TEAR_EVAL = 6
+    SWCB_KNIFE_EFFECT_EVAL = 6
 }
 SomethingWicked.MachineVariant = {
     MACHINE_SLOT = 1,
