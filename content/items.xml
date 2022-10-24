@@ -61,10 +61,10 @@
   <passive id="68" name="Crying Minotaur"  hidden="true"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" maxcharges="1"  hidden="true"/>
-  <familiar id="71" name="Phobos and Deimos" description="Impending"/>
-  <familiar id="72" name="Devilsknife"  hidden="true"/>
-  <passive id="74" name="Samyaza's Plume" cache="firedelay"/>
-  <passive id="75" name="Balrog's Heart"  hidden="true"/>
+  <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
+  <familiar id="72" name="Devilsknife" hidden="true"/>
+  <passive id="74" name="Samyaza's Plume" cache="firedelay" hidden="true"/>
+  <passive id="75" name="Balrog's Heart" hidden="true"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fires" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="BURNING, BURNING" quality="3" tags="offensive summonable"/>
 
@@ -94,14 +94,14 @@
   <active id="100" name="The Book of Thoth" hidden="true"/>
   <passive id="101" name="Mega Blight" hidden="true"/>
   <familiar id="102" name="Snakeblock" hidden="true"/>
-  <passive id="103" name="Heart of the Leviathan" hidden="true"/>
+  <passive id="103" name="Snake Eyes" hidden="true"/>
   <passive id="104" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
   <active id="105" name="Eyewheel" hidden="true"/>
   <familiar id="106" name="Wickerbaby" hidden="true"/> <!--shoots fire-->
   <passive id="107" name="Fish Milk" hidden="true"/> <!--dmg down, tear effects way up-->
   <active id="108" name="Limenade" hidden="true"/> <!-- bitter creep-->
   <passive id="109" name="Space Slug" hidden="true"/>
-  <passive id="110" name="Cursed Heart" hidden="true"/>
+  <passive id="110" name="Cursed Axe" hidden="true"/>
   <passive id="111" name="Bitter Apple" hidden="true"/>
   <passive id="112" name="Cursed Guillotine" hidden="true"/>
   <active id="113" name="Book of Enoch" hidden="true"/> <!--lock on status effect-->
@@ -112,7 +112,7 @@
   <passive id="118" name="Spirit of Belial" hidden="true"/> <!-- enemies have a chance to explode on damage, spawn a bunch of papers and give a damage up in the radius of the enemy-->
   <active id="119" name="Bonesaw" hidden="true"/>
   <passive id="120" name="Basilisk Tear" hidden="true"/>
-  <passive id="121" name="Eternal Onion" hidden="true"/>
+  <passive id="121" name="The Eternal Onion" hidden="true"/>
   <active id="122" name="Peel St." hidden="true"/>
   <active id="123" name="Locust Cannon" hidden="true"/>
   <active id="124" name="Spider Detonator" hidden="true"/> <!--splodes spiders-->
@@ -133,8 +133,7 @@
   <active id="140" name="Golden Card" hidden="true"/> <!--code done-->
   <passive id="141" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
   <familiar id="142" name="Snakeblock II" hidden="true"/> 
-  <passive id="143" name="Snake Eyes" hidden="true"/>
-  <familiar id="144" name="Prismatism Snail" hidden="true"/>
+  <familiar id="143" name="Prismatism Snail" hidden="true"/>
   
   <active id="151" name=" Brittle Dagger " hidden="true"/>
   <active id="152" name="  Brittle Dagger  " hidden="true"/>
@@ -184,6 +183,7 @@
   <trinket id="41" name="Scorched Page" hidden="true"/>
   <trinket id="42" name="Little Sun" hidden="true"/>
   <trinket id="43" name="Scarecrow's Head" hidden="true"/>
+  <trinket id="44" name="Glitch Worm" hidden="true"/>
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>

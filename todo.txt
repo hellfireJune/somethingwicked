@@ -1,9 +1,10 @@
 -make post fire pure callback work with brim, sword, and incubus
+-finish adaptive fire method
 -add legion animations
 -add sfx to star spawn
 -snake eyes, buddy dice
 -prismatic mushroom and crying minotaur vfx
--electrostun vfx
+-electrostun and dread vfx
 -plague of wormwood tear effect
 -sand flies functionality
 -face stabber and balrogs heart tear gfx
@@ -12,3 +13,6 @@
 -void, teratoma and infinite beggar sprites
 -void machine implode gfx
 -item pools for new items
+-implement a FF-esque card blacklist system
+-either clear out the listed items and trinkets or finish them all
+-also actually test sand flies, lol
