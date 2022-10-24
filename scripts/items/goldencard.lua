@@ -4,7 +4,6 @@ CollectibleType.SOMETHINGWICKED_GOLDEN_CARD = Isaac.GetItemIdByName("Golden Card
 function this:UseItem(_, rng, player)
     local p_data = player:GetData()
     local stacks = 1 + rng:RandomInt(2)
-    print(stacks)
     p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0) + stacks
     return true
 end

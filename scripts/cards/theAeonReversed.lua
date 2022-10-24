@@ -36,7 +36,6 @@ SomethingWicked.SlotHelpers:Init({
 function this:InfiniteBeggarCanPlay(player, slot)
     local s_data = slot:GetData()
     local chance = (s_data.PersistantBeggarData.TimesSpentMoneyOn or 0) / 100
-    print(chance)
     return SomethingWicked.SlotHelpers:BaseCoinCanPlay(player, slot, chance)
 end
 

@@ -3,9 +3,9 @@ CollectibleType.SOMETHINGWICKED_LITTLE_ATTRACTOR_ITEM = Isaac.GetItemIdByName("L
 FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar")
 
 function this:FamiliarUpdate(familiar)
-    familiar:MoveDiagonally(10)
+    familiar:MoveDiagonally(1)
 
-    SomethingWicked.game:UpdateStrangeAttractor(familiar)
+    SomethingWicked.game:UpdateStrangeAttractor(familiar.Position)
 end
 
 function this:EvalCache(player)
