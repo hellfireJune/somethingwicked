@@ -16,3 +16,4 @@
 -implement a FF-esque card blacklist system
 -either clear out the listed items and trinkets or finish them all
 -also actually test sand flies, lol
+-FINISH GLITCHCITY

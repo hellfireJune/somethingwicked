@@ -133,7 +133,8 @@
   <active id="140" name="Golden Card" hidden="true"/> <!--code done-->
   <passive id="141" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
   <familiar id="142" name="Snakeblock II" hidden="true"/> 
-  <familiar id="143" name="Prismatism Snail" hidden="true"/>
+  <active id="143" name="Vortex" hidden="true"/>
+  <familiar id="144" name="Prismatism Snail" hidden="true"/>
   
   <active id="151" name=" Brittle Dagger " hidden="true"/>
   <active id="152" name="  Brittle Dagger  " hidden="true"/>

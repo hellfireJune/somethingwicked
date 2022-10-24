@@ -285,6 +285,7 @@ local itemsToLoad = {
   "solomon",
   "devilsknife",
   "phobosanddeimos",
+  "littleattractor",
 
   "dstock",
   "balrogshead",
