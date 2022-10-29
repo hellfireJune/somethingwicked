@@ -345,11 +345,11 @@ local cardsToLoad = {
   "theFortune",
   "theArt",
 
-  "theAeonReversed",
-  "theMagusReversed",
-  "theFortuneReversed",
+  --"theAeonReversed",
+  --"theMagusReversed",
+  --"theFortuneReversed",
 
-  "turkeyvulture", --also void beggar and rotten beggar
+  --"turkeyvulture", --also void beggar and rotten beggar
   "bourgeoisTarot",
 }
 

@@ -71,30 +71,27 @@
   <active id="64" name="Fear Stalks The Land!" hidden="true"/>
   <active id="73" name="Prismatic Mushroom" description="Wicked room effects"/> <!--code done-->
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
-  <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red.png"/> <!--code done-->
+  <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red.png"/> <!--costume required-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
   <active id="82" name="Brittle Dagger" hidden="true"/> <!--code done-->
   <familiar id="83" name="Lil' Hollow" hidden="true"/>
   <passive id="84" name="Temperance" hidden="true"/>
-  <passive id="85" name="Heart of Fortitude" hidden="true"/>
   <passive id="86" name="Blood Moon Medallion" hidden="true"/>
   <active id="87" name="Dudael" hidden="true"/>
   <passive id="88" name="Terrortooth" hidden="true"/>
   <passive id="89" name="Cursed Heart" hidden="true"/>
-  <familiar id="90" name="Ms. Gonorrhea" hidden="true"/>
   <passive id="91" name="Shroud of Turin" hidden="true"/>
   <familiar id="92" name="Lil' Mistake" hidden="true"/>
   <passive id="93" name="Skull of Phobos" hidden="true"/>
   <active id="94" name="Hellfire Kamekaze" hidden="true"/> 
-  <active id="95" name="Book of Leviathan" hidden="true"/>
+  <active id="95" name="  Book of Leviathan  " hidden="true"/>
   <active id="96" name="Facestabber" hidden="true"/> <!--also make this charge to throw-->
   <passive id="97" name="Infested Crown" hidden="true"/>
   <active id="98" name="Green Shell" hidden="true"/>
   <active id="99" name="Dice Buddy" hidden="true"/>
-  <active id="100" name="The Book of Thoth" hidden="true"/>
   <passive id="101" name="Mega Blight" hidden="true"/>
   <familiar id="102" name="Snakeblock" hidden="true"/>
-  <passive id="103" name="Snake Eyes" hidden="true"/>
+  <active id="103" name="Gardening Mitts"/>
   <passive id="104" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
   <active id="105" name="Eyewheel" hidden="true"/>
   <familiar id="106" name="Wickerbaby" hidden="true"/> <!--shoots fire-->
@@ -114,12 +111,11 @@
   <passive id="120" name="Basilisk Tear" hidden="true"/>
   <passive id="121" name="The Eternal Onion" hidden="true"/>
   <active id="122" name="Peel St." hidden="true"/>
-  <active id="123" name="Locust Cannon" hidden="true"/>
   <active id="124" name="Spider Detonator" hidden="true"/> <!--splodes spiders-->
   <passive id="125" name="Heart of Fortitude" hidden="true"/> <!-- the bouncy tear thing-->
   <passive id="126" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
   <passive id="127" name="Sullen's Tear" hidden="true"/> <!-- tears down, high damaging mega creep tear, but creep will damage player (gungeon poison logic)-->
-  <familiar id="128" name="Little Attractor" hidden="true"/> <!--bouncy magnet familiar-->
+  <familiar id="128" name="Little Attractor" hidden="true"/> <!--works-->
   <active id="129" name="Pseudomonarcha Demonium" hidden="true"/>
   <familiar id="130" name="Sword of Justice" hidden="true"/> <!--tears down, sword thing-->
   <passive id="131" name="Wicked Slice" description="Something delicious this way comes" hidden="true"/>
@@ -127,13 +123,11 @@
   <passive id="133" name="Nephilim's Wings" hidden="true"/>
   <passive id="134" name="Fool's Crown" hidden="true"/>
   <active id="135" name="Tesla Coil" hidden="true"/> <!--thing which spawns electric little tears that raise from the ground-->
-  <active id="136" name="Hellfire" hidden="true"/> <!--Void egg but its also a flamethrower-->
-  <passive id="137" name="Scarab Bombs" hidden="true"/>
-  <active id="139" name="Red Shell" hidden="true"/>
-  <active id="140" name="Golden Card" hidden="true"/> <!--code done-->
+  <active id="137" name="Vortex" hidden="true"/>
+  <passive id="138" name="An Altered World" description="Split" hidden="true"/>
+  <active id="139" name="Diamond Pill" hidden="true"/>
+  <active id="140" name="Golden Card" gfx="goldencard.png" quality="2" description="Eternal card" tags="offensive" maxcharges="6"/> 
   <passive id="141" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
-  <familiar id="142" name="Snakeblock II" hidden="true"/> 
-  <active id="143" name="Vortex" hidden="true"/>
   <familiar id="144" name="Prismatism Snail" hidden="true"/>
   
   <active id="151" name=" Brittle Dagger " hidden="true"/>

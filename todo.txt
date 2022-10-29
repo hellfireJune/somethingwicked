@@ -1,3 +1,7 @@
+-High priority: Finish Superbug, Legion, Crying Minotaur and Flying Guillotine
+- Finish Plasma Globe
+
+
 -make post fire pure callback work with brim, sword, and incubus
 -finish adaptive fire method
 -add legion animations

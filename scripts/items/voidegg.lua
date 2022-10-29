@@ -72,7 +72,8 @@ this.EIDEntries = {
             SomethingWicked.encyclopediaLootPools.POOL_CURSE,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
             SomethingWicked.encyclopediaLootPools.POOL_DEMON_BEGGAR,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_CURSE
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_CURSE,
+            SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1-3 locust companions on use", "Picking up a red heart while this item is uncharged will consume the heart and instead charge this item"}, "INFINITY, YES!")
     }

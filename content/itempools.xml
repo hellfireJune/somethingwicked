@@ -24,9 +24,11 @@
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Carolina Reaper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Naga Viper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Hydrus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
+		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -45,6 +47,7 @@
 		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
 	</Pool>
 
 	<Pool Name="library">
@@ -76,6 +79,7 @@
 		<Item Name="Old Urn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Golden Card" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="devil">
@@ -86,7 +90,7 @@
 		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Wrath" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
@@ -140,6 +144,8 @@
 		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+		<Item Name="Red" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -154,6 +160,9 @@
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shellGame">

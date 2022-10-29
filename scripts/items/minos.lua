@@ -156,6 +156,7 @@ function this:BodyUpdate(familiar)
     f_data.somethingWicked_PositionFramesTable = this:HandlePositionFramesTable(familiar, roomFrame, f_data.somethingWicked_PositionFramesTable or {})
 
     if this:HandleVisFrame(familiar, f_data, f_frame) then
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
         f_sprite:Play("Idle", true)
     end
 end
@@ -193,7 +194,6 @@ end
 function this:HandleVisFrame(familiar, f_data, frame)
     if f_data.somethingwicked_visFrame and 
     f_data.somethingwicked_visFrame == frame then
-        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
         familiar.Visible = true
         return true
     end
@@ -282,7 +282,12 @@ function this:HydrusTearUpdate(tear)
 
     if not tear.Visible then
         local tf = tear.FrameCount
-        this:HandleVisFrame(tear, t_data, tf)
+        if this:HandleVisFrame(tear, t_data, tf) then
+            
+            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, tear.Position, Vector.Zero, tear)
+            poof.Color = Color(0, 0.2, 1)
+            poof.SpriteScale = Vector(0.5, 0.5)
+        end
     end
     tear.FallingSpeed = 0
     tear.Height = -20
@@ -446,6 +451,9 @@ this.EIDEntries = {
             SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a snake familiar which charges at enemies you fire in the direction of"})
+    },
+    [CollectibleType.SOMETHINGWICKED_HYDRUS] = {
+        desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies"
     }
 }
 return this

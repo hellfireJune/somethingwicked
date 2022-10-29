@@ -19,8 +19,15 @@ function this:FlyInit(familiar)
     if familiar.SubType == LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD then
         this:InitWormwoodLocust(familiar)
     elseif familiar.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
+        this:InitGlitchLocust(familiar)
     elseif familiar.SubType == 0 then
-        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
+        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_S_AND_FLIES)
+        if flag and player then
+            familiar.SubType = LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
+            this:InitGlitchLocust(familiar)
+            return
+        end
+        flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
         if flag and player then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
             local r_float = c_rng:RandomFloat()
@@ -116,7 +123,7 @@ function this:OnLocustDoesDMG(entity, amount, flags, source, cooldown)
             isDoingWWDamage = false
             return false
         elseif sourceEnt.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
-
+            SomethingWicked:UtilDoCorruption(sourceEnt.Position, -2)
         end
     end
 end
@@ -160,6 +167,21 @@ local numberBug = include("scripts/items/floatingnumberbug")
 this.PossibleCorruptions = numberBug.PossibleCorruptions
 function SomethingWicked:UtilDoCorruption(pos, strength)
     strength = strength or 0
+    local rng = RNG()
+    rng:SetSeed(Random() + 1, 1)
+
+    strength = strength + (strength * ((rng:RandomFloat() * 2) - 1))
+
+    if strength % 1 < 0.5 then
+        strength = math.floor(strength)
+    else
+        strength = math.ceil(strength)
+    end
+    strength = SomethingWicked:Clamp(strength, -5, 0)
+    local func = SomethingWicked:GetRandomElement(this.PossibleCorruptions[strength], rng)
+    func(pos)
+
+    
 end
 
 this.EIDEntries = {

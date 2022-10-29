@@ -22,15 +22,15 @@
     <card type="tarot" name="XX - The Aeon" description="Infinity" pickup="7003" mimiccharge="6" hud="TheAeon"/> 
 
     <!--Thoth Cards (Reversed)-->
-    <card type="tarotreverse" name="I - The Magus?" description="Energies of imbalance" pickup="7003" mimiccharge="12" hud="TheMagusReversed"/> <!--spawns lemmegy-->
-    <card type="tarotreverse" name="VIII - Lust?" description="Your fortitude made fragile" pickup="7003" mimiccharge="8" hud="LustReversed"/> <!--devilstail but with a unique familiar-->
-    <card type="tarotreverse" name="X - Fortune?" description="Luck of the draw" pickup="7003" mimiccharge="3" hud="FortuneReversed"/> <!--uses 3 random reg tarot cards-->
-    <card type="tarotreverse" name="XI - The Adjustment?" description="May your luck haunt you" pickup="7003" mimiccharge="6" hud="TheAdjustmentReversed"/> <!--all chests spawned turn gold, keys -> chests sometimes-->
-    <card type="tarotreverse" name="XIV - Art?" description="Chaos calls" pickup="7003" mimiccharge="8" hud="TheArtReversed"/> <!--tiamats dice in every room-->
-    <card type="tarotreverse" name="XX - The Aeon?" description="The infinite, infinitesimal" pickup="7003" mimiccharge="6" hud="TheAeonReversed"/> <!--mega slot machine that spawns more slot machines-->
+    <!--<card type="tarotreverse" name="I - The Magus?" description="Energies of imbalance" pickup="7003" mimiccharge="12" hud="TheMagusReversed"/> spawns lemmegy
+    <card type="tarotreverse" name="VIII - Lust?" description="Your fortitude made fragile" pickup="7003" mimiccharge="8" hud="LustReversed"/> devilstail but with a unique familiar
+    <card type="tarotreverse" name="X - Fortune?" description="Luck of the draw" pickup="7003" mimiccharge="3" hud="FortuneReversed"/> uses 3 random reg tarot cards
+    <card type="tarotreverse" name="XI - The Adjustment?" description="May your luck haunt you" pickup="7003" mimiccharge="6" hud="TheAdjustmentReversed"/> all chests spawned turn gold, keys -> chests sometimes
+    <card type="tarotreverse" name="XIV - Art?" description="Chaos calls" pickup="7003" mimiccharge="8" hud="TheArtReversed"/> tiamats dice in every room
+    <card type="tarotreverse" name="XX - The Aeon?" description="The infinite, infinitesimal" pickup="7003" mimiccharge="6" hud="TheAeonReversed"/> mega slot machine that spawns more slot machines
 
-    <card type="tarotreverse" name="XXII - The Universe?" description="Tranquility" pickup="7003" mimiccharge="1" hud="TheUniverseReversed"/> <!--every room visible boon-->
-    <card type="tarotreverse" name="XXII - The Universe?" description="Return" pickup="7003" mimiccharge="1" hud="TheUniverseBoon"/>
+    <card type="tarotreverse" name="XXII - The Universe?" description="Tranquility" pickup="7003" mimiccharge="1" hud="TheUniverseReversed"/> every room visible boon
+    <card type="tarotreverse" name="XXII - The Universe?" description="Return" pickup="7003" mimiccharge="1" hud="TheUniverseBoon"/>-->
 
     <!--Bourgeois Tarot-->
     <card type="suit" name="Knight of Clubs" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfClubs"/>
