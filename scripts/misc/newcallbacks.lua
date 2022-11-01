@@ -188,25 +188,10 @@ function this:LaserUpdate(laser)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
-
-local function knifeDebugFunc(knife)
-    print(knife:GetData().isFunnyKnife, knife.Index, GetPtrHash(knife.Parent), knife.Parent.Type, GetPtrHash(knife.SpawnerEntity), knife.MaxHitPoints)
-    print(knife.TargetPosition, knife.CollisionDamage, knife:Exists(), knife.Target, knife.Velocity, knife.Position, knife:GetEntityFlags(), knife.Child)
-    print(knife:IsFlying(), knife.MaxDistance, knife.PathOffset, knife.PathFollowSpeed, knife:IsVisible())
-
-    local sprite = knife:GetSprite()
-    print(sprite:GetFrame(), sprite:GetAnimation())
-end
     
-local hasSpawnedClub = false
 function this:PostFirePureEval(player)
     if player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) then
         return
-    end
-    if not hasSpawnedClub then
-        hasSpawnedClub = true
-        local knife = Isaac.Spawn(8, 0, 0, player.Position, Vector.Zero, player)
-        knife.Parent = player
     end
 
     local p_data = player:GetData()
@@ -229,32 +214,6 @@ function this:PostFirePureEval(player)
         if not p_data.somethingWicked_processedPureFire
         or player.FireDelay >= player.MaxFireDelay then
             p_data.somethingWicked_processedPureFire = true
-
-            local boneClub = Isaac.Spawn(8, 1, 2, player.Position, Vector.Zero, player)
-            boneClub.Parent = player
-            local clubSprite = boneClub:GetSprite()
-            clubSprite:Play("Swing", true)
-            local repulsevector = Vector.Zero
-            local repulseangle = repulsevector:GetAngleDegrees()
-            local knife = player:FireKnife(boneClub, repulseangle, false, 4, 1)
-            --knife:Shoot(0, 100)
-            knife.Parent = player
-            --knife:Shoot(50, 100)
-            knife.Position = knife.Position + Vector(30, 0)
-            --knife.Velocity = Vector(10, 0)
-            knife.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ENEMIES
-            knife.Mass = 30
-            knife.MaxDistance = 100
-            knife.Size = 32
-            --cane.TearFlags = TearFlags.TEAR_KNOCKBACK | TearFlags.TEAR_PUNCH
-            --knife:Update()
-            knife.CollisionDamage = 5.25
-            local canesprite = knife:GetSprite()
-            canesprite:Play("Swing",true)
-            knife.Rotation = repulseangle- 90
-            knife.SpriteRotation = repulseangle- 90
-            knife:Update()
-            
             this:CallPureFireCallback(player, player:GetAimDirection(), 1)
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
@@ -278,11 +237,6 @@ function this:PostFirePureEval(player)
     
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_KNIFE_INIT, function (_, knife)
-    knife.TargetPosition = Vector(4, 0)
-    print("Initing Slash")
-end, 4)
-
 function this:GetFamiliarPureFireScalar(familiar, playertype)
     local variant = familiar.Variant
     if variant == FamiliarVariant.INCUBUS
@@ -302,25 +256,6 @@ function this:CallPureFireCallback(player, direction, scalar)
         callb(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE], player, direction, scalar)
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_KNIFE_UPDATE, function (_, knife)
-    --knife.Position = knife.Position + Vector(40, 40)
-    if knife.FrameCount == 1 then
-        knifeDebugFunc(knife)
-    end
-end, 4)
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_KNIFE_RENDER, function (_, knife)
-    local sprite = knife:GetSprite()
-    --print(knife.SubType, knife.Variant)
-        if (knife.SubType == 4 and knife.Variant == 1) then
-            --print(knife.Parent.Type, knife.SpawnerEntity.Type, knife.CollisionDamage)
-        elseif knife.Variant == 1 then
-        end
-    --sprite:RenderLayer(1, Isaac.WorldToScreen(knife.Position + Vector(40, 40)))
-    if sprite:GetFrame() == 5 then
-        --print(knife.Position)
-    end
-end) 
 
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PostFirePureEval)
