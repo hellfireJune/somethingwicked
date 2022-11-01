@@ -1,5 +1,5 @@
 -High priority: Finish Superbug, Legion, Crying Minotaur and Flying Guillotine
-- Finish Plasma Globe
+- Finish Plasma Globe sometimes being weird
 
 
 -make post fire pure callback work with brim, sword, and incubus

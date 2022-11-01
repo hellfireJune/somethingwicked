@@ -467,17 +467,18 @@ function SomethingWicked.ItemHelpers:RandomItemFromCustomPool(poolEnum, myRNG)
     return -1
 end
 
-function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player)
+function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, args)
+    ignoreLudo = ignoreLudo or false
     if player:HasWeaponType(WeaponType.WEAPON_NOTCHED_AXE)
     or player:HasWeaponType(WeaponType.WEAPON_URN_OF_SOULS)
     or player:HasWeaponType(WeaponType.WEAPON_BONE)
     or player:HasWeaponType(WeaponType.WEAPON_SPIRIT_SWORD)
-    or player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) then
+    or (player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) and not ignoreLudo) then
         return nil
     end
 
     if player:HasWeaponType(WeaponType.WEAPON_ROCKET) then
-        --FIRE NUKE
+        --FIRE NUKE (might not be possible D:
     end
     if player:HasWeaponType(WeaponType.WEAPON_FETUS) then
         --fire fetus
@@ -485,8 +486,11 @@ function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player)
     if player:HasWeaponType(WeaponType.WEAPON_KNIFE) then
         --return fire knife
     end
+    if player:HasWeaponType(WeaponType.WEAPON_TECH_X) then
+        --fire laser ring or bomb if player has dr. fetus
+    end
     if player:HasWeaponType(WeaponType.WEAPON_BRIMSTONE) then
-        --fire brim
+        --fire brim or delayed brim if player has delayed tear flag
     end
     if player:HasWeaponType(WeaponType.WEAPON_BOMBS) then
         --fire dr.fetus bomb

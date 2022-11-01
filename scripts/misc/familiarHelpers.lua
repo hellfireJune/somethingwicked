@@ -62,3 +62,13 @@ function SomethingWicked.FamiliarHelpers:AddLocusts(player, amount, rng, positio
         end
     end
 end
+
+function SomethingWicked.FamiliarHelpers:DoesFamiliarShootPlayerTears(familiar)
+	return (familiar.Variant == FamiliarVariant.INCUBUS
+	or familiar.Variant == FamiliarVariant.SPRINKLER 
+	or familiar.Variant == FamiliarVariant.TWISTED_BABY 
+	or familiar.Variant == FamiliarVariant.BLOOD_BABY 
+	or familiar.Variant == FamiliarVariant.UMBILICAL_BABY
+    or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION
+    or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION_B) 
+end

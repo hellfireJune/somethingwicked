@@ -44,7 +44,8 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, laser)
     local l_data = laser:GetData()
-    if l_data.somethingWicked_dreadLaser then
+    if l_data.somethingWicked_dreadLaser
+    and laser.Parent then
         laser.Parent:GetData().somethingWicked_applyingDread = false
         
     end
