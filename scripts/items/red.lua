@@ -6,6 +6,7 @@ function this:Init()
     if this.hasInit then
         return
     end
+    this.hasInit = true
     SomethingWicked.RedKeyRoomHelpers:InitializeRoomData("ultrasecret", 0, 8, this.Dataset)
 end
 

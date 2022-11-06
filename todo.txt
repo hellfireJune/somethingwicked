@@ -1,18 +1,21 @@
+- Items to test before pushing: Naga Viper, Carolina Reaper, Plasma Globe, Red, Golden Card, Hydrus
+- Things that just need sprites: ZZZZZZ Magnet, Meal coupon, Gift card, Mr. Skits, Brittle Dagger, Little Attractor, Legion, Superbug, Balrog's Heart, Devilsknife, Hydra
+Phobos and Deimos, Samyaza's Plume, Prismatic Mushroom, Plague of Wormwood (mostly), Eden's Head, Curse Mask, Facestabber, Red Keychain
+
 -High priority: Finish Superbug, Legion, Crying Minotaur and Flying Guillotine
 - Finish Plasma Globe sometimes being weird
 
 
--make post fire pure callback work with brim, sword, and incubus
+-make post fire pure callback work with brim, sword
 -finish adaptive fire method
 -add legion animations
 -add sfx to star spawn
--snake eyes, buddy dice
+-snake eyes
 -prismatic mushroom and crying minotaur vfx
--electrostun and dread vfx
+-electrostun vfx
 -plague of wormwood tear effect
 -sand flies functionality
 -face stabber and balrogs heart tear gfx
--superbug, samyazas plume, demonium page, red keychain, prismatic mushroom, plague of wormwood, cursed mask, brittle dagger, hydra, crying minotaur, phobos and deimos, devilsknife, facestabber, golden card, meal Coupon
 -basically everything regarding the reversed thoth
 -void, teratoma and infinite beggar sprites
 -void machine implode gfx

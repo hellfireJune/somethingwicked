@@ -250,13 +250,11 @@ local itemsToLoad = {
   "voidbombs",
   "catfood",
   "whiterobe",
-  --"starshot",
   "nightshade",
   "fitusfortunus",
   "oldurn",
   "apollyonscrown",
   "childstoys",
-  --"lantern",
   "biretta",
   "wrath",
   "oldmugandbravery",
@@ -309,6 +307,8 @@ local itemsToLoad = {
   "abandonedbox",
   "facestabber",
   "goldencard",
+  "fearstalkstheland",
+  "bookofleviathan",
   
   --"themistake"
   "twofcoins",
@@ -390,6 +390,7 @@ end
 local itemsMissingPools = "Items missing pools: "
 local itemsMissingDescs = "Items missing descs: "
 for _, i in ipairs(itemsToLoad) do
+  print(i)
   local item = include("scripts/items/"..i)
   for id, entry in pairs(item.EIDEntries) do
     if entry.isTrinket then

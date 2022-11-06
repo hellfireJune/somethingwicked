@@ -2,10 +2,18 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE = Isaac.GetItemIdByName("Plasma Globe")
 this.Color = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 
+this.baseProcChance = 0.2
+local function ProcChance(player)
+    return (player.Luck >= 0 and (this.baseProcChance * ((player.Luck + 0.5) / 2)) or (this.baseProcChance / math.abs(player.Luck)))
+end
 function this:FireTear(tear)
     local p = SomethingWicked:UtilGetPlayerFromTear(tear)
 
     if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) then
+        local rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) 
+        if rng:RandomFloat() > ProcChance(p) then
+            return
+        end
         tear.Color = tear.Color * this.Color
 
         local t_data = tear:GetData()

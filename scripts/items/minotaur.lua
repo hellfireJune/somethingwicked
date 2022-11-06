@@ -1,6 +1,7 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR = Isaac.GetItemIdByName("Crying Minotaur")
 this.dreadColor = Color(1, 1, 1, 1, 0.4)
+EffectVariant.SOMETHINGWICKED_DREAD_POOF = Isaac.GetEntityVariantByName("Dread Poof")
 
 this.baseProcChance = 0.15
 function this:OnHitFunc(tear, collider, player, proc)
@@ -11,7 +12,7 @@ function this:OnHitFunc(tear, collider, player, proc)
 end
 
 local function ProcChance(player)
-    return (player.Luck >= 0 and (this.baseProcChance * (player.Luck / 2)) or (this.baseProcChance / math.abs(player.Luck)))
+    return (player.Luck >= 0 and (this.baseProcChance * ((player.Luck + 0.5) / 2)) or (this.baseProcChance / math.abs(player.Luck)))
 end
 
 function this:FireTear(tear)
@@ -71,10 +72,12 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
     if e_data.somethingWicked_dreadStacks > 0
     and not this.takingDreadDMG then
         this.takingDreadDMG = true
-        ent:TakeDamage(amount * 2, flags, EntityRef(ent), dmgCooldown)
+        ent:TakeDamage(amount * 3, flags, EntityRef(ent), dmgCooldown)
         this.takingDreadDMG = false
 
         e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks - 1
+        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DREAD_POOF, 0, ent.Position + Vector(0, 10), Vector.Zero, ent)
+        effect.SpriteOffset = Vector(0, -ent.Size)
         return false
     end
 end

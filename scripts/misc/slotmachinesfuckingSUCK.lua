@@ -196,8 +196,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, ent
     if ent.Type == 6
     and SomethingWicked.SlotHelpers.slots[ent.Variant] then
         SomethingWicked.save.runData.BeggarData[ent.InitSeed] = ent:GetData().PersistantBeggarData
-    elseif ent.Type == 8 then
-        --print(ent.Index, "Removed at at", SomethingWicked.game:GetFrameCount())
     end
 end)
 

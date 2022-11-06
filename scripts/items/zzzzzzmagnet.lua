@@ -1,5 +1,5 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetItemIdByName("ZZZZZZ Magnet")
+TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
     if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET) then

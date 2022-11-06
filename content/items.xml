@@ -55,6 +55,7 @@
   <passive id="61" name="GLITCHCITY" gfx="placeholder.png" description="99 2" hidden="true"/> <!-- on the back burner for now-->
   <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive summonable"/> <!--costume-->
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil" achievement="597"/> <!--costume-->
+  <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" tags="offensive" hidden="true"/>
   <passive id="65" name="Superbug" hidden="true"/>
   <passive id="66" name="Hydra" hidden="true"/>
   <passive id="67" name="Hydrus" gfx="hydrus.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
@@ -63,77 +64,52 @@
   <active id="70" name="Eden's Head" maxcharges="1"  hidden="true"/>
   <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
   <familiar id="72" name="Devilsknife" hidden="true"/>
+  <active id="73" name="Prismatic Mushroom" description="Rainbow room effects"/> <!--code done-->
   <passive id="74" name="Samyaza's Plume" cache="firedelay" hidden="true"/>
   <passive id="75" name="Balrog's Heart" hidden="true"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fires" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="BURNING, BURNING" quality="3" tags="offensive summonable"/>
 
-  <active id="64" name="Fear Stalks The Land!" hidden="true"/>
-  <active id="73" name="Prismatic Mushroom" description="Wicked room effects"/> <!--code done-->
+  <passive id="78" name="Nephilim's Wings" hidden="true"/>
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
   <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red.png"/> <!--costume required-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
   <active id="82" name="Brittle Dagger" hidden="true"/> <!--code done-->
-  <familiar id="83" name="Lil' Hollow" hidden="true"/>
-  <passive id="84" name="Temperance" hidden="true"/>
-  <passive id="86" name="Blood Moon Medallion" hidden="true"/>
+  <active id="83" name="Dagger Handle" hidden="true"/> <!--code done-->
+  <familiar id="84" name="Lil' Hollow" hidden="true"/>
+  <passive id="85" name="Snake Eyes" hidden="true"/>
+  <passive id="86" name="Special Herbs Box" description="Vine Shot" hidden="true"/>
   <active id="87" name="Dudael" hidden="true"/>
   <passive id="88" name="Terrortooth" hidden="true"/>
-  <passive id="89" name="Cursed Heart" hidden="true"/>
+  <active id="89" name="Lil' Mandrake" hidden="true"/> <!--radial stun and damage-->
+  <passive id="90" name="Lover's Mask" hidden="true"/>
   <passive id="91" name="Shroud of Turin" hidden="true"/>
   <familiar id="92" name="Lil' Mistake" hidden="true"/>
-  <passive id="93" name="Skull of Phobos" hidden="true"/>
-  <active id="94" name="Hellfire Kamekaze" hidden="true"/> 
-  <active id="95" name="  Book of Leviathan  " hidden="true"/>
-  <active id="96" name="Facestabber" hidden="true"/> <!--also make this charge to throw-->
+  <passive id="93" name="Mandrake Soup" hidden="true"/> <!--tears sometimes replaced with mandrakes that do weaker version of lil' mandrake effect-->
+  <passive id="94" name="S AND FLIES" hidden="true"/>
+  <active id="95" name="  Book of Leviathan  " hidden="true" maxcharges="4" chargetype="special" cache="damage"/>
+  <active id="96" name="Facestabber" hidden="true"/> <!--add charg-->
   <passive id="97" name="Infested Crown" hidden="true"/>
   <active id="98" name="Green Shell" hidden="true"/>
-  <active id="99" name="Dice Buddy" hidden="true"/>
-  <passive id="101" name="Mega Blight" hidden="true"/>
+  <passive id="99" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
+  <active id="100" name="Tesla Coil" hidden="true"/> <!--thing which spawns electric little tears that raise from the ground-->
+  <active id="101" name="Pseudomonarcha Demonium" hidden="true"/>
   <familiar id="102" name="Snakeblock" hidden="true"/>
-  <active id="103" name="Gardening Mitts"/>
+  <active id="103" name="Golden Card" gfx="goldencard.png" quality="2" description="Eternal card" tags="offensive" maxcharges="6"/> 
   <passive id="104" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
-  <active id="105" name="Eyewheel" hidden="true"/>
-  <familiar id="106" name="Wickerbaby" hidden="true"/> <!--shoots fire-->
+  <familiar id="105" name="Little Attractor" hidden="true"/> <!--works-->
+  <passive id="106" name="Telescope" hidden="true"/> <!--Luck up, range up, 10% chance to spawn a copy of the currently used card on use-->
   <passive id="107" name="Fish Milk" hidden="true"/> <!--dmg down, tear effects way up-->
-  <active id="108" name="Limenade" hidden="true"/> <!-- bitter creep-->
-  <passive id="109" name="Space Slug" hidden="true"/>
-  <passive id="110" name="Cursed Axe" hidden="true"/>
+  <passive id="108" name="Heart of Fortitude" hidden="true"/> <!-- the bouncy tear thing-->
+  <passive id="109" name="Sword of Justice" hidden="true"/> <!--tears down, sword thing-->
+  <passive id="110" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
   <passive id="111" name="Bitter Apple" hidden="true"/>
-  <passive id="112" name="Cursed Guillotine" hidden="true"/>
-  <active id="113" name="Book of Enoch" hidden="true"/> <!--lock on status effect-->
-  <passive id="113" name="Telescope" hidden="true"/> <!--Luck up, range up, 10% chance to spawn a copy of the currently used card on use-->
-  <passive id="115" name="S AND FLIES" hidden="true"/>
-  <passive id="116" name="Knife Block" hidden="true"/> <!--chance to shoot flying guillotine as a tear replacer-->
-  <passive id="117" name="ggg" hidden="true"/> <!--cards to familairs-->
-  <passive id="118" name="Spirit of Belial" hidden="true"/> <!-- enemies have a chance to explode on damage, spawn a bunch of papers and give a damage up in the radius of the enemy-->
-  <active id="119" name="Bonesaw" hidden="true"/>
-  <passive id="120" name="Basilisk Tear" hidden="true"/>
-  <passive id="121" name="The Eternal Onion" hidden="true"/>
-  <active id="122" name="Peel St." hidden="true"/>
-  <active id="124" name="Spider Detonator" hidden="true"/> <!--splodes spiders-->
-  <passive id="125" name="Heart of Fortitude" hidden="true"/> <!-- the bouncy tear thing-->
-  <passive id="126" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
-  <passive id="127" name="Sullen's Tear" hidden="true"/> <!-- tears down, high damaging mega creep tear, but creep will damage player (gungeon poison logic)-->
-  <familiar id="128" name="Little Attractor" hidden="true"/> <!--works-->
-  <active id="129" name="Pseudomonarcha Demonium" hidden="true"/>
-  <familiar id="130" name="Sword of Justice" hidden="true"/> <!--tears down, sword thing-->
-  <passive id="131" name="Wicked Slice" description="Something delicious this way comes" hidden="true"/>
-  <familiar id="132" name="Super Hexafly" hidden="true"/>
-  <passive id="133" name="Nephilim's Wings" hidden="true"/>
-  <passive id="134" name="Fool's Crown" hidden="true"/>
-  <active id="135" name="Tesla Coil" hidden="true"/> <!--thing which spawns electric little tears that raise from the ground-->
-  <active id="137" name="Vortex" hidden="true"/>
-  <passive id="138" name="An Altered World" description="Split" hidden="true"/>
-  <active id="139" name="Diamond Pill" hidden="true"/>
-  <active id="140" name="Golden Card" gfx="goldencard.png" quality="2" description="Eternal card" tags="offensive" maxcharges="6"/> 
-  <passive id="141" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
-  <familiar id="144" name="Prismatism Snail" hidden="true"/>
+  <familiar id="112" name="Super Hexafly" hidden="true"/>
+  <active id="113" name="Spider Detonator" hidden="true"/> <!--splodes spiders-->
   
-  <active id="151" name=" Brittle Dagger " hidden="true"/>
-  <active id="152" name="  Brittle Dagger  " hidden="true"/>
-  <active id="153" name="   Brittle Dagger   " hidden="true"/>
-  <active id="154" name="Dagger Handle" hidden="true"/>
+  <active name=" Brittle Dagger " hidden="true"/>
+  <active name="  Brittle Dagger  " hidden="true"/>
+  <active name="   Brittle Dagger   " hidden="true"/>
 
   <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
   <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/>
@@ -149,7 +125,7 @@
   <trinket id="12" name="Void Heart" description="Void bleeds" gfx="voidheart.png"/> 
   <trinket id="13" name="Demon Core" description=">clueless" gfx="demoncore.png"/> 
   <trinket id="14" name="Nightmare Fuel" description="Terror friend" gfx="nightmarefuel.png" cache="familiars"/> 
-  <trinket id="16" name="Demonium Page" description="Wicked luck" gfx="crookednecklace.png"/>
+  <trinket id="16" name="Demonium Page" description="Wicked luck" gfx="demonpediumpage.png"/>
   <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
@@ -159,26 +135,22 @@
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->
   <trinket id="24" name="Hungry Eye" hidden="true"/>
-  <trinket id="25" name="Blight" hidden="true"/>
+  <trinket id="25" name="Red Keychain" hidden="true"/> <!--code done-->
   <trinket id="26" name="Small Intestine" hidden="true"/>
   <trinket id="27" name="Surgery Mask" hidden="true"/>
   <trinket id="28" name="Hermit Crab" hidden="true"/>
   <trinket id="29" name="Blank Baby" hidden="true"/>
-  <trinket id="30" name="Demon Heart" hidden="true"/>
-  <trinket id="31" name="Horned Fly" hidden="true"/>
+  <trinket id="30" name="Little Sun" hidden="true"/>
+  <trinket id="31" name="Horned Fly" hidden="true"/> <!--flat fly dmg up-->
   <trinket id="32" name="Floating Point Bug" hidden="true"/>
   <trinket id="33" name="Magpie Wing" hidden="true"/>
   <trinket id="34" name="Obol" hidden="true"/>
   <trinket id="35" name="Ticket Roll" hidden="true"/>
   <trinket id="36" name="Bag of Mugworts" hidden="true"/>
   <trinket id="37" name="Blight" hidden="true"/>
-  <trinket id="38" name="Grisly Tooth" hidden="true"/>
+  <trinket id="38" name="Scorched Page" hidden="true"/>
   <trinket id="39" name="Busted Battery" hidden="true"/>
-  <trinket id="40" name="Red Keychain" hidden="true"/>
-  <trinket id="41" name="Scorched Page" hidden="true"/>
-  <trinket id="42" name="Little Sun" hidden="true"/>
-  <trinket id="43" name="Scarecrow's Head" hidden="true"/>
-  <trinket id="44" name="Glitch Worm" hidden="true"/>
+  <trinket id="40" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
