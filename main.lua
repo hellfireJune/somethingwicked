@@ -276,6 +276,7 @@ local itemsToLoad = {
   "red",
   "starspawn",
   "plasmaglobe",
+  "fishmilk",
   
   "rogueplanet",
   "minos",

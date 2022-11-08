@@ -83,7 +83,7 @@
   <passive id="88" name="Terrortooth" hidden="true"/>
   <active id="89" name="Lil' Mandrake" hidden="true"/> <!--radial stun and damage-->
   <passive id="90" name="Lover's Mask" hidden="true"/>
-  <passive id="91" name="Shroud of Turin" hidden="true"/>
+  <passive id="91" name="Shroud of Turin" hidden="true"/> <!--tears have a chance to spawn a unique fire effect thing that orbits where the tear landed. also damages-->
   <familiar id="92" name="Lil' Mistake" hidden="true"/>
   <passive id="93" name="Mandrake Soup" hidden="true"/> <!--tears sometimes replaced with mandrakes that do weaker version of lil' mandrake effect-->
   <passive id="94" name="S AND FLIES" hidden="true"/>
@@ -99,20 +99,38 @@
   <passive id="104" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
   <familiar id="105" name="Little Attractor" hidden="true"/> <!--works-->
   <passive id="106" name="Telescope" hidden="true"/> <!--Luck up, range up, 10% chance to spawn a copy of the currently used card on use-->
-  <passive id="107" name="Fish Milk" hidden="true"/> <!--dmg down, tear effects way up-->
+  <passive id="107" name="Fish Milk" description="DMG down + Unstable tears" hidden="true" cache="damage tearflag"/> <!--dmg down, tear effects way up-->
   <passive id="108" name="Heart of Fortitude" hidden="true"/> <!-- the bouncy tear thing-->
   <passive id="109" name="Sword of Justice" hidden="true"/> <!--tears down, sword thing-->
   <passive id="110" name="Eclipse" hidden="true"/> <!--prismatic enemy effect--> 
   <passive id="111" name="Bitter Apple" hidden="true"/>
   <familiar id="112" name="Super Hexafly" hidden="true"/>
   <active id="113" name="Spider Detonator" hidden="true"/> <!--splodes spiders-->
+  <active id="114" name="Boline" hidden="true"/>
+  <passive id="115" name="Rod of Gallium" hidden="true"/>
+  <passive id="116" name="A Lemon" hidden="true"/> <!--firing has a chance to spray yellow creep-->
+  <passive id="117" name="Miracle" hidden="true"/> <!--enemies have a chance to explode into beams of light and get instakilled on damage, will spawn crack the sky beams for boss-->
+  <passive id="118" name="Sullen's Tears" description="" hidden="true"/>
+  <passive id="119" name="Styx" description="River of Death" hidden="true"/> <!--killing enemies spawns pickups that u can pickup to spawn a lingering dmg radius-->
+  <passive id="120" name="Bob's Broth" description="Berserk Mode" hidden="true"/>
+  <passive id="121" name="Mega Blight" hidden="true"/>
+  <passive id="122" name="Prismatic Bombs" hidden="true"/>
+  <familiar id="123" name="Ms. Gonorrhea" hidden="true"/>
+  <passive id="124" name="Scutum" hidden="true"/>
+  <passive id="125" name="Cubensis" hidden="true"/>
+  <passive id="126" name="Eye of Providence" description="" hidden="true"/> <!--piercing, and tears shoot out a bolt of light whenever they die, that attacks any enemies they pierce-->
+  <familiar id="127" name="Paimon" hidden="true"/> <!--he now gives your familairs familairs-->
+  <passive id="128" name="Wreath" hidden="true"/> <!--damage up, damaging enemies has a chance to also fire low damage leaf tears at the enemy-->
+  <passive id="129" name="Holy Nail" hidden="true"/> <!-- drops a heavily damaging nail on enemies when you take dmg-->
+  <!--the lemegeton familiar, the soda bottle, and the jailer familair-->
+  <!--and maybe the bubbler and the eternal idol (and an active that lets u teleport to enemies u just killed)-->
   
   <active name=" Brittle Dagger " hidden="true"/>
   <active name="  Brittle Dagger  " hidden="true"/>
   <active name="   Brittle Dagger   " hidden="true"/>
 
   <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
-  <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/>
+  <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/> 
   <trinket id="3" name="Bob's Heart" description="More rotten" gfx="bobsheart.png" achievement="411"/>
   <trinket id="4" name="Godly Tomato" description="Oh, to change your design!" gfx="godlytomato.png"/>
   <trinket id="5" name="Scorched Wood" description="Balrog skin" gfx="scorchedwood.png"/>
@@ -145,12 +163,14 @@
   <trinket id="32" name="Floating Point Bug" hidden="true"/>
   <trinket id="33" name="Magpie Wing" hidden="true"/>
   <trinket id="34" name="Obol" hidden="true"/>
-  <trinket id="35" name="Ticket Roll" hidden="true"/>
+  <trinket id="35" name="Ticket Roll" hidden="true"/> <!--code done-->
   <trinket id="36" name="Bag of Mugworts" hidden="true"/>
   <trinket id="37" name="Blight" hidden="true"/>
   <trinket id="38" name="Scorched Page" hidden="true"/>
   <trinket id="39" name="Busted Battery" hidden="true"/>
   <trinket id="40" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
+  <trinket id="41" name="Small Intestine" hidden="true"/>
+  <trinket id="42" name="Heart Lunchbox" hidden="true"/>
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>

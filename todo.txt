@@ -1,11 +1,15 @@
 - Items to test before pushing: Naga Viper, Carolina Reaper, Plasma Globe, Red, Golden Card, Hydrus
 - Things that just need sprites: ZZZZZZ Magnet, Meal coupon, Gift card, Mr. Skits, Brittle Dagger, Little Attractor, Legion, Superbug, Balrog's Heart, Devilsknife, Hydra
-Phobos and Deimos, Samyaza's Plume, Prismatic Mushroom, Plague of Wormwood (mostly), Eden's Head, Curse Mask, Facestabber, Red Keychain
+Phobos and Deimos, Samyaza's Plume, Prismatic Mushroom, Plague of Wormwood (mostly), Eden's Head, Curse Mask, Facestabber, Red Keychain, Ticket Roll, Fish Milk
 
 -High priority: Finish Superbug, Legion, Crying Minotaur and Flying Guillotine
 - Finish Plasma Globe sometimes being weird
 
-
+-make stone key also refund bombs when you open a secret room door
+-make mr. skits spawn dont starve nightmare creatures in devil rooms
+-resprite bravery, white robe, book of lucifer (design too similar to bob), void bombs
+-on fire bomb method could be nice
+-also fear stalks the land kinda sucks rn
 -make post fire pure callback work with brim, sword
 -finish adaptive fire method
 -add legion animations
@@ -19,8 +23,6 @@ Phobos and Deimos, Samyaza's Plume, Prismatic Mushroom, Plague of Wormwood (most
 -basically everything regarding the reversed thoth
 -void, teratoma and infinite beggar sprites
 -void machine implode gfx
--item pools for new items
 -implement a FF-esque card blacklist system
 -either clear out the listed items and trinkets or finish them all
--also actually test sand flies, lol
 -FINISH GLITCHCITY
