@@ -112,17 +112,31 @@
   <passive id="117" name="Miracle" hidden="true"/> <!--enemies have a chance to explode into beams of light and get instakilled on damage, will spawn crack the sky beams for boss-->
   <passive id="118" name="Sullen's Tears" description="" hidden="true"/>
   <passive id="119" name="Styx" description="River of Death" hidden="true"/> <!--killing enemies spawns pickups that u can pickup to spawn a lingering dmg radius-->
-  <passive id="120" name="Bob's Broth" description="Berserk Mode" hidden="true"/>
+  <passive id="120" name="Head of Hellfire" description="Infernal" hidden="true"/>
   <passive id="121" name="Mega Blight" hidden="true"/>
   <passive id="122" name="Prismatic Bombs" hidden="true"/>
   <familiar id="123" name="Ms. Gonorrhea" hidden="true"/>
-  <passive id="124" name="Scutum" hidden="true"/>
+  <passive id="124" name="Scutum" hidden="true"/> <!--shield bash andy-->
   <passive id="125" name="Cubensis" hidden="true"/>
   <passive id="126" name="Eye of Providence" description="" hidden="true"/> <!--piercing, and tears shoot out a bolt of light whenever they die, that attacks any enemies they pierce-->
   <familiar id="127" name="Paimon" hidden="true"/> <!--he now gives your familairs familairs-->
   <passive id="128" name="Wreath" hidden="true"/> <!--damage up, damaging enemies has a chance to also fire low damage leaf tears at the enemy-->
   <passive id="129" name="Holy Nail" hidden="true"/> <!-- drops a heavily damaging nail on enemies when you take dmg-->
-  <!--the lemegeton familiar, the soda bottle, and the jailer familair-->
+  <active id="130" name="Vortex" hidden="true"/>
+  <passive id="131" name="Gramophone" description="Ragtime!" hidden="true"/> <!--chance to spawn a shadow creature familair for the current floor upon taking damage-->
+  <passive id="132" name="The Crucifix" description="Nail Shot" hidden="true"/> <!--chance to spawn a holy nail on hitting an enemy-->
+  <passive id="133" name="Prayer Cloth" description="" hidden="true"/> <!--spawns a wisp like orbital for every soul heart u have-->
+  <passive id="134" name="Soda Bottle" hidden="true"/>
+  <familiar id="135" name="Spirit of Belial" hidden="true"/> <!--heart of belial, redux-->
+  <passive id="136" name="Mint Candy" hidden="true"/>
+  <familiar id="137" name="Fuzzy" hidden="true"/>
+  <passive id="138" name="Virtuous Bombs" hidden="true"/>
+  <passive id="139" name="Kalopsia" description="Isn't it beautiful?" hidden="true"/>
+  <passive id="140" name="Jumbo Bombs" description="Charge-up bombs" hidden="true"/>
+  <passive id="141" name="Temperance" description="Save for later" hidden="true"/>
+  <passive id="142" name="Shard of Darkness" description="Tainted shots"/>
+  <passive id="143" name="Shard of Light" description="Untainted shots"/>
+  <!--the lemegeton familiar, and the jailer familair-->
   <!--and maybe the bubbler and the eternal idol (and an active that lets u teleport to enemies u just killed)-->
   
   <active name=" Brittle Dagger " hidden="true"/>
@@ -171,6 +185,8 @@
   <trinket id="40" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
   <trinket id="41" name="Small Intestine" hidden="true"/>
   <trinket id="42" name="Heart Lunchbox" hidden="true"/>
+  <trinket id="43" name="Chewed Mint" hidden="true"/>
+  <trinket id="44" name="Rose Cross" hidden="true"/> <!--weaker wreath-->
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
