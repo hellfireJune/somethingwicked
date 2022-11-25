@@ -24,8 +24,8 @@ function this:SplitTearsSometimes(tear)
             if proc < this.procChance then
                 for i = -this.angle, this.angle, this.angle * 2 do
                     local newAngle = tear.Velocity:Rotated(i)
-                    local damagemult = this.damageMult * math.min(1, (tear.CollisionDamage / player.Damage)) 
-                    local new = player:FireTear(tear.Position - tear.Velocity, newAngle, false, false, false, nil, this.damageMult)
+                    local damagemult = this.damageMult * math.min(0.1, (tear.CollisionDamage / player.Damage)) 
+                    local new = player:FireTear(tear.Position - tear.Velocity, newAngle, false, false, false, nil, damagemult)
                     new.Color = this.LaserColors[i]
 
                     local n_data = new:GetData()

@@ -1,9 +1,9 @@
 local this = {}
 TrinketType.SOMETHINGWICKED_STONE_KEY = Isaac.GetTrinketIdByName("Stone Key")
 
-function this:PickupCollision(chest, entity)
-    local playerEntity = entity:ToPlayer()
-    if playerEntity and playerEntity:HasTrinket(TrinketType.SOMETHINGWICKED_STONE_KEY) and chest.SubType == ChestSubType.CHEST_CLOSED then
+function this:PickupCollision(chest, player)
+    player = player:ToPlayer()
+    if player and player:HasTrinket(TrinketType.SOMETHINGWICKED_STONE_KEY) and chest.SubType == ChestSubType.CHEST_CLOSED then
         chest:TryOpenChest()
     end
 end

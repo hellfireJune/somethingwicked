@@ -98,6 +98,7 @@
 	<Pool Name="angel">
 		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
@@ -268,6 +269,7 @@
 
 	<Pool Name="greedAngel">
 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

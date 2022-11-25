@@ -9,11 +9,11 @@ function this:TearUpdate(tear)
     end
 
     local fCount = tear.FrameCount
-    if fCount % 7 == 1 then
+    if fCount % 5 == 1 then
         local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, tear.Position, Vector.Zero, tear):ToEffect()
         thefloatingfire.CollisionDamage = tear.CollisionDamage / 11
         thefloatingfire.SpriteScale = Vector(1/2, 1/2)
-        thefloatingfire:SetTimeout(45)
+        thefloatingfire:SetTimeout(35)
     end
 end
 

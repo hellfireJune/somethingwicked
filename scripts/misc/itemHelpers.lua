@@ -505,6 +505,24 @@ function SomethingWicked:TEARFLAG(x)
     return x >= 64 and BitSet128(0,1<<(x-64)) or BitSet128(1<<x,0)
 end
 
+function SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, collectible, spritesheet, dataIdentifer, fetusChance)
+    local sprite = bomb:GetSprite()
+    local bombData = bomb:GetData()
+    if player:HasCollectible(collectible) then
+        local c_rng = player:GetCollectibleRNG(collectible)
+        if bomb.IsFetus and c_rng:RandomFloat() > fetusChance then
+            return false
+        end
+        if (bomb.Variant > 4 or bomb.Variant < 3) then
+            sprite:ReplaceSpritesheet(0, spritesheet)
+            sprite:LoadGraphics()
+        end
+        bombData[dataIdentifer] = true
+        return true
+    end
+    return false
+end
+
 
 --Taken from encyclopedia, absolute lifesaver
 --only needed for vanilla stuffs

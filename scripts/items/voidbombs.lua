@@ -1,13 +1,27 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_VOID_BOMBS = Isaac.GetItemIdByName("Void Bombs")
+this.BombSpriteSheet = "gfx/items/pick ups/bombs/costumes/voidbombs.png"
 
 --Most of this code (the bomb related stuff atleast) came from Deliverance, ty to those devs very much
 
+local function FetusProcChance(player)
+    return 0.2 + (0.026 * player.Luck)
+end
+
 function this:BombUpdate(bomb)
-    if bomb:GetData().isVoidBomb then
-        if bomb:GetSprite():IsPlaying("Explode") then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, -1, -1, bomb.Position, Vector.Zero, bomb.SpawnerEntity)
-            local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, bomb.SpawnerEntity):ToLaser()
+    local player = bomb.SpawnerEntity:ToPlayer()
+    if player == nil then
+        return
+    end
+
+    local bombData = bomb:GetData()
+    local sprite = bomb:GetSprite()
+    if bomb.FrameCount == 1 then
+        SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, CollectibleType.SOMETHINGWICKED_VOID_BOMBS, this.BombSpriteSheet, "isVoidBomb", FetusProcChance(player))
+    elseif bombData.isVoidBomb then
+        if sprite:IsPlaying("Explode") then
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, -1, -1, bomb.Position, Vector.Zero, player)
+            local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, player):ToLaser()
             effect.Visible = false
             void.Parent = effect
             void.Radius = 80
@@ -19,19 +33,6 @@ function this:BombUpdate(bomb)
     end
 end
 
-function this:bombInit(bomb)
-    if bomb.SpawnerType == EntityType.ENTITY_PLAYER 
-    and bomb.SpawnerEntity:ToPlayer():HasCollectible(CollectibleType.SOMETHINGWICKED_VOID_BOMBS) then
-        if (bomb.Variant > 4 or bomb.Variant < 3) then
-            if bomb.Variant == 0 then
-                bomb.Variant = 7001
-            end
-        end
-        bomb:GetData().isVoidBomb = true
-    end
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, this.bombInit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, this.BombUpdate)
 
 this.EIDEntries = {

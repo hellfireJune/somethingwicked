@@ -277,6 +277,8 @@ local itemsToLoad = {
   "starspawn",
   "plasmaglobe",
   "fishmilk",
+  "safetymasktemperance",
+  "prismaticbombs",
   
   "rogueplanet",
   "minos",
@@ -323,7 +325,7 @@ local itemsToLoad = {
   "treasurerskeycursedkey",
   "demoncore",
   "emptybook",
-  "redclover", -- black amulet
+  "redclover", -- demonium page
   "gachapon",
   "voidheart",
   "mrskits",

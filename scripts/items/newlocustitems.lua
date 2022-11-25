@@ -1,7 +1,7 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByName("Star of the Bottomless Pit")
 CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood")
-CollectibleType.SOMETHINGWICKED_S_AND_FLIES = Isaac.GetItemIdByName("S AND FLIES")
+CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger")
 
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
@@ -21,7 +21,7 @@ function this:FlyInit(familiar)
     elseif familiar.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
         this:InitGlitchLocust(familiar)
     elseif familiar.SubType == 0 then
-        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_S_AND_FLIES)
+        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DEBUGGER)
         if flag and player then
             familiar.SubType = LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
             this:InitGlitchLocust(familiar)
@@ -64,7 +64,8 @@ function this:enemyDeath(enemy)
 
         local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
         local chance = rng:RandomFloat() 
-        if chance <= (0.07 + ((1 - 1 / (1 + 0.17 * luck)) * 0.37)) then 
+        print((0.12 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)))
+        if chance <= (0.12 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)) then 
             player:AddBlueFlies(1, enemy.Position, player)
         end
     end
@@ -122,7 +123,8 @@ function this:OnLocustDoesDMG(entity, amount, flags, source, cooldown)
             isDoingBitterDamage = false
             isDoingWWDamage = false
             return false
-        elseif sourceEnt.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
+        elseif sourceEnt.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
+        and sourceEnt:GetDropRNG():RandomFloat() < 0.5 then
             SomethingWicked:UtilDoCorruption(sourceEnt.Position, -2)
         end
     end
@@ -155,8 +157,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnLocustDoesDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
---shop items of the mega bomb variety
---(sand flies)
+--flies that explode
 this.PlaceHolderLocustColor = Color(1, 1, 1, 1, 3, 3, 3)
 function this:InitGlitchLocust(familiar)
     familiar:GetSprite().Color = this.PlaceHolderLocustColor
@@ -181,7 +182,8 @@ function SomethingWicked:UtilDoCorruption(pos, strength)
     local func = SomethingWicked:GetRandomElement(this.PossibleCorruptions[strength], rng)
     func(pos)
 
-    
+    SomethingWicked.sfx:Play(SoundEffect.SOUND_EDEN_GLITCH)
+    SomethingWicked.game:ShakeScreen(1)
 end
 
 this.EIDEntries = {
@@ -189,7 +191,9 @@ this.EIDEntries = {
         desc =  "↑ Converts all blue flies into locusts#↑ Chance to spawn a blue fly upon killing enemies",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
+            SomethingWicked.encyclopediaLootPools.POOL_ANGEL,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_ANGEL
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Holding this item will convert all familiar blue flies into locusts", "Chance to spawn a random locust upon killing an enemy"}, 
         "The fifth angel sounded his trumpet, and I saw a star that had fallen from the sky to the earth. The star was given the key to the shaft of the Abyss.")
