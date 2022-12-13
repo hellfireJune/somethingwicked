@@ -1,5 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER = Isaac.GetItemIdByName("Book of Lucifer")
+TrinketType.SOMETHINGWICKED_SCORCHED_PAGE = Isaac.GetTrinketIdByName("Scorched Page")
 this.roomTables = {
     {2000, 2003}, --wrath
     {2010, 2013}, --gluttony
@@ -43,10 +44,15 @@ function this:NewFloor()
     local level = game:GetLevel()
     if SomethingWicked.RedKeyRoomHelpers:GenericShouldGenerateRoom(level, game) then
         local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER)
-        if flag and player then
-            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER)
+        local flag2, player2 = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_PAGE)
+        if (flag and player) or (flag2 and player2) then
+            local rng = (player and player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER))
+            or (player2 and player2:GetTrinketRNG(TrinketType.SOMETHINGWICKED_SCORCHED_PAGE)) or RNG()
+            if player2 and rng:RandomFloat() < 0.5 then
+                return
+            end
             local minibossToGen = SomethingWicked:GetRandomElement(this.roomTables, rng)
-            local room = SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom("miniboss", minibossToGen[1], minibossToGen[2], true, rng)
+            SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom("miniboss", minibossToGen[1], minibossToGen[2], true, rng)
         end
     end
 end
@@ -59,10 +65,17 @@ function this:BloodyTears(tear)
     end
 end
 
+function this:OnMinibossClear()
+    for index, value in ipairs(SomethingWicked.ItemHelpers:AllPlayersWithTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_PAGE)) do
+        value:UseActiveItem(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER)
+    end
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER)
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.damageCache, CacheFlag.CACHE_DAMAGE)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.NewFloor)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.BloodyTears)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_MINIBOSS_ROOM_CLEARED, this.OnMinibossClear)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER] = {

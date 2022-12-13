@@ -242,6 +242,8 @@ local itemsToLoad = {
   "ramshead",
   "corruption",
   "samyazasfeather",
+  "lankymushroom",
+  "bottleofshampoo",
 
   "discipleseye",
   "redlockbox",
@@ -278,7 +280,14 @@ local itemsToLoad = {
   "plasmaglobe",
   "fishmilk",
   "safetymasktemperance",
-  "prismaticbombs",
+  "loversmask",
+  "boxofvines",
+  "fibrousdysplasia",
+  "mosaicshard",
+  "knaveofhearts",
+  "redqueen",
+  "brokenbell",
+  "hellfire",
   
   "rogueplanet",
   "minos",
@@ -287,6 +296,9 @@ local itemsToLoad = {
   "devilsknife",
   "phobosanddeimos",
   "littleattractor",
+  "msgonorrhea",
+  "justiceandsplendor",
+  "cutiefly",
 
   "dstock",
   "balrogshead",
@@ -312,6 +324,11 @@ local itemsToLoad = {
   "goldencard",
   "fearstalkstheland",
   "bookofleviathan",
+  "marblesprouttaskmanager",
+  "babymandrake",
+  "icewand",
+  "dudael",
+  "magicclay",
   
   --"themistake"
   "twofcoins",
@@ -364,18 +381,21 @@ local earlyMiscLoad = {
 
   "ezEnums",
   
+  "newcallbacks",
+  "slotmachinesfuckingsuck",
+  "tearflagslibcore",
+  
   "dirtystatupsdonedirtquick",
   "itemHelpers",
-  "newcallbacks",
   "boonHelpers",
   "enemyHelpers",
-  "slotmachinesfuckingsuck",
   "familiarHelpers",
 }
 local postMiscLoad = {
   "EIDadder",
   "unlockHandler",
-  "itempools"
+  "itempools",
+  "cardWeightHandler",
 }
 --[[local enemiesToLoad = {
   --"experiment",
@@ -481,8 +501,8 @@ print("Something wicked this way comes...")
 --Putting full credits here so i dont forget when i release the mod
 --[[
 Spriting Help: lambchop_is_ok, Dallan
-Concept art: Nevernamed (Bt Y)
-Music: Hux
+Concept art + some general concepting: Nevernamed (Bt Y)
+Music (not used yet): Hux
 Special Thanks (Modding Help & Code used): lambchop_is_ok, fly_6, Agent Cucco, kittenchilly, Xalum, Fiend and the Fiendfolio team, the Tainted Treasures team
-Special Thanks (Playtesting & feedback): TheTurtleMelon (Massive Emphasis Here, probably the most feedback and the most vocal feedback i got), We Strvn, Skkull, Not a Bot
+Special Thanks (Playtesting & feedback): TheTurtleMelon (Massive Emphasis Here, probably the most feedback and the most vocal feedback i got), We Strvn, Skkull, Not a Bot, Saturn
 ]]

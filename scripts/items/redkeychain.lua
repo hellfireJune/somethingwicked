@@ -20,7 +20,7 @@ end)
 function this:UpdateRoomly()
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_RED_KEYCHAIN)
     if flag and player then
-        if SomethingWicked.game:GetFrameCount() % 12 == 1 then --sort of like a bus stop (doing this coz i fear how performance intensive this might be on later levels)
+        if SomethingWicked.game:GetFrameCount() % 4 == 1 then --sort of like a bus stop (doing this coz i fear how performance intensive this might be on later levels)
             local SkipMakingRRooms = false
             if ProcessedRooms == nil then
                 ProcessedRooms = {}

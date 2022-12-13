@@ -24,6 +24,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseHead, CollectibleT
 this.moddedThrowables = {
     "Cursed Candle",
     "Balrog's Head",
+    "Ice Wand",
 
     --fOLIO
     "D2",

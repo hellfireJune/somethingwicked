@@ -44,7 +44,7 @@ function SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, collectible)
         boxStacks = boxEffect.Count
     end
     local itemStacks = player:GetCollectibleNum(collectible)
-    return itemStacks * (1 + boxStacks), rng, sourceItem
+    return itemStacks + (itemStacks > 0 and boxStacks or 0), rng, sourceItem
 end
 
 function SomethingWicked.FamiliarHelpers:AddLocusts(player, amount, rng, position)
@@ -71,4 +71,34 @@ function SomethingWicked.FamiliarHelpers:DoesFamiliarShootPlayerTears(familiar)
 	or familiar.Variant == FamiliarVariant.UMBILICAL_BABY
     or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION
     or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION_B) 
+end
+
+function SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(fcheck, player)
+    local posInLayer local totalLayerSize = 0 local shouldReset = false
+    for _, familiar in ipairs(Isaac.FindByType(3)) do
+        familiar = familiar:ToFamiliar()
+        if (familiar.Parent and GetPtrHash(familiar.Parent) == GetPtrHash(player)) or GetPtrHash(familiar.Player) == GetPtrHash(player) and familiar.OrbitLayer == fcheck.OrbitLayer then
+            totalLayerSize = totalLayerSize + 1
+            if GetPtrHash(familiar) == GetPtrHash(fcheck) then
+                posInLayer = totalLayerSize
+            end
+            if familiar.FrameCount == 1 then
+                shouldReset = true
+            end
+        end
+    end
+    return posInLayer, totalLayerSize, shouldReset
+end
+
+SomethingWicked.FamiliarHelpers.ShouldResetOrbit = false
+function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent)
+    local layerPos, size, shouldReset = SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(familiar, parent)
+    local f_data = familiar:GetData()
+
+    if shouldReset then
+        f_data.somethingWicked__dynamicOrbitPos = 0
+    else
+        f_data.somethingWicked__dynamicOrbitPos = (f_data.somethingWicked__dynamicOrbitPos or 0) + familiar.OrbitSpeed
+    end
+    return parent.Position + familiar.OrbitDistance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
 end

@@ -21,6 +21,9 @@ function this:TearCollision(tear)
     if not t_data.somethingwicked_isTheBalrogsHead then
        return 
     end
+    if tear.StickTarget ~= nil then
+        return
+    end
     this:onTearHitsShit(tear)
 end
 

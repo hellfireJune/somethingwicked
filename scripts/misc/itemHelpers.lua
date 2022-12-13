@@ -66,6 +66,18 @@ function SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, item)
     return 0, -1
 end
 
+function SomethingWicked.ItemHelpers:GetAllActiveDatasOfType(player, item)
+    local table = {}
+    for i = 0, 3, 1 do
+        local currentItem = player:GetActiveItem(i)
+        if item == currentItem then
+            local charge = player:GetActiveCharge(i) + player:GetBatteryCharge(i)
+            table[i] = charge
+        end
+    end
+    return table
+end
+
 --From REP+. Removes the player queued item
 function SomethingWicked.ItemHelpers:RemoveQueuedItem(player)
     --"oh boy how great is that to work with queued items. so much fun!" -Anonymous ~~damned soul~~ Repentance Plus Coder (Presumably Mr. SeemsGood)
@@ -243,7 +255,7 @@ this.pickupsSpawnRegularEnMasseTable = {
         }
     },
 }
-function this:CanPickupHeartGeneric(heart, player)
+function SomethingWicked.ItemHelpers:CanPickupHeartGeneric(heart, player)
     if (not heart:IsShopItem() or heart.Price > player:GetNumCoins()) then
         return true
     end
@@ -259,7 +271,7 @@ function SomethingWicked.ItemHelpers:WillHeartBePickedUp(heart, player)
     if this.heartFuncs[heart.SubType] == nil then
         return false
     else
-        return (this.heartFuncs[heart.SubType](player) and this:CanPickupHeartGeneric(heart, player))
+        return (this.heartFuncs[heart.SubType](player) and SomethingWicked.ItemHelpers:CanPickupHeartGeneric(heart, player))
     end
 end
 
@@ -276,7 +288,7 @@ this.heartFuncs = {
         [HeartSubType.HEART_BONE] = function(player) return player:CanPickBoneHearts() end,
         [HeartSubType.HEART_ROTTEN] = function(player) return player:CanPickRottenHearts() end,
 }
-function this:GetSmokeshopItemPool(item, itempool, decrease, seed)
+function this:ItemBlacklister(item, itempool, decrease, seed)
     SomethingWicked.save.runData.ItemBlacklist = SomethingWicked.save.runData.ItemBlacklist or {}
     if SomethingWicked:UtilTableHasValue(SomethingWicked.save.runData.ItemBlacklist, item) and this.StackOverflowerPreventer < 100 then
         this.StackOverflowerPreventer = this.StackOverflowerPreventer + 1
@@ -288,7 +300,7 @@ function this:GetSmokeshopItemPool(item, itempool, decrease, seed)
     this.StackOverflowerPreventer = 0
 end
 this.StackOverflowerPreventer = 0
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, this.GetSmokeshopItemPool)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, this.ItemBlacklister)
 --[[
 this.validSubtypes = {HeartSubType.HEART_FULL, HeartSubType.HEART_HALF, HeartSubType.HEART_SCARED, HeartSubType.HEART_DOUBLEPACK, HeartSubType.HEART_BLENDED}
 this.ProcChance = 0.5
@@ -481,24 +493,24 @@ function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, ar
         --FIRE NUKE (might not be possible D:
     end
     if player:HasWeaponType(WeaponType.WEAPON_FETUS) then
-        --fire fetus
+        --c section
     end
     if player:HasWeaponType(WeaponType.WEAPON_KNIFE) then
         --return fire knife
     end
     if player:HasWeaponType(WeaponType.WEAPON_TECH_X) then
-        --fire laser ring or bomb if player has dr. fetus
+        player:FireTechXLaser(--[[position, direction, radius, source, damageMult]])
     end
     if player:HasWeaponType(WeaponType.WEAPON_BRIMSTONE) then
-        --fire brim or delayed brim if player has delayed tear flag
+        player:FireBrimstone(--[[direction, source, dmgMult]])
     end
     if player:HasWeaponType(WeaponType.WEAPON_BOMBS) then
-        --fire dr.fetus bomb
+        player:FireBomb(--[[position, direction, source]])
     end
     if player:HasWeaponType(WeaponType.WEAPON_LASER) then
-        --fire laser
+        player:FireTechLaser(--[[position, laserOffset, direction, leftEye, oneHit(?), source, damageMult]])
     end
-    --fire tear
+    player:FireTear(--[[position, direction, canBeEvilEye(false), noTractorBeam, canTriggerStreakEnd(false), source, damageMult]])
 end
 
 function SomethingWicked:TEARFLAG(x)
@@ -521,6 +533,16 @@ function SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, collectible
         return true
     end
     return false
+end
+
+--made by Xalum send him ur love
+function SomethingWicked.ItemHelpers.EntityCollidesWithSwingingKnife(entity, knife)
+    local player = knife.SpawnerEntity:ToPlayer()
+    local capsuleRadius = knife.Size * 2 * knife.SpriteScale.X
+    local knifeVectorDirection = (knife.Position - player.Position):Normalized()
+    local capsulePosition = knife.Position + player.Velocity + knifeVectorDirection * capsuleRadius
+
+    return entity.Position:Distance(capsulePosition) < entity.Size + capsuleRadius
 end
 
 

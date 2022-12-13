@@ -10,8 +10,12 @@ this.CustomCallbacks = {
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_ON_LASER_FIRED] = {},
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
-    [ccabEnum.SWCB_KNIFE_EFFECT_EVAL] = {}
+    [ccabEnum.SWCB_KNIFE_EFFECT_EVAL] = {},
+    [ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED] = {},
+    [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
+    [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
 }
+FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 function SomethingWicked:AddCustomCBack(type, funct, id)
     if type == ccabEnum.SWCB_PICKUP_ITEM then
@@ -77,8 +81,6 @@ function this:OnTearHit(tear, collider)
     end
 
     local procCoefficient = 1
-    local notSticking = true
-    local t_data = tear:GetData()
     if tear.Type == EntityType.ENTITY_KNIFE then
         if SomethingWicked:UtilTableHasValue(this.forgottenEsqueBones, tear.Variant)
         and  tear:IsFlying() == false then
@@ -86,14 +88,13 @@ function this:OnTearHit(tear, collider)
         else
             procCoefficient = 0.1
         end
-    else
-        notSticking = tear.StickTarget == nil
+    elseif tear.StickTarget ~= nil then
+        return
     end
 
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
 
-    if collider:IsVulnerableEnemy()
-    and player and notSticking then
+    if collider:IsVulnerableEnemy() and player then
         this:CallOnhitCallback(tear, collider, player, procCoefficient)
     end
 end
@@ -147,12 +148,11 @@ SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEntityDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
 this.onKillPos = nil
 function this:OnKill(enemy)
-        if enemy:IsBoss() then
-            local room = SomethingWicked.game:GetRoom()
-            local rType = room:GetType()
-            if (rType == RoomType.ROOM_BOSS or rType == RoomType.ROOM_BOSSRUSH) then
-                this.onKillPos = enemy.Position
-        end
+    local room = SomethingWicked.game:GetRoom()
+    local rType = room:GetType()
+    if enemy:IsBoss() and (rType == RoomType.ROOM_BOSS or rType == RoomType.ROOM_BOSSRUSH
+     or rType == RoomType.ROOM_MINIBOSS) then
+        this.onKillPos = enemy.Position
     end
 end
 
@@ -160,9 +160,15 @@ function this:DelayShit()
     if this.onKillPos
     and Isaac.CountBosses() == 0 then
         local r = SomethingWicked.game:GetRoom()
-        local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
-        for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED]) do
-            value(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED], this.onKillPos, isBossRush)
+        if r:GetType() == RoomType.ROOM_MINIBOSS then
+            for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED]) do
+                value(this.CustomCallbacks[ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED], this.onKillPos)
+            end
+        else
+            local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
+            for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED]) do
+                value(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED], this.onKillPos, isBossRush)
+            end
         end
         this.onKillPos = nil
     end
@@ -214,7 +220,7 @@ function this:PostFirePureEval(player)
         if not p_data.somethingWicked_processedPureFire
         or player.FireDelay >= player.MaxFireDelay then
             p_data.somethingWicked_processedPureFire = true
-            this:CallPureFireCallback(player, player:GetAimDirection(), 1)
+            this:CallPureFireCallback(player, player:GetAimDirection(), 1, player)
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
                 familiar = familiar:ToFamiliar()
@@ -222,7 +228,7 @@ function this:PostFirePureEval(player)
                     if SomethingWicked.FamiliarHelpers:DoesFamiliarShootPlayerTears(familiar)
                     and not (familiar.Variant == FamiliarVariant.INCUBUS and playerType == PlayerType.PLAYER_LILITH) then
                         local scalar = this:GetFamiliarPureFireScalar(familiar, playerType)
-                        this:CallPureFireCallback(familiar, familiar.ShootDirection, scalar)
+                        this:CallPureFireCallback(familiar, familiar.ShootDirection, scalar, player)
                     end
                 end
             end
@@ -251,11 +257,46 @@ function this:GetFamiliarPureFireScalar(familiar, playertype)
     return 0.35
 end
 
-function this:CallPureFireCallback(player, direction, scalar)
+function this:CallPureFireCallback(shooter, direction, scalar, player)
     for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE]) do
-        callb(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE], player, direction, scalar)
+        callb(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE], shooter, direction, scalar, player)
     end
 end
 
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PostFirePureEval)
+
+--new wave/on item charge
+local queueNewWaveCheck = false
+function this:CheckTheChecker(familiar)
+    familiar.Velocity = Vector(-400, -400)
+    if familiar.RoomClearCount > 0 then
+        queueNewWaveCheck = true
+        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE]) do
+            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE], familiar.RoomClearCount)
+        end
+        familiar.RoomClearCount = 0
+    end
+end
+
+function this:NewWaveOnChargeGameUpdate()
+    if #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER) == 0 then
+        Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER, 0, Vector(0, 0), Vector(0, 0), nil)
+    end
+
+    local r = SomethingWicked.game:GetRoom()
+    if queueNewWaveCheck and
+     ((Isaac.CountEnemies() > 0 and r:GetType() ~= RoomType.ROOM_BOSSRUSH) or Isaac.CountBosses() > 0)
+    then
+        queueNewWaveCheck = false
+        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_NEW_WAVE_SPAWNED]) do
+            callb(this.CustomCallbacks[ccabEnum.SWCB_NEW_WAVE_SPAWNED])
+        end
+    end
+end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
+    queueNewWaveCheck = false
+end)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.NewWaveOnChargeGameUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.CheckTheChecker, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER)

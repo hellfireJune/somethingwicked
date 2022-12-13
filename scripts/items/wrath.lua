@@ -37,7 +37,7 @@ function this:TearOnHit(tear, collider, player, procChance)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil then
         local borkdHearts = player:GetBrokenHearts()
-        local rng = player:GetDropRNG()
+        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WRATH)
 
         if borkdHearts > 0
         and rng:RandomFloat() <= procChance then

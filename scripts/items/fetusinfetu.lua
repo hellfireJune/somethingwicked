@@ -36,6 +36,7 @@ function this:OnNPCKill(enemy)
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
             local p_data = player:GetData()
             p_data.somethingwicked_fetusinfetu_deathPos = enemy.Position
+            SomethingWicked.game:GetHUD():FlashChargeBar(player, slot)
             SomethingWicked.sfx:Play(SoundEffect.SOUND_BEEP)
         end
     end

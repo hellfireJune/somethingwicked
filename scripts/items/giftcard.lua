@@ -6,7 +6,7 @@ function this:PEffectUpdate(player)
         local p_data = player:GetData()
         p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown or 0
 
-        if player:GetNumCoins() < 3 then
+        if player:GetNumCoins() < 6 then
             
             if p_data.somethingWicked_giftCardCountdown > 0 then
                 p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown - 1
@@ -31,7 +31,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_GIFT_CARD] = {
-        desc = "While held, your coins can never fall below 3 coins"..
+        desc = "While held, your coins can never fall below 6 coins"..
         "#!!! 5% chance for the trinket to break upon refilling coins",
         isTrinket = true
     }

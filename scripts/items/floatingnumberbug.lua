@@ -1,12 +1,9 @@
 local this = {}
 TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG = Isaac.GetTrinketIdByName("Floating Point Bug")
+TrinketType.SOMETHINGWICKED_BAG_OF_MUGWORTS = Isaac.GetTrinketIdByName("Bag of Mugworts")
 
 this.PossibleCorruptions = {
     [0] = {
-
-        function ()
-            Isaac.GetPlayer(0):UseCard(Card.CARD_REVERSE_TOWER)
-        end,
     },
     [-1] = {
 
@@ -24,14 +21,26 @@ this.PossibleCorruptions = {
                 end
             end
         end,
+        function ()
+            SomethingWicked.game:ShowRule()
+        end
     },
     [-2] = {
 
         function ()
             Isaac.GetPlayer(0):UseCard(Card.CARD_TOWER)
         end,
-        function ()
-            Isaac.GetPlayer(0):UseActiveItem(CollectibleType.COLLECTIBLE_D10, false)
+        function (pos)
+            --Isaac.GetPlayer(0):UseActiveItem(CollectibleType.COLLECTIBLE_D10, false)
+            local enemiesInRadius = Isaac.FindInRadius(pos, 80000, EntityPartition.ENEMY)
+            for key, value in pairs(enemiesInRadius) do
+                if value:ToNPC() and value:ToNPC():CanReroll() then
+                    SomethingWicked.game:RerollEnemy(value)
+                end
+            end
+        end,
+        function (pos)
+            Isaac.Spawn(EntityType.ENTITY_BOMB, BombVariant.BOMB_TROLL, 0, pos, Vector.Zero, nil)
         end,
     },
     [-3] = {
@@ -68,11 +77,29 @@ this.PossibleCorruptions = {
         end
     },
     [-5] = {
-        {function ()
-            Isaac.GetPlayer(0):UseActiveItem(CollectibleType.COLLECTIBLE_GLOWING_HOURGLASS, false)
-        end, -5},
     }
 }
+
+local function SpawnLocusts(trinket, locust)
+    local allPlayers = SomethingWicked.ItemHelpers:AllPlayersWithTrinket(trinket)
+    for _, player in ipairs(allPlayers) do
+        for i = 1, player:GetTrinketMultiplier(trinket), 1 do
+            local wf = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD, player.Position, Vector.Zero, player)
+            wf.Parent = player
+        end
+    end
+end
+function this:NewRoom()
+    local room = SomethingWicked.game:GetRoom()
+    if room:IsClear() and not room:IsAmbushActive() then
+        return
+    end
+    SpawnLocusts(TrinketType.SOMETHINGWICKED_BAG_OF_MUGWORTS, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD)
+    SpawnLocusts(TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG, LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST)
+end
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoom)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_NEW_WAVE_SPAWNED, this.NewRoom)
+
 
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = {

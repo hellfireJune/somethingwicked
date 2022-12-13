@@ -75,8 +75,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpda
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CHASM] = {
-        desc = "↑ Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage# !!! No bonus for destroying over 10 items",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage","No bonus for destroying over 10 items"}),
+        desc = "↑ Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire# !!! No bonus for destroying over 10 items",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire","No bonus for destroying over 10 items"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE

@@ -1,12 +1,13 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByName("Star of the Bottomless Pit")
 CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood")
+TrinketType.SOMETHINGWICKED_OWL_FEATHER = Isaac.GetTrinketIdByName("Owl Feather")
 CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger")
 
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
 
-this.WWColor = Color(0.5, 0.5, 0.5, 1, 0.4, 0.25, 0)
+this.WWColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
 this.SOTBPAnimations = {
     [1] = "LocustWrath",
     [2] = "LocustPestilence",
@@ -39,6 +40,15 @@ function this:FlyInit(familiar)
                 return
             end
         end
+        flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_OWL_FEATHER)
+        if flag and player then
+            local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_OWL_FEATHER)
+            if t_rng:RandomFloat() < 0.2 * player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_OWL_FEATHER) then
+                familiar.SubType = LocustSubtypes.LOCUST_OF_WRATH
+                familiar:GetSprite():Play(this.SOTBPAnimations[LocustSubtypes.LOCUST_OF_WRATH], true)
+                return
+            end
+        end
         flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
         if flag and player then
             local myRNG = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
@@ -64,7 +74,6 @@ function this:enemyDeath(enemy)
 
         local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
         local chance = rng:RandomFloat() 
-        print((0.12 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)))
         if chance <= (0.12 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)) then 
             player:AddBlueFlies(1, enemy.Position, player)
         end

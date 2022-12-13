@@ -55,6 +55,8 @@ function this:BoonPreventCardSpawn(rng, card, getPlayingCards, getRunes, onlyRun
         end
 
         return nextCard
+    else
+
     end
 end
 

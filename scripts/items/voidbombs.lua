@@ -9,6 +9,9 @@ local function FetusProcChance(player)
 end
 
 function this:BombUpdate(bomb)
+    if not bomb.SpawnerEntity then
+        return
+    end
     local player = bomb.SpawnerEntity:ToPlayer()
     if player == nil then
         return

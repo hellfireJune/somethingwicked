@@ -4,7 +4,10 @@ SomethingWicked.CustomCallbacks = {
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
     SWCB_ON_FIRE_PURE = 5,
-    SWCB_KNIFE_EFFECT_EVAL = 6
+    SWCB_KNIFE_EFFECT_EVAL = 6,
+    SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
+    SWCB_NEW_WAVE_SPAWNED = 8,
+    SWCB_ON_ITEM_SHOULD_CHARGE = 9,
 }
 SomethingWicked.MachineVariant = {
     MACHINE_SLOT = 1,
@@ -26,23 +29,16 @@ SomethingWicked.MachineVariant = {
     MACHINE_CONFESSIONAL = 17,
     MACHINE_BEGGAR_ROTTEN = 18
 }
-SomethingWicked.LaserVariant = {
-    BRIM = 1,
-    TECH = 2,
-    SHOOP = 3,
-    PRIDE = 4,
-    LIGHT = 5,
-    MEGA_BRIM = 6,
-    TRACTOR_BEAM = 7,
-    DADS_RING = 8,
-    BRIM_TECH = 9,
-    LIGHTNING = 10,
-    THICK_BRIM = 11,
-    SHIT = 12,
-    BEAST = 13,
-    THICK_BRIM_TECH = 14,
-    MEGA_BRIM_TECH = 15,
-}
 SomethingWicked.ItemPoolEnum = {
     TERATOMA_BEGGAR = 1
+}
+SomethingWicked.CustomTearFlags = {
+    FLAG_SHOTGRUB = 1 << 0,
+    FLAG_KNAVE_OF_HEARTS = 1 << 1,
+    FLAG_DREAD = 1 << 2,
+    FLAG_BALROG_HEART = 1 << 3,
+    FLAG_BITTER = 1 << 4,
+    FLAG_ELECTROSTUN = 1 << 5,
+    FLAG_SHADOWSTATUS = 1 << 6,
+    FLAG_MAGNIFYING = 1 << 7,
 }

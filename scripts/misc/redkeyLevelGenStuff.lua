@@ -1,6 +1,7 @@
 --tainted treasures mod is full of saints as developers thank GOD
 SomethingWicked.RedKeyRoomHelpers = {}
 local game = SomethingWicked.game
+local minimaprooms = {}
 
 function SomethingWicked.RedKeyRoomHelpers:IsDeadEnd(roomidx, shape)
 	local level = game:GetLevel()
@@ -91,6 +92,9 @@ function SomethingWicked.RedKeyRoomHelpers:UpdateLevelDisplayFlags()
 end
 
 function SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom(roomtype, minvariant, maxvariant, onnewlevel, rng) --Roomtype must be provided as a string for goto use, enter nil to generate an ordinary room
+	if StageAPI and StageAPI.InOverriddenStage() then
+		return
+	end
 	onnewlevel = onnewlevel or false
 	local level = game:GetLevel()
 	local hascurseofmaze = false
@@ -170,7 +174,7 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom(roomtype, minvari
 								end
 								level:UpdateVisibility()
 							end, 0, ModCallbacks.MC_POST_UPDATE)
-						--table.insert(SomethingWicked.RedKeyRoomHelpers.minimaprooms, newroomdesc.GridIndex)
+						table.insert(minimaprooms, newroomdesc.GridIndex)
 						return newroomdesc
 					end
 				end
@@ -191,6 +195,9 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom(roomtype, minvari
 end
 
 function SomethingWicked.RedKeyRoomHelpers:GenerateExtraRoom(rng)
+	if StageAPI and StageAPI.InOverriddenStage() then
+		return
+	end
 	local level = game:GetLevel()
 	local floordeadends = {}
 	local currentroomidx = level:GetCurrentRoomIndex()
@@ -219,7 +226,7 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateExtraRoom(rng)
 				newroomdesc.Flags = 0
 				SomethingWicked.RedKeyRoomHelpers:UpdateRoomDisplayFlags(newroomdesc)
 				level:UpdateVisibility()
-				--table.insert(SomethingWicked.RedKeyRoomHelpers.minimaprooms, newroomdesc.GridIndex)
+				table.insert(minimaprooms, newroomdesc.GridIndex)
 				return true
 			end
 		end
@@ -227,6 +234,9 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateExtraRoom(rng)
 end
 
 function SomethingWicked.RedKeyRoomHelpers:InitializeRoomData(roomtype, minvariant, maxvariant, dataset)
+	if StageAPI and StageAPI.InOverriddenStage() then
+		return
+	end
 	local level = game:GetLevel()
 	local currentroomidx = level:GetCurrentRoomIndex()
 	local currentroomvisitcount = level:GetRoomByIdx(currentroomidx).VisitedCount
@@ -262,6 +272,9 @@ function SomethingWicked.RedKeyRoomHelpers:InitializeRoomData(roomtype, minvaria
 end
 
 function SomethingWicked.RedKeyRoomHelpers:GenerateRoomFromDataset(dataset, onnewlevel, rng)
+	if StageAPI and StageAPI.InOverriddenStage() then
+		return
+	end
 	onnewlevel = onnewlevel or false
 	local level = game:GetLevel()
 	local setcopy = dataset
@@ -294,7 +307,7 @@ function SomethingWicked.RedKeyRoomHelpers:GenerateRoomFromDataset(dataset, onne
 						newroomdesc.Flags = 0
 						SomethingWicked.RedKeyRoomHelpers:UpdateRoomDisplayFlags(newroomdesc)
 						level:UpdateVisibility()
-						--table.insert(SomethingWicked.RedKeyRoomHelpers.minimaprooms, newroomdesc.GridIndex)
+						table.insert(minimaprooms, newroomdesc.GridIndex)
 						return newroomdesc
 					end
 				end
@@ -528,3 +541,19 @@ SomethingWicked.RedKeyRoomHelpers.oppslots = {
 	[DoorSlot.RIGHT1] = DoorSlot.LEFT0, 
 	[DoorSlot.DOWN1] = DoorSlot.UP0
 }
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
+	
+	if MinimapAPI and #minimaprooms > 0 then
+		for i, roomidx in pairs(minimaprooms) do
+			local minimaproom = MinimapAPI:GetRoomByIdx(roomidx)
+			SomethingWicked:UtilScheduleForUpdate(function()
+				if minimaproom then
+					minimaproom.Color = Color(MinimapAPI.Config.DefaultRoomColorR, MinimapAPI.Config.DefaultRoomColorG, MinimapAPI.Config.DefaultRoomColorB, 1, 0, 0, 0)
+					minimaprooms[i] = nil
+				end
+			end, 0)
+		end
+	else
+		minimaprooms = {}
+	end
+end)

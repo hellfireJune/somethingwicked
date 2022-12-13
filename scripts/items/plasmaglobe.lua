@@ -4,7 +4,7 @@ this.Color = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 
 this.baseProcChance = 0.2
 local function ProcChance(player)
-    return (player.Luck >= 0 and (this.baseProcChance * ((player.Luck + 0.5) / 2)) or (this.baseProcChance / math.abs(player.Luck)))
+    return (player.Luck >= 0 and (this.baseProcChance + (this.baseProcChance* ((player.Luck) / 2))) or (this.baseProcChance / math.abs(player.Luck)))
 end
 function this:FireTear(tear)
     local p = SomethingWicked:UtilGetPlayerFromTear(tear)
@@ -46,11 +46,6 @@ function this:NPCUpdate(npc)
     local e_data = npc:GetData()
     if not e_data.somethingWicked_electroStun
     or not e_data.somethingWicked_electroStunParent then
-        if e_data.somethingWicked_electroStun then
-            print("a")
-        elseif e_data.somethingWicked_electroStunParent then
-            print("b")
-        end
         return
     end
 

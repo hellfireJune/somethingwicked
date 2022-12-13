@@ -72,7 +72,7 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
     if e_data.somethingWicked_dreadStacks > 0
     and not this.takingDreadDMG then
         this.takingDreadDMG = true
-        ent:TakeDamage(amount * 3, flags, EntityRef(ent), dmgCooldown)
+        ent:TakeDamage(amount * 3, flags, source, dmgCooldown)
         this.takingDreadDMG = false
 
         e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks - 1

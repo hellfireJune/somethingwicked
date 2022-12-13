@@ -56,8 +56,8 @@ function SomethingWicked.StatUps:TearsUp(player, tears, flat, mult)
 
   local currentTears = SomethingWicked.StatUps:GetTears(player.MaxFireDelay)
   local currmax = 5 + (player:GetTrinketMultiplier(TrinketType.TRINKET_CANCER))
-  tears = math.min(tears^1.02 + currentTears, math.max(currmax * baseMult * mult, currentTears)) - currentTears
-  return SomethingWicked.StatUps:GetFireDelay((currentTears + (tears) + flat) * mult)
+  tears = math.min(tears*1.1 + currentTears, math.max(currmax * baseMult * mult, currentTears)) - currentTears
+  return SomethingWicked.StatUps:GetFireDelay(math.max((currentTears + (tears) + flat) * mult, 0.2))
 end
 
 --shamelessly nabbed from an old message from mr.seemsgood i found.

@@ -54,7 +54,7 @@ function this:MachineUpdate(player)
     --Like, 90% of this code I nabbed from andromeda's Wisp Wizard
     --Which itself was nabbed from the Harlot Beggar's mod, heh
 
-    --I also took some stuff from AgentCucco's Job mod, for the destruction bit
+    --I also took some stuff from AgentCucco's Job mod, for the destruction bit, ty 
 
     local machiness = Isaac.FindByType(EntityType.ENTITY_SLOT)
 
