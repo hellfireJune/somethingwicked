@@ -2,7 +2,7 @@
 - Things that just need sprites: ZZZZZZ Magnet, Meal coupon, Gift card, Mr. Skits (unless?), Brittle Dagger, Little Attractor, Legion (mostly), Superbug, Balrog's Heart, Devilsknife, Hydra
 Phobos and Deimos, Samyaza's Plume, Prismatic Mushroom, Plague of Wormwood (mostly), Eden's Head, Curse Mask, Facestabber, Red Keychain, Ticket Roll, Fish Milk, Ice Wand, Ms. Gonorrhea,
 Marble Sprout, Task Manager, Lanky Mushroom, Bag of Mugworts, Floating Point Bug, Fibrous Dysplasia, Baby Mandrake, Broken Bell (Hopefully?), Temperance, Safety Mask, Owl Feather
-Busted Battery (Hopefully?), Scorched Page, Black Moon Medallion, Magic Clay, The Aeon (revesed), Broken Bell
+Busted Battery (Hopefully?), Scorched Page, Black Moon Medallion, Magic Clay, The Aeon (revesed), Dudael, Splendor and Justice, Cutie Fly, Debugger
 - Bare minimum functionality: special herbs boxset, mosaic shard, red queen
 
 - Fix Dread Poof sorta being broken
@@ -23,11 +23,9 @@ Busted Battery (Hopefully?), Scorched Page, Black Moon Medallion, Magic Clay, Th
 -prismatic mushroom and crying minotaur vfx
 -electrostun vfx
 -plague of wormwood tear effect
--debugger functionality
 -face stabber, ice wand and balrogs heart tear gfx
 -basically everything regarding the reversed thoth
 -void, teratoma and infinite beggar sprites
 -void machine implode gfx
 -implement a FF-esque card blacklist system
--either clear out the listed items and trinkets or finish them all
 -FINISH GLITCHCITY

@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_HELLFIRE = Isaac.GetItemIdByName("Hellfire")
 
 local function procChance(player)
-    return 1
+    return 0.11 + (player.Luck*0.5)
 end
 local shouldMakeDMGCrazy = false
 function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
@@ -42,14 +42,21 @@ function this:NPCUpdate(ent)
         return
     end
     if e_data.somethingWicked_hellfirePrimedFrames ~= nil then
+        if e_data.somethingWicked_hellfirePrimedFrames < 0 then
+            return
+        end
+
         e_data.somethingWicked_hellfirePrimedFrames = e_data.somethingWicked_hellfirePrimedFrames - 1
         local shouldFlash = e_data.somethingWicked_hellfirePrimedFrames % 5 == 4
         if shouldFlash then
             local color = Color(1, 1, 1, 1, 1)
             ent:SetColor(color, 8, 3, true, false)
+
+            SomethingWicked.sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
         elseif e_data.somethingWicked_hellfirePrimedFrames == 0 then
-            Game():BombTearflagEffects(ent.Position, 1, TearFlags.TEAR_BRIMSTONE_BOMB, Isaac.GetPlayer(0), 1)
             ent:BloodExplode()
+            Game():BombTearflagEffects(ent.Position, 1, TearFlags.TEAR_BRIMSTONE_BOMB, Isaac.GetPlayer(0), 1)
+            SomethingWicked.sfx:Stop(SoundEffect.SOUND_BEEP)
         end
     elseif ent.HitPoints < 0.1 then
         e_data.somethingWicked_hellfirePrimedFrames = 30
@@ -57,5 +64,9 @@ function this:NPCUpdate(ent)
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
+        desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions"
+    }
+}
 return this

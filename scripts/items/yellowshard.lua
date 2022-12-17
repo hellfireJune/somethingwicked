@@ -12,7 +12,7 @@ function this:OnDamage(entity, amount, flag)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnDamage, EntityType.ENTITY_PLAYER)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnDamage, EntityType.ENTITY_PLAYER)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL] = {

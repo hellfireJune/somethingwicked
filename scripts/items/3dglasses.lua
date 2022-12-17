@@ -51,7 +51,7 @@ function this:SplitLasersToo(laser, player)
             for i = -this.angle, this.angle, this.angle * 2 do
                 local newAngle = Vector.FromAngle(laser.Angle + i)
                 local new
-                if laser.Variant == SomethingWicked.LaserVariant.TECH then
+                if laser.Variant == LaserVariant.THIN_RED then
                     new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, this.damageMult)
                 else
                     new = player:FireBrimstone(newAngle, nil, this.damageMult)

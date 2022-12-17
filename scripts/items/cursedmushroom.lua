@@ -53,7 +53,7 @@ function this:LocustDidDamage(ent, amount, flags, source, dmgCooldown)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.LocustDidDamage)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.LocustDidDamage)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, this.OnWispDie, EntityType.ENTITY_FAMILIAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM)
 

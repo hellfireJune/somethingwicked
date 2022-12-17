@@ -51,8 +51,7 @@ function this:GabeSwordUpdate(familiar)
     local multer = SomethingWicked:Clamp(p_data.SomethingWickedPData.splendorTimer / 4 , 0, 1)* (p_data.SomethingWickedPData.isSplendorful and 1 or -1) + (p_data.SomethingWickedPData.isSplendorful and 0 or 1)
     local speedMult = SomethingWicked.EnemyHelpers:Lerp(3, 18, multer)
     speedMult = SomethingWicked.EnemyHelpers:Lerp(familiar.OrbitSpeed, speedMult, 0.2)
-    familiar.OrbitSpeed = speedMult
-    local position = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, player)
+    local position = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, player, speedMult, familiar.OrbitDistance)
     familiar.Velocity = position - familiar.Position
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.GabeSwordUpdate, FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR)

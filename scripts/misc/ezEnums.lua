@@ -41,4 +41,5 @@ SomethingWicked.CustomTearFlags = {
     FLAG_ELECTROSTUN = 1 << 5,
     FLAG_SHADOWSTATUS = 1 << 6,
     FLAG_MAGNIFYING = 1 << 7,
+    FLAG_PROVIDENCE = 1 << 8,
 }

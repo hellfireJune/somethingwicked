@@ -3,8 +3,9 @@ CollectibleType.SOMETHINGWICKED_BRAVERY = Isaac.GetItemIdByName("Bravery")
 CollectibleType.SOMETHINGWICKED_SUPERIORITY = Isaac.GetItemIdByName("Superiority")
 this.DamageMult = 1.3
 
+local flag = false
 function this:OnDamag(ent, amount, flags, source, dmgCooldown)
-    if flags & DamageFlag.DAMAGE_CLONES ~= 0 or 
+    if flag or 
     source == nil or source.Entity == nil 
     or SomethingWicked:UtilGetPlayerFromTear(source.Entity) == nil then
         return 
@@ -14,7 +15,10 @@ function this:OnDamag(ent, amount, flags, source, dmgCooldown)
     local item = flag and CollectibleType.SOMETHINGWICKED_BRAVERY or CollectibleType.SOMETHINGWICKED_SUPERIORITY
     local hasItem = player:HasCollectible(item) 
     if hasItem then
-        ent:TakeDamage(amount * (this.DamageMult - 1), flags | DamageFlag.DAMAGE_CLONES, EntityRef(ent), dmgCooldown)
+        flag = true
+        ent:TakeDamage(amount * this.DamageMult, flags, EntityRef(ent), dmgCooldown)
+        flag = false
+        return false
     end
 end
 

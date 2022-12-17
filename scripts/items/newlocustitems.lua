@@ -207,6 +207,10 @@ this.EIDEntries = {
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Holding this item will convert all familiar blue flies into locusts", "Chance to spawn a random locust upon killing an enemy"}, 
         "The fifth angel sounded his trumpet, and I saw a star that had fallen from the sky to the earth. The star was given the key to the shaft of the Abyss.")
     },
-    [TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = numberBug.EIDEntries[TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG]
+    [TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = numberBug.EIDEntries[TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG],
+    [TrinketType.SOMETHINGWICKED_OWL_FEATHER] = {
+        desc = "{{Trinket113}} 25% chance for a blue fly to turn into a Locust of War",
+        isTrinket = true,
+    }
 }
 return this

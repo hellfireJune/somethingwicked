@@ -39,7 +39,7 @@ function this:FamilarUpdate(familiar)
         end
     end
     local target = familiar.Parent or familiar.Player
-    local pos = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, target)
+    local pos = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, target, familiar.OrbitSpeed, familiar.OrbitDistance)
     if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
         familiar.Velocity = Vector.Zero
         familiar.Position = pos

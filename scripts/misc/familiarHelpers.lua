@@ -1,22 +1,11 @@
 SomethingWicked.FamiliarHelpers = {}
 
-function SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, blockProj, projectilesPierce, collideWithEnemies)
-
+function SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, blockProj, projectilesPierce, collideWithEnemies, flags)
+    flags = flags or 0
     if blockProj then
-        --Oh deliverance, i am forever thankful
         for _, value in ipairs(Isaac.FindByType(EntityType.ENTITY_PROJECTILE, -1, -1, true)) do
             if value.Position:Distance(familiar.Position) < value.Size + familiar.Size then
-                familiar:TakeDamage(value.CollisionDamage, 0, EntityRef(value), 4)
-                --[[if familiar.HitPoints <= 0 then
-                    
-                    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
-                    poof.Color = Color(0.1, 0.1, 0.1)
-                    SomethingWicked.sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
-                    
-                    local p_data = player:GetData()
-                    familiar:Die()
-    
-                end]]
+                familiar:TakeDamage(value.CollisionDamage, flags, EntityRef(value), 4)
                 if not projectilesPierce then
                     value:Die()
                 end
@@ -26,13 +15,11 @@ function SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, bloc
 
     if collideWithEnemies then
         for _, value in ipairs(Isaac.FindInRadius(familiar.Position, familiar.Size, EntityPartition.ENEMY)) do
-            if value.CollisionDamage > 0 then
-                familiar:TakeDamage(1, 0, EntityRef(value), 4)
-                break
-            end
+            print("kill")
+            familiar:TakeDamage(value.CollisionDamage, flags, EntityRef(value), 4)
+            break
         end
     end
-    --thanke deliverance team
 end
 
 function SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, collectible)
@@ -90,15 +77,14 @@ function SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(fcheck, playe
     return posInLayer, totalLayerSize, shouldReset
 end
 
-SomethingWicked.FamiliarHelpers.ShouldResetOrbit = false
-function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent)
+function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent, speed, distance)
     local layerPos, size, shouldReset = SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(familiar, parent)
     local f_data = familiar:GetData()
 
     if shouldReset then
         f_data.somethingWicked__dynamicOrbitPos = 0
     else
-        f_data.somethingWicked__dynamicOrbitPos = (f_data.somethingWicked__dynamicOrbitPos or 0) + familiar.OrbitSpeed
+        f_data.somethingWicked__dynamicOrbitPos = (f_data.somethingWicked__dynamicOrbitPos or 0) + speed
     end
-    return parent.Position + familiar.OrbitDistance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
+    return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
 end

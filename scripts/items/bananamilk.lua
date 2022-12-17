@@ -1,7 +1,8 @@
 --and unstable crafts
+--(this comment doesnt make sense anymore but this used to be called fish milk)
 
 local this = {}
-CollectibleType.SOMETHINGWICKED_FISH_MILK = Isaac.GetItemIdByName("Fish Milk")
+CollectibleType.SOMETHINGWICKED_BANANA_MILK = Isaac.GetItemIdByName("Banana Milk")
 
 local flagsBlacklist = {
     TearFlags.TEAR_GISH,
@@ -39,7 +40,7 @@ local function GenerateNewFlag(rng)
 end
 
 function this:PEffectUpdate(player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FISH_MILK) then
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BANANA_MILK) then
         local p_data = player:GetData()
         p_data.SomethingWickedPData.FishMilkTimer = (p_data.SomethingWickedPData.FishMilkTimer or 61) - 1
         if p_data.SomethingWickedPData.FishMilkTimer <= 0 then
@@ -47,7 +48,7 @@ function this:PEffectUpdate(player)
             p_data.SomethingWickedPData.FishMilkTimer = 60
         end
         if p_data.SomethingWickedPData.FishMilkFlags == nil then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FISH_MILK)
+            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BANANA_MILK)
             local newFlags = GenerateNewFlag(c_rng)
             p_data.SomethingWickedPData.FishMilkFlags = newFlags
             player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
@@ -59,7 +60,7 @@ end
 
 local damageMult = 0.3
 function this:EvaluateCache(player, flags)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FISH_MILK) then
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BANANA_MILK) then
         if flags == CacheFlag.CACHE_DAMAGE then
             player.Damage = SomethingWicked.StatUps:DamageUp(player, 0, 0, damageMult)
         end
@@ -67,7 +68,7 @@ function this:EvaluateCache(player, flags)
         if flags == CacheFlag.CACHE_TEARFLAG then
             local p_data = player:GetData()
             if not p_data.SomethingWickedPData.FishMilkFlags  then
-                local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FISH_MILK)
+                local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BANANA_MILK)
                 local newFlags = GenerateNewFlag(c_rng)
                 p_data.SomethingWickedPData.FishMilkFlags = newFlags
             end

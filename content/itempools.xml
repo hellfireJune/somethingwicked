@@ -29,6 +29,8 @@
 		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Baby Mandrake" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lover's Mask" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -65,6 +67,7 @@
 		<Item Name="Cursed Credit Card" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="boss">
@@ -92,6 +95,7 @@
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	
@@ -147,6 +151,7 @@
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Red" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -259,12 +264,14 @@
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
 		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedAngel">

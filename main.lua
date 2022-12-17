@@ -278,7 +278,7 @@ local itemsToLoad = {
   "red",
   "starspawn",
   "plasmaglobe",
-  "fishmilk",
+  "bananamilk",
   "safetymasktemperance",
   "loversmask",
   "boxofvines",
@@ -288,6 +288,7 @@ local itemsToLoad = {
   "redqueen",
   "brokenbell",
   "hellfire",
+  "saintshead",
   
   "rogueplanet",
   "minos",
@@ -299,6 +300,7 @@ local itemsToLoad = {
   "msgonorrhea",
   "justiceandsplendor",
   "cutiefly",
+  "fatwisp",
 
   "dstock",
   "balrogshead",

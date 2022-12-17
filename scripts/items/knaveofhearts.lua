@@ -24,7 +24,7 @@ function this:UpdateTear(tear)
         if tear.FrameCount % 4 ~= 0 then
             return
         end
-        local creepMult = Vector(1, 1)
+        local creepMult = 1
 
         local player = SomethingWicked:UtilGetPlayerFromTear(tear)
         if player then
@@ -33,9 +33,9 @@ function this:UpdateTear(tear)
                 creepMult = creepMult * (1 + (p_data.SomethingWickedPData.knaveOfHeartsCardsUsed /2)) 
             end
         end
-        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, tear.Position, Vector.Zero, tear.SpawnerEntity.Player)
+        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, tear.Position, Vector.Zero, tear.SpawnerEntity.SpawnerEntity):ToEffect()
         creep.CollisionDamage = tear.CollisionDamage / 3
-        creep.SpriteScale = creepMult
+        creep.Scale = creepMult
         creep:Update()
     end
 end

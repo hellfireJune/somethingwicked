@@ -38,8 +38,8 @@ this.HeadSprites = {
 function this:FamiliarInit(familiar)
     local sprite = familiar:GetSprite()
 
-    familiar:AddToOrbit(75)
-    familiar.OrbitDistance = Vector(75, 75)
+    familiar:AddToOrbit(3)
+    familiar.OrbitDistance = Vector(110, 90)
 	familiar.OrbitSpeed = 0.01
     
     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)

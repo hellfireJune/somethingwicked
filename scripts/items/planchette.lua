@@ -1,17 +1,19 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_PLANCHETTE = Isaac.GetItemIdByName("Planchette")
-this.AffectedCompanions = {FamiliarVariant.ITEM_WISP, FamiliarVariant.WISP, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE}
+this.AffectedCompanions = {FamiliarVariant.ITEM_WISP, FamiliarVariant.WISP, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, FamiliarVariant.GHOST_BABY}
 
 function this:BuffFamiliarHP(familiar)
-    if not SomethingWicked:UtilTableHasValue(this.AffectedCompanions, familiar.Variant)
-    or familiar.FrameCount ~= 5 then
+    if not SomethingWicked:UtilTableHasValue(this.AffectedCompanions, familiar.Variant) then
         return
     end
 
     local player = familiar.Player
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
-        familiar.MaxHitPoints = familiar.MaxHitPoints * 2
-        familiar:AddHealth(familiar.MaxHitPoints - familiar.HitPoints)
+        if familiar.FrameCount == 5 then
+            familiar.MaxHitPoints = familiar.MaxHitPoints * 2
+            familiar:AddHealth(familiar.MaxHitPoints - familiar.HitPoints)
+        end
+        familiar.SpriteScale = Vector(2, 2)
     end
 end
 
@@ -27,8 +29,6 @@ function this:WispFire(tear)
             tear.Scale = tear.Scale * 1.5
             tear.CollisionDamage = tear.CollisionDamage * 2
         end
-        --print("a")
-        --tear:ResetSpriteScale()
     end
 end
 
@@ -42,7 +42,7 @@ end, CollectibleType.SOMETHINGWICKED_PLANCHETTE)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_PLANCHETTE] = {
-        desc = "↑ All wisps and nightmares have double HP and deal double damage from tears#Spawns four unique Book of Virtues wisps on pickup#+1 black heart",
+        desc = "↑ All wisps, nightmares, and other ghost-like familiars have double HP and deal double damage from tears#Spawns four unique Book of Virtues wisps on pickup#+1 black heart",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"All wisps and nightmares have double HP and deal double damage from tears","Spawns four unique Book of Virtues wisps on pickup","+1 black heart",}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,

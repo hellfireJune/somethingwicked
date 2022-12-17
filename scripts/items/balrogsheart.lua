@@ -2,12 +2,17 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_BALROGS_HEART = Isaac.GetItemIdByName("Balrog's Heart")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
 
-function this:TearUpdate(tear)
-    local t_data = tear:GetData()
-    if not t_data.somethingWicked_isBalrogsHeart then
-        return
-    end
+SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
+    TearVariant = TearVariant.SOMETHINGWICKED_BALROG_CLUSTER,
+    OverrideTearUpdate = function (_, tear)
+        this:TearUpdate(tear)
+    end ,
+    ApplyLogic = function (_, player, tear)
+        return this:FireTear(player, tear)
+    end,
+})
 
+function this:TearUpdate(tear)
     local fCount = tear.FrameCount
     if fCount % 5 == 1 then
         local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, tear.Position, Vector.Zero, tear):ToEffect()
@@ -17,21 +22,15 @@ function this:TearUpdate(tear)
     end
 end
 
-function this:FireTear(tear)
-    local player = SomethingWicked:UtilGetPlayerFromTear(tear)
+function this:FireTear(player, tear)
     if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BALROGS_HEART) then
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BALROGS_HEART)
         local f = c_rng:RandomFloat()
         if f < 0.15 then
-            local t_data = tear:GetData()
-            t_data.somethingWicked_isBalrogsHeart = true
-            tear:ChangeVariant(TearVariant.SOMETHINGWICKED_BALROG_CLUSTER)
+            return true
         end
     end
 end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BALROGS_HEART] = {

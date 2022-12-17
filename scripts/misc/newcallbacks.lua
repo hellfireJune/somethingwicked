@@ -144,7 +144,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, this.OnTearHit)
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEntityDMG)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnEntityDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
 this.onKillPos = nil
 function this:OnKill(enemy)
@@ -179,9 +179,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
 
 function this:LaserUpdate(laser)
     if laser.FrameCount == 1 then
-        if laser.Variant == SomethingWicked.LaserVariant.SHIT
-        or laser.Variant == SomethingWicked.LaserVariant.TRACTOR_BEAM
-        or laser.Variant == SomethingWicked.LaserVariant.DADS_RING then
+        if laser.Variant == LaserVariant.THICK_BROWN
+        or laser.Variant == LaserVariant.TRACTOR_BEAM
+        or laser.Variant == LaserVariant.LIGHT_RING then
             return
         end
 

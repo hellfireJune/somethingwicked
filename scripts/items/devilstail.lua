@@ -37,7 +37,7 @@ function this:PlayerUpdate(player)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnDMG, EntityType.ENTITY_PLAYER)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnDMG, EntityType.ENTITY_PLAYER)
 
 function this:LocustUpdate(locust)
     if locust.SubType ~= CollectibleType.SOMETHINGWICKED_DEVILSTAIL then

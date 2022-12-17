@@ -55,6 +55,6 @@ function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
 end
 
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_FIRE_PURE, this.FirePure)
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEnemyTakeDMG)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnEnemyTakeDMG)
 this.EIDEntries = {}
 return this

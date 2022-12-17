@@ -51,7 +51,7 @@
   <active id="57" name="Trinket Smasher" gfx="crushers.png" description="Recycle your trinkets!" quality="1" tags="offensive"/>
   <active id="58" name="Chasm" gfx="chasm2.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
   <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive summonable" achievement="404"/> <!--costume-->
-  <active id="60" name="Fetus in Fetu" gfx="fetusinfeta.png" maxcharges="8" description="Teratoma Baby" tags="offensive" quality="2"/>
+  <active id="60" name="Fetus in Fetu" gfx="fetusinfeta.png" maxcharges="8" description="Teratoma baby" tags="offensive" quality="2"/>
   <passive id="61" name="GLITCHCITY" hidden="true"/> <!-- on the back burner for now-->
   <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive summonable"/> <!--costume-->
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil" achievement="597"/> <!--costume-->
@@ -61,7 +61,7 @@
   <passive id="67" name="Hydrus" gfx="hydrus.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
   <passive id="68" name="Crying Minotaur"  hidden="true"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
-  <active id="70" name="Eden's Head" maxcharges="1"  hidden="true"/>
+  <active id="70" name="Eden's Head" maxcharges="1" hidden="true"/>
   <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
   <familiar id="72" name="Devilsknife" hidden="true"/>
   <active id="73" name="Prismatic Mushroom" description="Rainbow room effects"/> <!--code done-->
@@ -78,37 +78,41 @@
   <active id="83" name="Dagger Handle" hidden="true"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true"/>
   <active id="85" name="Baby Mandrake" maxcharges="2" gfx="lilmandrake.png" description="Radial stun scream" hidden="true"/> <!--radial petrify-->
-  <passive id="86" name="Lover's Mask" description="Hearty damage block" gfx="loversmask.png" tags="nolostbr" hidden="true"/> <!--code done i think?-->
+  <passive id="86" name="Lover's Mask" description="Hearty damage block" gfx="loversmask.png" tags="nolostbr"/> <!--code done i think?-->
   <passive id="87" name="Debugger" hidden="true"/>
   <active id="88" name="  Book of Leviathan  " hidden="true" maxcharges="4" chargetype="special" cache="damage"/>
   <active id="89" name="Facestabber" hidden="true"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true"/>
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
-  <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/> 
+  <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/> <!--make less sopping-->
   <passive id="93" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
-  <familiar id="94" name="Little Attractor" hidden="true"/> <!--works-->
-  <passive id="95" name="Fish Milk" description="DMG down + Unstable tears" hidden="true" cache="damage tearflag"/> <!--dmg down, tear effects way up-->
-  <passive id="96" name="Bottle of Shadows" hidden="true"/> <!--damaging enemies with a status effect makes them shoot shadow tears radially--> 
+  <familiar id="94" name="Little Attractor" hidden="true"/> 
+  <passive id="95" name="Banana Milk" description="DMG down + Unstable tears" hidden="true" cache="damage tearflag"/>  
+  <passive id="96" name="Bottle of Shadows" hidden="true"/> <!--needs made--> 
   <passive id="97" name="Bottle of Shampoo" hidden="true"/>
-  <active id="98" name="Magic Clay" hidden="true"/> <!-- lets you pick a machine and spawn it, once per floor-->
+  <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
   <passive id="100" name="Knave of Hearts" hidden="true"/>
-  <passive id="101" name="Hellfire" gfx="hellfire.png" description="Pyre Death" devilprice="2" tags="offensive summonable"/>
+  <passive id="101" name="Hellfire" gfx="hellfire.png" description="Satan's siren" devilprice="2" quality="3" tags="offensive summonable"/>
   <passive id="102" name="Fibrous Dysplasia" hidden="true"/>
-  <passive id="103" name="Broken Bell" hidden="true"/> <!--does radial knockback damage while firing tears -->
+  <passive id="103" name="Broken Bell" hidden="true"/> <!--check this?? -->
   <familiar id="104" name="Ms. Gonorrhea" hidden="true"/>
-  <active id="105" name="Marble Sprout" hidden="true"/> <!--spawns wormwood locusts on use--> <!--code done-->
+  <active id="105" name="Marble Sprout" hidden="true"/> 
   <passive id="106" name="Black Moon Medallion" hidden="true"/>
   <passive id="107" name="Prismatic Shard" hidden="true"/> <!--damagin enemies spawns flares nearby that spawn rainbow fires-->
   <active id="108" name="Task Manager" hidden="true"/> <!--spawns glitch locusts on use-->
   <active id="109" name="Ice Wand" hidden="true"/> <!--code done, needs testing-->
-  <passive id="110" name="Special Herbs Boxset" hidden="true"/>
+  <passive id="110" name="Special Herbs Boxset" hidden="true"/> <!--needs more made-->
   <passive id="111" name="Lanky Mushroom" hidden="true" cache="damage range firedelay size"/>
   <familiar id="112" name="Justice and Splendor" description="Swords of light" hidden="true"/>
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
-  <!--chancel lamp, rose cross, mint candy, eye of providence, snakeblock, wreath, holy nail, shadowbeam staff, 
-  iron crown, boline, spider detonator, telescope, little hollow, nephilim's wings, joker baby-->
+  <familiar id="115" name="Lighthouse" description="Big wisp friend" hidden="true"/>
+  <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true"/> <!--also make-->
+  <passive id="117" name="Eye of Providence" hidden="true"/>
+  <!--chancel lamp, rose cross, mint candy, snakeblock, wreath, holy nail, shadowbeam staff, 
+  boline, spider detonator, telescope, little hollow, nephilim's wings, joker baby-->
+  <!--moon charm, weird red poops trinket, cartomancy, devouring swarm, snake tamer, purple haze, tombstone-->
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
@@ -149,7 +153,7 @@
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
   <trinket id="34" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
-  <trinket id="35" name="Owl Feather" description="Devil of War" hidden="true"/> <!-- code done-->
+  <trinket id="35" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> <!-- code done-->
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
