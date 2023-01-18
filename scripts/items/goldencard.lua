@@ -11,7 +11,11 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleT
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_GOLDEN_CARD] = {
-        desc = "Uses 1-2 random tarot cards"
+        desc = "Uses 1-2 random tarot cards#Cannot use teleport cards (except The Moon?), The Fool? The Lovers? or Wheel of Fortune?",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Uses 1-2 random tarot cards", 
+        "Cannot use teleport cards (except The Moon?), The Fool? The Lovers? or Wheel of Fortune?"}),
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_SHOP, SomethingWicked.encyclopediaLootPools.POOL_SECRET, 
+        SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP}
     }
 }
 return this

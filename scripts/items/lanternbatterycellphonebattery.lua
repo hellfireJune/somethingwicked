@@ -50,5 +50,14 @@ function this:InitBattery(battery)
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, this.InitBattery, PickupVariant.PICKUP_LIL_BATTERY)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY] = {
+        desc = "fandangled",
+    },
+    [TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY] = {
+        desc = "15% chance to gain an extra item charge on clearing a room#All batteries are turned into bombs",
+        isTrinket = true,
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"15% chance to gain an extra item charge on clearing a room", "All batteries will be turned into bombs of an equivalent value"})
+    }
+}
 return this

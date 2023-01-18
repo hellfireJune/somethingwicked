@@ -3,10 +3,17 @@ CollectibleType.SOMETHINGWICKED_STRANGE_APPLE = Isaac.GetItemIdByName("Strange A
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE = Isaac.GetEntityVariantByName("Retro Snake")
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("Retro Snake (body)")
 this.Flags = 1 | 8 | 16
+this.AnimationEnum = {
+    [Vector(0, 1)] = "IdleDown",
+    [Vector(-1, 0)] = "IdleLeft",
+    [Vector(0, -1)] = "IdleUp",
+    [Vector(1, 0)] = "IdleRight",
+}
 
 local frameCountShit = 6
 local snakeLength = 3
 function this:HeadUpdate(familiar)
+    local player = familiar.Player
     local f_data = familiar:GetData()
     f_data.somethingWicked_rsDirection = f_data.somethingWicked_rsDirection or Vector(1, 0)
     local lastTarget = familiar.Target
@@ -17,13 +24,13 @@ function this:HeadUpdate(familiar)
 
     if familiar.FrameCount % frameCountShit == 1 then
         local target = familiar.Target
-        local targetPos = target and target:Exists() and target.Position or familiar.Player.Position
+        local targetPos = target and target:Exists() and target.Position or player.Position
 
         local newPos, isStuck = SomethingWicked.FamiliarHelpers:SnakePathFind(familiar, targetPos, f_data.somethingWicked_rsDirection)
         local direction = (newPos - familiar.Position):Normalized()
 
         this:MoveAnyBodyPiecesRecursive(familiar, familiar.Child)
-        familiar.Position = newPos
+        familiar.Position = SomethingWicked.FamiliarHelpers:GridAlignPosition(newPos)
 
         if direction:Length() ~= 0 then
             f_data.somethingWicked_rsDirection = direction
@@ -33,10 +40,34 @@ function this:HeadUpdate(familiar)
         end
         --local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, newPos, Vector.Zero, nil)
     else
+        familiar.Position = SomethingWicked.FamiliarHelpers:GridAlignPosition(familiar.Position)
         familiar.Velocity = Vector.Zero
+    end
+    this:Visuals(familiar, player)
+
+    local direction = f_data.somethingWicked_rsDirection
+    if direction and direction:Length() ~= 0 then
+        
+        local anim = "IdleDown" local diff = 999
+        for key, value in pairs(this.AnimationEnum) do
+            local currentDiff = math.abs(SomethingWicked.EnemyHelpers:GetAngleDifference(key, direction))
+            if currentDiff < diff then
+                diff = currentDiff
+                anim = value
+            end
+        end
+        familiar:GetSprite():Play(anim, false)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.HeadUpdate, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE)
+
+function this:Visuals(familiar, player)
+    local hasBFFs = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS)
+    local color = hasBFFs and Color(1, 0.2, 0.2) or Color(0, 1, 0)
+    local sizeMult = familiar.Child ~= nil and 1 or 0.95
+    familiar.Color = color
+    familiar.SpriteScale = (hasBFFs and Vector(0.8, 0.8) or Vector(1, 1)) * sizeMult
+end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
     if familiar.FrameCount % frameCountShit == 1 then
@@ -44,6 +75,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, famili
             familiar:Die()
         end
     end
+    this:Visuals(familiar, familiar.Player)
 end, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY)
 
 function this:MoveAnyBodyPiecesRecursive(parent, familiar)
@@ -74,7 +106,12 @@ function this:HeadInit(familiar)
     end
 end
 
+function this:BodyInit(familiar)
+    this:Visuals(familiar, familiar.Player)
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.HeadInit, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE)
+SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.BodyInit, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY)
 
 function this:EvaluateCache(player, flags)
     local stacks, rng, source = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_STRANGE_APPLE)
@@ -84,7 +121,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.EvaluateCache, 
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_STRANGE_APPLE] = {
-        desc = "why did i change this 3 different timmes"
+        desc = "Spawns a snake familiar which moves along the grid every "..frameCountShit.." frames#Will only move forward, left or right",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a snake familiar which moves along the grid every "..frameCountShit.." frames","Will only move forward, left or right"}),
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_SECRET, SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
+        SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_SECRET},
     }
 }
 return this

@@ -551,7 +551,9 @@ this.EIDEntries = {
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a snake familiar which charges at enemies you fire in the direction of"})
     },
     [CollectibleType.SOMETHINGWICKED_HYDRUS] = {
-        desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies"
+        desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a trail of tears that will charge into any nearby enemies","Will respawn in a new room, or after a brief period after it dies"}),
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
     }
 }
 return this

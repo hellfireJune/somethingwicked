@@ -143,7 +143,9 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM,
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE] = {
-        desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#↑ Spawns 1-3 {{Card78}} Cracked Keys"
+        desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#↑ Spawns 1-3 {{Card78}} Cracked Keys",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Adds an extra Ultra Secret Room to every floor where one can spawn", "Spawns 1-3 cracked keys on pickup"}),
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET}
     }
 }
 return this

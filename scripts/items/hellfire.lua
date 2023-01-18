@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_HELLFIRE = Isaac.GetItemIdByName("Hellfire")
 
 local function procChance(player)
-    return 0.11 + (player.Luck*0.5)
+    return 0.17 + (player.Luck*0.4)
 end
 local shouldMakeDMGCrazy = false
 function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
@@ -17,6 +17,8 @@ function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
 
     local e_data = ent:GetData()
     if e_data.somethingWicked_hellfirePrimedFrames and e_data.somethingWicked_hellfirePrimedFrames <= 0 then
+        return
+    elseif not e_data.somethingWicked_hellfirePrimedFrames and ent.HitPoints < 0.1 then
         return
     end
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
@@ -38,6 +40,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDMG)
 
 function this:NPCUpdate(ent)
     local e_data = ent:GetData()
+    
     if not e_data.somethingWicked_isHellfireMarked then
         return
     end
@@ -62,11 +65,14 @@ function this:NPCUpdate(ent)
         e_data.somethingWicked_hellfirePrimedFrames = 30
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_NPC_UPDATE, CallbackPriority.IMPORTANT, this.NPCUpdate)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
-        desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions"
+        desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#Scales with luck",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions", "Scales with luck"}),
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_CURSE, SomethingWicked.encyclopediaLootPools.POOL_DEVIL, SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
+    SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL}
     }
 }
 return this

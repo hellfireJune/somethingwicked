@@ -39,7 +39,10 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_STAR_SPAWN] = {
-        desc = "↑ 1.2x damage#↑ 1.2x tears#On damage, applies a random multiplier to both tears and damage, to a total multiplier of 1.4x"
+        desc = "↑ 1.2x damage#↑ 1.2x tears#On damage, applies a random multiplier to both tears and damage, to a total multiplier of 1.4x",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"1.2x damage, 1.2x tears","On damage, applies a random multiplier to both tears and damage, to a total multiplier of 1.4x"}),
+        pools = {SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME,
+    SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
     }
 }
 return this

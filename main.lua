@@ -377,7 +377,7 @@ local cardsToLoad = {
 
   --"theAeonReversed",
   --"theMagusReversed",
-  --"theFortuneReversed",
+  "theFortuneReversed",
 
   --"turkeyvulture", --also void beggar and rotten beggar
   "bourgeoisTarot",
@@ -476,8 +476,8 @@ for _, i in ipairs(itemsToLoad) do
     end
   end
 end
-print(itemsMissingPools)
-print(itemsMissingDescs)
+--print(itemsMissingPools)
+--print(itemsMissingDescs)
 for _, i in ipairs(cardsToLoad) do
   local card = include("scripts/cards/"..i)
     for id, entry in pairs(card.EIDEntries) do

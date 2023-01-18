@@ -1,10 +1,17 @@
 local this = {}
 Card.SOMETHINGWICKEDTHOTH_FORTUNE_REVERSED = Isaac.GetCardIdByName("FortuneReversed")
-
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, function (_, _, player)
+--[[SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, function (_, _, player)
     local p_data = player:GetData()
     p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0) + 3
-end, Card.SOMETHINGWICKEDTHOTH_FORTUNE_REVERSED)
+end, Card.SOMETHINGWICKEDTHOTH_FORTUNE_REVERSED)]]
+local blacklist = {
+    -1,
+    Card.CARD_REVERSE_WHEEL_OF_FORTUNE,
+    Card.CARD_REVERSE_LOVERS,
+    Card.CARD_REVERSE_FOOL,
+
+    Card.CARD_FOOL, Card.CARD_HERMIT, Card.CARD_EMPEROR, Card.CARD_MOON
+}
 
 function this:PEffectUpdate(player)
     local p_data = player:GetData()
@@ -16,7 +23,10 @@ function this:PEffectUpdate(player)
     if p_data.SomethingWickedPData.FortuneR_Stacks > 0
     and p_data.SomethingWickedPData.FortuneR_Card == nil then
         local itempool = SomethingWicked.game:GetItemPool()
-        local card = itempool:GetCard(Random() + 1, false, false, false)
+        local card = -1
+        while SomethingWicked:UtilTableHasValue(blacklist, card) do
+            card = itempool:GetCard(Random() + 1, false, false, false)
+        end
         player:AnimateCard(card, "UseItem")
         SomethingWicked.sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
 

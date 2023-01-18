@@ -113,5 +113,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.PreventLightningDMG)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.ApplyEffect)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE] = {
+        desc = "↑ Tears have a chance to confuse enemies, and cause them to shoot lightning out in random directions#Scales with luck",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc("Tears have a chance to confuse enemies, and cause them to shoot lightning out in random directions. Scales with luck")
+    }
+}
 return this

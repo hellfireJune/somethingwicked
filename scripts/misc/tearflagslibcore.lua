@@ -181,4 +181,4 @@ function this:LaserUpdate(laser)
         end
     end
 end
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_LASER_UPDATE, CallbackPriority.LATE, this.LaserUpdate)
+--SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_LASER_UPDATE, CallbackPriority.LATE, this.LaserUpdate)

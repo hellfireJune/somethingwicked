@@ -23,7 +23,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.PostPlayerUpdate)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_VOID_HEART] = {
         isTrinket = true,
-        desc = "!!! Turns all blood donation machines into void blood donation machines"
+        desc = "!!! Turns all blood donation machines into void blood donation machines",
+        encycloDesc = "Turns all blood donation machines into void blood donation machines"
     }
 }
 return this

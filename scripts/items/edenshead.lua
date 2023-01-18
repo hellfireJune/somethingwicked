@@ -25,7 +25,7 @@ this.moddedThrowables = {
     "Cursed Candle",
     "Balrog's Head",
     --"Ice Wand",
-    "Boline",
+    --"Boline",
     --"Facestabber",
 
     --fOLIO
@@ -55,5 +55,11 @@ if SomethingWicked.game:GetFrameCount() > 0 then
     this:InitModdedThrowables()
 end
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_EDENS_HEAD] = {
+        desc = "Uses a random throwable active item on use",
+        encycloDesc = "Uses a random throwable active item on use",
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
+    }
+}
 return this

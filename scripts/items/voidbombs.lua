@@ -21,7 +21,11 @@ function this:BombUpdate(bomb)
     local bombData = bomb:GetData()
     local sprite = bomb:GetSprite()
     if bomb.FrameCount == 1 then
-        SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, CollectibleType.SOMETHINGWICKED_VOID_BOMBS, this.BombSpriteSheet, "isVoidBomb", FetusProcChance(player))
+        if SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, CollectibleType.SOMETHINGWICKED_VOID_BOMBS, this.BombSpriteSheet, "isVoidBomb", FetusProcChance(player))
+        and bomb.Variant > 4 or bomb.Variant < 3 then
+            local sprite = bomb:GetSprite()
+            sprite:Load("gfx/items/pick ups/bombs/void0.anm2", true)
+        end
     elseif bombData.isVoidBomb then
         if sprite:IsPlaying("Explode") then
             local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, player)
