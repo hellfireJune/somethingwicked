@@ -19,7 +19,7 @@ local function NewRoomBehaviour(familiar)
         for _, enemy in pairs(enemies) do
             enemy = enemy:ToNPC()
             if enemy and enemy:IsEnemy() and not enemy:IsBoss() and not enemy:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
-                print("a")
+                --print("a")
                 enemy:AddCharmed(EntityRef(familiar.Player), -1)
                 familiar.Parent = enemy
                 break

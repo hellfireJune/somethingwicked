@@ -16,9 +16,15 @@ function this:SplitTearsSometimes(tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player
     and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
-    and tear.FrameCount == 1 then
+    and tear.FrameCount == 1
+    and tear.Parent then
         local t_data = tear:GetData()
-        if t_data.somethingwicked_3DglassesChecked == nil then
+        local ret = Retribution
+        if t_data.somethingwicked_3DglassesChecked == nil
+        and (not ret or not ret.pauseMilkTeeth) then
+            if ret then
+                ret.pauseMilkTeeth = true
+            end
             local rng = tear:GetDropRNG()
             local proc = rng:RandomFloat()
             if proc < this.procChance then
@@ -33,6 +39,9 @@ function this:SplitTearsSometimes(tear)
                 end
             end
             t_data.somethingwicked_3DglassesChecked = true
+            if ret then
+                ret.pauseMilkTeeth = false
+            end
         end
     end
 end

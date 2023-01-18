@@ -1,5 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_VOID_BOMBS = Isaac.GetItemIdByName("Void Bombs")
+EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
 this.BombSpriteSheet = "gfx/items/pick ups/bombs/costumes/voidbombs.png"
 
 --Most of this code (the bomb related stuff atleast) came from Deliverance, ty to those devs very much
@@ -23,7 +24,7 @@ function this:BombUpdate(bomb)
         SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, CollectibleType.SOMETHINGWICKED_VOID_BOMBS, this.BombSpriteSheet, "isVoidBomb", FetusProcChance(player))
     elseif bombData.isVoidBomb then
         if sprite:IsPlaying("Explode") then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, -1, -1, bomb.Position, Vector.Zero, player)
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, player)
             local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, player):ToLaser()
             effect.Visible = false
             void.Parent = effect

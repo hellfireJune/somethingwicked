@@ -37,8 +37,10 @@ function this:ShittyWorkaroundMarblesCheck(player)
     for key, value in pairs(p_data.somethingwicked_LastHeldTrinkets) do
         local isGolden = value >= TrinketType.TRINKET_GOLDEN_FLAG
         local momsBoxStacks = player:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_BOX) and 1 or 0
-        if (player:GetTrinket(0) ~= value)
-        and (player:GetTrinket(1) ~= value)
+        local queduedItem = player.QueuedItem.Item
+        local queuedTrinket = (queduedItem and queduedItem:IsTrinket()) and queduedItem.ID or 0
+
+        if (player:GetTrinket(0) ~= value) and (player:GetTrinket(1) ~= value) and queuedTrinket ~= value
         and player:HasTrinket(value)
         and ((isGolden and player:GetTrinketMultiplier(value) > 1 + momsBoxStacks)
         or (not isGolden and player:GetTrinketMultiplier(value) == 1 + momsBoxStacks)) then
@@ -51,7 +53,9 @@ function SomethingWicked:UtilRefreshTrinketInventory(player)
     local p_data = player:GetData()
     local newTable = {} 
     for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
-        if player:HasTrinket(value) then
+        if player:HasTrinket(value)
+        and (player:GetTrinket(0) ~= value)
+        and (player:GetTrinket(1) ~= value) then
             table.insert(newTable, value)
         end
     end 
@@ -63,26 +67,44 @@ function this:UseDice(_, rngObj, player, flags)
     local p_data = player:GetData()
     local trinketsToAdd = 0
     local smeltedTrinketsToAdd = 0
+    local gildedTrinketsToAdd = 0
 
     for i = 0, player:GetMaxTrinkets() - 1 , 1 do
         local trinket = player:GetTrinket(0)
         if trinket ~= 0 then
             player:TryRemoveTrinket(trinket)
             trinketsToAdd = trinketsToAdd + 1
+
+            if trinket >= TrinketType.TRINKET_GOLDEN_FLAG then
+                gildedTrinketsToAdd = gildedTrinketsToAdd + 1
+            end
         end
     end
     p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
     SomethingWicked:UtilRefreshTrinketInventory(player)
-    for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
-        if player:HasTrinket(value) then
-            player:TryRemoveTrinket(value)
+    for key, trinket in pairs(p_data.SomethingWickedPData.TrinketInventory) do
+        if player:HasTrinket(trinket) then
+            player:TryRemoveTrinket(trinket)
             smeltedTrinketsToAdd = smeltedTrinketsToAdd + 1
+            
+            if trinket >= TrinketType.TRINKET_GOLDEN_FLAG then
+                gildedTrinketsToAdd = gildedTrinketsToAdd + 1
+            end
         end
     end
 
     local itemPool = SomethingWicked.game:GetItemPool()
     for i = 1, trinketsToAdd + smeltedTrinketsToAdd, 1 do
         local trinketToAdd = itemPool:GetTrinket()
+        --print(trinketToAdd)
+        if i <= gildedTrinketsToAdd then
+            if trinketToAdd < TrinketType.TRINKET_GOLDEN_FLAG then
+                trinketToAdd = trinketToAdd + TrinketType.TRINKET_GOLDEN_FLAG
+            end
+        elseif trinketToAdd >= TrinketType.TRINKET_GOLDEN_FLAG then
+            trinketToAdd = trinketToAdd - TrinketType.TRINKET_GOLDEN_FLAG
+        end
+        --print(trinketToAdd)
         player:AddTrinket(trinketToAdd)
         if i <= smeltedTrinketsToAdd then 
             player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
@@ -99,14 +121,15 @@ function this:UseBook(_, rngObj, player, flags)
     p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
     for i = 0, player:GetMaxTrinkets() - 1 , 1 do
         local trinket = player:GetTrinket(i)
-        if trinket < TrinketType.TRINKET_GOLDEN_FLAG then
+        if trinket < TrinketType.TRINKET_GOLDEN_FLAG and trinket ~= 0 then
             return this:BookEffect(player, trinket)
         end
     end
     
     SomethingWicked:UtilRefreshTrinketInventory(player)
     for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
-        if player:HasTrinket(value) then
+        if player:HasTrinket(value)
+        and value < TrinketType.TRINKET_GOLDEN_FLAG and value ~= 0  then
             return this:BookEffect(player, value, false)
         end
     end
@@ -114,11 +137,12 @@ function this:UseBook(_, rngObj, player, flags)
     return { Discharge = false, ShowAnim = true }
 end
 function this:BookEffect(player, trinket, inInventory)
-    inInventory = inInventory or true
+    inInventory = inInventory or inInventory == nil
     player:TryRemoveTrinket(trinket)
     if inInventory then
         player:AddTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG)
     else
+        SomethingWicked:UtilRefreshTrinketInventory(player)
         SomethingWicked:UtilAddSmeltedTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG, player) 
     end
 

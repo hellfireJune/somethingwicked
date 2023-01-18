@@ -193,13 +193,14 @@ end
 SomethingWicked.save.runData.BeggarData = {}
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, ent)
-    if ent.Type == 6
+    if ent.Type == EntityType.ENTITY_SLOT
     and SomethingWicked.SlotHelpers.slots[ent.Variant] then
         SomethingWicked.save.runData.BeggarData[ent.InitSeed] = ent:GetData().PersistantBeggarData
     end
 end)
 
 function this:BeggarData(machine)
+    SomethingWicked.save.runData.BeggarData = SomethingWicked.save.runData.BeggarData or {}
     local hash = machine.InitSeed
     if SomethingWicked.save.runData.BeggarData[hash] then
         return SomethingWicked.save.runData.BeggarData[hash]
@@ -207,6 +208,7 @@ function this:BeggarData(machine)
         return {}
     end
 end
+
 
 --Helper Functions
 

@@ -18,11 +18,11 @@ function this:RemoveTear(tear)
     local t_data = tear:GetData()
     if t_data.somethingWicked_isIceWandTear then
         for _, ent in ipairs(Isaac.FindInRadius(tear.Position, 100, 8)) do
-			ent:AddEntityFlags(EntityFlag.FLAG_ICE)
             if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
                 ent:AddFreeze(EntityRef(tear.SpawnerEntity), 30)
+                ent:AddEntityFlags(EntityFlag.FLAG_ICE)
+                ent:TakeDamage(40, 0, EntityRef(tear.SpawnerEntity), 1)
             end
-            ent:TakeDamage(40, 0, EntityRef(tear.SpawnerEntity), 1)
         end
     end
 end

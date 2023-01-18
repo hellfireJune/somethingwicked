@@ -41,6 +41,8 @@ function this:OnHitEnemy(tear)
             for i = -this.angle, this.angle, this.angle do
                 local newAngle = tear.Velocity:Rotated(i) * -1
                 local new = p:FireTear(tear.Position - tear.Velocity, newAngle:Resized(p.ShotSpeed * 10), false, false, false, nil, this.damageMult * (tear.CollisionDamage / p.Damage))
+                --print(new.Parent.Type, "type")
+                new.Parent = nil
                 new.Height = new.Height / 4
 
                 local n_data = new:GetData()

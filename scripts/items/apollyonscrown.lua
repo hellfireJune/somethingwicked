@@ -4,7 +4,7 @@ CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyo
 
 function this:FamiliarCache(player)
     local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN)
-    player:CheckFamiliar(FamiliarVariant.ABYSS_LOCUST, stacks, rng, sourceItem, this.dummyItem)
+    player:CheckFamiliar(FamiliarVariant.ABYSS_LOCUST, stacks*2, rng, sourceItem, this.dummyItem)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.FamiliarCache, CacheFlag.CACHE_FAMILIARS)

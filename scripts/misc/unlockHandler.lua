@@ -15,6 +15,8 @@ SomethingWicked.unlocks = {
 
 this.contentToLock = {
     Collectibles = {},
+    Trinkets = {},
+    Consumables = {},
 }
 for key, value in pairs(SomethingWicked.unlocks) do
     local unlock = SomethingWicked.save.unlockData.unlocks[key]
@@ -27,6 +29,11 @@ for key, value in pairs(SomethingWicked.unlocks) do
         end
     end
     SomethingWicked.save.unlockData.unlocks[key] = value
+end
+
+function SomethingWicked:IsAchievementUnlocked(id)
+    local unlocker = SomethingWicked.save.unlockData.unlocks[id]
+    return unlocker ~= nil and unlocker.lockStatus
 end
 
 --[[this.specialMarkIDs = {

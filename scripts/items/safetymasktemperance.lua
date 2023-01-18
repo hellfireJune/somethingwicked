@@ -108,7 +108,7 @@ function this:HeartCollision(entity, player)
 
     local p_data = player:GetData()
     if p_data.SomethingWickedPData.temperance_hearts < maxhearts
-    and not player:CanPickRedHearts() and SomethingWicked.ItemHelpers:CanPickupHeartGeneric(entity, player) then
+    and not player:CanPickRedHearts() and SomethingWicked.ItemHelpers:CanPickupPickupGeneric(entity, player) then
         local value = heartValues[entity.SubType]
         entity:Remove()
         --add the stuff here

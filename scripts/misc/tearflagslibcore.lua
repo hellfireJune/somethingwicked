@@ -127,3 +127,58 @@ function this:OnTearUpdate(tear)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.OnTearUpdate)
+
+local function absVector(vector)
+    local X = math.abs(vector.X) local y = math.abs(vector.Y)
+    --[[if X > 0 then
+       X = math.ceil(X) 
+    end
+    if y > 0 then
+        y = math.ceil(y) 
+    end]]
+    --return Vector(X, y)
+    return vector
+end
+local laserWidth = 30
+local shouldDoLaserTestStuff = true
+function this:LaserUpdate(laser)
+    if not shouldDoLaserTestStuff then
+        return
+    end
+    local player = SomethingWicked:UtilGetPlayerFromTear(laser)
+    if not player then
+        return
+    end
+    local enemies = Isaac.FindInRadius(Vector.Zero, 80000, EntityPartition.ENEMY)
+    
+    local vector = Vector.FromAngle(laser.Angle)
+    local lengthVector = vector:Normalized()
+    local widthVector = lengthVector:Rotated(-90)
+    local endPoint = laser:GetEndPoint()
+
+    for _, enemy in ipairs(enemies) do
+        if enemy.Type == 964 then
+            
+            local relativePos = enemy.Position - laser.Position
+            local posRelativeHeight = (relativePos * lengthVector)
+            local posRelativeWidth = relativePos * widthVector
+            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, laser.Position + posRelativeHeight, Vector.Zero, nil)
+            poof.Color = Color(1, 0, 0)
+            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, laser.Position + posRelativeWidth, Vector.Zero, nil)
+        
+            local disHeight = (posRelativeHeight):Length()
+            local disWidth = (posRelativeWidth):Length()
+            --print(laser.Position*widthVector)
+            local laserLength = laser.Position:Distance(endPoint)
+
+            print(relativePos, "-", posRelativeHeight, "-", posRelativeWidth)
+            print(disHeight, disWidth)
+            print(lengthVector, widthVector)
+            if disHeight > 0 and disHeight < laserLength
+            and disWidth > -laserWidth and disWidth < laserWidth then
+                print("found the enemies ^_^")
+            end
+        end
+    end
+end
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_LASER_UPDATE, CallbackPriority.LATE, this.LaserUpdate)

@@ -13,7 +13,7 @@
   <passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> <!--Needs costume-->
   <passive id="15" name="Wooden Horn" description="DMG + Evil Up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG Up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
-  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> <!--Needs costume--> 
+  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> 
   <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="offensive summonable"/> <!--Needs costume-->
   <active id="19" name="Book of Lucifer" gfx="bookoflucifer2.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
@@ -21,7 +21,7 @@
   <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
   <active id="23" name="Tiamat's Dice" gfx="tiamatsdice.png" description="Chaos reroll" quality="4" maxcharges="6" tags="offensive" achievement="29"/>
   <familiar id="24" name="Apollyon's Crown" gfx="apollyonscrown.png" description="Abyss buddies" quality="3" tags="offensive devil summonable" cache="familiars" achievement="597"/> <!--Needs costume-->
-  <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8"/> <!--Needs costume--> 
+  <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8" achievement="617"/> 
   <active id="26" name="Cursed Candle" gfx="cursedcandle.png" description="Reusable malediction" quality="3" tags="offensive" maxcharges="247" chargetype="timed"/> 
   <passive id="27" name="Biretta" gfx="biretta2.png" description="You feel relieved" quality="2" tags="nolostbr summonable" achievement="616"/> 
   <familiar id="28" name="Rogue planet" gfx="planetoid.png" description="Buddy-orbiting tears + Range UP " quality="0" tags="offensive summonable" cache="familiars range firedelay tearflag"/> 
@@ -39,7 +39,7 @@
   <passive id="45" name="Yellow Sigil" gfx="yellowsign.png" description="Nightmare stone" quality="2" tags="nolostbr summonable"/> <!--costumes-->
   <active id="46" name="Chaos Heart" gfx="chaosheart.png" description="Volatile healing" quality="1"/> 
   <active id="47" name="Cursed Mushroom" gfx="cursedmushroom.png" description="Temporary room debuff" quality="2" tags="offensive" maxcharges="3"/>
-  <familiar id="48" name="Solomon" gfx="solomon.png" description="Summoner Buddy" quality="4" tags="summonable offensive" devilprice="2" achievement="599"/> 
+  <familiar id="48" name="Solomon" gfx="sw_solomon.png" description="Summoner Buddy" quality="4" tags="summonable offensive" achievement="599"/> 
   <passive id="49" name="Cursed Credit Card" gfx="cursedcreditcard.png" description="???" quality="1" tags="nolostbr summonable" blackhearts="2"/> <!--costume-->
   <active id="50" name="Old Dice" description="Reroll destiny overhead" gfx="olddice.png" maxcharges="2" quality="3" tags="offensive" achievement="29"/> 
   <passive id="51" name="Spider Egg" gfx="spideregg.png" description="Spider lumps" quality="3" tags="offensive spider summonable"/> <!--costume-->
@@ -58,10 +58,10 @@
   <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" tags="offensive" hidden="true"/>
   <passive id="65" name="Superbug" hidden="true"/>
   <passive id="66" name="Hydra" hidden="true"/>
-  <passive id="67" name="Hydrus" gfx="hydrus.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
+  <passive id="67" name="Snake" gfx="thesnake.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
   <passive id="68" name="Crying Minotaur"  hidden="true"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
-  <active id="70" name="Eden's Head" maxcharges="1" hidden="true"/>
+  <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1"/>
   <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
   <familiar id="72" name="Devilsknife" hidden="true"/>
   <active id="73" name="Prismatic Mushroom" description="Rainbow room effects"/> <!--code done-->
@@ -81,14 +81,14 @@
   <passive id="86" name="Lover's Mask" description="Hearty damage block" gfx="loversmask.png" tags="nolostbr"/> <!--code done i think?-->
   <passive id="87" name="Debugger" hidden="true"/>
   <active id="88" name="  Book of Leviathan  " hidden="true" maxcharges="4" chargetype="special" cache="damage"/>
-  <active id="89" name="Facestabber" hidden="true"/> <!--add charg-->
+  <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true"/>
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
   <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/> <!--make less sopping-->
   <passive id="93" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
   <familiar id="94" name="Little Attractor" hidden="true"/> 
   <passive id="95" name="Banana Milk" description="DMG down + Unstable tears" hidden="true" cache="damage tearflag"/>  
-  <passive id="96" name="Bottle of Shadows" hidden="true"/> <!--needs made--> 
+  <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive"/>
   <passive id="97" name="Bottle of Shampoo" hidden="true"/>
   <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
@@ -100,8 +100,8 @@
   <active id="105" name="Marble Sprout" hidden="true"/> 
   <passive id="106" name="Black Moon Medallion" hidden="true"/>
   <passive id="107" name="Prismatic Shard" hidden="true"/> <!--damagin enemies spawns flares nearby that spawn rainbow fires-->
-  <active id="108" name="Task Manager" hidden="true"/> <!--spawns glitch locusts on use-->
-  <active id="109" name="Ice Wand" hidden="true"/> <!--code done, needs testing-->
+  <active id="108" name="Task Manager" hidden="true"/>
+  <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive"/> <!--code done, needs testing-->
   <passive id="110" name="Special Herbs Boxset" hidden="true"/> <!--needs more made-->
   <passive id="111" name="Lanky Mushroom" hidden="true" cache="damage range firedelay size"/>
   <familiar id="112" name="Justice and Splendor" description="Swords of light" hidden="true"/>
@@ -109,10 +109,18 @@
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" hidden="true"/>
   <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true"/> <!--also make-->
-  <passive id="117" name="Eye of Providence" hidden="true"/>
-  <!--chancel lamp, rose cross, mint candy, snakeblock, wreath, holy nail, shadowbeam staff, 
-  boline, spider detonator, telescope, little hollow, nephilim's wings, joker baby-->
-  <!--moon charm, weird red poops trinket, cartomancy, devouring swarm, snake tamer, purple haze, tombstone-->
+  <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true"/>
+  <passive id="118" name="Black Salt" hidden="true"/>
+  <familiar id="119" name="The Mistake" gfx="omgmistake.png" description="He's a little confused" quality="0" tags="offensive summonable" hidden="true"/>
+  <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="3" tags="offensive summonable" hidden="true"/>
+  <active id="121" name="Boline" quality="4" devilprice="2" hidden="true" maxcharges="4"/>
+  <passive id="122" name="Tombstone" hidden="true"/>
+  <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true"/>
+  <familiar id="124" name="Strange Apple" gfx="strangeapple.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
+  <active id="125" name="Doubling Cherry" maxcharges="3" quality="3" description="Double yourself!" hidden="true"/>
+  <passive id="126" name="Ring of Regeneration" quality="3" description="Heal after damaging" tags="nolostbr" hidden="true" hearts="276"/>
+  <active id="127" name="Last Prism" description="Power of an Angel" quality="4" maxcharges="12" hidden="true" persistent="true" cooldown="900"/>
+  <passive id="128" name="Lantern Battery" quality="2" description="More charge" tags="offensive battery" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
@@ -144,7 +152,9 @@
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->
+  <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> <!-- code done-->
   <trinket id="25" name="Red Keychain" hidden="true"/> <!--code done-->
+  <trinket id="26" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
   <trinket id="27" name="Surgical Mask" hidden="true"/> <!--did'd-->
   <trinket id="28" name="Onyx Fly" hidden="true"/> <!--flat fly dmg up-->
   <trinket id="29" name="Floating Point Bug" hidden="true"/> <!--coded-->
@@ -152,8 +162,8 @@
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
-  <trinket id="34" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
-  <trinket id="35" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> <!-- code done-->
+  <trinket id="34" name="Power Inverter" hidden="true"/> <!--code done-->
+  <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/> 
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
@@ -167,7 +177,6 @@
   <passive id="35" name="Chili" gfx="chili.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
   <!--<passive id="17" name="Lantern" description="DMG Up + Guiding Light" gfx="lantern.png" quality="2" tags="offensive" cache="damage"/> Needs costume-->
   <!--<passive id="14" name="Tech V" description="Tech aura" gfx="balrog.png" tags="offensive"/> Not done-->
-  <!--<active id="15" name="Void heart" description="Bleed void" gfx="balrog.png" tags="offensive" maxcharges="3"/> Not done-->
   <!--<active id="16" name="Makeshift Bombapult" description="Aerial bombardment" gfx="balrog.png"/> this one might be a bit too hard to do rn--> 
   <!--<passive id="39" name="Ark of the Covenant" gfx="oldurn.png" description="Misfortune follows you" quality="3" tags="offensive"/> saved for next update-->
   <!--<familiar id="40" name="Samuel" gfx="planetoid.png" description="Prophet Buddy" quality="2" tags="offensive summonable" cache="familiars"/> saved for next update-->

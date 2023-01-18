@@ -1,5 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_KNAVE_OF_HEARTS = Isaac.GetItemIdByName("Knave of Hearts")
+TearVariant.SOMETHINGWICKED_JOKER_HEARTS = Isaac.GetEntityVariantByName("Joker Baby Hearts")
 
 local function procChance(player)
     return 1

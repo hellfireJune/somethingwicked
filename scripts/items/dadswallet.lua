@@ -1,5 +1,6 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_DADS_WALLET = Isaac.GetItemIdByName("Lost Wallet")
+CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK = Isaac.GetItemIdByName("Mammon's Piggybank")
 TrinketType.SOMETHINGWICKED_MEAL_COUPON = Isaac.GetTrinketIdByName("Meal Coupon")
 
 this.PickupCollisionChecks = {
@@ -25,10 +26,12 @@ function this:PickupCollision(pickup, player)
     or pickup.Price ~= PickupPrice.PRICE_FREE then
         return
     end
+    local p_data = pickup:GetData()
+    local id = p_data.somethingWicked_isMammonItem and CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK or CollectibleType.SOMETHINGWICKED_DADS_WALLET
 
     player = player:ToPlayer()
     if player then
-        local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_DADS_WALLET)
+        local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, id)
         local pickupFunction = this.PickupCollisionChecks[pickup.Variant]
         local flag
         if pickupFunction ~= nil then
@@ -38,7 +41,7 @@ function this:PickupCollision(pickup, player)
         if slot ~= -1 and charge > 0 and flag and player:CanPickupItem() and player:IsExtraAnimationFinished() then
             player:SetActiveCharge(charge - 1, slot)
             if charge == 1 then
-                player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET)
+                player:RemoveCollectible(id)
             end
         end
     end
@@ -49,15 +52,29 @@ function this:PickupUpdate(pickup)
         return
     end
 
+    local p_data = pickup:GetData()
     if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
         if pickup.Price > 0 then
             pickup.Price = PickupPrice.PRICE_FREE
         end
     end
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK)
+    and pickup.Price ~= PickupPrice.PRICE_FREE then
+        if pickup.Price < 0 then
+            pickup.Price = PickupPrice.PRICE_FREE
+
+            p_data.somethingWicked_isMammonItem = true
+        end
+    else
+        p_data.somethingWicked_isMammonItem = false
+    end
 end
 
-function this:UseItem()
-    return { Discharge = false}
+function this:UseItem(id)
+    if id == CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK
+    or id == CollectibleType.SOMETHINGWICKED_DADS_WALLET then
+        return { Discharge = false, ShowAnim = true}
+    end
 end
 
 function this:HeartUpdate(pickup)
@@ -72,38 +89,10 @@ function this:HeartUpdate(pickup)
     end
 end
 
-this.hasInitCHAPIHook = false
-this.chapiPickupUpdateFunction = nil
-function this:RunStart()
-    if not this.hasInitCHAPIHook then
-        this:InitCHAPIHook()
-    end
-end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, this.RunStart)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, CallbackPriority.LATE, this.HeartUpdate, PickupVariant.PICKUP_HEART)
 
-function this:InitCHAPIHook()
-    this.hasInitCHAPIHook = true
-    if not CustomHealthAPI then
-        return
-    end
-
-    this.chapiPickupUpdateFunction = CustomHealthAPI.Helper.GetPriceOfPickup
-    CustomHealthAPI.Helper.GetPriceOfPickup = function (pickup, force)
-        if (SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_MEAL_COUPON)
-        and pickup.Variant == PickupVariant.PICKUP_HEART) or SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
-            return PickupPrice.PRICE_FREE
-        end
-        return this.chapiPickupUpdateFunction(pickup, force)
-    end
-end
-if SomethingWicked.game:GetFrameCount() > 0 then
-    this:InitCHAPIHook()
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, this.HeartUpdate, PickupVariant.PICKUP_HEART)
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, this.PickupUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_DADS_WALLET)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, CallbackPriority.LATE, this.PickupUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupCollision)
 
 this.EIDEntries = {

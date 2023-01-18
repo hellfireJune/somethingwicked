@@ -19,6 +19,7 @@ function this:OnDamage(player, amount, flag)
                 if not SomethingWicked:UtilTableHasValue(p_data.SomethingWickedPData.CurseRoomsHealedOff, idx) then
                     table.insert(p_data.SomethingWickedPData.CurseRoomsHealedOff, idx)
                     player:AddHearts(2)
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, player.Position - Vector(0, 60), Vector.Zero, player)
                     SomethingWicked.sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
                 end
             end

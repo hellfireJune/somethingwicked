@@ -9,17 +9,11 @@ end, FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA)
 
 function this:FamiliarUpdate(familiar)
     local player = familiar.Player
-    local shouldFire = true
     local direction = player:GetAimDirection()
-
-    if direction:Length() == 0 then
-        shouldFire = false
-        direction = Vector(0, 1)
-    end
 
     familiar.FireCooldown = math.max(familiar.FireCooldown - 1, 0)
 
-    if shouldFire and familiar.FireCooldown <= 0 then
+    if direction:Length() == 0 and familiar.FireCooldown <= 0 then
         local f_rng = familiar:GetDropRNG()
         direction = (direction * 10) + familiar.Velocity
         local fireAngle = direction:Rotated(SomethingWicked.EnemyHelpers:Lerp(-30, 30, f_rng:RandomFloat()))
@@ -52,12 +46,16 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player,
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA, stacks, rng, sourceItem)
 end, CacheFlag.CACHE_FAMILIARS)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_PILL, function (_, _, pill)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_PILL, function (_, pill)
     for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA)) do
         value = value:ToFamiliar() value.Hearts = value.Hearts + 1 
     end
+
+    --[[local pillConf = Isaac.GetItemConfig():GetPillEffect(pill)
+    print(pillConf.Name, pillConf.ID, pillConf.EffectClass, pillConf.EffectSubClass, pillConf.MimicCharge, pillConf:IsAvailable())
+    print(pillConf.AnnouncerVoice, pillConf.AnnouncerVoiceSuper, pillConf.AnnouncerDelay)]]
 end)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function (_, _, pill)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function (_, _)
     for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA)) do
         value = value:ToFamiliar() value.Hearts = 0
     end

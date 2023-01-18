@@ -25,12 +25,12 @@
 		<Item Name="Carolina Reaper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Naga Viper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Hydrus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Snake" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Baby Mandrake" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lover's Mask" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Eden's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -227,7 +227,11 @@
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Carolina Reaper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Naga Viper" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Hydrus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Snake" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lover's Mask" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Eden's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

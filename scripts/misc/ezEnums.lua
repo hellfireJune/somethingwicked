@@ -42,4 +42,7 @@ SomethingWicked.CustomTearFlags = {
     FLAG_SHADOWSTATUS = 1 << 6,
     FLAG_MAGNIFYING = 1 << 7,
     FLAG_PROVIDENCE = 1 << 8,
+    FLAG_BLACK_SALT = 1 << 9,
+    FLAG_RAIN_HELLFIRE = 1 << 10,
+    FLAG_STICKER_BOOK = 1 << 11,
 }

@@ -255,8 +255,9 @@ this.pickupsSpawnRegularEnMasseTable = {
         }
     },
 }
-function SomethingWicked.ItemHelpers:CanPickupHeartGeneric(heart, player)
-    if (not heart:IsShopItem() or heart.Price > player:GetNumCoins()) then
+function SomethingWicked.ItemHelpers:CanPickupPickupGeneric(heart, player)
+    if (not heart:IsShopItem() or (heart.Price > player:GetNumCoins() and player:IsExtraAnimationFinished()))
+    then
         return true
     end
     return false
@@ -271,7 +272,7 @@ function SomethingWicked.ItemHelpers:WillHeartBePickedUp(heart, player)
     if this.heartFuncs[heart.SubType] == nil then
         return false
     else
-        return (this.heartFuncs[heart.SubType](player) and SomethingWicked.ItemHelpers:CanPickupHeartGeneric(heart, player))
+        return (this.heartFuncs[heart.SubType](player) and SomethingWicked.ItemHelpers:CanPickupPickupGeneric(heart, player))
     end
 end
 
@@ -479,17 +480,84 @@ function SomethingWicked.ItemHelpers:RandomItemFromCustomPool(poolEnum, myRNG)
     return -1
 end
 
-function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, args)
+--taken from the punished, slightly modified, gets num of projectiles to shoot and any mods
+local function GetNumProjectiles(player, rng)
+    local monstrosLung = CollectibleType.COLLECTIBLE_MONSTROS_LUNG
+    local mutantSpider = CollectibleType.COLLECTIBLE_MUTANT_SPIDER
+    local innerEye = CollectibleType.COLLECTIBLE_INNER_EYE
+    local _2020 = CollectibleType.COLLECTIBLE_20_20
+
+    local hasMonstros = player:HasCollectible(monstrosLung)
+
+    local baseProjectiles
+    if hasMonstros then
+        baseProjectiles = 14
+    else
+        if player:HasCollectible(mutantSpider) and player:HasCollectible(innerEye) then
+            baseProjectiles = 5
+        elseif player:HasCollectible(mutantSpider) then
+            baseProjectiles = 4
+        elseif player:HasCollectible(innerEye) then
+            baseProjectiles = 3
+        elseif player:HasCollectible(_2020) then
+            baseProjectiles = 2
+        else
+            baseProjectiles = 1
+        end
+    end
+
+    local stackingItemProjectiles
+    if hasMonstros then
+        stackingItemProjectiles = math.floor(2.4 * (
+            5 * (math.max(0, player:GetCollectibleNum(monstrosLung) - 1)) +
+            2 * player:GetCollectibleNum(mutantSpider) +
+            player:GetCollectibleNum(innerEye) +
+            player:GetCollectibleNum(_2020)
+        ))
+    else
+        stackingItemProjectiles =
+            2 * (math.max(0, player:GetCollectibleNum(mutantSpider) - 1)) +
+            math.max(0, (player:GetCollectibleNum(innerEye) - 1)) +
+            math.max(0, (player:GetCollectibleNum(_2020) - 1))
+    end
+
+    local momsEye = false local lokisHorn = false local eyeSoreShots = 0
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_EYE) then
+        local momsChance = math.min(math.max(0, 0.50 + 0.25 * player.Luck), 1)
+        if rng:RandomFloat() < momsChance then
+           momsEye = true
+        end
+    end
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_LOKIS_HORNS) then
+        local lokisChance = math.min(math.max(0, 0.25 + 0.05 * player.Luck), 1)
+        if rng:RandomFloat() < lokisChance then
+           lokisHorn = true
+        end
+    end
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_EYE_SORE) then
+        if rng:RandomFloat() > 0.66 then
+            local eyeSoreSeed = rng:RandomInt(6)
+            if eyeSoreSeed < 3 then
+                eyeSoreShots = 1
+            elseif eyeSoreSeed < 5 then
+                eyeSoreShots = 2
+            else
+                eyeSoreShots = 3
+            end
+        end
+    end
+
+    local numProjectiles = baseProjectiles + stackingItemProjectiles
+    return numProjectiles, { EyeSore = eyeSoreShots, MomsEye = momsEye, LokisHorn = lokisHorn, MonstrosLung = hasMonstros }
+end
+
+local function InternalFireFunction(player, ignoreLudo, args)
     ignoreLudo = ignoreLudo or false
-    if player:HasWeaponType(WeaponType.WEAPON_NOTCHED_AXE)
-    or player:HasWeaponType(WeaponType.WEAPON_URN_OF_SOULS)
-    or player:HasWeaponType(WeaponType.WEAPON_BONE)
-    or player:HasWeaponType(WeaponType.WEAPON_SPIRIT_SWORD)
-    or (player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) and not ignoreLudo) then
+    if (player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) and not ignoreLudo) then
         return nil
     end
 
-    if player:HasWeaponType(WeaponType.WEAPON_ROCKET) then
+    if player:HasWeaponType(WeaponType.WEAPON_ROCKETS) then
         --FIRE NUKE (might not be possible D:
     end
     if player:HasWeaponType(WeaponType.WEAPON_FETUS) then
@@ -499,18 +567,59 @@ function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, ar
         --return fire knife
     end
     if player:HasWeaponType(WeaponType.WEAPON_TECH_X) then
-        player:FireTechXLaser(--[[position, direction, radius, source, damageMult]])
+        player:FireTechXLaser(args.Position, args.Direction, 100, args.Source, args.DMGMult--[[position, direction, radius, source, damageMult]])
+        return
     end
     if player:HasWeaponType(WeaponType.WEAPON_BRIMSTONE) then
-        player:FireBrimstone(--[[direction, source, dmgMult]])
+        local brim = player:FireBrimstone(args.Direction, args.Source, args.DMGMult--[[direction, source, dmgMult]])
+        brim.Position = args.Position
+        return
     end
     if player:HasWeaponType(WeaponType.WEAPON_BOMBS) then
-        player:FireBomb(--[[position, direction, source]])
+        player:FireBomb(args.Position, args.Direction, args.Source--[[position, direction, source]])
+        return
     end
     if player:HasWeaponType(WeaponType.WEAPON_LASER) then
-        player:FireTechLaser(--[[position, laserOffset, direction, leftEye, oneHit(?), source, damageMult]])
+        player:FireTechLaser(args.Position, LaserOffset.LASER_TECH1_OFFSET, args.Direction, false, false, args.Source, args.DMGMult--[[position, laserOffset, direction, leftEye, oneHit(?), source, damageMult]])
+        return
     end
-    player:FireTear(--[[position, direction, canBeEvilEye(false), noTractorBeam, canTriggerStreakEnd(false), source, damageMult]])
+    player:FireTear(args.Position, args.Direction, args.CanEvilEye, true, false, args.Source, args.DMGMult)
+end
+
+--[[Args:
+Position: vector
+Direction: vector
+Source: entity
+DMGMult: float
+CanEvilEye: boolean]]
+function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, args, rng)
+    local shotNum, shotMods = GetNumProjectiles(player, rng)
+
+    local spreadMult = (shotNum - 2) * (15 / shotNum)
+    for i = -spreadMult*(math.floor(shotNum/2)), spreadMult*(math.ceil(shotNum/2)), spreadMult do
+        local n_args = args
+        n_args.Direction = args.Direction:Rotated(i)
+        InternalFireFunction(player, ignoreLudo, args)
+    end
+
+    for i = 1, shotMods.EyeSore, 1 do
+        local n_args = args
+        n_args.Direction = args.Direction:Rotated(rng:RandomInt(360))
+        InternalFireFunction(player, ignoreLudo, args)
+    end
+
+    if shotMods.MomsEye then
+        local n_args = args
+        n_args.Direction = args.Direction:Rotated(180)
+        InternalFireFunction(player, ignoreLudo, args)
+    end
+    if shotMods.LokisHorn then
+        for i = 1, 3, 1 do
+            local n_args = args
+            n_args.Direction = args.Direction:Rotated(90*i)
+            InternalFireFunction(player, ignoreLudo, args)
+        end
+    end
 end
 
 function SomethingWicked:TEARFLAG(x)
@@ -543,6 +652,28 @@ function SomethingWicked.ItemHelpers.EntityCollidesWithSwingingKnife(entity, kni
     local capsulePosition = knife.Position + player.Velocity + knifeVectorDirection * capsuleRadius
 
     return entity.Position:Distance(capsulePosition) < entity.Size + capsuleRadius
+end
+
+function SomethingWicked.ItemHelpers:ChargeFirstActiveOfTypeThatNeedsCharge(player, collectible, chargeToAdd, skipBatteryCheck)
+    chargeToAdd = chargeToAdd or 1
+    if skipBatteryCheck == nil then
+        skipBatteryCheck = false
+    end
+    local items = SomethingWicked.ItemHelpers:GetAllActiveDatasOfType(player, collectible)
+    local maxCharge = Isaac.GetItemConfig():GetCollectible(collectible).MaxCharges
+
+    local newMaxCharge = maxCharge * ((player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) or skipBatteryCheck) and 2 or 1)
+    for slot, charge in pairs(items) do
+        
+        if charge < newMaxCharge then
+            player:SetActiveCharge(math.min(newMaxCharge, charge + chargeToAdd), slot)
+
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
+            SomethingWicked.game:GetHUD():FlashChargeBar(player, slot)
+            SomethingWicked.sfx:Play(SoundEffect.SOUND_BEEP)
+            return
+        end
+    end
 end
 
 

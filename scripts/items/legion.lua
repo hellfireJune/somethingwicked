@@ -38,7 +38,7 @@ function this:FamiliarUpdate(familiar)
     familiar.Velocity = familiar:GetOrbitPosition(player.Position + player.Velocity) - familiar.Position
 
     --firing
-    if familiar.FireCooldown <= 0 then
+    --[[if familiar.FireCooldown <= 0 then
         if player:GetFireDirection() ~= Direction.NO_DIRECTION then
             local angle = SomethingWicked.HoldItemHelpers:GetUseDirection(player)
             player:FireTear(familiar.Position, angle, false, false, false, familiar, this.damageMult)
@@ -47,11 +47,38 @@ function this:FamiliarUpdate(familiar)
         end
     else
         familiar.FireCooldown = familiar.FireCooldown - 1
+    end]]
+end
+
+function this:ProcessFire(player, vector, shooter, _, familiar)
+    if GetPtrHash(player)
+    ~= GetPtrHash(familiar.Player) then
+        return
     end
+    
+    local fireArgs = {
+        Direction = SomethingWicked.HoldItemHelpers:GetUseDirection(player),
+        Position = familiar.Position,
+        Source = familiar,
+        DMGMult = this.damageMult,
+        CanEvilEye = true
+    }
+    local rng = familiar:GetDropRNG()
+    SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, false, fireArgs, rng)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.FamiliarInit)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_, shooter, vector, scalar, player)
+    if shooter.Type == 1 then
+        for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_LEGION)) do
+            this:ProcessFire(player, vector, shooter, scalar, value:ToFamiliar())
+        end
+        for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_LEGION_B)) do
+            this:ProcessFire(player, vector, shooter, scalar, value:ToFamiliar())
+        end
+    end
+end)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.OnCache)
 

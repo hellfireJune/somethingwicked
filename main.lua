@@ -289,6 +289,11 @@ local itemsToLoad = {
   "brokenbell",
   "hellfire",
   "saintshead",
+  "eyeofprovidence",
+  "tombstone",
+  "blacksalt",
+  "lanternbatterycellphonebattery",
+  "ringofregen",
   
   "rogueplanet",
   "minos",
@@ -301,6 +306,8 @@ local itemsToLoad = {
   "justiceandsplendor",
   "cutiefly",
   "fatwisp",
+  "weirdapple",
+  "jokerbaby",
 
   "dstock",
   "balrogshead",
@@ -331,6 +338,7 @@ local itemsToLoad = {
   "icewand",
   "dudael",
   "magicclay",
+  "boline",
   
   --"themistake"
   "twofcoins",
@@ -415,7 +423,7 @@ end
 local itemsMissingPools = "Items missing pools: "
 local itemsMissingDescs = "Items missing descs: "
 for _, i in ipairs(itemsToLoad) do
-  print(i)
+  --print(i)
   local item = include("scripts/items/"..i)
   for id, entry in pairs(item.EIDEntries) do
     if entry.isTrinket then
@@ -468,8 +476,8 @@ for _, i in ipairs(itemsToLoad) do
     end
   end
 end
---print(itemsMissingPools)
---print(itemsMissingDescs)
+print(itemsMissingPools)
+print(itemsMissingDescs)
 for _, i in ipairs(cardsToLoad) do
   local card = include("scripts/cards/"..i)
     for id, entry in pairs(card.EIDEntries) do
