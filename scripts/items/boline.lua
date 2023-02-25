@@ -37,5 +37,15 @@ function this:PlayerTakeDMG(player)
 end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.PlayerTakeDMG, EntityType.ENTITY_PLAYER)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_BOLINE] = {
+        desc = "{{Collectible399}} Throws a Maw of the Void ring on use#Will also recharge on taking damage",
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"On use, throws a maw of the void ring in the use direction", "Will regain 2 charges upon taking damage"}),
+        pools = {
+            SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
+            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
+        }
+    }
+}
 return this

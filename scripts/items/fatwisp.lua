@@ -13,7 +13,7 @@ function this:FamiliarUpdate(familiar)
     familiar.Velocity = familiar:GetOrbitPosition(player.Position + player.Velocity) - familiar.Position
 
     if familiar.HitPoints >= 0.1 then
-        SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, true, false, true, DamageFlag.DAMAGE_NOKILL)
+        --SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, true, false, true, DamageFlag.DAMAGE_NOKILL)
     else
         local room = SomethingWicked.game:GetRoom()
         if room:GetFrameCount() == 0 then
@@ -37,8 +37,8 @@ function this:FamiliarUpdate(familiar)
                 nwisp.OrbitDistance = Vector(8, 8)
                 nwisp:Update()
 
-                this:ReCalc(familiar.OrbitLayer)
             end
+            this:ReCalc(familiar.OrbitLayer)
         end 
     end
 end
@@ -60,15 +60,23 @@ function this:FamiliarDMG(ent, amount, flags, source, dmgCooldown)
         ent:TakeDamage(amount, flags | DamageFlag.DAMAGE_NOKILL, source, dmgCooldown)
         return false
     end
-    if flags & DamageFlag.DAMAGE_FIRE ~= 0 then
-        return false
-    end
     ent:GetData()["somethingWicked_fatWispShouldDissapear"] = true
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_BIG_WISP)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.FamiliarInit, FamiliarVariant.SOMETHINGWICKED_BIG_WISP)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.FamiliarDMG, EntityType.ENTITY_FAMILIAR)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, CallbackPriority.LATE, function (_, familiar, other)
+    local proj = other:ToProjectile()
+    if proj then
+        proj:Die()
+    else
+        if not other:ToNPC() then
+            return
+        end
+    end
+    familiar:TakeDamage(other.CollisionDamage, DamageFlag.DAMAGE_NOKILL, EntityRef(other), 40)
+end, FamiliarVariant.SOMETHINGWICKED_BIG_WISP)
 
 function this:WispUpdate(familiar)
     if familiar.SubType ~= CollectibleType.SOMETHINGWICKED_LIGHTHOUSE then
@@ -81,8 +89,8 @@ function this:WispUpdate(familiar)
         return
     end
 
-    local orbitSpeed = 1 + (math.sin(familiar.FrameCount / 10))
-    familiar.Velocity = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, familiar.Parent, 8 * orbitSpeed, Vector(8, 8)) - familiar.Position
+    local orbitSpeed = (math.sin(familiar.FrameCount / 20))
+    familiar.Velocity = SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, familiar.Parent, 16 * orbitSpeed, Vector(8, 8)) - familiar.Position
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.WispUpdate, FamiliarVariant.WISP)
 

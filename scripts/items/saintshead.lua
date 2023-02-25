@@ -11,6 +11,7 @@ function this:EnemyDeath(entity)
         for i = 1, amountToSpawn, 1 do
             local velocity = RandomVector() * SomethingWicked.EnemyHelpers:Lerp(4, 8, c_rng:RandomFloat())
             local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, entity.Position, velocity, player):ToTear()
+            tear.Parent = nil
             tear.CollisionDamage = player.Damage
             tear.FallingSpeed = SomethingWicked.EnemyHelpers:Lerp(-12, -30, c_rng:RandomFloat())
             tear.FallingAcceleration = 0.9

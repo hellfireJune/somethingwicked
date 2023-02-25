@@ -9,11 +9,6 @@ this.PossibleEffects = {
         SomethingWicked:UtilAddDread(ent, 3)
     end,
     function (ent, player)
-        ent:AddConfusion(EntityRef(player), 300, false)
-
-        local e_data = ent:GetData()
-        e_data.somethingWicked_electroStun = true
-        e_data.somethingWicked_electroStunParent = player
     end,
     function (ent, player)
         SomethingWicked:UtilAddBitter(ent, 5, player)

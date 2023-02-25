@@ -69,7 +69,8 @@ function SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(fcheck, playe
             if GetPtrHash(familiar) == GetPtrHash(fcheck) then
                 posInLayer = totalLayerSize
             end
-            if familiar.FrameCount == 1 then
+            if familiar.FrameCount == 0 and fcheck.FrameCount > 0 then
+                print("resetting, ", fcheck.FrameCount)
                 shouldReset = true
             end
         end
@@ -81,8 +82,11 @@ function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent, speed, d
     local layerPos, size, shouldReset = SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(familiar, parent)
     local f_data = familiar:GetData()
 
+    if familiar.FrameCount < 4 then
+        print(f_data.somethingWicked__dynamicOrbitPos, familiar.FrameCount)
+    end
     if shouldReset then
-        f_data.somethingWicked__dynamicOrbitPos = 0
+        f_data.somethingWicked__dynamicOrbitPos = 0 + speed
     else
         f_data.somethingWicked__dynamicOrbitPos = (f_data.somethingWicked__dynamicOrbitPos or 0) + speed
     end

@@ -31,11 +31,13 @@ local radius = 120
 local maxSpawnTimer = 15 local minSpawnTimer = 2
 local maxFogLifeSpan = 120 local minFogLifeSpan = 35
 local function getRandomFogSpawn(e_rng)
-    local fogRadius = radius / 1.5
+    local fogRadius = radius / 1.25
     return SomethingWicked.EnemyHelpers:Lerp(-fogRadius, fogRadius, e_rng:RandomFloat())
 end
 
 local windBlow = Vector(0.2, 0)
+local dmg = 1
+local coolDown = 15
 function this:UpdateTombstone(effect)
     local e_data = effect:GetData()
     local e_rng = effect:GetDropRNG()
@@ -53,6 +55,21 @@ function this:UpdateTombstone(effect)
         f_data.somethingWicked_fogAlpha = SomethingWicked.EnemyHelpers:Lerp(minFogAlpha, maxFogAlpha, e_rng:RandomFloat())
         fog:SetTimeout(math.floor(SomethingWicked.EnemyHelpers:Lerp(minFogLifeSpan, maxFogLifeSpan, e_rng:RandomFloat())))
         fog.Color = Color(1, 1, 1, 0)
+    end
+    
+    e_data.sw_TombAttackCooldown = e_data.sw_TombAttackCooldown or 0
+    if e_data.sw_TombAttackCooldown <= 0 then
+        local enemies = Isaac.FindInRadius(effect.Position, radius, EntityPartition.ENEMY)
+        for _, ent in ipairs(enemies) do
+            if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
+                ent:AddSlowing(coolDown*1.25, EntityRef(effect), 0.5, Color(1.2,1.2,1.2,1,0,0,0.1))
+            end
+
+            ent:TakeDamage(dmg, 0, EntityRef(effect), 1)
+            e_data.sw_TombAttackCooldown = coolDown
+        end
+    else
+        e_data.sw_TombAttackCooldown = e_data.sw_TombAttackCooldown - 1
     end
 end
 

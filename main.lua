@@ -190,7 +190,7 @@ end
 --mom found the tainted treasures method i nabbed so the room gen stuff would work
 function SomethingWicked:UtilShuffleTable(tbl, rng)
 	for i = #tbl, 2, -1 do
-    local j = rng:RandomInt(1, i)
+    local j = rng:RandomInt(i) + 1
     tbl[i], tbl[j] = tbl[j], tbl[i]
   end
   return tbl
@@ -232,6 +232,7 @@ SomethingWicked.encyclopediaLootPools = {
 }
 
 local itemsToLoad = {
+  --compact these into one file pleaaase juney
   "avengeremblem",
   "woodenhorn",
   --"lanternold",
@@ -294,6 +295,12 @@ local itemsToLoad = {
   "blacksalt",
   "lanternbatterycellphonebattery",
   "ringofregen",
+  "cloakofedith",
+  "bloodhail",
+  "redcap",
+  "voidscall",
+  "screwattack",
+  "unnamedtechitem",
   
   "rogueplanet",
   "minos",
@@ -339,6 +346,7 @@ local itemsToLoad = {
   "dudael",
   "magicclay",
   "boline",
+  "oldbell",
   
   --"themistake"
   "twofcoins",
@@ -352,7 +360,7 @@ local itemsToLoad = {
   "treasurerskeycursedkey",
   "demoncore",
   "emptybook",
-  "redclover", -- demonium page
+  "demoniumpage", -- demonium page
   "gachapon",
   "voidheart",
   "mrskits",
@@ -360,6 +368,7 @@ local itemsToLoad = {
   "nightmarefuelvirtue",
   "zzzzzzmagnet",
   "redkeychain",
+  "powerinveter",
 }
 
 local cardsToLoad = {
@@ -397,15 +406,17 @@ local earlyMiscLoad = {
   
   "dirtystatupsdonedirtquick",
   "itemHelpers",
-  "boonHelpers",
   "enemyHelpers",
   "familiarHelpers",
+  
+  "statusEffects/__core",
 }
 local postMiscLoad = {
   "EIDadder",
   "unlockHandler",
   "itempools",
-  "cardWeightHandler",
+  "cardController",
+  "compat/____core",
 }
 --[[local enemiesToLoad = {
   --"experiment",
@@ -415,7 +426,6 @@ local postMiscLoad = {
 
 SomethingWicked.addedCollectibles = {}
 SomethingWicked.addedTrinkets = {}
-SomethingWicked.addedCards = {}
 
 for _, i in ipairs(earlyMiscLoad) do
   include("scripts/misc/"..i)
@@ -482,7 +492,6 @@ for _, i in ipairs(cardsToLoad) do
   local card = include("scripts/cards/"..i)
     for id, entry in pairs(card.EIDEntries) do
       if not SomethingWicked:UtilTableHasValue(SomethingWicked.BoonIDs, id) then
-        table.insert(SomethingWicked.addedCards, id)
       end
       if EID ~= nil then
       EID:addCard(id, entry.desc)
@@ -495,6 +504,7 @@ end]]
 --include("scripts/players/abiah")
 include("scripts/players/bsides")
 for _, i in ipairs(postMiscLoad) do
+  --print(i)
   include("scripts/misc/"..i)
 end
 

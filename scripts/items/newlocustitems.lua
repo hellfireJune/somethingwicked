@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByName("Star of the Bottomless Pit")
 CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood")
 TrinketType.SOMETHINGWICKED_OWL_FEATHER = Isaac.GetTrinketIdByName("Owl Feather")
@@ -7,7 +8,6 @@ CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger")
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
 
-this.WWColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
 this.SOTBPAnimations = {
     [1] = "LocustWrath",
     [2] = "LocustPestilence",
@@ -92,21 +92,11 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.enemyDeath)
 
 --wormwood time
 function this:InitWormwoodLocust(familiar)
-    familiar:GetSprite().Color = this.WWColor
+    familiar:GetSprite().Color = mod.WWColor
 end
 
-local isDoingBitterDamage
-local bitterProcess = false
 local isDoingWWDamage
 function this:OnLocustDoesDMG(entity, amount, flags, source, cooldown)
-    if isDoingBitterDamage and not bitterProcess then
-        bitterProcess = true
-        local newDamageAmount = math.min(amount, entity.HitPoints - 1)
-        entity:TakeDamage(newDamageAmount, flags, source, cooldown)
-        bitterProcess = false
-        return false
-    end
-
     if isDoingWWDamage then
         return
     end
@@ -125,11 +115,9 @@ function this:OnLocustDoesDMG(entity, amount, flags, source, cooldown)
         if sourceEnt.SubType == LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD then
             local p = SomethingWicked:UtilGetPlayerFromTear(sourceEnt)
             isDoingWWDamage = true
-            isDoingBitterDamage = true
 
-            entity:TakeDamage(amount * 1.5, flags, source, cooldown)
+            entity:TakeDamage(amount * 1.5, flags | DamageFlag.DAMAGE_NOKILL, source, cooldown)
             SomethingWicked:UtilAddBitter(entity, 3, p)
-            isDoingBitterDamage = false
             isDoingWWDamage = false
             return false
         elseif sourceEnt.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
@@ -139,32 +127,7 @@ function this:OnLocustDoesDMG(entity, amount, flags, source, cooldown)
     end
 end
 
-function SomethingWicked:UtilAddBitter(ent, duration, player)
-    duration = duration * 30
-
-    local e_data = ent:GetData()
-    e_data.somethingWicked_bitterDuration = (e_data.somethingWicked_bitterDuration or 0) + duration
-    e_data.somethingWicked_bitterParent = player
-    ent:SetColor(this.WWColor, duration, 2, false)
-end
-
-function this:NPCUpdate(npc)
-    local e_data = npc:GetData()
-    if e_data.somethingWicked_bitterDuration ~= nil then
-        e_data.somethingWicked_bitterDuration = e_data.somethingWicked_bitterDuration - 1
-        if e_data.somethingWicked_bitterDuration <= 0 then
-            e_data.somethingWicked_bitterDuration = nil
-            e_data.somethingWicked_bitterParent = nil
-        elseif e_data.somethingWicked_bitterDuration % 20 == 1 then
-            isDoingBitterDamage = true
-            npc:TakeDamage(e_data.somethingWicked_bitterParent.Damage * 2, 0, EntityRef(e_data.somethingWicked_bitterParent), 1)
-            isDoingBitterDamage = false
-        end
-    end
-end
-
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnLocustDoesDMG)
-SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
 --flies that explode
 this.PlaceHolderLocustColor = Color(1, 1, 1, 1, 3, 3, 3)
@@ -211,6 +174,7 @@ this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_OWL_FEATHER] = {
         desc = "{{Trinket113}} 25% chance for a blue fly to turn into a Locust of War",
         isTrinket = true,
+        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"All blue flies that spawn have a 25% chance to turn into Locusts of War"})
     }
 }
 return this

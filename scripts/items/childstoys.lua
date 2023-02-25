@@ -16,7 +16,7 @@ function this:PickupInit(pickup)
 end
 
 function this:NewLevel()
-    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_HORN)
+    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
 
     for _, player in ipairs(players) do
         player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)

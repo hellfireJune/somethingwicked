@@ -1,4 +1,5 @@
-SomethingWicked.CustomCallbacks = {
+local mod = SomethingWicked
+mod.CustomCallbacks = {
     SWCB_PICKUP_ITEM = 1,
     SWCB_ON_ENEMY_HIT = 2,
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
@@ -9,7 +10,7 @@ SomethingWicked.CustomCallbacks = {
     SWCB_NEW_WAVE_SPAWNED = 8,
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,
 }
-SomethingWicked.MachineVariant = {
+mod.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
     MACHINE_FORTUNE = 3,
@@ -29,10 +30,10 @@ SomethingWicked.MachineVariant = {
     MACHINE_CONFESSIONAL = 17,
     MACHINE_BEGGAR_ROTTEN = 18
 }
-SomethingWicked.ItemPoolEnum = {
+mod.ItemPoolEnum = {
     TERATOMA_BEGGAR = 1
 }
-SomethingWicked.CustomTearFlags = {
+mod.CustomTearFlags = {
     FLAG_SHOTGRUB = 1 << 0,
     FLAG_KNAVE_OF_HEARTS = 1 << 1,
     FLAG_DREAD = 1 << 2,
@@ -45,4 +46,11 @@ SomethingWicked.CustomTearFlags = {
     FLAG_BLACK_SALT = 1 << 9,
     FLAG_RAIN_HELLFIRE = 1 << 10,
     FLAG_STICKER_BOOK = 1 << 11,
+    FLAG_SCREW_ATTACK = 1 << 12,
+    FLAG_CAT_TEASER = 1 << 13,
+}
+mod.CustomCardTypes = {
+    CARDTYPE_THOTH = 1,
+    CARDTYPE_THOTH_REVERSED = 2,
+    CARDTYPE_FRENCH_PLAYING = 3,
 }

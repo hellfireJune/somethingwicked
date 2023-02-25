@@ -1,5 +1,5 @@
 local this = {}
-SomethingWicked.TearFlagCore = {}
+SomethingWicked.TFCore = {}
 SomethingWicked.TearFlagData = {}
 
 --[[
@@ -17,6 +17,7 @@ SomethingWicked.TearFlagData = {}
     drFetusChance:
 
     OverrideTearUpdate: function
+        OverrideTearCollision: function
     OverrideLaserUpdate: function
     OverrideKnifeUpdate: function
     OverrideClubUpdate: function
@@ -28,8 +29,12 @@ SomethingWicked.TearFlagData = {}
     LaserColor
     AquariusSpritesheet
 ]]
-function SomethingWicked.TearFlagCore:AddNewFlagData(enumeration, initData)
+function SomethingWicked.TFCore:AddNewFlagData(enumeration, initData)
     SomethingWicked.TearFlagData[enumeration] = initData
+end
+function SomethingWicked.TFCore:AddTearFlag(tear, flag)
+    local t_data = tear:GetData()
+    t_data.somethingWicked_customTearFlags = (t_data.somethingWicked_customTearFlags or 0) | flag
 end
 
 local function GetTearFlagsToApply(player, tear)
@@ -53,21 +58,42 @@ local function GetTearVariantFromFlags(tflags)
     return nil
 end
 
+local function GetTearColorFromFlags(tflags)
+    local color = Color(1, 1, 1)
+    if tflags > 0 then
+        for key, value in pairs(SomethingWicked.TearFlagData) do
+            if value.TearColor and tflags & key > 0 then
+                color = color * value.TearColor
+            end
+        end
+    end
+    return color
+end
+
 local function FireTear(_, tear)
+    if tear.FrameCount ~= 1 then
+        return
+    end
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player then
         local t_data = tear:GetData()
+        local oldFlags = t_data.somethingWicked_customTearFlags
         local flags = GetTearFlagsToApply(player, tear)
         t_data.somethingWicked_customTearFlags = flags
+        if oldFlags then flags = flags | oldFlags end
 
         local t_variant = GetTearVariantFromFlags(flags)
         if t_variant then
             tear:ChangeVariant(t_variant)
         end
+        local t_color = GetTearColorFromFlags(flags)
+        if t_color then
+            tear.Color = tear.Color * t_color
+        end
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, FireTear)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, FireTear)
 
 local function TearRemove(_, tear)
     local t_data = tear:GetData()
@@ -102,6 +128,15 @@ function this:OnTearHit(tear, collider)
     end
     if t_data.somethingWicked_customTearFlags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
+            local result
+            if value.OverrideTearCollision and t_data.somethingWicked_customTearFlags & key > 0 then
+                result = value:OverrideTearCollision(tear, collider)
+            end
+            if result ~= nil then
+                return result
+            end
+        end
+        for key, value in pairs(SomethingWicked.TearFlagData) do
             if value.EnemyHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
                 value:EnemyHitEffect(tear, tear.Position, collider)
             end
@@ -120,6 +155,7 @@ function this:OnTearUpdate(tear)
     end
     if t_data.somethingWicked_customTearFlags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
+
             if value.OverrideTearUpdate and t_data.somethingWicked_customTearFlags & key > 0 then
                 value:OverrideTearUpdate(tear)
             end

@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_BALROGS_HEART = Isaac.GetItemIdByName("Balrog's Heart")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
 
-SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
+SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
     TearVariant = TearVariant.SOMETHINGWICKED_BALROG_CLUSTER,
     OverrideTearUpdate = function (_, tear)
         this:TearUpdate(tear)

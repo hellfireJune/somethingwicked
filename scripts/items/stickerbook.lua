@@ -4,10 +4,10 @@ TearVariant.SOMETHINGWICKED_HEART_STICKER = Isaac.GetEntityVariantByName("Heart 
 TearVariant.SOMETHINGWICKED_BOMB_STICKER = Isaac.GetEntityVariantByName("Bomb Sticker Tear")
 TearVariant.SOMETHINGWICKED_SKULL_STICKER = Isaac.GetEntityVariantByName("Skull Sticker Tear")
 
-function ProcChance(player)
+local function ProcChance(player)
     return 1
 end
-SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_STICKER_BOOK, {
+SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_STICKER_BOOK, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STICKER_BOOK) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)

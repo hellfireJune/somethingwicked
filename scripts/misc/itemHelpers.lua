@@ -18,6 +18,16 @@ function SomethingWicked.ItemHelpers:GlobalGetCollectibleNum(type, ignoreModifs)
     return num
 end
 
+function SomethingWicked.ItemHelpers:GlobalGetCollectibleRNG(type)
+    local players = SomethingWicked:UtilGetAllPlayers()
+    for index, player in ipairs(players) do
+        if player:HasCollectible(type) then
+            return player:GetCollectibleRNG(type)
+        end
+    end
+    return players[1]:GetCollectibleRNG(type)
+end
+
 function SomethingWicked.ItemHelpers:AllPlayersWithCollectible(type, ignoreModifs)
     local t = {}
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
@@ -551,8 +561,10 @@ local function GetNumProjectiles(player, rng)
     return numProjectiles, { EyeSore = eyeSoreShots, MomsEye = momsEye, LokisHorn = lokisHorn, MonstrosLung = hasMonstros }
 end
 
-local function InternalFireFunction(player, ignoreLudo, args)
+local function InternalFireFunction(player, ignoreLudo, args, rotate, additionalPosMod, is2020)
     ignoreLudo = ignoreLudo or false
+    local dir = args.Direction:Rotated(rotate)
+    additionalPosMod = additionalPosMod or Vector.Zero
     if (player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) and not ignoreLudo) then
         return nil
     end
@@ -567,23 +579,24 @@ local function InternalFireFunction(player, ignoreLudo, args)
         --return fire knife
     end
     if player:HasWeaponType(WeaponType.WEAPON_TECH_X) then
-        player:FireTechXLaser(args.Position, args.Direction, 100, args.Source, args.DMGMult--[[position, direction, radius, source, damageMult]])
+        player:FireTechXLaser(args.Position, dir, 100 * args.DMGMult, player, args.DMGMult--[[position, direction, radius, source, damageMult]])
         return
     end
     if player:HasWeaponType(WeaponType.WEAPON_BRIMSTONE) then
-        local brim = player:FireBrimstone(args.Direction, args.Source, args.DMGMult--[[direction, source, dmgMult]])
+        local brim = player:FireBrimstone(dir, args.Source, args.DMGMult--[[direction, source, dmgMult]])
         brim.Position = args.Position
+        brim.Parent = args.Source
         return
     end
     if player:HasWeaponType(WeaponType.WEAPON_BOMBS) then
-        player:FireBomb(args.Position, args.Direction, args.Source--[[position, direction, source]])
+        player:FireBomb(args.Position, dir, args.Source--[[position, direction, source]])
         return
     end
     if player:HasWeaponType(WeaponType.WEAPON_LASER) then
-        player:FireTechLaser(args.Position, LaserOffset.LASER_TECH1_OFFSET, args.Direction, false, false, args.Source, args.DMGMult--[[position, laserOffset, direction, leftEye, oneHit(?), source, damageMult]])
+        player:FireTechLaser(args.Position, LaserOffset.LASER_TECH1_OFFSET, dir, false, false, args.Source, args.DMGMult--[[position, laserOffset, direction, leftEye, oneHit(?), source, damageMult]])
         return
     end
-    player:FireTear(args.Position, args.Direction, args.CanEvilEye, true, false, args.Source, args.DMGMult)
+    player:FireTear(args.Position + additionalPosMod, is2020 and args.Direction or dir, args.CanEvilEye, true, false, args.Source, args.DMGMult)
 end
 
 --[[Args:
@@ -595,29 +608,36 @@ CanEvilEye: boolean]]
 function SomethingWicked.ItemHelpers:AdaptiveFireFunction(player, ignoreLudo, args, rng)
     local shotNum, shotMods = GetNumProjectiles(player, rng)
 
-    local spreadMult = (shotNum - 2) * (15 / shotNum)
-    for i = -spreadMult*(math.floor(shotNum/2)), spreadMult*(math.ceil(shotNum/2)), spreadMult do
-        local n_args = args
-        n_args.Direction = args.Direction:Rotated(i)
-        InternalFireFunction(player, ignoreLudo, args)
+    local spreadMult = 3
+    for i = 1, shotNum, 1 do
+        local spread = math.floor(i-(shotNum/2))
+        if spread <= 0 and shotNum % 2 == 0 then
+            spread = spread - 1
+        end
+        local addPos = Vector.Zero
+        local is2020 = false
+        if shotNum > 2 then
+            if i == 1 or i == shotNum then
+                addPos = -args.Direction
+                spread = spread * 1.25
+            end
+        else
+            is2020 = true
+        end
+        --n_args.Direction = n_args.Direction:Rotated(spread*spreadMult)
+        InternalFireFunction(player, ignoreLudo, args, spread*spreadMult, addPos, is2020)
     end
 
     for i = 1, shotMods.EyeSore, 1 do
-        local n_args = args
-        n_args.Direction = args.Direction:Rotated(rng:RandomInt(360))
-        InternalFireFunction(player, ignoreLudo, args)
+        InternalFireFunction(player, ignoreLudo, args, rng:RandomInt(360))
     end
 
     if shotMods.MomsEye then
-        local n_args = args
-        n_args.Direction = args.Direction:Rotated(180)
-        InternalFireFunction(player, ignoreLudo, args)
+        InternalFireFunction(player, ignoreLudo, args, 180)
     end
     if shotMods.LokisHorn then
         for i = 1, 3, 1 do
-            local n_args = args
-            n_args.Direction = args.Direction:Rotated(90*i)
-            InternalFireFunction(player, ignoreLudo, args)
+            InternalFireFunction(player, ignoreLudo, args, 90*i)
         end
     end
 end
@@ -877,3 +897,9 @@ SomethingWicked.ItemHelpers.CardDescsProper = {
 	[Card.CARD_SOUL_BETHANY] = "Friends from beyond",
 	[Card.CARD_SOUL_JACOB] = "Bound by blood",
 }
+
+
+SomethingWicked.BoonIDs = {}
+function SomethingWicked:AddBoon(id)
+    table.insert(SomethingWicked.BoonIDs, id)
+  end

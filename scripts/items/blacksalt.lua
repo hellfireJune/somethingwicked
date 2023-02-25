@@ -4,7 +4,7 @@ CollectibleType.SOMETHINGWICKED_BLACK_SALT = Isaac.GetItemIdByName("Black Salt")
 local function procChance(player) 
     return 1 + (player.Luck / 10)
 end
-SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BLACK_SALT, {
+SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BLACK_SALT, {
     ApplyLogic = function (_, player)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLACK_SALT) then
             local c_rng = player:GetCollectible(CollectibleType.SOMETHINGWICKED_BLACK_SALT)

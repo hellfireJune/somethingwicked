@@ -13,7 +13,9 @@ function this:BuffFamiliarHP(familiar)
             familiar.MaxHitPoints = familiar.MaxHitPoints * 2
             familiar:AddHealth(familiar.MaxHitPoints - familiar.HitPoints)
         end
-        familiar.SpriteScale = Vector(2, 2)
+        if not player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
+            familiar.SpriteScale = Vector(1.2, 1.2)
+        end
     end
 end
 
@@ -26,7 +28,7 @@ function this:WispFire(tear)
     if spawner and spawner.Type == EntityType.ENTITY_FAMILIAR and SomethingWicked:UtilTableHasValue(this.AffectedCompanions, spawner.Variant) then
         spawner = spawner:ToFamiliar()
         if spawner.Player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
-            tear.Scale = tear.Scale * 1.5
+            tear.Scale = tear.Scale * 1.2
             tear.CollisionDamage = tear.CollisionDamage * 2
         end
     end

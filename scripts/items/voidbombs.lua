@@ -22,7 +22,7 @@ function this:BombUpdate(bomb)
     local sprite = bomb:GetSprite()
     if bomb.FrameCount == 1 then
         if SomethingWicked.ItemHelpers:ShouldConvertBomb(bomb, player, CollectibleType.SOMETHINGWICKED_VOID_BOMBS, this.BombSpriteSheet, "isVoidBomb", FetusProcChance(player))
-        and bomb.Variant > 4 or bomb.Variant < 3 then
+        and (bomb.Variant > 4 or bomb.Variant < 3) then
             local sprite = bomb:GetSprite()
             sprite:Load("gfx/items/pick ups/bombs/void0.anm2", true)
         end

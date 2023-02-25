@@ -17,5 +17,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player,
     end
 end)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM] = {
+        desc = ""
+    }
+}
 return this

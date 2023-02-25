@@ -31,7 +31,7 @@ function this:OnNewRoom()
 end
 
 function this:UseMagpieEye(_, player, useflags)
-    SomethingWicked.BoonHelpers:UseBoonCard(Card.SOMETHINGWICKED_MAGPIE_EYE, Card.SOMETHINGWICKED_MAGPIE_EYE_BOON, player, useflags)
+    SomethingWicked.cardCore:UseBoonCard(Card.SOMETHINGWICKED_MAGPIE_EYE, Card.SOMETHINGWICKED_MAGPIE_EYE_BOON, player, useflags)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseMagpieEye, Card.SOMETHINGWICKED_MAGPIE_EYE)

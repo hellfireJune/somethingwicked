@@ -1,59 +1,60 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("Superbug")
+local mod = SomethingWicked
+CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("The Black Death")
 --this.color = Color()
 
-function this:FireGrubbyTear(tear)
-    if tear.FrameCount ~= 1
-    or tear.Parent == nil
-    or tear.Parent.Type ~= 1 then
-        return
-    end
-
-    local p = SomethingWicked:UtilGetPlayerFromTear(tear)
-    local t_data = tear:GetData()
-    if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB)then
-        if not t_data.somethingWicked_isShotgrubSplitTear then
-            tear:AddTearFlags(TearFlags.TEAR_WIGGLE)
-            t_data.somethingWicked_isShotgrubTear = true
-        else
-            local p_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SHOTGRUB)
-            local chance = p.Luck * 0.05
-            if p_rng:RandomFloat() < 0.2 + chance then
-                tear:AddTearFlags(TearFlags.TEAR_POISON)
-            end
+mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_SHOTGRUB, {
+    ApplyLogic = function (_, player, tear)
+        if tear.Parent == nil
+        or tear.Parent.Type ~= 1 then
+            return false
         end
-    end
-end
+        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB) then
+            tear:AddTearFlags(TearFlags.TEAR_WIGGLE)
+            return true
+        end
+    end,
+    AnyHitEffect = function (_, tear, pos)
+        this:HitEnemy(tear, pos)
+    end,
+    TearColor = Color(0.4, 1, 0.4, 1)
+})
+local splittedColor = Color(0.8, 1, 0.8, 1)
 
 this.angle = 75
 this.damageMult = 0.3
-function this:OnHitEnemy(tear)
+local function poisonProc(player)
+    return 0.2 + (player.Luck*0.05)
+end
+function this:HitEnemy(tear, pos)
     tear = tear:ToTear()
-    if tear.Height > -5 then
+    if tear and tear.Height > -5 then
         return
     end
 
-    local t_data = tear:GetData()
-    if t_data.somethingWicked_isShotgrubTear
-    and tear.StickTarget == nil then
-        local p = SomethingWicked:UtilGetPlayerFromTear(tear)
-        if p then
-            for i = -this.angle, this.angle, this.angle do
-                local newAngle = tear.Velocity:Rotated(i) * -1
-                local new = p:FireTear(tear.Position - tear.Velocity, newAngle:Resized(p.ShotSpeed * 10), false, false, false, nil, this.damageMult * (tear.CollisionDamage / p.Damage))
-                --print(new.Parent.Type, "type")
-                new.Parent = nil
-                new.Height = new.Height / 4
+    local p = mod:UtilGetPlayerFromTear(tear)
+    if p then
+        for i = -this.angle, this.angle, this.angle do
+            local newAngle = tear.Velocity:Rotated(i) * -1
+            local new = p:FireTear(pos - tear.Velocity, newAngle:Resized(p.ShotSpeed * 10), false, false, false, nil, this.damageMult * (tear.CollisionDamage / p.Damage))
+            --print(new.Parent.Type, "type")
+            new.Parent = nil
+            new.Height = tear.Height / 1.5
 
-                local n_data = new:GetData()
-                n_data.somethingWicked_isShotgrubSplitTear = true
+            new.Color = new.Color * splittedColor
+
+            local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SHOTGRUB)
+            if c_rng:RandomFloat() < poisonProc(p) then
+                new:AddTearFlags(TearFlags.TEAR_MYSTERIOUS_LIQUID_CREEP)
             end
+            new:Update()
         end
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.FireGrubbyTear)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, this.OnHitEnemy, EntityType.ENTITY_TEAR)
-
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_SHOTGRUB] = {
+        desc = "Oogly Boogly"
+    }
+}
 return this

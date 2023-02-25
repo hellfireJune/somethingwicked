@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_HELLFIRE = Isaac.GetItemIdByName("Hellfire")
 
 local function procChance(player)
@@ -21,7 +22,7 @@ function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     elseif not e_data.somethingWicked_hellfirePrimedFrames and ent.HitPoints < 0.1 then
         return
     end
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
+    local flag, player = mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
     if flag and player then
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_HELLFIRE)
         if e_data.somethingWicked_isHellfireMarked == nil then
@@ -36,7 +37,7 @@ function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDMG)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDMG)
 
 function this:NPCUpdate(ent)
     local e_data = ent:GetData()
@@ -55,24 +56,24 @@ function this:NPCUpdate(ent)
             local color = Color(1, 1, 1, 1, 1)
             ent:SetColor(color, 8, 3, true, false)
 
-            SomethingWicked.sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
+            mod.sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
         elseif e_data.somethingWicked_hellfirePrimedFrames == 0 then
             ent:BloodExplode()
             Game():BombTearflagEffects(ent.Position, 1, TearFlags.TEAR_BRIMSTONE_BOMB, Isaac.GetPlayer(0), 1)
-            SomethingWicked.sfx:Stop(SoundEffect.SOUND_BEEP)
+            mod.sfx:Stop(SoundEffect.SOUND_BEEP)
         end
     elseif ent.HitPoints < 0.1 then
         e_data.somethingWicked_hellfirePrimedFrames = 30
     end
 end
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_NPC_UPDATE, CallbackPriority.IMPORTANT, this.NPCUpdate)
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
         desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#Scales with luck",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions", "Scales with luck"}),
-        pools = { SomethingWicked.encyclopediaLootPools.POOL_CURSE, SomethingWicked.encyclopediaLootPools.POOL_DEVIL, SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
-    SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL}
+        encycloDesc = mod:UtilGenerateWikiDesc({"On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions", "Scales with luck"}),
+        pools = { mod.encyclopediaLootPools.POOL_CURSE, mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
+    mod.encyclopediaLootPools.POOL_GREED_DEVIL}
     }
 }
 return this

@@ -1,11 +1,21 @@
+local mod = SomethingWicked
 local this = {}
 CollectibleType.SOMETHINGWICKED_BLOOD_HAIL = Isaac.GetItemIdByName("Blood Hail")
 
-SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
+local function procChance(player)
+   return 0.2 + (player.Luck*0.05) 
+end
+mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
-        and ((tear.Parent and tear.Parent.Type == 1) or tear.Type ~= EntityType.ENTITY_TEAR) then
-            return true
+        and ((tear.Parent and tear.Parent.Type == 1)) then
+            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
+            if c_rng:RandomFloat() < procChance(player) then
+                if tear.Type == EntityType.ENTITY_TEAR then
+                    mod:utilForceBloodTear(tear)
+                end
+                return true
+            end
         end
     end,
     EnemyHitEffect = function (_, tear, pos, enemy)
@@ -14,7 +24,59 @@ SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG
 })
 
 function this:HitEnemy(tear, enemy, pos)
-    
+    local rng = tear:GetDropRNG()
+    local angle = Vector.FromAngle(rng:RandomInt(360))
+    angle = angle:Resized(mod.EnemyHelpers:Lerp(enemy.Size + 10, enemy.Size + 75, rng:RandomFloat()))
+    local posToSpawnAt = enemy.Position + angle
+
+    local player = mod:UtilGetPlayerFromTear(tear)
+    local fallingTear = player:FireTear(posToSpawnAt, Vector.Zero, false, true, false)
+
+    fallingTear.Parent = nil
+    fallingTear.Height = -500
+    fallingTear.Scale = fallingTear.Scale * 3
+    fallingTear.FallingAcceleration = 3
+    fallingTear.FallingSpeed = 3
+    mod:utilForceBloodTear(fallingTear)
+    fallingTear:Update()
+
+    local t_data = fallingTear:GetData()
+    t_data.sw_bloodHailStyle = rng:RandomInt(2) == 1 and "haemo" or "hellfire"
+end
+
+function this:RemoveTear(tear)
+    local player = mod:UtilGetPlayerFromTear(tear)
+    if not player then
+        return
+    end
+
+    local t_data = tear:GetData()
+    if t_data.sw_bloodHailStyle then
+        
+        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, tear.Position, Vector.Zero, player)
+        creep.CollisionDamage = tear.CollisionDamage / 7
+        creep.Scale = 0.5
+        creep:Update()
+
+        if t_data.sw_bloodHailStyle == "haemo" then
+            for i = 1, 8, 1 do
+                local randomVelocity = RandomVector() * 10
+                local bt = player:FireTear(tear, randomVelocity, false, true, false, nil, 0.5)
+                bt.Parent = nil
+                mod:utilForceBloodTear(bt)
+                bt:Update()
+            end
+        else
+
+        end
+    end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, CallbackPriority.EARLY, this.RemoveTear, EntityType.ENTITY_TEAR)
+function this:TearCollision(tear)
+    local t_data = tear:GetData()
+    if t_data.sw_bloodHailStyle then
+        return true
+    end
 end
 
 this.EIDEntries = {

@@ -9,7 +9,7 @@ end
 function  this:PlayerUpdate(player)
     if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_BALROGS_HEAD) then
         local tear = player:FireTear(player.Position, (SomethingWicked.HoldItemHelpers:GetUseDirection(player)), false, true, false)
-        tear.Velocity = tear.Velocity:Resized(15)
+        tear.Velocity = tear.Velocity * 1.5
         tear:ChangeVariant(this.head)
         local t_data = tear:GetData()
         t_data.somethingwicked_isTheBalrogsHead = true

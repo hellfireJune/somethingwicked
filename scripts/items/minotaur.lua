@@ -1,6 +1,5 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR = Isaac.GetItemIdByName("Crying Minotaur")
-this.dreadColor = Color(1, 1, 1, 1, 0.4)
 EffectVariant.SOMETHINGWICKED_DREAD_POOF = Isaac.GetEntityVariantByName("Dread Poof")
 
 this.baseProcChance = 0.15
@@ -52,53 +51,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, las
     end
 end, EntityType.ENTITY_LASER)
 
-function SomethingWicked:UtilAddDread(ent, stacks)
-    local e_data = ent:GetData()
-    
-    e_data.somethingWicked_dreadStacks = (e_data.somethingWicked_dreadStacks or 0) + stacks
-
-    e_data.somethingWicked_dreadDelay = 1
-end
-
-this.takingDreadDMG = false
-function this:OnEnemyTakeDMG(ent, amount, flags, source, dmgCooldown)
-    local e_data = ent:GetData()
-    e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks or 0
-    e_data.somethingWicked_dreadDelay = e_data.somethingWicked_dreadDelay or 0
-    if e_data.somethingWicked_dreadDelay > 0
-    and e_data.somethingWicked_dreadStacks <= 1 then
-        return
-    end
-    if e_data.somethingWicked_dreadStacks > 0
-    and not this.takingDreadDMG then
-        this.takingDreadDMG = true
-        ent:TakeDamage(amount * 3, flags, source, dmgCooldown)
-        this.takingDreadDMG = false
-
-        e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks - 1
-        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DREAD_POOF, 0, ent.Position + Vector(0, 10), Vector.Zero, ent)
-        effect.SpriteOffset = Vector(0, -ent.Size)
-        return false
-    end
-end
-
-function this:NPCUpdate(ent)
-    local e_data = ent:GetData()
-    e_data.somethingWicked_dreadDelay = e_data.somethingWicked_dreadDelay or 0
-    if e_data.somethingWicked_dreadDelay > 0 then 
-        e_data.somethingWicked_dreadDelay = e_data.somethingWicked_dreadDelay - 1
-    end
-
-    e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks or 0
-    if e_data.somethingWicked_dreadStacks > 0 then
-        ent:SetColor(this.dreadColor, 2, 1, false, false)
-    end
-end
-
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.OnHitFunc)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, this.FireLaser)
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnEnemyTakeDMG)
-SomethingWicked:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)
 
 this.EIDEntries = {}

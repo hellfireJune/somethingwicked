@@ -123,7 +123,8 @@ this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_STRANGE_APPLE] = {
         desc = "Spawns a snake familiar which moves along the grid every "..frameCountShit.." frames#Will only move forward, left or right",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns a snake familiar which moves along the grid every "..frameCountShit.." frames","Will only move forward, left or right"}),
-        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_SECRET, SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_SECRET, 
+        SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET, SomethingWicked.encyclopediaLootPools.POOL_BABY_SHOP,
         SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_SECRET},
     }
 }

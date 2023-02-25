@@ -126,8 +126,7 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
 
     local player
     local entity = source.Entity
-    if source.Type == EntityType.ENTITY_BOMB then
-        entity = entity:ToBomb()
+    if source.Type == EntityType.ENTITY_BOMB or source.Type == EntityType.ENTITY_TEAR then
         player = SomethingWicked:UtilGetPlayerFromTear(entity)
     elseif (source.Type == EntityType.ENTITY_PLAYER and flags & DamageFlag.DAMAGE_LASER ~= 0) then
         entity = entity:ToPlayer()
@@ -144,7 +143,7 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
+--SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, this.OnTearHit)
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnEntityDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
@@ -198,10 +197,6 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
     
 function this:PostFirePureEval(player)
-    if player:HasWeaponType(WeaponType.WEAPON_LUDOVICO_TECHNIQUE) then
-        return
-    end
-
     local p_data = player:GetData()
     p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
     local sprite = player:GetSprite()
@@ -213,7 +208,18 @@ function this:PostFirePureEval(player)
             if value and GetPtrHash(value.Player) == GetPtrHash(player) then
                 sprite = value:GetSprite()
                 animflag = string.match(sprite:GetAnimation(), "Shoot")
+                if value.ShootDirection ~= Direction.NO_DIRECTION then
+                    p_data.somethingWicked_lastAimedDirection = SomethingWicked.HoldItemHelpers:AimToVector(value.ShootDirection)
+                end
+                break
             end
+        end
+    else
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE) then
+            
+        end
+        if player:GetFireDirection() ~= Direction.NO_DIRECTION then
+            p_data.somethingWicked_lastAimedDirection = SomethingWicked.HoldItemHelpers:AimToVector(player:GetFireDirection())
         end
     end
     --print(player.FireDelay)
@@ -222,7 +228,7 @@ function this:PostFirePureEval(player)
         if not p_data.somethingWicked_processedPureFire
         or player.FireDelay >= player.MaxFireDelay then
             p_data.somethingWicked_processedPureFire = true
-            this:CallPureFireCallback(player, player:GetAimDirection(), 1, player)
+            this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
                 familiar = familiar:ToFamiliar()
@@ -230,7 +236,7 @@ function this:PostFirePureEval(player)
                     if SomethingWicked.FamiliarHelpers:DoesFamiliarShootPlayerTears(familiar)
                     and not (familiar.Variant == FamiliarVariant.INCUBUS and playerType == PlayerType.PLAYER_LILITH) then
                         local scalar = this:GetFamiliarPureFireScalar(familiar, playerType)
-                        this:CallPureFireCallback(familiar, familiar.ShootDirection, scalar, player)
+                        this:CallPureFireCallback(familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
                     end
                 end
             end
@@ -243,6 +249,12 @@ function this:PostFirePureEval(player)
     end
     --print(player:GetSprite():GetOverlayAnimation(), (player:GetSprite():GetOverlayFrame()))
     
+end
+
+function SomethingWicked:DebugPostPureFireCallback()
+    local player = Isaac.GetPlayer(1)
+    local p_data = player:GetData()
+    this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
 end
 
 function this:GetFamiliarPureFireScalar(familiar, playertype)
@@ -266,7 +278,7 @@ function this:CallPureFireCallback(shooter, direction, scalar, player)
 end
 
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PostFirePureEval)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CallbackPriority.IMPORTANT, this.PostFirePureEval)
 
 --new wave/on item charge
 local queueNewWaveCheck = false
@@ -297,6 +309,9 @@ function this:NewWaveOnChargeGameUpdate()
     end
 end
 
+function SomethingWicked:UtilGetFireVector(vector, player)
+    return (vector * (player.ShotSpeed * 10) + player.Velocity):Resized(player.ShotSpeed * 10) 
+end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     queueNewWaveCheck = false
 end)

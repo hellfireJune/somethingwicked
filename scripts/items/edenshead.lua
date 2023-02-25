@@ -25,7 +25,7 @@ this.moddedThrowables = {
     "Cursed Candle",
     "Balrog's Head",
     --"Ice Wand",
-    --"Boline",
+    "Boline",
     --"Facestabber",
 
     --fOLIO

@@ -1,7 +1,7 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_EYE_OF_PROVIDENCE = Isaac.GetItemIdByName("Eye of Providence")
 
-SomethingWicked.TearFlagCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_PROVIDENCE, {
+SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_PROVIDENCE, {
     EnemyHitEffect = function (_, tear, pos, enemy)
         this:HitEnemy(tear, pos, enemy)
     end,

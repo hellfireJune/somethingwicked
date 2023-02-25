@@ -72,8 +72,38 @@ function this:SplitLasersToo(laser, player)
     end
 end
 
+local function SplitBombsAswell(_, bomb)
+    if not bomb.IsFetus
+    or bomb.FrameCount ~= 1 then
+        return
+    end
+
+    local player = SomethingWicked:UtilGetPlayerFromTear(bomb)
+    if not player
+    or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES) then
+        return
+    end
+
+    if (bomb.Parent and bomb.Parent.Type == EntityType.ENTITY_PLAYER) then
+        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
+
+        if c_rng:RandomFloat() < this.procChance then
+            local vel = bomb.Velocity
+            for i = -this.angle, this.angle, this.angle * 2 do
+                local newAngle = vel:Rotated(i)
+                local new = player:FireBomb(bomb.Position - vel, newAngle, nil)
+                new.Color = this.Colors[i]
+                new.Parent = nil
+            end
+        else
+            print("failed proc")
+        end
+    end
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.SplitTearsSometimes)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, this.SplitLasersToo)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, SplitBombsAswell)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_3D_GLASSES] = {

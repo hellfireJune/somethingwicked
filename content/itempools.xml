@@ -31,6 +31,7 @@
 		<Item Name="Lover's Mask" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Eden's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
+		<Item Name="Tiamat's Dice" Weight="0.1" DecreaseBy="0.1" RemoveOn="0.01"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -68,6 +69,7 @@
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Boline" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="boss">
@@ -97,13 +99,15 @@
 		<Item Name="Wrath" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Hellfire" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	
 	<Pool Name="angel">
 		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Star of the Bottomless Pit" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
+		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
@@ -204,6 +208,8 @@
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<!--Greed/Greedier mode-->
@@ -273,6 +279,7 @@
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
@@ -284,6 +291,7 @@
 	<Pool Name="greedAngel">
 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

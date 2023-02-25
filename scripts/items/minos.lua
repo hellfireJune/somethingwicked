@@ -316,7 +316,7 @@ end
 
 this.minHydraSnakes = 1
 this.maxHydraSnakes = 4
-this.hydraLength = 7
+this.hydraLength = 5
 this.flagsToClearIfOnBody = TearFlags.TEAR_WIGGLE | TearFlags.TEAR_SPIRAL | TearFlags.TEAR_ORBIT| TearFlags.TEAR_SQUARE| TearFlags.TEAR_BIG_SPIRAL|
  TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_TURN_HORIZONTAL| TearFlags.TEAR_LUDOVICO
 function this:HydrusPlayerUpdate(player)
@@ -388,6 +388,9 @@ function this:MakeTearSnake(player, p_data, type, dmgMult, length, lastTear)
         nt.Parent = lastTear
         lastTear.Child = nt
         nt:ClearTearFlags(this.flagsToClearIfOnBody)
+        if type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
+            nt:AddTearFlags(TearFlags.TEAR_SHIELDED)
+        end
     else
         nt.Parent = nil
         ntd.snakeTearData.isHead = true
@@ -396,6 +399,7 @@ function this:MakeTearSnake(player, p_data, type, dmgMult, length, lastTear)
             nt:AddTearFlags(TearFlags.TEAR_HOMING)
         else
             table.insert(p_data.somethingwicked_HydraTears, nt) 
+            nt:AddTearFlags(TearFlags.TEAR_ORBIT_ADVANCED)
         end
     end
 
