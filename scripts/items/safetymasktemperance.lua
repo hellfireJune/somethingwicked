@@ -118,7 +118,8 @@ end
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_SURGICAL_MASK] = {
         isTrinket = true,
-        desc = "33% chance to not take damage when using a blood donation machine"
+        desc = "33% chance to not take damage when using a blood donation machine",
+        Hide = true,
     }
 }
 return this

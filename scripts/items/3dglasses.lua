@@ -36,6 +36,9 @@ function this:SplitTearsSometimes(tear)
 
                     local n_data = new:GetData()
                     n_data.somethingwicked_3DglassesChecked = true
+
+                    n_data.somethingWicked_trueHoming = t_data.somethingWicked_trueHoming
+                    new.TearFlags = tear.TearFlags
                 end
             end
             t_data.somethingwicked_3DglassesChecked = true
@@ -95,8 +98,8 @@ local function SplitBombsAswell(_, bomb)
                 new.Color = this.Colors[i]
                 new.Parent = nil
             end
-        else
-            print("failed proc")
+        --else
+            --print("failed proc")
         end
     end
 end

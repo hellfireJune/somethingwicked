@@ -6,9 +6,19 @@ function this:TearFire(tear)
 
     if t_data.somethingWicked_trueHoming ~= nil 
     and t_data.somethingWicked_trueHoming.target ~= nil then
-        local variance = t_data.somethingWicked_trueHoming.angleVariance
         local speed = 15
-        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance, 0.4)
+        if t_data.WallStickerData  then
+            if t_data.WallStickerData.WallStickerInit then
+                
+                t_data.somethingWicked_trueHoming.target = nil
+                tear.Height = tear.Height / 3
+                return
+            end
+        end
+        local variance = t_data.somethingWicked_trueHoming.angleVariance
+
+        local rng = tear:GetDropRNG()
+        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance * (1+rng:RandomFloat()*0.5), 0.2)
     end
         --[[local enemy = t_data.somethingWicked_trueHoming.target
         local enemypos = enemy.Position
@@ -35,14 +45,15 @@ end
 function this:TearOnHit(tear, collider, player, procChance)
     local ot_data = tear:GetData()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
-    and tear:GetData().somethingWicked_trueHoming == nil then
+    and tear:GetData().somethingWicked_trueHoming == nil
+    and tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER then
         local borkdHearts = player:GetBrokenHearts()
         local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WRATH)
 
         if borkdHearts > 0
         and rng:RandomFloat() <= procChance then
-            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180), false, true, false, nil, 0.1 * borkdHearts)
-            wisp.Velocity = wisp.Velocity * player.ShotSpeed * 15
+            local bonusAng = rng:RandomInt(60)
+            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.1 * borkdHearts)
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             wisp.Height = wisp.Height * 3
             

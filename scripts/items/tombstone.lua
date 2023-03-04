@@ -110,7 +110,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateFog, 
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_TOMBSTONE] = {
-        desc = "oogly boogly"
+        desc = "oogly boogly",
+        Hide = true,
     }
 }
 return this

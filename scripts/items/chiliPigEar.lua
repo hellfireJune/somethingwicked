@@ -10,10 +10,12 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.damageCache, Ca
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CHILI] = {
-        desc = "↑ +0.7 Damage Up "
+        desc = "↑ +0.7 Damage Up ",
+        Hide = true,
     },
     [CollectibleType.SOMETHINGWICKED_PIG_EAR] = {
-        desc = "↑ +0.7 Damage Up "
+        desc = "↑ +0.7 Damage Up ",
+        Hide = true,
     }
 }
 return this

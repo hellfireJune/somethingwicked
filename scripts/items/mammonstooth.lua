@@ -14,7 +14,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.damageCache, Ca
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_MAMMONS_TOOTH] = {
-        desc = "↑ +0.7 damage up#Spawns 1 coin on pickup",--[[
+        desc = "↑ +0.7 damage up#Spawns 1 coin on pickup",
+        Hide = true,--[[
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"+0.7 damage up", "Spawns 1 random coin on pickup"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_BOSS

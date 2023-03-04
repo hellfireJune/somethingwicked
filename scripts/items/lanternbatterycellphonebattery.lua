@@ -53,6 +53,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, this.InitBattery, 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY] = {
         desc = "fandangled",
+        Hide = true,
     },
     [TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY] = {
         desc = "15% chance to gain an extra item charge on clearing a room#All batteries are turned into bombs",

@@ -33,7 +33,8 @@ this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_GIFT_CARD] = {
         desc = "While held, your coins can never fall below 6 coins"..
         "#!!! 5% chance for the trinket to break upon refilling coins",
-        isTrinket = true
+        isTrinket = true,
+        Hide = true,
     }
 }
 return this

@@ -73,7 +73,7 @@ function this:EvaluateCache(player, flags)
                 p_data.SomethingWickedPData.FishMilkFlags = newFlags
             end
 
-            print(p_data.SomethingWickedPData.FishMilkFlags)
+            --print(p_data.SomethingWickedPData.FishMilkFlags)
             player.TearFlags = player.TearFlags | p_data.SomethingWickedPData.FishMilkFlags
         end
     end

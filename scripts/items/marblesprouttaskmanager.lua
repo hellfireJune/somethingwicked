@@ -25,10 +25,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseTM, CollectibleTyp
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_MARBLE_SPROUT] = {
-
+        Hide = true,
     },
     [CollectibleType.SOMETHINGWICKED_TASK_MANAGER] = {
-
+        Hide = true,
     }
 }
 return this

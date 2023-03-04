@@ -29,7 +29,8 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_REGEN_RING] = {
-        desc = "Regenerates"
+        desc = "Regenerates",
+        Hide = true,
     }
 }
 return this

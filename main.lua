@@ -288,7 +288,7 @@ local itemsToLoad = {
   "knaveofhearts",
   "redqueen",
   "brokenbell",
-  "hellfire",
+  "hellfireCrownOfBlood",
   "saintshead",
   "eyeofprovidence",
   "tombstone",
@@ -301,6 +301,7 @@ local itemsToLoad = {
   "voidscall",
   "screwattack",
   "unnamedtechitem",
+  "unnamedfilleritem2",
   
   "rogueplanet",
   "minos",
@@ -408,6 +409,7 @@ local earlyMiscLoad = {
   "itemHelpers",
   "enemyHelpers",
   "familiarHelpers",
+  "hitscanHelper",
   
   "statusEffects/__core",
 }
@@ -459,7 +461,7 @@ for _, i in ipairs(itemsToLoad) do
         Class = "Something Wicked",
       }
       if entry.encycloDesc == nil then
-        table.WikiDesc = {
+        --[[table.WikiDesc = {
           {
             { str = "Test.", clr="1" },
             { str = "Test.", clr="2" },
@@ -468,10 +470,12 @@ for _, i in ipairs(itemsToLoad) do
           }
         }
         table.Hide = true
-        itemsMissingDescs = itemsMissingDescs..id.." "
+        itemsMissingDescs = itemsMissingDescs..id.." "]]--
+        table.WikiDesc = Encyclopedia.EIDtoWiki(entry.desc or "???")
       else
         table.WikiDesc = entry.encycloDesc
       end
+      table.Hide = entry.Hide or false
       if entry.isTrinket ~= true then
         
         if entry.pools == nil then
@@ -480,7 +484,7 @@ for _, i in ipairs(itemsToLoad) do
           table.Pools = entry.pools
         end
         Encyclopedia.AddItem(table)
-      else 
+      else
         Encyclopedia.AddTrinket(table)
       end
     end

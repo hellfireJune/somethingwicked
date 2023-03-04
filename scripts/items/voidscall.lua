@@ -128,7 +128,8 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CALL_OF_THE_VOID] = {
-        desc = "Made of steel and black"
+        desc = "Made of steel and black",
+        Hide = true,
     }
 }
 return this

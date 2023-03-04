@@ -24,6 +24,7 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
 
     local p_data = player:GetData()
+    p_data.SomethingWickedPData = p_data.SomethingWickedPData or {}
     if pickup.SubType == BatterySubType.BATTERY_GOLDEN then
         p_data.SomethingWickedPData.goldenBatteryRandomRoom = this:DoGoldenBattery(player, pickup)
     end
@@ -123,7 +124,8 @@ end)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_POWER_INVERTER] = {
         isTrinket = true,
-        desc = "wah wah"
+        desc = "wah wah",
+        Hide = true,
     }
 }
 return this

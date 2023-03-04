@@ -52,5 +52,9 @@ function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.BlockDMG, EntityType.ENTITY_PLAYER)
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_LOVERS_MASK] = {
+        desc = "80% chance to block any red heart damage#Prevents the damage penalty devil deal chance"
+    }
+}
 return this

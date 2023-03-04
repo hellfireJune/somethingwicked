@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM = Isaac.GetItemIdByName("Lanky Mushroom")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
@@ -13,13 +14,14 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player,
         player.TearRange = player.TearRange + (40 * 0.75 * mult)
     end
     if flags == CacheFlag.CACHE_SIZE then
-        player.SpriteScale = player.SpriteScale * (mult == 0 and Vector(1, 1) or Vector(0.5, 1.5))
+        player.SpriteScale = player.SpriteScale * (mult == 0 and Vector(1, 1) or Vector(0.75, 1.5))
     end
 end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM] = {
-        desc = ""
+        desc = "+0.7 damage up#0.4 tears down#0.75 range up#Makes Isaac 50% taller and 25% thinner",
+        pools = { mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET, mod.encyclopediaLootPools.POOL_GREED_TREASURE, mod.encyclopediaLootPools.POOL_GREED_BOSS}
     }
 }
 return this

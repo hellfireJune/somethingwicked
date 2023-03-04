@@ -73,7 +73,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdat
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_STAR_SHOT] = {
-        desc = "!!! Viewing of this item is prohibited. If you see this item, please report it to your local authorities immediately.#Please do not tell any trustable people about this item. Please pretend this never appeared."
+        desc = "!!! Viewing of this item is prohibited. If you see this item, please report it to your local authorities immediately.#Please do not tell any trustable people about this item. Please pretend this never appeared.",
+            Hide = true,
     }
 }
 return this

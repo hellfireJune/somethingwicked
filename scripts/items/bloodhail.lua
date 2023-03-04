@@ -55,14 +55,15 @@ function this:RemoveTear(tear)
         
         local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, tear.Position, Vector.Zero, player)
         creep.CollisionDamage = tear.CollisionDamage / 7
-        creep.Scale = 0.5
+        --creep.Scale = 0.5
         creep:Update()
 
         if t_data.sw_bloodHailStyle == "haemo" then
             for i = 1, 8, 1 do
                 local randomVelocity = RandomVector() * 10
-                local bt = player:FireTear(tear, randomVelocity, false, true, false, nil, 0.5)
+                local bt = player:FireTear(tear.Position, randomVelocity, false, true, false, nil, 0.5)
                 bt.Parent = nil
+                bt.Height = bt.Height / 3
                 mod:utilForceBloodTear(bt)
                 bt:Update()
             end
@@ -81,7 +82,8 @@ end
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BLOOD_HAIL] = {
-        desc = "rain ):"
+        desc = "rain ):",
+        Hide = true,
     }
 }
 return this

@@ -104,7 +104,8 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_NEW_WAVE_SPA
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = {
         desc = "sucks",
-        isTrinket = true
+        isTrinket = true,
+        Hide = true,
     }
 }
 return this

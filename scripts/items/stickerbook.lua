@@ -62,7 +62,8 @@ end
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_STICKER_BOOK] = {
-        desc = "bookie"
+        desc = "bookie",
+        Hide = true,
     }
 }
 return this

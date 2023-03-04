@@ -1,5 +1,5 @@
 local this = {}
---blazeys notes: yaaaaaaaawn im so fucking tired rn this code is probably gonna fuckin suck
+--junes notes: yaaaaaaaawn im so fucking tired rn this code is probably gonna fuckin suck
 Card.SOMETHINGWICKED_K0 = Isaac.GetCardIdByName("k0")
 
 function this:UseCard(_, player)

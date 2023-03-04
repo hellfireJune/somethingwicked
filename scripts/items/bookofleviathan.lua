@@ -32,7 +32,8 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ITEM_SHOU
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BOOK_OF_LEVIATHAN] = {
-        desc = ""
+        desc = "",
+        Hide = true,
     }
 }
 return this

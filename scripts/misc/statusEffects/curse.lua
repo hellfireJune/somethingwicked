@@ -9,7 +9,7 @@ local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     or fire.SubType ~= 23)
     and e_data.somethingWicked_curseTick and e_data.somethingWicked_curseTick > 0 and e_data.somethingWicked_isDoingCurseDamage ~= true then
         e_data.somethingWicked_isDoingCurseDamage = true
-        ent:TakeDamage(amount * 1.5, flags, EntityRef(ent), dmgCooldown)
+        ent:TakeDamage(amount * 1.5, flags, source, dmgCooldown)
         e_data.somethingWicked_isDoingCurseDamage = nil
         return false
     end

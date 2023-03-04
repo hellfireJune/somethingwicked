@@ -43,7 +43,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, this.PickupInit, P
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_OSTEOPHAGY] = {
-        desc = "!!! Convert: # 1 Bone heart to 1 heart container #↑ Red hearts have a 8% chance (3% for half hearts) to be replaced by bone hearts"--[[,
+        desc = "!!! Convert: # 1 Bone heart to 1 heart container #↑ Red hearts have a 8% chance (3% for half hearts) to be replaced by bone hearts",
+        Hide = true,--[[,
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Converts one bone heart to heart containers on use", "Red hearts have an 8% chance (3% chance for half hearts) to be replacedd by bone hearts"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SECRET,

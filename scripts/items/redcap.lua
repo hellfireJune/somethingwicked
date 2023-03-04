@@ -40,7 +40,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
         player.ShotSpeed = player.ShotSpeed - (0.15 * itemNult)
     end
     if flags == CacheFlag.CACHE_RANGE then
-        player.TearRange = player.TearRange - (itemNult * 40)
+        player.TearRange = player.TearRange - (itemNult * 40 * 0.8)
     end
 end)
 
@@ -54,7 +54,8 @@ end, PickupVariant.PICKUP_HEART)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RED_CAP] = {
-        desc = "Red Shit"
+        desc = "Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#+2 max hearts#+Heals 3 hearts on pickup#+0.15 shot speed down#+0.8 range down",
+        pools = { mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET, mod.encyclopediaLootPools.POOL_ULTRA_SECRET }
     }
 }
 return this

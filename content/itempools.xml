@@ -32,6 +32,8 @@
 		<Item Name="Eden's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Tiamat's Dice" Weight="0.1" DecreaseBy="0.1" RemoveOn="0.01"/>
+		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Red Cap" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -86,6 +88,8 @@
 		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Card" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="devil">
@@ -158,6 +162,7 @@
 		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Hellfire" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -241,6 +246,7 @@
 		<Item Name="Lover's Mask" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Eden's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
+		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -259,6 +265,7 @@
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
+		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool name="greedBoss">

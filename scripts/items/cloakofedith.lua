@@ -132,7 +132,8 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CLOAK_OF_EDITH] = {
-        desc = "Turns a rock into  the girl"
+        desc = "Turns a rock into  the girl",
+        Hide = true,
     }
 }
 return this

@@ -34,7 +34,8 @@ end
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BALROGS_HEART] = {
-        desc = ""
+        desc = "",
+        Hide = true,
     }
 }
 return this

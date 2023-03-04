@@ -44,7 +44,7 @@ function SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, target, 
     if angularDiff < variance and angularDiff > -variance then
         newAng = angularDiff
     else
-        local m = (angularDiff > 180 and -1 or 1)
+        local m = (angularDiff < 0 and -1 or 1)
         newAng = variance * m
     end
     familiar.Velocity = SomethingWicked.EnemyHelpers:Lerp(minosVel, minosVel:Rotated(newAng), lerpMult):Resized(speed)

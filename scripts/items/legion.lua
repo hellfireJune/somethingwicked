@@ -87,7 +87,6 @@ function this:ProcessFire(player, vector, familiar, dmgMult)
 end
 
 --This is the section of the code for the doubling cherry
-
 local function UseItem()
     return true
 end
@@ -112,8 +111,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player,
 end, CacheFlag.CACHE_FAMILIARS)
 
 local function FamiliarUpdate(_, familiar)
-    local player = familiar.Player
-    familiar.Velocity = player.Velocity
+    local playermovement = familiar.Player:GetMovementJoystick()
+    familiar.Velocity = familiar.Velocity + playermovement
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC)
 function this:InitFamiliar(familiar)
@@ -130,7 +129,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.InitFamiliar, Fa
 
 local function processFireAll(player, vector, variant, dmgmmult)
     local t = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, variant)
-    for index, value in ipairs(t) do
+    for _, value in ipairs(t) do
         this:ProcessFire(player, vector, value:ToFamiliar(), dmgmmult)
     end
 end
@@ -146,10 +145,12 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_LEGION_ITEM] = {
-        desc = "hey guys"
+        desc = "hey guys",
+        Hide = true,
     },
     [CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY] = {
-        desc = "Doubles you"
+        desc = "Doubles you",
+        Hide = true,
     }
 }
 return this

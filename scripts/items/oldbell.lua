@@ -88,7 +88,8 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_OLD_BELL] = {
-        desc = "Freezes time for"..math.floor((freezeDuration/30)).." seconds"
+        desc = "Freezes time for"..math.floor((freezeDuration/30)).." seconds",
+        Hide = true,
     }
 }
 return this

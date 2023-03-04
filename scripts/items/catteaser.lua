@@ -19,6 +19,7 @@ mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_CAT_TEASER, {
 
 
 this.EIDEntries = {[CollectibleType.SOMETHINGWICKED_CAT_TEASER] = {
-    desc = "cat"
+    desc = "cat",
+    Hide = true,
 }}
 return this

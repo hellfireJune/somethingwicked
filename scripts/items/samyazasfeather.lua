@@ -22,7 +22,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME] = {
-        desc = "↑ +0.5 tears up#↑ Small chance for a tear to have homing"
+        desc = "↑ +0.5 tears up#↑ Small chance for a tear to have homing",
+        Hide = true,
     }
 }
 return this

@@ -4,7 +4,7 @@ CollectibleType.SOMETHINGWICKED_UNNAMED_TEARS_UP = Isaac.GetItemIdByName("anothe
 
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
     if flags == CacheFlag.CACHE_FIREDELAY then
-        player.MaxFireDelay = mod.StatUps:TearsUp(player, 0.4)
+        player.MaxFireDelay = mod.StatUps:TearsUp(player, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_UNNAMED_TEARS_UP)* 0.4)
     end
 end)
 
@@ -15,10 +15,11 @@ local function ModifyVelocity(tear)
     end
 
     local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_UNNAMED_TEARS_UP)
-    local speedMult = math.min(1, c_rng:RandomFloat() + 0.4)
+    local speedMult = math.max(1, c_rng:RandomFloat() + 0.4)
     tear.Velocity = tear.Velocity * speedMult
+    tear.Height = tear.Height * (1 / speedMult)
 end
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
     if tear.FrameCount ~= 1 then
         return
     end
@@ -37,7 +38,8 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, FastenBombs)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_UNNAMED_TEARS_UP] = {
-        desc = "tears up#makes you queer"
+        desc = "+0.4 tears up#Tears will sometimes move faster",
+        Hide = true,
     }
 }
 return this

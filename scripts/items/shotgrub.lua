@@ -54,7 +54,8 @@ end
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SHOTGRUB] = {
-        desc = "Oogly Boogly"
+        desc = "Oogly Boogly",
+        Hide = true,
     }
 }
 return this

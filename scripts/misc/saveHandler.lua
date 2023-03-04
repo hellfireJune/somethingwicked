@@ -40,6 +40,6 @@ function this:ClearRunData(continue)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, this.PlayerInit)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PLAYER_INIT, CallbackPriority.EARLY, this.PlayerInit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, this.PreGameExit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, this.ClearRunData)

@@ -1,9 +1,11 @@
 local this = {}
+local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE = Isaac.GetItemIdByName("Facestabber")
 TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestabber")
 
+local dmgMult = 1.5
 function this:UseItem(_, _, player, flags)
-    return SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
+    return mod.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
 end
 
 local maxFrames = 24
@@ -11,7 +13,7 @@ function this:PEffectUpdate(player)
     local d = player:GetData()
     if player:IsHoldingItem() 
     and d.somethingWicked_isHoldingItem[CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] == true then
-        d.somethingWicked_guillotineData = d.somethingWicked_guillotineData or 
+        d.sw_guillotineData = d.sw_guillotineData or 
         {
             Charge = 0,
             Direction = Direction.NO_DIRECTION
@@ -19,30 +21,28 @@ function this:PEffectUpdate(player)
 
         local direction = player:GetFireDirection()
         if direction ~= Direction.NO_DIRECTION then
-            d.somethingWicked_guillotineData.Charge = math.min(d.somethingWicked_guillotineData.Charge + 1, maxFrames)
-            d.somethingWicked_guillotineData.Direction = direction
-        elseif d.somethingWicked_guillotineData.Charge > 0 then
-            local mult = SomethingWicked.EnemyHelpers:Lerp(0.2, 2, d.somethingWicked_guillotineData.Charge / maxFrames)
-            local velocity = (SomethingWicked.HoldItemHelpers:AimToVector(d.somethingWicked_guillotineData.Direction) * 10 + player.Velocity) * mult
+            d.sw_guillotineData.Charge = math.min(d.sw_guillotineData.Charge + 1, maxFrames)
+            d.sw_guillotineData.Direction = direction
+        elseif d.sw_guillotineData.Charge > 0 then
+            local mult = mod.EnemyHelpers:Lerp(0.2, 2, d.sw_guillotineData.Charge / maxFrames)
+            local velocity = (mod.HoldItemHelpers:AimToVector(d.sw_guillotineData.Direction) * 10 + player.Velocity) * mult
             local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, player.Position, velocity, player):ToTear() --player:FireTear(player.Position, , false, true, false) make this not inherit tear effects
-            tear.CollisionDamage = player.Damage * 2 * mult
-            tear:AddTearFlags(TearFlags.TEAR_PIERCING)
+            tear.CollisionDamage = player.Damage * mult
+            tear:AddTearFlags(TearFlags.TEAR_BOOGER)
+            tear:ChangeVariant(TearVariant.SOMETHINGWICKED_FACESTABBER, 1)
 
             local t_data = tear:GetData()
-            t_data.somethingWicked_guillotineData = {
-                Charge = mult,
-            }
-            --tear:ChangeVariant()
+            t_data.sw_guillotine = true
 
             tear:Update()
 
             
-            local _, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
+            local _, slot = mod.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
             player:AnimateCollectible(CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE, "HideItem", "PlayerPickupSparkle")
             d.somethingWicked_isHoldingItem[CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] = false
             player:DischargeActiveItem(slot)
 
-            d.somethingWicked_guillotineData = nil
+            d.sw_guillotineData = nil
         end
     end
 end
@@ -55,25 +55,53 @@ function this:KnifeCollision(tear, collider)
     end
 
     local t_data = tear:GetData()
-    if t_data.somethingWicked_guillotineData == nil then
+    if not t_data.sw_guillotine then
         return
     end
 
     if tear.StickTarget then
-        
-    elseif tear.CollisionDamage > collider.HitPoints then
-        tear.StickTarget = collider
-        tear.StickTimer = 30
+        local sticker = tear.StickTarget
+
+        local e_data = sticker:GetData()
+        e_data.sw_itgoesitgoesitgoes = 2
+        sticker:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
+        --print(tear.StickTimer)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.KnifeCollision)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.KnifeCollision)
+
+local myFavouriteBool = false
+local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
+    local e_data = ent:GetData()
+
+    if e_data.sw_itgoesitgoesitgoes ~= nil and not myFavouriteBool then
+        myFavouriteBool = true
+        ent:TakeDamage(amount * dmgMult, flags, EntityRef(ent), dmgCooldown)
+        myFavouriteBool = not true
+        return false
+    end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, OnEnemyTakeDMG)
+
+local function NPCUpdate(_, ent)
+    local e_data = ent:GetData()
+    if e_data.sw_itgoesitgoesitgoes and e_data.sw_itgoesitgoesitgoes > 0 then 
+        e_data.sw_itgoesitgoesitgoes = e_data.sw_itgoesitgoesitgoes - 1
+
+        if e_data.sw_itgoesitgoesitgoes <= 0 then
+           e_data.sw_itgoesitgoesitgoes = nil 
+        end
+    end
+end
+mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, NPCUpdate)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] = {
-        desc = ""
+        desc = "",
+        Hide = true,
     }
 }
 return this

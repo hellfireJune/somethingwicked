@@ -16,7 +16,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleT
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_FEAR_STALKS_THE_LAND] = {
-        desc = "Radiohead"
+        desc = "Radiohead",
+        Hide = true,
     }
 }
 return this

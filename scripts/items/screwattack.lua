@@ -46,7 +46,8 @@ end
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SCREW_ATTACK] = {
-        desc = "screwed in"
+        desc = "screwed in",
+        Hide = true,
     }
 }
 return this
