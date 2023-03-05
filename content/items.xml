@@ -1,11 +1,7 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
-  Full compat with Fiendfolio's fuzzy pickle
-
-  Fixed a bug with the angular movement function making things only turn clockwise (this affected Minos, Wrath, and partially The Snake)
-  Fixed cursed damage preventing tear effects from proccing
-  Wrath and lil slugger no longer has some questionable effects
-  Fixed Hellfire logging proc chance (oops!)-->
+  Cursed enemies now move 10% slower
+  other big bug fixes-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive summonable"/>
@@ -71,7 +67,7 @@
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1" gfx="edenshead.png"/>
   <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
-  <familiar id="72" name="Devilsknife" hidden="true"/>
+  <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable" hidden="true"/>
   <active id="73" name="Prismatic Mushroom" description="Rainbow room effects" hidden="true"/> <!--code done-->
   <passive id="74" name="Samyaza's Plume" cache="firedelay" hidden="true"/>
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true"/>
@@ -128,7 +124,7 @@
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true"/>
   <active id="125" name="Doubling Cherry" cache="familiars" maxcharges="3" quality="3" description="Double yourself!" hidden="true"/>
   <passive id="126" name="Ring of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" hidden="true" hearts="276"/>
-  <active id="127" name="Last Prism" description="Power of an Angel" quality="4" maxcharges="12" hidden="true" persistent="true" cooldown="900"/>
+  <active id="127" name="Last Prism" description="In tune" quality="4" maxcharges="12" hidden="true" persistent="true" cooldown="900"/>
 
   <familiar id="128" name="Fuzzy Fly" description="Get dizzy" hidden="true"/>
   <passive id="129" name="Light Shard" hidden="true"/>

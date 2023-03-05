@@ -58,5 +58,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function (_)
 end)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnDamage, EntityType.ENTITY_PLAYER)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_CURSE_MASK] = {
+        desc = "Blocks all damage from curse rooms#Curse rooms heal upon entering for the first time",
+        Hide = true,
+    }
+}
 return this

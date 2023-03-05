@@ -3,8 +3,6 @@
     <card type="rune" name="Stone of the Pit" description="Conjure" pickup="7001" mimiccharge="6" hud="StoneOfThePit"/>
     <!--<card type="object" name="k0" description="NULL" pickup="7006" mimiccharge="5" hud="k0" achievement="500"/>
     ipecac does this and ipecac does this better-->
-    <!--<card type="object" name="Brittle Coin" description="Less card room, more coins" pickup="7001" mimiccharge="1" hud="BrittleCoin"/>
-    <card type="object" name="Brittle Coin" description="Discard your more coins" pickup="7001" mimiccharge="1" hud="BrittleCoinBoon"/>also saving this for next update-->
 
     <!--Leshy's Cards-->    
     <!--<card type="special" name="Mantis" description="Bifurcated Strike" pickup="7002" mimiccharge="4" hud="Mantis"/> shnooork

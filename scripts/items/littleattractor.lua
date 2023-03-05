@@ -16,5 +16,9 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR)
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.EvalCache, CacheFlag.CACHE_FAMILIARS)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_LITTLE_ATTRACTOR_ITEM] = {
+        Hide = true,
+    }
+}
 return this

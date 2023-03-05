@@ -113,7 +113,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, TearRemove, Enti
 
 function this:OnTearHit(collider, _, _, source)
     local tear = source.Entity
-    if tear.Type ~= EntityType.ENTITY_TEAR then
+    if not tear or tear.Type ~= EntityType.ENTITY_TEAR then
         return
     end
 

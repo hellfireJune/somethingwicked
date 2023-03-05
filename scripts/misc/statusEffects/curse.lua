@@ -16,9 +16,11 @@ local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, OnEnemyTakeDMG)
 
+local slow = 0.9
 local function NPCUpdate(_, ent)
     local e_data = ent:GetData()
     if e_data.somethingWicked_curseTick and e_data.somethingWicked_curseTick > 0 then 
+        ent.Velocity = ent.Velocity * slow
         e_data.somethingWicked_curseTick = e_data.somethingWicked_curseTick - 1
     end
 end
