@@ -1,9 +1,9 @@
 local this = {}
 local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_HELLFIRE = Isaac.GetItemIdByName("Hellfire")
-CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD = Isaac.GetItemIdByName("Crown of Blood")
+CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD = Isaac.GetItemIdByName("Martyral Baptism")
 
-local cobIFrames = 20
+local cobIFrames = 24
 local function procChance(player)
     return 0.13 + (player.Luck*0.04)
 end
@@ -19,7 +19,7 @@ function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     end
 
     local e_data = ent:GetData()
-    if e_data.sw_crownOfBloodIFrames and e_data.sw_crownOfBloodIFrames > cobIFrames then
+    if e_data.sw_crownOfBloodIFrames and e_data.sw_crownOfBloodIFrames > 0 then
         return false
     end
     if e_data.sw_hellfirePrimedFrames and e_data.sw_hellfirePrimedFrames <= 0 then
@@ -53,12 +53,19 @@ function this:NPCUpdate(ent)
     if e_data.sw_crownOfBloodMarked then
         if ent.HitPoints < 0.1 then
             e_data.sw_crownOfBloodMarked = false
-            e_data.sw_crownOfBloodIFrames = cobIFrames + 1
+            e_data.sw_crownOfBloodIFrames = cobIFrames
             
-            ent:AddHealth(ent.MaxHitPoints / 3)
-            ent:BloodExplode()
-            ent:SetColor(Color(1, 1, 1, 1, 1), cobIFrames + 1, 10, true, false)
+            ent:AddHealth(ent.MaxHitPoints / 2)
+            --ent:BloodExplode()
+
+            local color = Color(2, 0, 0, 1, 2)
+            color:SetColorize(4, 0, 0, 1)
+            ent:SetColor(color, cobIFrames + 1, 10, true, false)
+            
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 3, ent.Position, Vector.Zero, ent)
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 4, ent.Position, Vector.Zero, ent)
             ent:Update()
+            mod.sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1)
         end
         return
     end
@@ -87,6 +94,7 @@ function this:NPCUpdate(ent)
             mod.sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
         elseif e_data.sw_hellfirePrimedFrames == 0 then
             ent:BloodExplode()
+            ent:TakeDamage(10, 0, EntityRef(ent), 0)
             Game():BombTearflagEffects(ent.Position, 1, TearFlags.TEAR_BRIMSTONE_BOMB, Isaac.GetPlayer(0), 1)
             mod.sfx:Stop(SoundEffect.SOUND_BEEP)
         end
@@ -96,6 +104,46 @@ function this:NPCUpdate(ent)
 end
 mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
+    if not mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) then
+        return
+    end
+
+    local luck = 0
+    for _, value in ipairs(mod:UtilGetAllPlayers()) do
+        luck = luck + value.Luck
+    end
+    luck = mod:Clamp(luck, 10, 0)
+    local rng = mod.ItemHelpers:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD)
+
+    --https://bindingofisaacrebirth.fandom.com/wiki/Room_Clear_Awards?so=search
+    local thing = (rng:RandomFloat() * luck * 0.1) + rng:RandomFloat()
+    if thing < 0.22 then
+        return
+    end
+    if thing < 0.3 then
+        --tarot, pill, or trinket
+        return
+    end
+    if thing < 0.45 then
+        --coin
+        return
+    end
+    if thing < 0.6 then
+        --heart
+        return
+    end
+    if thing < 0.8 then
+        --key
+        return
+    end
+    if thing < 0.95 then
+        --bomb
+        return
+    end
+    --chest
+end)
+
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
         desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#Scales with luck",
@@ -104,7 +152,7 @@ this.EIDEntries = {
             mod.encyclopediaLootPools.POOL_GREED_DEVIL}
     },
     [CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD] = {
-        desc = "these foes run rampant",
+        desc = "!!! Enemies respawn at half health on death#↑ Room clear rewards will run twice#↑ +2 luck",
         Hide = true,
     }
 }

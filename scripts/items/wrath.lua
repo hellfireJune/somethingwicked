@@ -1,12 +1,24 @@
 local this = {}
+local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath")
+EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
 
+local durationTillSpeedUp=18
+local lerpToZero = 0.2
+local lerpToMaxSpeed = 0.1
+local framesToSustainWithoutEnemy = 18
 function this:TearFire(tear)
     local t_data = tear:GetData()
 
     if t_data.somethingWicked_trueHoming ~= nil 
     and t_data.somethingWicked_trueHoming.target ~= nil then
-        local speed = 15
+        local speed = t_data.sw_homingSpeed or 20
+        local isSpedUp = tear.FrameCount > durationTillSpeedUp
+        if isSpedUp then
+            t_data.sw_homingSpeed = mod.EnemyHelpers:Lerp(speed, 30, lerpToMaxSpeed)
+        else
+            t_data.sw_homingSpeed = mod.EnemyHelpers:Lerp(speed, 0, lerpToZero)
+        end
         if t_data.WallStickerData  then
             if t_data.WallStickerData.WallStickerInit then
                 
@@ -15,10 +27,31 @@ function this:TearFire(tear)
                 return
             end
         end
-        local variance = t_data.somethingWicked_trueHoming.angleVariance
+        local variance = (isSpedUp and t_data.somethingWicked_trueHoming.angleVariance or 1)*(speed/10)
 
         local rng = tear:GetDropRNG()
-        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance * (1+rng:RandomFloat()*0.5), 0.2)
+        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
+
+        t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy or 0
+        if not t_data.somethingWicked_trueHoming.target:Exists() and isSpedUp then
+            t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy + 1
+            if framesToSustainWithoutEnemy < t_data.sw_framesWithoutEnemy then
+                tear:Die()
+            end
+        end
+
+        t_data.sw_trailFramesTable = t_data.sw_trailFramesTable or {}
+        t_data.sw_trailFramesTable[tear.FrameCount] = tear.Position
+
+        if not t_data.sw_wispTrail then
+            t_data.sw_wispTrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+            t_data.sw_wispTrail.Parent = tear
+            t_data.sw_wispTrail.DepthOffset = -100
+        end
+        if t_data.sw_trailFramesTable[tear.FrameCount - 1] then
+            t_data.sw_wispTrail.Position = t_data.sw_trailFramesTable[tear.FrameCount - 1]
+        end
+        t_data.sw_wispTrail.SpriteOffset = Vector(0, (tear.Height/2))
     end
         --[[local enemy = t_data.somethingWicked_trueHoming.target
         local enemypos = enemy.Position
@@ -43,7 +76,6 @@ function this:TearFire(tear)
 end
 
 function this:TearOnHit(tear, collider, player, procChance)
-    local ot_data = tear:GetData()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil
     and tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER then
@@ -56,6 +88,7 @@ function this:TearOnHit(tear, collider, player, procChance)
             local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.1 * borkdHearts)
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             wisp.Height = wisp.Height * 3
+            wisp.Scale = wisp.Scale * 1.3
             
 			local colour = Color(1, 1, 1, 1)
 			colour:SetColorize(2, 0, 0, 0.5)
@@ -80,29 +113,22 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearFire)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.TearOnHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
+    if effect.Parent == nil or not effect.Parent:Exists() then
+        effect:Remove()
+    end
+end, EffectVariant.SOMETHINGWICKED_WISP_TRAIL)
+
 this.RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT
 | TearFlags.TEAR_SPLIT | TearFlags.TEAR_QUADSPLIT | TearFlags.TEAR_BONE | TearFlags.TEAR_BURSTSPLIT | TearFlags.TEAR_LASERSHOT
 
-function SomethingWicked:UtilAddTrueHoming(tear, target, angleVariance, usesShotspeed, redirectOthers)
-    redirectOthers = redirectOthers or false
+function SomethingWicked:UtilAddTrueHoming(tear, target, angleVariance, usesShotspeed)
     tear:ClearTearFlags(this.RemoveTheseFlags)
     local t_data = tear:GetData()
     t_data.somethingWicked_trueHoming = {}
     t_data.somethingWicked_trueHoming.target = target
     t_data.somethingWicked_trueHoming.angleVariance = angleVariance
     t_data.somethingWicked_trueHoming.usesShotspeed = usesShotspeed
-
-    if redirectOthers then
-        local otherTears = Isaac.FindByType(EntityType.ENTITY_TEAR)
-        for _, v in ipairs(otherTears) do
-            local v_data = v:GetData()
-            if v_data.somethingWicked_trueHoming
-            and v_data.somethingWicked_trueHoming.target
-            and v_data.somethingWicked_trueHoming.target:Exists() == false then
-                v_data.somethingWicked_trueHoming.target = target
-            end
-        end
-    end
 end
 
 --SomethingWicked:AddPickupFunction(this.Pickup, CollectibleType.SOMETHINGWICKED_WRATH)

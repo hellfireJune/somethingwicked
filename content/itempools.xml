@@ -7,7 +7,7 @@
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Wicked Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wicked Soul" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1"/>
 		<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -225,7 +225,7 @@
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Wicked Soul" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wicked Soul" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1"/>
 		<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>

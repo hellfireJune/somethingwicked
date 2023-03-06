@@ -90,8 +90,18 @@ function this:OnTearHit(tear, collider)
         else
             procCoefficient = 0.1
         end
-    elseif tear.StickTarget ~= nil then
-        return
+    else
+        local t_data = tear:GetData()
+        t_data.sw_collideMap = t_data.sw_collideMap or {}
+        if t_data.sw_collideMap[collider.InitSeed] then
+            return
+        end
+        t_data.sw_collideMap[collider.InitSeed] = true
+
+        local result = SomethingWicked:__callStatusEffects(collider, tear)
+        if result ~= nil then
+            return nil
+        end
     end
 
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
@@ -126,7 +136,7 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
 
     local player
     local entity = source.Entity
-    if source.Type == EntityType.ENTITY_BOMB or source.Type == EntityType.ENTITY_TEAR then
+    if source.Type == EntityType.ENTITY_BOMB then
         player = SomethingWicked:UtilGetPlayerFromTear(entity)
     elseif (source.Type == EntityType.ENTITY_PLAYER and flags & DamageFlag.DAMAGE_LASER ~= 0) then
         entity = entity:ToPlayer()
@@ -143,7 +153,7 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
     end
 end
 
---SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
+SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, this.OnTearHit)
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnEntityDMG)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
@@ -199,6 +209,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
 function this:PostFirePureEval(player)
     local p_data = player:GetData()
     p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
+    p_data.sw_processFireDelay = p_data.sw_processFireDelay or false
     local sprite = player:GetSprite()
     local animflag = (sprite:GetOverlayFrame() == 2)
     local playerType = player:GetPlayerType()
@@ -223,10 +234,10 @@ function this:PostFirePureEval(player)
         end
     end
     --print(player.FireDelay)
-    if animflag
-    or player.FireDelay >= player.MaxFireDelay then
-        if not p_data.somethingWicked_processedPureFire
-        or player.FireDelay >= player.MaxFireDelay then
+
+    local fireDelayFlag = player.FireDelay >= player.MaxFireDelay and not p_data.sw_processFireDelay
+    if animflag or fireDelayFlag then
+        if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
             p_data.somethingWicked_processedPureFire = true
             this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
 
@@ -241,11 +252,15 @@ function this:PostFirePureEval(player)
                 end
             end
         end
-
-        
-
+        if fireDelayFlag then
+            p_data.sw_processFireDelay = true
+        end
     elseif p_data.somethingWicked_processedPureFire then
         p_data.somethingWicked_processedPureFire = false
+    end
+
+    if player.FireDelay < player.MaxFireDelay or player.MaxFireDelay - 1 < 0 then
+        p_data.sw_processFireDelay = false
     end
     --print(player:GetSprite():GetOverlayAnimation(), (player:GetSprite():GetOverlayFrame()))
     

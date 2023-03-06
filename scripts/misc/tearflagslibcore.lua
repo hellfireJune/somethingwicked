@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 SomethingWicked.TFCore = {}
 SomethingWicked.TearFlagData = {}
 
@@ -111,22 +112,10 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, TearRemove, EntityType.ENTITY_TEAR)
 
-function this:OnTearHit(collider, _, _, source)
-    local tear = source.Entity
+function mod:__callStatusEffects(collider, tear)
     if not tear or tear.Type ~= EntityType.ENTITY_TEAR then
         return
     end
-
-    collider = collider:ToNPC()
-    if not collider
-    or not collider:IsVulnerableEnemy() then
-        return
-    end
-
-    if tear.StickTarget ~= nil then
-        return
-    end
-    
     local t_data = tear:GetData()
     if t_data.somethingWicked_customTearFlags == nil then
         return
@@ -149,7 +138,7 @@ function this:OnTearHit(collider, _, _, source)
     end
 end
 --SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTearHit)
+--SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTearHit)
 
 function this:OnTearUpdate(tear)
     if tear.FrameCount == 0 then

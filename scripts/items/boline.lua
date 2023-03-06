@@ -31,11 +31,31 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdat
 
 function this:PlayerTakeDMG(player)
     player = player:ToPlayer()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BOLINE) then
+    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BOLINE) then
         SomethingWicked.ItemHelpers:ChargeFirstActiveOfTypeThatNeedsCharge(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
     end
 end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.PlayerTakeDMG, EntityType.ENTITY_PLAYER)
+
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, function (_, wisp)
+    wisp = wisp:ToFamiliar()
+    if not wisp or wisp.Variant ~= FamiliarVariant.WISP or wisp.SubType ~= CollectibleType.SOMETHINGWICKED_BOLINE then
+        return
+    end
+
+    local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, wisp.Position, Vector.Zero, wisp)
+    local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, wisp.Position, Vector.Zero, wisp):ToLaser()
+    effect.Visible = false
+    void.Parent = effect
+    void.Radius = 40
+    void.Timeout = 46
+    void:AddTearFlags(TearFlags.TEAR_PULSE)
+    void.CollisionDamage = 7
+    --SomethingWicked.sfx:Play(SoundEffect.SOUND_MAW_OF_VOID, 1, 0)
+    
+    local spl = Isaac.Spawn(1000, 2, 1, wisp.Position + Vector(0, 1), Vector.Zero, wisp)
+    spl.Color = Color(0, 0, 0)
+end, EntityType.ENTITY_FAMILIAR)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_BOLINE] = {

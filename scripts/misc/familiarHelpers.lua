@@ -70,7 +70,6 @@ function SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(fcheck, playe
                 posInLayer = totalLayerSize
             end
             if familiar.FrameCount == 0 and fcheck.FrameCount > 0 then
-                print("resetting, ", fcheck.FrameCount)
                 shouldReset = true
             end
         end
@@ -81,10 +80,7 @@ end
 function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent, speed, distance)
     local layerPos, size, shouldReset = SomethingWicked.FamiliarHelpers:GetOrbitalPositionInLayer(familiar, parent)
     local f_data = familiar:GetData()
-
-    if familiar.FrameCount < 4 then
-        print(f_data.somethingWicked__dynamicOrbitPos, familiar.FrameCount)
-    end
+    
     if shouldReset then
         f_data.somethingWicked__dynamicOrbitPos = 0 + speed
     else
@@ -93,7 +89,7 @@ function SomethingWicked.FamiliarHelpers:DynamicOrbit(familiar, parent, speed, d
     return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
 end
 
---bottom 2 taken from retribution thanks xalum
+--these 2 taken from retribution thanks xalum
 function SomethingWicked.FamiliarHelpers:GridAlignPosition(pos)
 local x = pos.X
 local y = pos.Y

@@ -1,7 +1,24 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
-  Cursed enemies now move 10% slower
-  other big bug fixes-->
+  Additions:
+  - Added BoV wisps to Golden Card, Boline
+
+  Changes:
+    Wrath
+    - Wrath wisps now follow a fancy little acceleration curve
+    - Wrath now works based on tear collision again, and not damage dealt (this means that stuff like fiendfolio's worms wont shit the bed)
+
+    Other:
+    - Wicked soul is now rarer in the treasure room pool
+    - Golden card now properly blacklists The Stars, and The Stars?
+    
+  Fixes:
+  - More debug log stuff? eyikes!-->
+
+  <!--planned qol for this update specifically (No Making New Content Till Then Juney!)
+  *give wrath tears unique tear variant
+  *resprite 3d glasses, spider nest and book of lucifer
+  *costume for wrath, spider nest-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive summonable"/>
@@ -136,7 +153,7 @@
   <passive id="136" name="idk tech thing??" hidden="true"/>
   <passive id="137" name="Pressure Valve" hidden="true" quality="1" cache="firedelay" tags="offensive summonable tearsup"/>
   <passive id="138" name="Cat Teaser" hidden="true" quality="0"/>
-  <passive id="139" name="Crown of Blood" hidden="true"/>
+  <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->

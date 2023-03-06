@@ -8,9 +8,9 @@ local blacklist = {
     -1,
     Card.CARD_REVERSE_WHEEL_OF_FORTUNE,
     Card.CARD_REVERSE_LOVERS,
-    Card.CARD_REVERSE_FOOL,
+    Card.CARD_REVERSE_FOOL, Card.CARD_REVERSE_STARS,
 
-    Card.CARD_FOOL, Card.CARD_HERMIT, Card.CARD_EMPEROR, Card.CARD_MOON
+    Card.CARD_FOOL, Card.CARD_HERMIT, Card.CARD_EMPEROR, Card.CARD_MOON, Card.CARD_STARS
 }
 
 function this:PEffectUpdate(player)

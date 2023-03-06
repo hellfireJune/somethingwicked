@@ -11,6 +11,6 @@
 
     <color name="fly_gray" r="400" g="400" b="400"/>
 
-    <locust id="47" color="fly_purple" damageMultiplier="0.1"/>
-    <locust id="63" color="fly_gray" damageMultiplier="0.75"/>
+    <!--cursed mushroom--> <locust id="47" color="fly_purple" damageMultiplier="0.1"/>
+    <!--devilstail (eyuck)--> <locust id="63" color="fly_gray" damageMultiplier="0.75"/>
 </locusts>
