@@ -5,8 +5,10 @@
 
   Changes:
     Wrath
-    - Wrath wisps now follow a fancy little acceleration curve
+    - Wrath wisps now follow a fancy little acceleration curve, and have a visual trail behind thetm
     - Wrath now works based on tear collision again, and not damage dealt (this means that stuff like fiendfolio's worms wont shit the bed)
+    - DMG Mult per broken heart is now 0.13 (previously 0.1) in exchange for the tears being a bit slower
+    - Costume added
 
     Other:
     - Wicked soul is now rarer in the treasure room pool
@@ -15,10 +17,15 @@
   Fixes:
   - More debug log stuff? eyikes!-->
 
-  <!--planned qol for this update specifically (No Making New Content Till Then Juney!)
-  *give wrath tears unique tear variant
-  *resprite 3d glasses, spider nest and book of lucifer
-  *costume for wrath, spider nest-->
+  <!--planned qol for this update specifically (Stop Making Half Finished New Content Till Then Juney!)
+  *make minos prettier
+  *resprite 3d glasses, spider nest, encyclopedia, apollyon's crown, void bombs and book of lucifer
+  *costume for wrath, spider nest, apollyon's crown, hellfire
+  *literally redo all of devilstail? i hate it?
+  *curse status effect icon
+  *make nightmares prettier
+  
+  also try implementing void's call already and doubling cherry and legion and also do something about glitchcity-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive summonable"/>
@@ -46,7 +53,7 @@
   <active id="26" name="Cursed Candle" gfx="cursedcandle.png" description="Reusable malediction" quality="3" tags="offensive" maxcharges="247" chargetype="timed"/> 
   <passive id="27" name="Biretta" gfx="biretta2.png" description="You feel relieved" quality="2" tags="nolostbr summonable" achievement="616"/> 
   <familiar id="28" name="Rogue planet" gfx="planetoid.png" description="Buddy-orbiting tears + Range UP " quality="0" tags="offensive summonable" cache="familiars range firedelay tearflag"/> 
-  <passive id="29" name="Wrath" gfx="wrath.png" description="Sinner's tears" quality="3" tags="nolostbr"/> <!--costume-->
+  <passive id="29" name="Wrath" gfx="wrath.png" description="Sinner's tears" quality="3" tags="nolostbr"/> 
   <passive id="31" name="Bravery" gfx="bravery.png" description="DMG Up against strong foes" quality="1" tags="offensive summonable"/> <!--castume-->
   <passive id="33" name="White Rose" gfx="whiterose.png" description="Tears + Faith Up" quality="2" tags="offensive" cache="firedelay" tags="offensive" soulhearts="2" achievement="404"/> <!--costume-->
   <passive id="34" name="Ram's Head" gfx="ramshead.png" description="DMG + Tears Up" quality="3" tags="offensive" cache="damage firedelay" tags="offensive summonable"/> <!--dingleshmorf (costume)-->
@@ -154,6 +161,8 @@
   <passive id="137" name="Pressure Valve" hidden="true" quality="1" cache="firedelay" tags="offensive summonable tearsup"/>
   <passive id="138" name="Cat Teaser" hidden="true" quality="0"/>
   <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
+
+  <passive id="140" name="Booster Box" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->

@@ -510,7 +510,7 @@ end]]
 --include("scripts/players/abiah")
 include("scripts/players/bsides")
 for _, i in ipairs(postMiscLoad) do
-  --print(i)
+  print(i)
   include("scripts/misc/"..i)
 end
 

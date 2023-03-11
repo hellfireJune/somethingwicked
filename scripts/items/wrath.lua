@@ -2,13 +2,72 @@ local this = {}
 local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath")
 EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
+TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
 
 local durationTillSpeedUp=18
 local lerpToZero = 0.2
 local lerpToMaxSpeed = 0.1
 local framesToSustainWithoutEnemy = 18
+local trailLength = 2
+local forceTrailDistanceMult = 0.66
 function this:TearFire(tear)
     local t_data = tear:GetData()
+
+    if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
+        t_data.sw_trailFramesTable = t_data.sw_trailFramesTable or {}
+        t_data.sw_trailFramesTable[tear.FrameCount] = tear.Position
+
+        t_data.sw_trails = t_data.sw_trails or {}
+        t_data.sw_extantTrails = t_data.sw_extantTrails or {}
+        for i = 1, trailLength, 1 do
+            local trail = t_data.sw_trails[i]
+            if not trail then
+                trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                trail.Parent = tear
+                t_data.sw_trails[i] = trail
+
+                trail:GetSprite():Play("Idle"..i)
+            end
+
+            trail.Color = tear.Color
+            trail.SpriteOffset = tear.PositionOffset*0.655
+            local lastPos = t_data.sw_trailFramesTable[tear.FrameCount-1]
+            if lastPos then
+                local pos = mod.EnemyHelpers:Lerp(lastPos, tear.Position, (trailLength-i)/trailLength*forceTrailDistanceMult)
+                trail.Position = pos
+            end
+
+            local extrail = t_data.sw_extantTrails[i]
+            if not extrail then
+                extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                extrail.Parent = tear
+                t_data.sw_extantTrails[i] = extrail
+
+                local sprite = extrail:GetSprite()
+                sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
+                sprite:Play("Idle"..i)
+                extrail.DepthOffset = 10
+            end
+            extrail.Position = trail.Position
+            extrail.SpriteOffset = trail.SpriteOffset
+            extrail.Color = tear.Color
+        end
+
+        local extrail = t_data.sw_extantRenderer
+        if not extrail then
+            extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+            extrail.Parent = tear
+            t_data.sw_extantRenderer = extrail
+
+            local sprite = extrail:GetSprite()
+            sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
+            sprite:Play("Idle0")
+            extrail.DepthOffset = 10
+        end
+        extrail.Position = tear.Position
+        extrail.SpriteOffset = tear.PositionOffset*0.655
+        extrail.Color = tear.Color
+    end
 
     if t_data.somethingWicked_trueHoming ~= nil 
     and t_data.somethingWicked_trueHoming.target ~= nil then
@@ -39,19 +98,6 @@ function this:TearFire(tear)
                 tear:Die()
             end
         end
-
-        t_data.sw_trailFramesTable = t_data.sw_trailFramesTable or {}
-        t_data.sw_trailFramesTable[tear.FrameCount] = tear.Position
-
-        if not t_data.sw_wispTrail then
-            t_data.sw_wispTrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
-            t_data.sw_wispTrail.Parent = tear
-            t_data.sw_wispTrail.DepthOffset = -100
-        end
-        if t_data.sw_trailFramesTable[tear.FrameCount - 1] then
-            t_data.sw_wispTrail.Position = t_data.sw_trailFramesTable[tear.FrameCount - 1]
-        end
-        t_data.sw_wispTrail.SpriteOffset = Vector(0, (tear.Height/2))
     end
         --[[local enemy = t_data.somethingWicked_trueHoming.target
         local enemypos = enemy.Position
@@ -75,20 +121,31 @@ function this:TearFire(tear)
         tear.Velocity = ((t_data.somethingWicked_trueHoming.usesShotspeed and SomethingWicked:UtilGetPlayerFromTear(tear) ~= nil) and SomethingWicked:UtilGetPlayerFromTear(tear).ShotSpeed * 10 or tear.Velocity:Length()) * vectorToUse]]
 end
 
+--[[mod:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
+    local sprite = tear:GetSprite()
+    sprite:RenderLayer(1, Isaac.WorldToScreen(tear.Position+(tear.PositionOffset)))
+end, TearVariant.SOMETHINGWICKED_WISP)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, tear)
+    local sprite = tear:GetSprite()
+    sprite:RenderLayer(1, Isaac.WorldToScreen(tear.Position+(tear.PositionOffset)+Vector(16,0)))
+    sprite:SetOverlayRenderPriority(true)
+end, TearVariant.SOMETHINGWICKED_WISP_TRAIL)]]
+
 function this:TearOnHit(tear, collider, player, procChance)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil
-    and tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER then
+    and ((tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER) or tear.Type == EntityType.ENTITY_PLAYER) then
         local borkdHearts = player:GetBrokenHearts()
         local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WRATH)
 
         if borkdHearts > 0
         and rng:RandomFloat() <= procChance then
             local bonusAng = rng:RandomInt(60)
-            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.1 * borkdHearts)
+            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.13 * borkdHearts)
+            wisp:ChangeVariant(TearVariant.SOMETHINGWICKED_WISP)
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             wisp.Height = wisp.Height * 3
-            wisp.Scale = wisp.Scale * 1.3
+            wisp.Scale = wisp.Scale * 1.15
             
 			local colour = Color(1, 1, 1, 1)
 			colour:SetColorize(2, 0, 0, 0.5)
