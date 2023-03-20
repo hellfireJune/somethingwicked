@@ -2,10 +2,9 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_RED_LOCKBOX = Isaac.GetItemIdByName("Red Lockbox")
 
 function this:OnPickup(player, room)
-    local myRNG = RNG()
-    myRNG:SetSeed(Random() + 1, 1)
+    local myRNG = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
     for i = 1, 4 + myRNG:RandomInt(3), 1 do            
-        local pickup = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
     end 
 end
 

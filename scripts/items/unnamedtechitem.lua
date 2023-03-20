@@ -2,11 +2,11 @@ local this = {}
 local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM = Isaac.GetItemIdByName("idk tech thing??")
 
-local function FirePerpendicularLasers(_, player, tear, dmgmult)
+local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM) then
         return
     end
-    local vel = tear.Velocity
+    local vel = dir
     --local _, pos = room:CheckLine(shooter.Position, shooter.Position + vel, 0)
 
     local stacks = math.max(player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM), 1)
@@ -20,21 +20,21 @@ local function FirePerpendicularLasers(_, player, tear, dmgmult)
 
 end
 
-local function fire(tear)
+local function fire(tear, dir)
     local player = mod:UtilGetPlayerFromTear(tear)
     if not player or not tear.Parent or tear.Parent.Type ~= EntityType.ENTITY_PLAYER then
         return
     end
-    FirePerpendicularLasers(_,player,tear, tear.CollisionDamage/player.Damage)
+    FirePerpendicularLasers(_,player,tear, tear.CollisionDamage/player.Damage, dir)
 end
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
-    fire(tear)
+    fire(tear, tear.Velocity)
 end)
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_LASER_FIRED, function (_, tear)
-    fire(tear)
+    fire(tear, Vector.FromAngle(tear.Angle)*10)
 end)
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, function (_, bomb)
-    if bomb.FrameCount ~= -1 then
+    if bomb.FrameCount ~= 1 then
         return
     end
     local player = mod:UtilGetPlayerFromTear(bomb)

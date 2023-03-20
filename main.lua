@@ -303,6 +303,8 @@ local itemsToLoad = {
   "unnamedtechitem",
   "pressurevalve",
   "lightsharddarkshard",
+  "moretrollbombitem",
+  "ddchanceitem",
   
   "rogueplanet",
   "minos",
@@ -437,7 +439,7 @@ end
 local itemsMissingPools = "Items missing pools: "
 local itemsMissingDescs = "Items missing descs: "
 for _, i in ipairs(itemsToLoad) do
-  print(i)
+  --print(i)
   local item = include("scripts/items/"..i)
   for id, entry in pairs(item.EIDEntries) do
     if entry.isTrinket then
@@ -510,7 +512,7 @@ end]]
 --include("scripts/players/abiah")
 include("scripts/players/bsides")
 for _, i in ipairs(postMiscLoad) do
-  print(i)
+  --print(i)
   include("scripts/misc/"..i)
 end
 
