@@ -303,8 +303,8 @@ local itemsToLoad = {
   "unnamedtechitem",
   "pressurevalve",
   "lightsharddarkshard",
-  "moretrollbombitem",
-  "ddchanceitem",
+  "discord",
+  "pendulum",
   
   "rogueplanet",
   "minos",

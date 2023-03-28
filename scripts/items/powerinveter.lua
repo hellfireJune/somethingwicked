@@ -7,12 +7,12 @@ local chargeTypes = {
 }
 local dmgPer6Charges = 0.9
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
-    if not SomethingWicked.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
-        return
-    end
 
     player = player:ToPlayer()
     if not player or not player:HasTrinket(TrinketType.SOMETHINGWICKED_POWER_INVERTER) then
+        return
+    end
+    if not SomethingWicked.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
         return
     end
 

@@ -5,16 +5,23 @@ mod.WWColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
 mod.dreadColor = Color(1, 1, 1, 1, 0.4)
 mod.electroStunColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 
+local function getStatusEffectDuration(ent, time)
+    if mod.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.TRINKET_SECOND_HAND) then
+        time = time * 2
+    end
+    return time
+end
+
 function mod:UtilAddCurse(ent, time)
     local e_data = ent:GetData()
     
-    time = 30 * time
+    time = 30 * getStatusEffectDuration(ent, time)
     e_data.somethingWicked_curseTick = (e_data.somethingWicked_curseTick or 0) + time
     ent:SetColor(mod.curseColor, e_data.somethingWicked_curseTick, 1, false, false)
 end
 
 function mod:UtilAddBitter(ent, duration, player)
-    duration = duration * 30
+    duration = getStatusEffectDuration(ent, duration) * 30
 
     local e_data = ent:GetData()
     e_data.somethingWicked_bitterDuration = (e_data.somethingWicked_bitterDuration or 0) + duration

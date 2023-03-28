@@ -113,7 +113,9 @@ this.EIDEntries = {
         mod.encyclopediaLootPools.POOL_GREED_SHOP}
     },
     [CollectibleType.SOMETHINGWICKED_BOOSTER_BOX] = {
-        desc = "Killing an enemy has a chance to use a random tarot cards effect#Reduces the chance to use a card for the next 5 rooms on activation#"..string
+        desc = "Killing an enemy has a chance to use a random tarot cards effect#Reduces the chance to use a card for the next 5 rooms on activation#"..string,
+        pools = {mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET,
+        mod.encyclopediaLootPools.POOL_GREED_TREASURE}
     }
 }
 return this

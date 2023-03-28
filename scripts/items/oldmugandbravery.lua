@@ -11,12 +11,12 @@ function this:OnDamag(ent, amount, flags, source, dmgCooldown)
         return 
     end
     local player = SomethingWicked:UtilGetPlayerFromTear(source.Entity)
-    local flag = ent:IsBoss()
-    local item = flag and CollectibleType.SOMETHINGWICKED_BRAVERY or CollectibleType.SOMETHINGWICKED_SUPERIORITY
+    local boss = ent:IsBoss()
+    local item = boss and CollectibleType.SOMETHINGWICKED_BRAVERY or CollectibleType.SOMETHINGWICKED_SUPERIORITY
     local hasItem = player:HasCollectible(item) 
     if hasItem then
         flag = true
-        ent:TakeDamage(amount * this.DamageMult, flags, EntityRef(ent), dmgCooldown)
+        ent:TakeDamage(amount * this.DamageMult, flags, source, dmgCooldown)
         flag = false
         return false
     end

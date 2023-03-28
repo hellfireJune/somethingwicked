@@ -20,9 +20,9 @@ mod.addedCards = {
         [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = 1,}
 }
 local cardSpawnRules = {
-    [cType.CARDTYPE_THOTH] = 0.6,
+    [cType.CARDTYPE_THOTH] = 0.4,
     [cType.CARDTYPE_THOTH_REVERSED] = 0.6,
-    [cType.CARDTYPE_FRENCH_PLAYING] = 0.8
+    [cType.CARDTYPE_FRENCH_PLAYING] = 0.6
 }
 
 local function getCardType(id)

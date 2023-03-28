@@ -5,12 +5,11 @@ local sHeartValues = { [HeartSubType.HEART_HALF_SOUL] = 1, [HeartSubType.HEART_S
 CollectibleType.SOMETHINGWICKED_RED_CAP = Isaac.GetItemIdByName("Red Cap")
 
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
-    if not mod.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
-        return
-    end
-
     player = player:ToPlayer()
     if not player or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP) then
+        return
+    end
+    if not mod.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
         return
     end
 

@@ -31,5 +31,10 @@ mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, function (_, knife, proj
     end
 end, FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM] = {
+        desc = "Spawns an orbiting knife familiar which will deal heavy contact damage and will oscillate in distance from the player",
+        pools = {mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_GREED_DEVIL, mod.encyclopediaLootPools.POOL_CURSE},
+    }
+}
 return this

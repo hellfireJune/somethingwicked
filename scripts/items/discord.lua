@@ -1,5 +1,5 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MTRBITEM = Isaac.GetItemIdByName("more troll bomb item")
+CollectibleType.SOMETHINGWICKED_MTRBITEM = Isaac.GetItemIdByName("idk troll bomb item")
 local mod = SomethingWicked
 
 local function procChance(player)

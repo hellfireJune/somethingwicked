@@ -16,7 +16,7 @@ function this:PickupCollision(heart, player)
     and SomethingWicked.ItemHelpers:WillHeartBePickedUp(heart, player) then
         local pickupRNG = heart:GetDropRNG()
         for i = 1, 1 + pickupRNG:RandomInt(4), 1 do            
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, player.Position, Vector.FromAngle(RandomVector) * 3, player)  
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, player.Position, RandomVector() * 3, player)  
         end 
     end
 end

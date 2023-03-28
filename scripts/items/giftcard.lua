@@ -4,7 +4,7 @@ TrinketType.SOMETHINGWICKED_GIFT_CARD = Isaac.GetTrinketIdByName("Gift Card")
 function this:PEffectUpdate(player)
     if player:HasTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD) then
         local p_data = player:GetData()
-        p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown or 0
+        p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown or 8
 
         if player:GetNumCoins() < 6 then
             
@@ -19,8 +19,16 @@ function this:PEffectUpdate(player)
                 if f <= 0.05 then
                     player:TryRemoveTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD)
                     SomethingWicked.sfx:Play(SoundEffect.SOUND_DIMEPICKUP)
+
+                    local giftCard = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, TrinketType.SOMETHINGWICKED_GIFT_CARD, player.Position, RandomVector()*10, player)
+                    giftCard:Die()
+                    giftCard.EntityCollisionClass = 0
+
+                    SomethingWicked:UtilScheduleForUpdate(function ()
+                        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, giftCard.Position, Vector.Zero, nil)
+                        giftCard:Remove()
+                    end, 90, ModCallbacks.MC_POST_UPDATE)
                 else
-                
                     SomethingWicked.sfx:Play(SoundEffect.SOUND_PENNYPICKUP)
                 end
             end
@@ -34,7 +42,6 @@ this.EIDEntries = {
         desc = "While held, your coins can never fall below 6 coins"..
         "#!!! 5% chance for the trinket to break upon refilling coins",
         isTrinket = true,
-        Hide = true,
     }
 }
 return this

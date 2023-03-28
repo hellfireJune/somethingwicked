@@ -1,33 +1,19 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
-  Additions:
-  - Added Booster Box
-  - Added BoV wisps to Golden Card, Boline
+  - Added Gift Card, Lantern Battery, and Devilsknife
+  - Second hand now doubles the duration of any custom status effects
+  - Changed Cellphone's Battery eid description to be actually accurate
+  - Fixed two of coins not wokring
+  - fixed shop items sometimes throwing errors in the console
+  - Removed boline and hellfire from the curse pool
+  - added white rose to angel pool and treasure room pool
+  - no longer floods the debug console on startup
+  - made the new card suits rarer again -->
 
-  Changes:
-    Wrath
-    - Wrath wisps now follow a fancy little acceleration curve, and have a visual trail behind thetm
-    - Wrath now works based on tear collision again, and not damage dealt (this means that stuff like fiendfolio's worms wont shit the bed)
-    - DMG Mult per broken heart is now 0.13 (previously 0.1) in exchange for the tears being a bit slower
-    - Costume added
-
-    Golden Card
-    - Teleport cards can rarely be used, instead of being fully blacklisted (20% chance for a card draw to allow teleports)
-    - now blacklists The Stars?, and The Stars is now properly marked as a teleport card
-    - will now properly *only* get tarot cards
-
-    Other:
-    - Wicked soul is now rarer in the treasure room pool
-    - Boline is now a 1 heart devil deal item
-    
-  Fixes:
-  - DStock can no longer appear as a lemegeton wisp (lol)
-  - More debug log stuff? eyikes!-->
-
-  <!--planned qol for this update specifically (Stop Making Half Finished New Content Till Then Juney!)
+  <!--planned qol :333
   *make minos prettier
-  *resprite 3d glasses, spider nest, encyclopedia, apollyon's crown, void bombs and book of lucifer
-  *costume for wrath, spider nest, apollyon's crown, hellfire
+  *resprite 3d glasses, spider nest, apollyon's crown, void bombs
+  *costume for spider nest, apollyon's crown, hellfire
   *literally redo all of devilstail? i hate it?
   *curse status effect icon
   *make nightmares prettier
@@ -50,7 +36,7 @@
   <passive id="16" name="Silver Ring" description="DMG Up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> 
   <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
-  <active id="19" name="Book of Lucifer" gfx="bookoflucifer2.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
+  <active id="19" name="Book of Lucifer" gfx="bookoflucifer3.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
   <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
   <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
@@ -82,7 +68,7 @@
   <familiar id="53" name="Legion" gfx="schlagenheim.png" hidden="true"/>
   <passive id="54" name="Teratoma Chunk" gfx="teratomachunk.png" maxhearts="2" quality="1" description="HP up + tumor friends" tags="nocantrip"/> <!--costume-->
   <passive id="55" name="Sacrificial Effigy" gfx="meateffigy.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed nocantrip"/> <!--costume-->
-  <active id="56" name="Encyclopedia" gfx="encyclopedia.png" description="Re-useable library warp" maxcharges="1" chargetype="special" initcharge="0" tags="offensive book nogreed" quality="3"/>
+  <active id="56" name="Encyclopedia" gfx="encyclopedia2.png" description="Re-useable library warp" maxcharges="1" chargetype="special" initcharge="0" tags="offensive book nogreed" quality="3"/>
   <active id="57" name="Trinket Smasher" gfx="crushers.png" description="Recycle your trinkets!" quality="1" tags="offensive"/>
   <active id="58" name="Chasm" gfx="chasm3.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
   <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive summonable" achievement="404"/> <!--costume-->
@@ -104,6 +90,7 @@
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="Poison fire shot" quality="3" tags="offensive summonable"/>
+  <passive id="78" name="Lantern Battery" gfx="lanternbattery.png" quality="2" description="More charge" tags="offensive battery"/>
   <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red.png"/> <!--costume required-->
   <passive id="86" name="Lover's Mask" description="Hearty damage block" gfx="loversmask.png" tags="nolostbr" quality="2"/> <!--code done i think?-->
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
@@ -115,10 +102,8 @@
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
   <familiar id="124" name="Strange Apple" gfx="strangeapple.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
-
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
 
-  <passive id="78" name="Lantern Battery" quality="2" description="More charge" tags="offensive battery" hidden="true"/>
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
   <active id="82" name="Brittle Dagger" hidden="true"/> <!--code done-->
@@ -171,7 +156,7 @@
   <passive id="138" name="Cat Teaser" hidden="true" quality="0"/>
   <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
 
-  <passive id="141" name="Thanatos" hidden="true"/>
+  <passive id="141" name="idk troll bomb item" hidden="true"/>
   <passive id="142" name="Pendulum" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
@@ -199,9 +184,9 @@
   <trinket id="17" name="Gachapon" description="Crack it open!" gfx="gachapon.png"/> 
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
-  <trinket id="20" name="Gift Card" description="3 percent off!" gfx="blankbook.png" hidden="true"/>
+  <trinket id="20" name="Gift Card" description="6 percent off!" gfx="giftcard.png"/>
   <trinket id="21" name="ZZZZZZ Magnet" description="Walk the path of the BZZZT-" gfx="blankbook.png" hidden="true"/>
-  <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> <!-- code done-->
+  <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> 
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>

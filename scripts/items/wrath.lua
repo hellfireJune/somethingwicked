@@ -2,6 +2,7 @@ local this = {}
 local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath")
 EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
+EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
 TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
 
 local durationTillSpeedUp=18
@@ -12,67 +13,13 @@ local trailLength = 2
 local forceTrailDistanceMult = 0.66
 function this:TearFire(tear)
     local t_data = tear:GetData()
-
-    if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
-        t_data.sw_trailFramesTable = t_data.sw_trailFramesTable or {}
-        t_data.sw_trailFramesTable[tear.FrameCount] = tear.Position
-
-        t_data.sw_trails = t_data.sw_trails or {}
-        t_data.sw_extantTrails = t_data.sw_extantTrails or {}
-        for i = 1, trailLength, 1 do
-            local trail = t_data.sw_trails[i]
-            if not trail then
-                trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
-                trail.Parent = tear
-                t_data.sw_trails[i] = trail
-
-                trail:GetSprite():Play("Idle"..i)
-            end
-
-            trail.Color = tear.Color
-            trail.SpriteOffset = tear.PositionOffset*0.655
-            local lastPos = t_data.sw_trailFramesTable[tear.FrameCount-1]
-            if lastPos then
-                local pos = mod.EnemyHelpers:Lerp(lastPos, tear.Position, (trailLength-i)/trailLength*forceTrailDistanceMult)
-                trail.Position = pos
-            end
-
-            local extrail = t_data.sw_extantTrails[i]
-            if not extrail then
-                extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
-                extrail.Parent = tear
-                t_data.sw_extantTrails[i] = extrail
-
-                local sprite = extrail:GetSprite()
-                sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
-                sprite:Play("Idle"..i)
-                extrail.DepthOffset = 10
-            end
-            extrail.Position = trail.Position
-            extrail.SpriteOffset = trail.SpriteOffset
-            extrail.Color = tear.Color
-        end
-
-        local extrail = t_data.sw_extantRenderer
-        if not extrail then
-            extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
-            extrail.Parent = tear
-            t_data.sw_extantRenderer = extrail
-
-            local sprite = extrail:GetSprite()
-            sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
-            sprite:Play("Idle0")
-            extrail.DepthOffset = 10
-        end
-        extrail.Position = tear.Position
-        extrail.SpriteOffset = tear.PositionOffset*0.655
-        extrail.Color = tear.Color
-    end
-
     if t_data.somethingWicked_trueHoming ~= nil 
     and t_data.somethingWicked_trueHoming.target ~= nil then
         local speed = t_data.sw_homingSpeed or 20
         local isSpedUp = tear.FrameCount > durationTillSpeedUp
+        if tear.FrameCount == durationTillSpeedUp then
+            mod.sfx:Play(SoundEffect.SOUND_BEAST_GHOST_DASH, 0.8, 0)
+        end
         if isSpedUp then
             t_data.sw_homingSpeed = mod.EnemyHelpers:Lerp(speed, 30, lerpToMaxSpeed)
         else
@@ -120,6 +67,70 @@ function this:TearFire(tear)
         local vectorToUse = differenceA > differenceB and vectorB or vectorA
         tear.Velocity = ((t_data.somethingWicked_trueHoming.usesShotspeed and SomethingWicked:UtilGetPlayerFromTear(tear) ~= nil) and SomethingWicked:UtilGetPlayerFromTear(tear).ShotSpeed * 10 or tear.Velocity:Length()) * vectorToUse]]
 end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
+    
+    local t_data = tear:GetData()
+    if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
+        tear.Scale = 1
+        tear.SpriteScale = Vector(1, 1)
+
+        t_data.sw_trailFramesTable = t_data.sw_trailFramesTable or {}
+        t_data.sw_trailFramesTable[tear.FrameCount] = tear.Position
+
+        t_data.sw_trails = t_data.sw_trails or {}
+        t_data.sw_extantTrails = t_data.sw_extantTrails or {}
+        for i = 1, trailLength, 1 do
+            local trail = t_data.sw_trails[i]
+            if not trail then
+                trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                trail.Parent = tear
+                t_data.sw_trails[i] = trail
+
+                trail:GetSprite():Play("Idle"..i)
+            end
+
+            trail.Color = tear.Color
+            trail.SpriteOffset = tear.PositionOffset*0.655
+            local lastPos = t_data.sw_trailFramesTable[tear.FrameCount-1]
+            if lastPos then
+                local pos = mod.EnemyHelpers:Lerp(lastPos, (tear.Position+tear.Velocity), ((trailLength-i)/trailLength*forceTrailDistanceMult)+0.66)
+                trail.Velocity = pos - trail.Position
+            end
+
+            local extrail = t_data.sw_extantTrails[i]
+            if not extrail then
+                extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                extrail.Parent = tear
+                t_data.sw_extantTrails[i] = extrail
+
+                local sprite = extrail:GetSprite()
+                sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
+                sprite:Play("Idle"..i)
+                extrail.DepthOffset = 10
+            end
+            extrail.Velocity = trail.Position - extrail.Position
+            extrail.SpriteOffset = trail.SpriteOffset
+            extrail.Color = tear.Color
+        end
+
+        local extrail = t_data.sw_extantRenderer
+        if not extrail then
+            extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+            extrail.Parent = tear
+            t_data.sw_extantRenderer = extrail
+
+            local sprite = extrail:GetSprite()
+            sprite:Load("gfx/effect_wisp_trail_extant.anm2", true)
+            sprite:Play("Idle0")
+            extrail.DepthOffset = 10
+        end
+        extrail.Velocity = (tear.Position + tear.Velocity) - extrail.Position
+        extrail.SpriteOffset = tear.PositionOffset*0.655
+        extrail.Color = tear.Color
+    end
+
+end)
 
 --[[mod:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
     local sprite = tear:GetSprite()
@@ -170,11 +181,32 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearFire)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.TearOnHit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
+    if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
+        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+        --explode.SpriteScale = Vector(1.5, 1.5)
+        explode.DepthOffset = 20
+        mod.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
+        mod.sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
+        local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, tear.Position+tear.PositionOffset, Vector.Zero, tear)
+        poof.Color = Color(0.8, 0.1, 0.1)
+        poof.SpriteScale = Vector(0.5, 0.5)
+
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, 2, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+    end
+end, EntityType.ENTITY_TEAR)
+
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
     if effect.Parent == nil or not effect.Parent:Exists() then
         effect:Remove()
     end
 end, EffectVariant.SOMETHINGWICKED_WISP_TRAIL)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
+    local sprite = effect:GetSprite()
+    if sprite:IsFinished("Appear") then
+        effect:Remove()
+    end
+end, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE)
 
 this.RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT
 | TearFlags.TEAR_SPLIT | TearFlags.TEAR_QUADSPLIT | TearFlags.TEAR_BONE | TearFlags.TEAR_BURSTSPLIT | TearFlags.TEAR_LASERSHOT
