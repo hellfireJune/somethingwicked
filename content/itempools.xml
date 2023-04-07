@@ -93,6 +93,7 @@
 		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="GLITCHCITY" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="devil">
@@ -168,6 +169,7 @@
 		<Item Name="Hellfire" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -220,6 +222,7 @@
 		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<!--Greed/Greedier mode-->
@@ -315,5 +318,6 @@
 		<Item Name="Old Urn" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="GLITCHCITY" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 </ItemPools>

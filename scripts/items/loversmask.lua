@@ -2,7 +2,7 @@ local this = {}
 CollectibleType.SOMETHINGWICKED_LOVERS_MASK = Isaac.GetItemIdByName("Lover's Mask")
 
 local shouldntBlock = false
-local procChance = 0.6
+local procChance = 0.33
 function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
     ent = ent:ToPlayer()
     --print("troller")
@@ -54,7 +54,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.BlockDMG, EntityType.ENTITY_PLAYER)
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_LOVERS_MASK] = {
-        desc = "80% chance to block any red heart damage#Prevents the damage penalty devil deal chance"
+        desc = "33% chance to block any red heart damage#Prevents the damage penalty devil deal chance"
     }
 }
 return this

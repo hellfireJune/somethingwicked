@@ -34,10 +34,11 @@ function this:UseKnights(card, player)
     local data = this.variants[card]
     if data ~= nil then
     local rng = player:GetDropRNG()
-       local variant = data[1] local mult = data[2] 
+       local variant = data[1] local mult = data[2]
        SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(mult, variant, rng, player.Position, player, function (pickup)
            pickup.Velocity = SomethingWicked.SlotHelpers:GetPayoutVector(rng)
        end)
+       SomethingWicked.sfx:Play(SoundEffect.SOUND_DIMEPICKUP)
     end
 end
 

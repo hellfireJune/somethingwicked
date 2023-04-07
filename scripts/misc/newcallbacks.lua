@@ -237,9 +237,11 @@ function this:PostFirePureEval(player)
     end
     --print(player.FireDelay)
 
-    local fireDelayFlag = player.FireDelay >= player.MaxFireDelay and not p_data.sw_processFireDelay
+    local fireDelayFlag = math.ceil(player.FireDelay) >= (player.MaxFireDelay) and not p_data.sw_processFireDelay
     if animflag or fireDelayFlag then
         if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
+            print(player.FireDelay)
+            print(fireDelayFlag, animflag)
             p_data.somethingWicked_processedPureFire = true
             this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
 
@@ -282,8 +284,6 @@ function this:GetFamiliarPureFireScalar(familiar, playertype)
     elseif familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION
     or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION_B then
         return 0.175
-    elseif familiar.Variant == FamiliarVariant.SPRINKLER then
-        return 1
     end
     return 0.35
 end
@@ -354,7 +354,6 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         end
     end
     if amount ~= currWisps then
-        print(amount)
     end
 
 	this:SetDevilWisps(player, amount - currWisps)

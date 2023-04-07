@@ -34,6 +34,7 @@ function this:OnUse(_, rngObj, player, flags)
 
     local conf = itemConfig:GetCollectible(collectible)
     SomethingWicked.game:GetHUD():ShowItemText(player, conf)
+    pool:RemoveCollectible(collectible)
     local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE)
 
     if conf.Type == ItemType.ITEM_ACTIVE

@@ -86,10 +86,11 @@ end]]
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
     local p_data = player:GetData()
+    print(p_data.SomethingWickedPData.inverterdmgToAdd)
     if p_data.SomethingWickedPData.inverterdmgToAdd then
         player.Damage = SomethingWicked.StatUps:DamageUp(player, 0, p_data.SomethingWickedPData.inverterdmgToAdd)
     end
-end)
+end, CacheFlag.CACHE_DAMAGE)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     local allPlayers = SomethingWicked:UtilGetAllPlayers()
@@ -101,6 +102,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
 
         if level:GetStartingRoomIndex() == currIdx
         and currRoom.VisitedCount == 0 then
+            print("remove dmg")
             p_data.SomethingWickedPData.inverterdmgToAdd = nil
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()

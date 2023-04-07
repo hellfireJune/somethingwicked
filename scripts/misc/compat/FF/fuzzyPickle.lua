@@ -2,7 +2,7 @@ local references = {
     Actives = {
         {ID = CollectibleType.SOMETHINGWICKED_BALROGS_HEAD, Reference = "King Gizzard and the Lizard Wizard", Partial = true},
         {ID = CollectibleType.SOMETHINGWICKED_CURSED_CANDLE, Reference = "Prismatism"},
-        {ID = CollectibleType.SOMETHINGWICKED_CHAOS_HEART, Reference = "Ring of Pain", Partial = true},
+        {ID = CollectibleType.SOMETHINGWICKED_CHAOS_HEART, Reference = "Ring of Pain"},
         {ID = CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM, Reference = "Super Mario Bros"},
     },
     Passives = {
@@ -17,7 +17,9 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM, Reference = "Super Mario Maker"},
         {ID = CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR, Reference = "ULTRAKILL"},
         {ID = CollectibleType.SOMETHINGWICKED_STRANGE_APPLE, Reference = "Snake"},
-        {ID = CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM, Reference = "Deltarune"}
+        {ID = CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM, Reference = "Deltarune"},
+        {ID = CollectibleType.SOMETHINGWICKED_GLITCHCITY, Reference = "Pokemon"},
+        {ID = CollectibleType.SOMETHINGWICKED_BOOSTER_BOX, Reference = "Pokemon", Partial=true,},
     },
     Trinkets = {
         {ID = TrinketType.SOMETHINGWICKED_CATS_EYE, Reference = "The Cat Empire, Prismatism"},

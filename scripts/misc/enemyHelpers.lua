@@ -34,7 +34,7 @@ function SomethingWicked.EnemyHelpers:GetAngleDifference(a1, a2)
 end
 
 function SomethingWicked.EnemyHelpers:AngularMovementFunction(familiar, target, speed, variance, lerpMult)
-    local enemypos = target.Position
+    local enemypos = target.Position or target
         
     local velToEnemy = (enemypos - familiar.Position)
     local minosVel = familiar.Velocity

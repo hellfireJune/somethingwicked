@@ -34,7 +34,7 @@ end, FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE)
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM] = {
         desc = "Spawns an orbiting knife familiar which will deal heavy contact damage and will oscillate in distance from the player",
-        pools = {mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_GREED_DEVIL, mod.encyclopediaLootPools.POOL_CURSE},
+        pools = {mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_GREED_DEVIL, mod.encyclopediaLootPools.POOL_CURSE, mod.encyclopediaLootPools.POOL_ULTRA_SECRET, mod.encyclopediaLootPools.POOL_BABY_SHOP},
     }
 }
 return this

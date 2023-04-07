@@ -63,7 +63,6 @@ this.EIDEntries = {
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"On use, throws a maw of the void ring in the use direction", "Will regain 2 charges upon taking damage"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
         }
     }

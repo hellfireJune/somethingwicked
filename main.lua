@@ -305,6 +305,7 @@ local itemsToLoad = {
   "lightsharddarkshard",
   "discord",
   "pendulum",
+  "chrismatory",
   
   "rogueplanet",
   "minos",

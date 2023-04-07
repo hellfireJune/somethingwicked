@@ -1,14 +1,8 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
-  - Added Gift Card, Lantern Battery, and Devilsknife
-  - Second hand now doubles the duration of any custom status effects
-  - Changed Cellphone's Battery eid description to be actually accurate
-  - Fixed two of coins not wokring
-  - fixed shop items sometimes throwing errors in the console
-  - Removed boline and hellfire from the curse pool
-  - added white rose to angel pool and treasure room pool
-  - no longer floods the debug console on startup
-  - made the new card suits rarer again -->
+  - added glitchcity, band of regen, curse of ares, power inverter, ticket roll
+  -gift card now does gift card stuff better
+  - old dice now actually removes items from the item pool -->
 
   <!--planned qol :333
   *make minos prettier
@@ -73,7 +67,7 @@
   <active id="58" name="Chasm" gfx="chasm3.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
   <passive id="59" name="Planchette" gfx="planchette.png" description="Stronger spirits" blackhearts="2" quality="1" tags="offensive summonable" achievement="404"/> <!--costume-->
   <active id="60" name="Fetus in Fetu" gfx="fetusinfeta.png" maxcharges="8" description="Teratoma baby" tags="offensive" quality="2"/>
-  <passive id="61" name="GLITCHCITY" hidden="true"/> <!-- on the back burner for now-->
+  <passive id="61" name="GLITCHCITY" description="Error Safari" gfx="glitchcity2.png" tags="offensive" quality="3"/>
   <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive summonable"/> <!--costume-->
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil" achievement="597"/> <!--costume-->
   <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" tags="offensive" hidden="true"/>
@@ -103,6 +97,9 @@
   <familiar id="124" name="Strange Apple" gfx="strangeapple.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
+  
+  <passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>
+  <passive id="141" name="Curse of Ares" gfx="curseofares.png" description="Death begets war" quality="1" tags="offensive summonable"/>
 
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
@@ -141,7 +138,6 @@
   <passive id="122" name="Tombstone" hidden="true"/>
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true"/>
   <active id="125" name="Doubling Cherry" cache="familiars" maxcharges="3" quality="3" description="Double yourself!" hidden="true"/>
-  <passive id="126" name="Ring of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" hidden="true" hearts="276"/>
   <active id="127" name="Last Prism" description="In tune" quality="4" maxcharges="12" hidden="true" persistent="true" cooldown="900"/>
 
   <familiar id="128" name="Fuzzy Fly" description="Get dizzy" hidden="true"/>
@@ -156,8 +152,8 @@
   <passive id="138" name="Cat Teaser" hidden="true" quality="0"/>
   <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
 
-  <passive id="141" name="idk troll bomb item" hidden="true"/>
-  <passive id="142" name="Pendulum" hidden="true"/>
+  <passive id="142" name="Pendulum" description="devil deal chance up" gfx="schlagenheim.png" hidden="true"/>
+  <passive id="143" name="Chrismatory" gfx="chrismatory.png" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
@@ -188,6 +184,9 @@
   <trinket id="21" name="ZZZZZZ Magnet" description="Walk the path of the BZZZT-" gfx="blankbook.png" hidden="true"/>
   <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> 
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
+  
+  <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
+  <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->
@@ -196,11 +195,9 @@
   <trinket id="27" name="Surgical Mask" hidden="true"/> <!--did'd-->
   <trinket id="28" name="Onyx Fly" hidden="true"/> <!--flat fly dmg up-->
   <trinket id="29" name="Floating Point Bug" hidden="true"/> <!--coded-->
-  <trinket id="30" name="Ticket Roll" hidden="true"/> <!--code done-->
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
-  <trinket id="34" name="Power Inverter" hidden="true"/> <!--code done--> 
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>

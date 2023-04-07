@@ -20,7 +20,10 @@ this.EIDEntries = {
         desc = "↑ +0.5 tears up#1 soul heart#Spawns four Book of Virtues wisps on pickup",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_BOSS,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_BOSS
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_BOSS,
+            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
+            SomethingWicked.encyclopediaLootPools.POOL_ANGEL,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_ANGEL
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"+15% tears multiplier, adds 1 soul heart and four Book of Virtues wisps on pickup"})
     }

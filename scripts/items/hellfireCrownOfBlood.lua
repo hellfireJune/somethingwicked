@@ -148,7 +148,7 @@ this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
         desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#Scales with luck",
         encycloDesc = mod:UtilGenerateWikiDesc({"On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions", "Scales with luck"}),
-        pools = { mod.encyclopediaLootPools.POOL_CURSE, mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
+        pools = { mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
             mod.encyclopediaLootPools.POOL_GREED_DEVIL}
     },
     [CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD] = {

@@ -26,7 +26,7 @@ local function callOfTheVoidOnFire(_, shooter, vector, scalar, player)
         local v = vector:Rotated(a)
         v = mod:UtilGetFireVector(v, player)*2
 
-        local sawTear = player:FireTear(shooter.Position-v, v, false, true, false, nil, 1.1)
+        local sawTear = player:FireTear(shooter.Position-v, v, false, true, false, nil, 1.1*scalar)
         sawTear:ChangeVariant(TearVariant.SOMETHINGWICKED_VOIDSBLADE)
         sawTear.Scale = sawTear.Scale * 1.3
 

@@ -10,11 +10,10 @@ local lerpToZero = 0.2
 local lerpToMaxSpeed = 0.1
 local framesToSustainWithoutEnemy = 18
 local trailLength = 2
-local forceTrailDistanceMult = 0.66
+local forceTrailDistanceMult = 1
 function this:TearFire(tear)
     local t_data = tear:GetData()
-    if t_data.somethingWicked_trueHoming ~= nil 
-    and t_data.somethingWicked_trueHoming.target ~= nil then
+    if t_data.somethingWicked_trueHoming ~= nil then
         local speed = t_data.sw_homingSpeed or 20
         local isSpedUp = tear.FrameCount > durationTillSpeedUp
         if tear.FrameCount == durationTillSpeedUp then
@@ -34,17 +33,24 @@ function this:TearFire(tear)
             end
         end
         local variance = (isSpedUp and t_data.somethingWicked_trueHoming.angleVariance or 1)*(speed/10)
-
-        local rng = tear:GetDropRNG()
-        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
-
-        t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy or 0
-        if not t_data.somethingWicked_trueHoming.target:Exists() and isSpedUp then
-            t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy + 1
-            if framesToSustainWithoutEnemy < t_data.sw_framesWithoutEnemy then
+        if not t_data.somethingWicked_trueHoming.target then
+            t_data.somethingWicked_trueHoming.backupPos = t_data.somethingWicked_trueHoming.backupPos or tear.Position + RandomVector()*160
+            if tear.Position:Distance(t_data.somethingWicked_trueHoming.backupPos) < speed*1.2 then
                 tear:Die()
             end
+        else
+            t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy or 0
+            if not t_data.somethingWicked_trueHoming.target:Exists() and isSpedUp then
+                t_data.sw_framesWithoutEnemy = t_data.sw_framesWithoutEnemy + 1
+                if framesToSustainWithoutEnemy < t_data.sw_framesWithoutEnemy then
+                    tear:Die()
+                end
+            end
         end
+
+        local rng = tear:GetDropRNG()
+        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target or t_data.somethingWicked_trueHoming.backupPos, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
+
     end
         --[[local enemy = t_data.somethingWicked_trueHoming.target
         local enemypos = enemy.Position
@@ -94,7 +100,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
             trail.SpriteOffset = tear.PositionOffset*0.655
             local lastPos = t_data.sw_trailFramesTable[tear.FrameCount-1]
             if lastPos then
-                local pos = mod.EnemyHelpers:Lerp(lastPos, (tear.Position+tear.Velocity), ((trailLength-i)/trailLength*forceTrailDistanceMult)+0.66)
+                local pos = mod.EnemyHelpers:Lerp(lastPos, (tear.Position), ((trailLength-i)/trailLength*forceTrailDistanceMult)+0.66)
                 trail.Velocity = pos - trail.Position
             end
 
@@ -109,7 +115,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
                 sprite:Play("Idle"..i)
                 extrail.DepthOffset = 10
             end
-            extrail.Velocity = trail.Position - extrail.Position
+            extrail.Velocity = (trail.Position + trail.Velocity) - extrail.Position
             extrail.SpriteOffset = trail.SpriteOffset
             extrail.Color = tear.Color
         end
@@ -157,6 +163,7 @@ function this:TearOnHit(tear, collider, player, procChance)
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             wisp.Height = wisp.Height * 3
             wisp.Scale = wisp.Scale * 1.15
+            wisp.Parent = nil
             
 			local colour = Color(1, 1, 1, 1)
 			colour:SetColorize(2, 0, 0, 0.5)
@@ -189,10 +196,11 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tea
         mod.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
         mod.sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, tear.Position+tear.PositionOffset, Vector.Zero, tear)
-        poof.Color = Color(0.8, 0.1, 0.1)
+        poof.Color = Color(0.2, 0.2, 0.2) * tear.Color
         poof.SpriteScale = Vector(0.5, 0.5)
 
-        Isaac.Spawn(EntityType.ENTITY_EFFECT, 2, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+        local blood = Isaac.Spawn(EntityType.ENTITY_EFFECT, 2, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+        blood.Color = tear.Color
     end
 end, EntityType.ENTITY_TEAR)
 

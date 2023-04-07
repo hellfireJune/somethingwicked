@@ -1,3 +1,4 @@
+local mod = SomethingWicked
 SomethingWicked.FamiliarHelpers = {}
 
 function SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, blockProj, projectilesPierce, collideWithEnemies, flags)
@@ -166,4 +167,19 @@ function SomethingWicked.FamiliarHelpers:SnakePathFind(entity, targetPosition, i
     end
 
     return choice, index == 99999 and stuck
+end
+
+function mod.FamiliarHelpers:FindNearestVulnerableEnemy(pos)
+    local enemies = Isaac.FindInRadius(pos, 80000, EntityPartition.ENEMY)
+    local distance = 80009 local enemy = nil
+
+    for index, value in ipairs(enemies) do
+        local newDist = value.Position:Distance(pos)
+        if value:IsVulnerableEnemy() and  newDist < distance then
+            distance = newDist
+            enemy = value
+        end
+    end
+
+    return enemy
 end
