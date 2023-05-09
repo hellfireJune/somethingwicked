@@ -95,10 +95,10 @@ function this:OnTearHit(tear, collider)
     else
         local t_data = tear:GetData()
         t_data.sw_collideMap = t_data.sw_collideMap or {}
-        if t_data.sw_collideMap[collider.InitSeed] then
+        if t_data.sw_collideMap[""..collider.InitSeed] then
             return
         end
-        t_data.sw_collideMap[collider.InitSeed] = true
+        t_data.sw_collideMap[""..collider.InitSeed] = true
 
         local result = SomethingWicked:__callStatusEffects(collider, tear)
         if result ~= nil then
@@ -236,14 +236,16 @@ function this:PostFirePureEval(player)
         end
     end
     --print(player.FireDelay)
+    if player.FireDelay < 0 then
+        p_data.sw_lastNegativeFireDelay = player.FireDelay
+    end
 
-    local fireDelayFlag = math.ceil(player.FireDelay) >= (player.MaxFireDelay) and not p_data.sw_processFireDelay
+    local fireDelayFlag = math.ceil(player.FireDelay - p_data.sw_lastNegativeFireDelay) >= (player.MaxFireDelay) and not p_data.sw_processFireDelay
     if animflag or fireDelayFlag then
         if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
-            print(player.FireDelay)
-            print(fireDelayFlag, animflag)
             p_data.somethingWicked_processedPureFire = true
             this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
+            p_data.sw_lastNegativeFireDelay = 0
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
                 familiar = familiar:ToFamiliar()

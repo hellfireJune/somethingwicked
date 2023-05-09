@@ -2,6 +2,7 @@ local this = {}
 local mod = SomethingWicked
 CollectibleType.SOMETHINGWICKED_GOLDEN_CARD = Isaac.GetItemIdByName("Golden Card")
 CollectibleType.SOMETHINGWICKED_BOOSTER_BOX = Isaac.GetItemIdByName("Booster Box")
+TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD = Isaac.GetTrinketIdByName("Card Graveyard")
 
 function this:UseItem(_, rng, player)
     local p_data = player:GetData()
@@ -94,6 +95,20 @@ function this:PEffectUpdate(player)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
+
+function this:OnDMG(ent)
+    ent = ent:ToPlayer()
+    if not ent or not ent:HasTrinket(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD) then
+        return
+    end
+
+    local t_rng = ent:GetTrinketRNG(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD)
+    if t_rng:RandomFloat() < 0.2*math.max(1, ent:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD)) then
+        local p_data = ent:GetData()
+        p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0)+1
+    end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnDMG)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, function ()
     for index, player in ipairs(mod:UtilGetAllPlayers()) do

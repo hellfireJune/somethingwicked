@@ -1,0 +1,16 @@
+local stackableItems = {
+    CollectibleType.SOMETHINGWICKED_BOOSTER_BOX,
+    CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN,
+    CollectibleType.SOMETHINGWICKED_MINOS_ITEM,
+    CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM,
+    CollectibleType.SOMETHINGWICKED_RAMS_HEAD,
+    CollectibleType.SOMETHINGWICKED_WICKED_SOUL,
+    CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM,
+    CollectibleType.SOMETHINGWICKED_LEGION_ITEM,
+    CollectibleType.SOMETHINGWICKED_CROSSED_HEART,
+    CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM,
+    CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY,
+    CollectibleType.SOMETHINGWICKED_LOURDES_WATER -- make this good pls :3
+}
+
+return stackableItems

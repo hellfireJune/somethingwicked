@@ -18,5 +18,10 @@ function this:UseItem(_, _, player, flags)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE)
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE] = {
+        desc = "im women",
+        Hide = true,
+    }
+}
 return this

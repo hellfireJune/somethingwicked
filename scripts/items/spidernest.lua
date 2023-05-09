@@ -3,6 +3,7 @@ EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider 
 CollectibleType.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetItemIdByName("Spider Egg")
 this.framesToSpawnEggs = 165
 this.SpiderCap = 7
+local mod = SomethingWicked
 
 function this:IsFiring(player)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_SPIDER_EGG) then
@@ -10,17 +11,21 @@ function this:IsFiring(player)
     end
 
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.spiderEgg_FireCountdown = math.max((p_data.SomethingWickedPData.spiderEgg_FireCountdown or 0) + (player:GetFireDirection() ~= Direction.NO_DIRECTION and 1 or -1), 0)
+    p_data.SomethingWickedPData.spiderEgg_FireCountdown = math.max((p_data.SomethingWickedPData.spiderEgg_FireCountdown or this.framesToSpawnEggs) - 1, (player:GetFireDirection() ~= Direction.NO_DIRECTION and 0 or 1))
 
-    if p_data.SomethingWickedPData.spiderEgg_FireCountdown >= this.framesToSpawnEggs then
-        p_data.SomethingWickedPData.spiderEgg_FireCountdown = 0
+    if p_data.SomethingWickedPData.spiderEgg_FireCountdown <= 0 then
+        p_data.SomethingWickedPData.spiderEgg_FireCountdown = this.framesToSpawnEggs
 
         if #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_SPIDER) >= this.SpiderCap then
             return
         end
-        local testEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_SPIDER_EGG, 0, player.Position, RandomVector() * 6, player):ToEffect()
-        testEffect.FallingSpeed = 10
-        testEffect.FallingAcceleration = -0.75
+
+        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SPIDER_EGG)
+        local vector = mod:UtilGetFireVector(player:GetAimDirection(), player)
+        vector = vector:Rotated(c_rng:RandomFloat()*25)
+        local testEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_SPIDER_EGG, 0, player.Position, (vector:Normalized())*6, player):ToEffect()
+        testEffect.FallingSpeed = 5
+        testEffect.FallingAcceleration = -0.25
         testEffect.Parent = player
 
         SomethingWicked.sfx:Play(SoundEffect.SOUND_BOIL_HATCH, 0.5, 0)
@@ -49,7 +54,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateEffec
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SPIDER_EGG] = {
-        desc = "↑ While firing, will spawn a spider egg every "..(this.framesToSpawnEggs / 30).." seconds, which spawns a blue spider on landing",
+        desc = "↑ Will spawn a spider egg every "..(this.framesToSpawnEggs / 30).." seconds, if the player fires a tear, which spawns a blue spider on landing",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
             SomethingWicked.encyclopediaLootPools.POOL_ROTTEN_BEGGAR,

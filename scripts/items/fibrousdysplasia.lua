@@ -34,3 +34,4 @@ end, CollectibleType.SOMETHINGWICKED_FIBROUS_DYSPLASIA)
 
 this.EIDEntries = {}
 return this
+--scrapped because i accidentally made a fiendfolio item

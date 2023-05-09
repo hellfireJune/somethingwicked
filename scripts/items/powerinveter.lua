@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 TrinketType.SOMETHINGWICKED_POWER_INVERTER = Isaac.GetTrinketIdByName("Power Inverter")
 
 local chargeTypes = {
@@ -19,6 +20,8 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     local sprite = pickup:GetSprite()
     sprite:Play("Collect")
     pickup:Die()
+    mod.sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
 
     local tmult = math.min(player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_POWER_INVERTER), 1)
     local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
@@ -86,7 +89,6 @@ end]]
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
     local p_data = player:GetData()
-    print(p_data.SomethingWickedPData.inverterdmgToAdd)
     if p_data.SomethingWickedPData.inverterdmgToAdd then
         player.Damage = SomethingWicked.StatUps:DamageUp(player, 0, p_data.SomethingWickedPData.inverterdmgToAdd)
     end
@@ -101,11 +103,12 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
         local currIdx = level:GetCurrentRoomIndex()
 
         if level:GetStartingRoomIndex() == currIdx
-        and currRoom.VisitedCount == 0 then
-            print("remove dmg")
+        and currRoom.VisitedCount == 1 then
             p_data.SomethingWickedPData.inverterdmgToAdd = nil
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
+            
+            p_data.SomethingWickedPData.goldenBatteryRandomRoom = nil
         else
             local gidx = p_data.SomethingWickedPData.goldenBatteryRandomRoom
             if gidx and gidx == currIdx then
@@ -126,8 +129,7 @@ end)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_POWER_INVERTER] = {
         isTrinket = true,
-        desc = "wah wah",
-        Hide = true,
+        desc = "Batteries give a damage up for the current floor instead of active item charge",
     }
 }
 return this

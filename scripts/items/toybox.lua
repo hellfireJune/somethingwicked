@@ -14,13 +14,15 @@ function this:UseItem(_, _, player)
 end
 
 function this:PEffectUpdate(player)
+    if not player:IsExtraAnimationFinished() then
+        return
+    end
     local tempEffects = player:GetEffects()
     local p_data = player:GetData()
     local stacks = tempEffects:GetCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX) 
 
     if stacks ~= nil and stacks.Count > 0
-    and (p_data.SomethingWickedPData.toyboxTrinket == nil)
-    and player:IsExtraAnimationFinished() then
+    and (p_data.SomethingWickedPData.toyboxTrinket == nil) then
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
         p_data.SomethingWickedPData.toyboxTrinket = trinket
         player:AnimateTrinket(trinket, "UseItem")
@@ -29,8 +31,7 @@ function this:PEffectUpdate(player)
         SomethingWicked.sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
         SomethingWicked.game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
     end
-    if p_data.SomethingWickedPData.toyboxTrinket ~= nil
-    and player:IsExtraAnimationFinished() then
+    if p_data.SomethingWickedPData.toyboxTrinket ~= nil then
         SomethingWicked:UtilAddSmeltedTrinket(p_data.SomethingWickedPData.toyboxTrinket, player)
         p_data.SomethingWickedPData.toyboxTrinket = nil
     end
@@ -41,7 +42,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpd
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_TOYBOX] = {
-        desc = "Smelts four random trinkets onto you",
+        desc = "↑ Smelts four random trinkets onto you",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GOLDEN_CHEST,

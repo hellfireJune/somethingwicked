@@ -27,7 +27,7 @@ function this:EffectUpdate(effect)
         effect.Velocity = SomethingWicked.EnemyHelpers:Lerp(effect.Velocity, Vector.Zero, 0.2)
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdate, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)
 
 function this:PlayerTakeDMG(player)
     player = player:ToPlayer()

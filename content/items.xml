@@ -1,18 +1,47 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
-  - added glitchcity, band of regen, curse of ares, power inverter, ticket roll
-  -gift card now does gift card stuff better
-  - old dice now actually removes items from the item pool -->
+  - Additions
+    - added band of regen, power inverter, ticket roll, chrismatory, lourdes water, glitchcity
+    - added broken disc compat 
+
+  - Changes
+  
+  - Spider Nest:
+    - Timer now ticks even if the player is not firing. However, eggs will only fire if the player is firing 
+    - Changed the arc of the egg
+    - The egg now lands in the general direction of whererver ur firing
+
+  = Bravery
+    - Resprited again
+    - Moved from quality 1 -> 2
+    - Damage mult changed from 1.3x to 1.5x, and the damage mult also affects champions
+
+  - Misc: 
+    - Resprited Apollyon's Crown
+    - gift card now does gift card stuff better
+    - old dice now actually removes items from the item pool,
+    - more carolina reaper/naga viper stability improvements (Sort of)
+    - removed some unnecessary and bad fuzzy pickle references listed
+    - changed lover's mask from 60% chance to block damage to 33%
+    - memory optimisation stuff regarding beggars
+    
+  - Misc:
+    - 
+  -->
 
   <!--planned qol :333
   *make minos prettier
-  *resprite 3d glasses, spider nest, apollyon's crown, void bombs
+  *resprite 3d glasses, spider nest, void bombs
   *costume for spider nest, apollyon's crown, hellfire
   *literally redo all of devilstail? i hate it?
   *curse status effect icon
-  *make nightmares prettier
+  *make nightmares better. passive damage ig?
+  * make teratomas "grisly"
+  * make chaos heart -> medkit (in shop)
   
   also try implementing void's call already and doubling cherry and legion and also do something about glitchcity-->
+
+<!--also make item id 11, 14, 30, 32, 35, 39, 100-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -28,20 +57,20 @@
   <passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> <!--Needs costume-->
   <passive id="15" name="Wooden Horn" description="DMG + Evil Up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG Up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
-  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6"/> 
+  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" spassivecache="true"/> 
   <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
   <active id="19" name="Book of Lucifer" gfx="bookoflucifer3.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
   <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
   <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
   <active id="23" name="Tiamat's Dice" gfx="tiamatsdice2.png" description="Chaos reroll" quality="4" maxcharges="6" tags="offensive" achievement="29"/>
-  <familiar id="24" name="Apollyon's Crown" gfx="apollyonscrown.png" description="Abyss buddies" quality="3" tags="offensive devil summonable" cache="familiars" achievement="597"/> <!--Needs costume-->
-  <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8" achievement="617"/> 
+  <familiar id="24" name="Apollyon's Crown" gfx="apollyonscrown2.png" description="Abyssal buddies" quality="3" tags="offensive devil summonable" cache="familiars" achievement="597"/> <!--Needs costume-->
+  <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8" achievement="617" cache="luck" passivecache="true"/> 
   <active id="26" name="Cursed Candle" gfx="cursedcandle.png" description="Reusable malediction" quality="3" tags="offensive" maxcharges="247" chargetype="timed"/> 
   <passive id="27" name="Biretta" gfx="biretta2.png" description="You feel relieved" quality="2" tags="nolostbr summonable" achievement="616"/> 
   <familiar id="28" name="Rogue planet" gfx="planetoid.png" description="Buddy-orbiting tears + Range UP " quality="0" tags="offensive summonable" cache="familiars range firedelay tearflag"/> 
   <passive id="29" name="Wrath" gfx="wrath.png" description="Sinner's tears" quality="3" tags="nolostbr"/> 
-  <passive id="31" name="Bravery" gfx="bravery.png" description="DMG Up against strong foes" quality="1" tags="offensive summonable"/> <!--castume-->
+  <passive id="31" name="Bravery" gfx="bravery3.png" description="DMG Up against strong foes" quality="2" tags="offensive summonable"/> <!--castume-->
   <passive id="33" name="White Rose" gfx="whiterose.png" description="Tears + Faith Up" quality="2" tags="offensive" cache="firedelay" tags="offensive" soulhearts="2" achievement="404"/> <!--costume-->
   <passive id="34" name="Ram's Head" gfx="ramshead.png" description="DMG + Tears Up" quality="3" tags="offensive" cache="damage firedelay" tags="offensive summonable"/> <!--dingleshmorf (costume)-->
   <passive id="36" name="Superiority" gfx="superiority.png" description="DMG up against weaker phonies" quality="3" tags="offensive summonable"/> <!--consume-->
@@ -94,12 +123,16 @@
   <passive id="111" name="Lanky Mushroom" description="DMG + range up + tears down" gfx="lankymushroom.png" cache="damage range firedelay size" quality="2" tags="mushroom offensive summonable"/>
   <familiar id="112" name="Swords of Light" description="Justice comes forth" gfx="swordoflight.png" quality="2" tags="offensive summonable"/>
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
-  <familiar id="124" name="Strange Apple" gfx="strangeapple.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
+  <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
   <passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>
   <passive id="141" name="Curse of Ares" gfx="curseofares.png" description="Death begets war" quality="1" tags="offensive summonable"/>
+  <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
+  <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
+  
+  <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
 
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
@@ -117,16 +150,13 @@
   <passive id="97" name="Bottle of Shampoo" hidden="true"/>
   <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
-  <passive id="100" name="Knave of Hearts" hidden="true"/>
-  <passive id="102" name="Fibrous Dysplasia" hidden="true"/>
   <passive id="103" name="Broken Bell" hidden="true"/> <!--check this?? -->
   <familiar id="104" name="Ms. Gonorrhea" hidden="true"/>
   <active id="105" name="Marble Sprout" hidden="true"/> 
   <passive id="106" name="Black Moon Medallion" hidden="true"/>
-  <passive id="107" name="Prismatic Shard" hidden="true"/> <!--damagin enemies spawns flares nearby that spawn rainbow fires-->
   <active id="108" name="Task Manager" hidden="true"/>
   <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive"/> <!--code done, needs testing-->
-  <passive id="110" name="Special Herbs Boxset" hidden="true"/> <!--needs more made-->
+  <passive id="110" name="Special Herbs Boxset" hidden="true"/> <!--needs more made--> <!--remove (maybe?)-->
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable"/>
@@ -144,7 +174,6 @@
   <passive id="129" name="Light Shard" hidden="true"/>
   <passive id="130" name="Dark Shard" hidden="true"/>
   <passive id="131" name="Screw Attack" hidden="true"/>
-  <passive id="132" name="Cloak of Edith" hidden="true"/> 
   <active id="133" name="Hushed Bell" description="It rings softly..." hidden="true" gfx="hushedbell.png" quality="4" maxcharges="1"/>
   <passive id="135" name="Void's Call" hidden="true" description="Cycle of blood" quality="3" maxcharges="1"/>
   <passive id="136" name="idk tech thing??" hidden="true" cache="damage"/>
@@ -153,7 +182,6 @@
   <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
 
   <passive id="142" name="Pendulum" description="devil deal chance up" gfx="schlagenheim.png" hidden="true"/>
-  <passive id="143" name="Chrismatory" gfx="chrismatory.png" hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
@@ -198,17 +226,20 @@
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
+  <trinket id="36" name="Card Graveyard" hidden="true"/>
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
   <passive name="dummy item 002" description="tell june if u see this" hidden="true" tags="book"/>
 
 
-  <active id="11" name="Osteophagy" description="Bone eater" gfx="osteophagyitem.png" quality="3" tags="nolostbr nogreed" hidden="true"/>
+  <passive name="Knave of Hearts" hidden="true"/> <!--remove-->
+  <passive name="Prismatic Shard" hidden="true"/> <!--damagin enemies spawns flares nearby that spawn rainbow fires--> <!--remove-->
+  <active name="Osteophagy" description="Bone eater" gfx="osteophagyitem.png" quality="3" tags="nolostbr nogreed" hidden="true"/>
   <!--<passive id="14" name="Star Shot" description="Wormwood's Wrath" gfx="whiterobe.png" quality="4" hidden="true"/> -->
-  <passive id="30" name="Mammon's Tooth" gfx="mammonstooth.png" description="DMG Up" quality="2" tags="offensive summonable" cache="damage" hidden="true"/> 
-  <passive id="32" name="Pig Ear" gfx="pigear.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
-  <passive id="35" name="Chili" gfx="chili.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
+  <passive name="Mammon's Tooth" gfx="mammonstooth.png" description="DMG Up" quality="2" tags="offensive summonable" cache="damage" hidden="true"/> 
+  <passive name="Pig Ear" gfx="pigear.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
+  <passive name="Chili" gfx="chili.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
   <!--<passive id="17" name="Lantern" description="DMG Up + Guiding Light" gfx="lantern.png" quality="2" tags="offensive" cache="damage"/> Needs costume-->
   <!--<passive id="14" name="Tech V" description="Tech aura" gfx="balrog.png" tags="offensive"/> Not done-->
   <!--<active id="16" name="Makeshift Bombapult" description="Aerial bombardment" gfx="balrog.png"/> this one might be a bit too hard to do rn--> 

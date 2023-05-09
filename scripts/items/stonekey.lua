@@ -10,11 +10,15 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupCollision, PickupVariant.PICKUP_BOMBCHEST)
 
+function this:Update()
+    
+end
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.Update)
+
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_STONE_KEY] = {
         isTrinket = true,
-        desc = "Walking into bomb chests opens them for free",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"While held, walking into bomb chests opens them for free"})
+        desc = "↑ Opening a secret room will refund one bomb#Walking into bomb chests opens them for free",
     }
 }
 return this
