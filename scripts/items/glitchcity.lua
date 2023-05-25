@@ -1,6 +1,7 @@
 local this = {}
 CollectibleType.SOMETHINGWICKED_GLITCHCITY = Isaac.GetItemIdByName("GLITCHCITY")
 EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
+EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 local mod = SomethingWicked
 local game = Game()
 
@@ -11,7 +12,7 @@ function this:PlayerUpdate(player)
         local stacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
         local p_data = player:GetData()
         p_data.sw_glitchCityTimer = (p_data.sw_glitchCityTimer or 170) - (stacks + 1)
-        print(p_data.sw_glitchCityTimer, stacks, (stacks*10))
+        --print(p_data.sw_glitchCityTimer, stacks, (stacks*10))
         
         local room = game:GetRoom()
         if room:GetFrameCount() <= 0 then
@@ -26,7 +27,7 @@ function this:PlayerUpdate(player)
                     target = nil
                 end
 
-                local randomPos = target and target.Position + (math.max((rng:RandomFloat()*target.Size)-28, 0)*(RandomVector()+Vector(0, -1))) 
+                local randomPos = target and target.Position + (math.max((rng:RandomFloat()*target.Size)-28, 00)*(RandomVector()+Vector(0, -1))) 
                 or player.Position + RandomVector()*rng:RandomFloat()*200--Vector( math.max(80, rng:RandomInt(width-40)), math.max(80, rng:RandomInt(height-40))) + Vector(0, 80)
                 randomPos = room:GetClampedGridIndex(randomPos)
                 randomPos = room:GetGridPosition(randomPos)
@@ -97,12 +98,16 @@ function this:EffectUpdate(effect)
         for index, ent in ipairs(nearbyEnemies) do
             ent:TakeDamage(damage, DamageFlag.DAMAGE_IGNORE_ARMOR, EntityRef(effect), 1)
             
+            local veloc = (ent.Position - pos):Normalized()
+            local pf = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_GLITCH_POOF, 0, pos+(veloc*40), Vector.Zero, nil)
+            pf.Color = Color(1, 0.7, 0)
+            pf.DepthOffset = 18
             if not ent:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
-                local veloc = ent.Position - effect.Position
-                veloc = veloc:Normalized():Resized(15)
+                veloc = veloc*15
 
                 ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK)
                 ent:AddVelocity(veloc)
+
             end
         end
     end

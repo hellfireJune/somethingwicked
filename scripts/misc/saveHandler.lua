@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 local json = require("json")
 
 if SomethingWicked:HasData() then
@@ -24,6 +25,11 @@ function this:PlayerInit(player)
 end
 
 function this:PreGameExit()
+    mod:SaveModData()
+end
+
+function mod:SaveModData()
+
     for i, v in ipairs(SomethingWicked:UtilGetAllPlayers()) do
         SomethingWicked.save.runData.playersData[i] = v:GetData().SomethingWickedPData
     end
@@ -40,6 +46,20 @@ function this:ClearRunData(continue)
     end
 end
 
+function mod:SaveWoRunData()
+    local runData = mod.save.runData
+
+    local oldData = json.decode(mod:LoadData())
+    local tab = mod.save
+    tab.runData = oldData.runData
+    tab = json.encode(tab)
+    SomethingWicked:SaveData(tab)
+    mod.save.runData = runData
+end
+
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PLAYER_INIT, CallbackPriority.EARLY, this.PlayerInit)
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, this.PreGameExit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, this.ClearRunData)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function ()
+    mod:SaveModData()
+end)

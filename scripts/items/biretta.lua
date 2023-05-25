@@ -37,6 +37,10 @@ this.EIDEntries = {
             SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET
         },
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Upon clearing a boss room, spawns a confessional"})
+    },
+    [TrinketType.SOMETHINGWICKED_TICKET_ROLL] = {
+        desc = "A slot machine spawns upon clearing a boss room",
+        isTrinket = true,
     }
 }
 return this

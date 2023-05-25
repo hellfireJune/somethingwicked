@@ -4,7 +4,7 @@ TrinketType.SOMETHINGWICKED_BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Ba
 this.blacklist = { 577, 585, 622, 628, 127, 297, 347, 475, 483, 490, 515}
 
 function this:ItemUse(id, _, player, flags)
-    if flags & UseFlag.USE_CARBATTERY ~= 0 then
+    if flags & UseFlag.USE_CARBATTERY ~= 0 or flags & UseFlag.USE_OWNED == 0 then
         return
     end
     local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, id)
@@ -15,7 +15,6 @@ function this:ItemUse(id, _, player, flags)
 
     local timesToUseBonus = 0
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE) then
-        print(timesToUseBonus)
         timesToUseBonus = timesToUseBonus + player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE):RandomInt(3)
     end
     if player:HasTrinket(TrinketType.SOMETHINGWICKED_BUSTED_BATTERY) then

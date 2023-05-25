@@ -190,8 +190,11 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.DelayShit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
 
+local brim = {
+    LaserVariant.THICK_RED, LaserVariant.BRIM_TECH, LaserVariant.THICKER_RED, LaserVariant.THICKER_BRIM_TECH, }
 function this:LaserUpdate(laser)
-    if laser.FrameCount == 1 then
+    if (not mod:UtilTableHasValue(brim) and laser.FrameCount == 1) or
+    laser.FrameCount % 4 == 2 then
         if laser.Variant == LaserVariant.THICK_BROWN
         or laser.Variant == LaserVariant.TRACTOR_BEAM
         or laser.Variant == LaserVariant.LIGHT_RING then
@@ -201,7 +204,7 @@ function this:LaserUpdate(laser)
         local player = SomethingWicked:UtilGetPlayerFromTear(laser)
         
         for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
-            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player)
+            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player, laser.FrameCount <= 2)
         end
     end
 end

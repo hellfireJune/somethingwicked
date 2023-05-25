@@ -12,10 +12,13 @@ SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_STICK
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STICKER_BOOK) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)
             if c_rng:RandomFloat() < ProcChance(player) then
-                this:MakeStickerY(tear, c_rng)
                 return true
             end
         end
+    end,
+    PostApply = function (_, player, tear)
+        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)
+        this:MakeStickerY(tear, c_rng)
     end,
     EnemyHitEffect = function (_, tear, pos, enemy)
         this:HitEnemy(tear, pos, enemy)

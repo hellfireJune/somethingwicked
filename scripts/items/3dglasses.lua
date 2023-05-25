@@ -50,8 +50,8 @@ function this:SplitTearsSometimes(tear)
 end
 
 this.isFiringMoreLasers = false
-function this:SplitLasersToo(laser, player)
-    if this.isFiringMoreLasers then
+function this:SplitLasersToo(laser, player, pure)
+    if this.isFiringMoreLasers or not pure then
         return
     end
     if player 

@@ -27,7 +27,10 @@ function this:FireTear(tear)
     end
 end
 
-function this:FireLaser(laser, player)
+function this:FireLaser(laser, player, pure)
+    if not pure then
+        return
+    end
     if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then 
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
         local procChance = ProcChance(player)

@@ -86,6 +86,9 @@
     <entity anm2path="effect_wisptear_explode.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="0" id="1000" name="Wisp Tear Explode" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
     </entity>
+    <entity anm2path="effect_glitch_poof.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="0" id="1000" name="Glitchcity Explode" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
+    </entity>
     <entity anm2path="effect_chrismatory_fire_vfx.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="0" id="1000" name="Chrismatory Fire" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
     </entity>
@@ -190,6 +193,12 @@
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
     <entity anm2path="familiar_rogueplanet.anm2" baseHP="0" boss="0" champion="0" collisionDamage="4" collisionInterval="10" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Fuzzy Fly Familiar" numGridCollisionPoints="12" shadowSize="10" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="familiar_gabe_sword.anm2" baseHP="0" boss="0" champion="0" collisionDamage="3" collisionInterval="2" collisionMass="3" collisionRadius="32" friction="1" id="3" name="Splendorous Sword" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="003.035_Sacrificial Dagger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="4" collisionInterval="4" collisionMass="3" collisionRadius="32" friction="1" id="3" name="Wicked Yo-Yo" numGridCollisionPoints="12" shadowSize="0" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
 

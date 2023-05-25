@@ -37,7 +37,7 @@ function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
     end
 
     local c_rng = ent:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOVERS_MASK)
-    if c_rng:RandomFloat() > procChance then
+    if c_rng:RandomFloat() < procChance then
         flags = flags | DamageFlag.DAMAGE_FAKE
     end
     if ent:HasTrinket(TrinketType.TRINKET_PERFECTION) then

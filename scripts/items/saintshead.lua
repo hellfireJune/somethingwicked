@@ -10,7 +10,7 @@ function this:EnemyDeath(entity)
         local amountToSpawn = baseAmount + c_rng:RandomInt(moreAmountMax + 1)
         for i = 1, amountToSpawn, 1 do
             local velocity = RandomVector() * SomethingWicked.EnemyHelpers:Lerp(4, 8, c_rng:RandomFloat())
-            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, entity.Position, velocity, player):ToTear()
+            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, entity.Position+velocity, Vector.Zero, player):ToTear()
             tear.Parent = nil
             tear.CollisionDamage = player.Damage
             tear.FallingSpeed = SomethingWicked.EnemyHelpers:Lerp(-12, -30, c_rng:RandomFloat())
@@ -26,5 +26,10 @@ function this:EnemyDeath(entity)
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.EnemyDeath)
 
-this.EIDEntries = {}
+this.EIDEntries = {
+    [CollectibleType.SOMETHINGWICKED_SAINTS_HEAD] = {
+        desc = "pssh",
+        Hide = true,
+    }
+}
 return this

@@ -169,17 +169,20 @@ function SomethingWicked.FamiliarHelpers:SnakePathFind(entity, targetPosition, i
     return choice, index == 99999 and stuck
 end
 
-function mod.FamiliarHelpers:FindNearestVulnerableEnemy(pos)
-    local enemies = Isaac.FindInRadius(pos, 80000, EntityPartition.ENEMY)
+function mod.FamiliarHelpers:FindNearestVulnerableEnemy(pos, dis, blacklist)
+    dis = dis or 80000
+    local enemies = Isaac.FindInRadius(pos, dis, EntityPartition.ENEMY)
     local distance = 80009 local enemy = nil
 
     for index, value in ipairs(enemies) do
         local newDist = value.Position:Distance(pos)
-        if value:IsVulnerableEnemy() and  newDist < distance then
+        if value:IsVulnerableEnemy() and not value:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) and  newDist < distance
+        and (blacklist == nil or not blacklist[""..value.InitSeed]) then
             distance = newDist
             enemy = value
         end
     end
 
+    print(enemy)
     return enemy
 end

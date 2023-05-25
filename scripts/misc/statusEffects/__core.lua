@@ -43,7 +43,13 @@ function mod:UtilAddElectrostun(ent, player, duration)
     e_data.somethingWicked_electroStunParent = player
 end
 
+function mod:UtilAddUnravel(ent, dmg)
+    local e_data = ent:GetData()
+    e_data.sw_unravelDMG = (e_data.sw_unravelDMG or 0)+dmg
+end
+
 include(directory.."bitter")
 include(directory.."curse")
 include(directory.."dread")
 include(directory.."electroStun")
+include(directory.."unravel")

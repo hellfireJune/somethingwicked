@@ -49,6 +49,9 @@ mod.CustomTearFlags = {
     FLAG_STICKER_BOOK = 1 << 11,
     FLAG_SCREW_ATTACK = 1 << 12,
     FLAG_CAT_TEASER = 1 << 13,
+    FLAG_UNRAVEL = 1 << 14,
+    FLAG_DARKNESS = 1 << 15,
+    FLAG_COINSHOT = 1 << 16,
 }
 mod.CustomCardTypes = {
     CARDTYPE_THOTH = 1,

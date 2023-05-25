@@ -1,15 +1,15 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM = Isaac.GetItemIdByName("idk tech thing??")
+CollectibleType.SOMETHINGWICKED_TECH_MODULO = Isaac.GetItemIdByName("Tech-Modulo")
 
 local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM) then
+    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) then
         return
     end
     local vel = dir
     --local _, pos = room:CheckLine(shooter.Position, shooter.Position + vel, 0)
 
-    local stacks = math.max(player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM), 1)
+    local stacks = math.max(player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_TECH_MODULO), 1)
     mod:DoHitscan(tear.Position, vel, player, function (position)
         for i = -1, 1, 2 do
             local ang = vel:Normalized():Rotated(90*i)
@@ -46,14 +46,14 @@ end)
 
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
     if flags == CacheFlag.CACHE_DAMAGE then
-        player.Damage = mod.StatUps:DamageUp(player, 0, 0, player:HasCollectible(CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM) and 0.66 or 1)
+        player.Damage = mod.StatUps:DamageUp(player, 0, 0, player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) and 0.666 or 1)
     end
 end)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_UNNAMED_TECH_ITEM] = {
-        desc = "boogie",
-        Hide = true,
+    [CollectibleType.SOMETHINGWICKED_TECH_MODULO] = {
+        desc = "Firing a tear will fire two perpendicular half damage lasers at wherever the tear would land#↓ {{Damage}} -33.3% damage down",
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
     }
 }
 return this

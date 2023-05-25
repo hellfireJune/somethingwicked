@@ -300,12 +300,17 @@ local itemsToLoad = {
   "redcap",
   "voidscall",
   "screwattack",
-  "unnamedtechitem",
+  "techmodulo",
   "pressurevalve",
   "lightsharddarkshard",
   "discord",
   "pendulum",
   "chrismatory",
+  "yoyo",
+  "spoolofyarn",
+  "airfreshener",
+  "pieceofsilver",
+  "darkness",
   
   "rogueplanet",
   "minos",
@@ -375,6 +380,7 @@ local itemsToLoad = {
   "zzzzzzmagnet",
   "redkeychain",
   "powerinveter",
+  "diceroller"
 }
 
 local cardsToLoad = {
@@ -424,6 +430,7 @@ local postMiscLoad = {
   "itempools",
   "cardController",
   "compat/____core",
+  "dss/deadseascrolls"
 }
 --[[local enemiesToLoad = {
   --"experiment",

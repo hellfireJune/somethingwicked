@@ -31,7 +31,6 @@ function this:TearOnHit(tear, pos)
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, tear.Position, Vector.Zero, tear)
     local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, pos, Vector.Zero, tear):ToEffect()
     thefloatingfire.CollisionDamage = tear.CollisionDamage/3
-    thefloatingfire.SpriteScale = Vector(1)
     thefloatingfire:SetTimeout(70)
 end
 
@@ -39,7 +38,7 @@ function this:FireTear(player, tear)
     if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BALROGS_HEART) then
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BALROGS_HEART)
         local f = c_rng:RandomFloat()
-        if f < 0.15 then
+        if f < 1+0.15 then
             if tear.Type == EntityType.ENTITY_TEAR then
                 tear.Velocity = tear.Velocity * 1.625
             end
