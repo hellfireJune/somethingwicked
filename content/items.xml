@@ -1,8 +1,8 @@
 <items gfxroot="gfx/items/" version="1">
   <!--changelog:
   - Additions
-    - added band of regen, power inverter, ticket roll, chrismatory, lourdes water, glitchcity, dice roller, tech-modulo
-    - added broken disc compat 
+    - added band of regen, power inverter, ticket roll, chrismatory, lourdes water, glitchcity, dice roller and tech-modulo
+    - added broken disc compat, and some minor electrum compat
 
   - Changes
   
@@ -17,16 +17,19 @@
     - Damage mult changed from 1.3x to 1.5x, and the damage mult also affects champions
 
   - Superiority
-    - New effect, now gives a sdamage up corresponding to how much enemies are in the room
+    - New effect, now gives a damage up corresponding to how much enemies are in the room
+
+  - Lover's Mask
+    - damage block chance bumped down to 30% (from 60%)
 
   - Misc: 
-    - Resprited Apollyon's Crown and Strange Apple
+    - Resprited Apollyon's Crown and Strange Apple (strange apple changes coming SOOON)
     - plasma globe fix
+    - minor eid touchup
     - gift card now does gift card stuff better
     - old dice now actually removes items from the item pool,
     - more carolina reaper/naga viper stability improvements (Sort of)
     - removed some unnecessary and bad fuzzy pickle references listed
-    - changed lover's mask from 60% chance to block damage to 33%
     - memory optimisation stuff regarding beggars
     - akeldama no longer inherits something wicked tear flags
     - haemolacria split tears properly inherits something wicked tear flags
@@ -132,7 +135,6 @@
   <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
-  
   <passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>
   <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
   <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
@@ -223,7 +225,6 @@
   <trinket id="21" name="ZZZZZZ Magnet" description="World 23's deals" gfx="blankbook.png" hidden="true"/>
   <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> 
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
-  
   <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
   <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>

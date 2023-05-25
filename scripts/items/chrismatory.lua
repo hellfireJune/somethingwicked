@@ -7,7 +7,8 @@ local wisps = 8
 local angleOffset = 15
 local angleVariance = 45
 local function procChance(player)
-    return 0.5
+    local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
+    return 0.2 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)
 end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter, vector, scalar, player)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CHRISMATORY) then
@@ -15,7 +16,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
         local p_data = player:GetData()
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CHRISMATORY)
 
-        print(p_data.sw_chrismatoryTick)
+        --print(p_data.sw_chrismatoryTick)
         if p_data.sw_chrismatoryTick and p_data.sw_chrismatoryTick ~= 150 then
             for i = 1, wisps, 1 do
                 local angle = (angleOffset + c_rng:RandomInt(angleVariance)+1)*(i%2==1 and -1 or 1)
@@ -34,6 +35,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
                 wisp.Color = colour
                 local t_data = wisp:GetData()
                 t_data.sw_homingSpeed = 15*(c_rng:RandomFloat()/2+0.75)
+                t_data.sw_isChrisWisp = true
     
                 SomethingWicked:UtilAddTrueHoming(wisp, mod.FamiliarHelpers:FindNearestVulnerableEnemy(wisp.Position), 35, false)
             end
@@ -70,7 +72,8 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CHRISMATORY] = {
-        desc = "maybe if you get lucky this little thing will spawn some ugly ghosty-goos"
+        desc = "Firing a tear has a chance to shoot out nine ghost tears that home in on enemies#Applies knockback and a greater tear cooldown after firing#Isaac will glow white if the next shot will shoot ghosts",
+        pools = { mod.encyclopediaLootPools.POOL_ANGEL, mod.encyclopediaLootPools.POOL_GREED_ANGEL }
     }
 }
 return this

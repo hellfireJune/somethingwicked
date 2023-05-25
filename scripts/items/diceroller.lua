@@ -49,7 +49,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffect)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_DICE_ROLLER] = {
         isTrinket = true,
-        desc = "Using an active item has a chance to trigger one of these effects:#{{Collectible105}} D6#{{Collectible406}} D8#{{Collectible285}} D10#{{Collectible386}} D12#{{Collectible166}} D20#Chance scales with the charge of the item used"
+        desc = "Using an active item has a chance to trigger one of the following effects:#{{Collectible105}} D6#{{Collectible406}} D8#{{Collectible285}} D10#{{Collectible386}} D12#{{Collectible166}} D20#Chance scales with the charge of the item used"
     }
 }
 return this

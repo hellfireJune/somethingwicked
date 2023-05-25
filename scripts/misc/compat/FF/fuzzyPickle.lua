@@ -18,6 +18,7 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM, Reference = "Deltarune"},
         {ID = CollectibleType.SOMETHINGWICKED_GLITCHCITY, Reference = "Pokemon"},
         {ID = CollectibleType.SOMETHINGWICKED_BOOSTER_BOX, Reference = "Pokemon", Partial=true,},
+        {ID = CollectibleType.SOMETHINGWICKED_TECH_MODULO, Reference = "Some Bunny's The Modular"},
     },
     Trinkets = {
         {ID = TrinketType.SOMETHINGWICKED_CATS_EYE, Reference = "The Cat Empire"},

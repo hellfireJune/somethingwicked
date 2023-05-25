@@ -29,8 +29,9 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_REGEN_RING] = {
-        desc = "Regenerates",
-        Hide = true,
+        desc = "↑ Clearing a room after taking damage in two seperate rooms will heal for 1 red heart#{{Heart}} Full health",
+        pools = {SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
+    SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
     }
 }
 return this

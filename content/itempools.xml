@@ -176,6 +176,7 @@
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -193,6 +194,7 @@
 		<Item Name="Star Spawn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shellGame">
@@ -319,6 +321,7 @@
 		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Chrismatory" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

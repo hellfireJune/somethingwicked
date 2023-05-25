@@ -20,7 +20,7 @@ end)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM] = {
-        desc = "+0.7 damage up#0.4 tears down#0.75 range up#Makes Isaac 50% taller and 25% thinner",
+        desc = "↑ {{Damage}} +0.7 Damage up#↓ {{Tears}} -0.4 Tears down#↑ {{Range}} 0.75 Range up#Makes Isaac 50% taller and 25% thinner",
         pools = { mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET, mod.encyclopediaLootPools.POOL_GREED_TREASURE, mod.encyclopediaLootPools.POOL_GREED_BOSS}
     }
 }

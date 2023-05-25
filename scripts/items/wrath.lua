@@ -199,8 +199,13 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tea
         poof.Color = Color(0.2, 0.2, 0.2) * tear.Color
         poof.SpriteScale = Vector(0.5, 0.5)
 
+        local t_data = tear:GetData()
         local blood = Isaac.Spawn(EntityType.ENTITY_EFFECT, 2, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
-        blood.Color = tear.Color
+        if t_data.sw_isChrisWisp then
+            blood.Color = Color(1, 1, 1, 0.5, 2, 2, 2)
+        else
+            blood.Color = tear.Color
+        end
     end
 end, EntityType.ENTITY_TEAR)
 

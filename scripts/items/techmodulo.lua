@@ -53,7 +53,7 @@ end)
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_TECH_MODULO] = {
         desc = "Firing a tear will fire two perpendicular half damage lasers at wherever the tear would land#↓ {{Damage}} -33.3% damage down",
-        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
+        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE, mod.encyclopediaLootPools.POOL_CRANE_GAME}
     }
 }
 return this
