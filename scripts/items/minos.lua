@@ -479,7 +479,7 @@ function this:HydrusTearRemove(tear)
     else
         local allTears = Isaac.FindByType(EntityType.ENTITY_TEAR)
         for _, nt in ipairs(allTears) do
-            if GetPtrHash(spwnr) == GetPtrHash(nt.SpawnerEntity)
+            if nt and GetPtrHash(spwnr) == GetPtrHash(nt.SpawnerEntity)
             and nt:Exists() then
                 local n_data = nt:GetData()
                 if n_data.snakeTearData

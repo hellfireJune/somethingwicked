@@ -73,7 +73,7 @@ function this:KnifeCollision(tear, collider)
         e_data.sw_itgoesitgoesitgoes = 2
 
         sticker:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
-        print(tear.StickTimer)
+        --print(tear.StickTimer)
     end
 end
 

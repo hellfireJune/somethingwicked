@@ -311,6 +311,7 @@ local itemsToLoad = {
   "airfreshener",
   "pieceofsilver",
   "darkness",
+  "ganymede",
   
   "rogueplanet",
   "minos",
@@ -365,7 +366,7 @@ local itemsToLoad = {
   "stonekey",
   "bobsheart",
   "catseye",
-  "goldytomato",
+  --"goldytomato", OUTDATED 
   "damnedsoulvirtuoussoul",
   "sugarcoatedpill",
   "treasurerskeycursedkey",

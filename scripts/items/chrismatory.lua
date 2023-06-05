@@ -23,7 +23,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
                 angle = vector:Rotated(angle)
 
                 local v = mod:UtilGetFireVector(angle, player)
-                local wisp = player:FireTear(player.Position - v, v, false, true, false, nil, scalar)
+                local wisp = player:FireTear(shooter.Position - v, v, false, true, false, nil, scalar)
                 wisp.Parent = nil
                 wisp:ChangeVariant(TearVariant.SOMETHINGWICKED_WISP)
                 wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)

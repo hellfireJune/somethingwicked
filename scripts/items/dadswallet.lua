@@ -32,6 +32,14 @@ function this:PickupCollision(pickup, player)
     player = player:ToPlayer()
     if player then
         local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, id)
+        if slot == -1 then
+            local _, np = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET)
+            if not np then
+                return
+            end
+            charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(np, id)
+            player = np
+        end
         local pickupFunction = this.PickupCollisionChecks[pickup.Variant]
         local flag
         if pickupFunction ~= nil then

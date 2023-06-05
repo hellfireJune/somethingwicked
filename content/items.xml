@@ -1,41 +1,7 @@
-<items gfxroot="gfx/items/" version="1">
-  <!--changelog:
-  - Additions
-    - added band of regen, power inverter, ticket roll, chrismatory, lourdes water, glitchcity, dice roller and tech-modulo
-    - added broken disc compat, and some minor electrum compat
-
-  - Changes
-  
-  - Spider Nest:
-    - Timer now ticks even if the player is not firing. However, eggs will only fire if the player is firing 
-    - Changed the arc of the egg
-    - The egg now lands in the general direction of whererver ur firing
-
-  - Bravery
-    - Resprited again
-    - Moved from quality 1 -> 2
-    - Damage mult changed from 1.3x to 1.5x, and the damage mult also affects champions
-
-  - Superiority
-    - New effect, now gives a damage up corresponding to how much enemies are in the room
-
-  - Lover's Mask
-    - damage block chance bumped down to 30% (from 60%)
-
-  - Misc: 
-    - Resprited Apollyon's Crown and Strange Apple (strange apple changes coming SOOON)
-    - plasma globe fix
-    - minor eid touchup
-    - gift card now does gift card stuff better
-    - old dice now actually removes items from the item pool,
-    - more carolina reaper/naga viper stability improvements (Sort of)
-    - removed some unnecessary and bad fuzzy pickle references listed
-    - memory optimisation stuff regarding beggars
-    - akeldama no longer inherits something wicked tear flags
-    - haemolacria split tears properly inherits something wicked tear flags
-    - fiend's fireballs (and any other tears spawned by modded stuff that shouldnt have additional effects) no longer inherit something wicked tear effects
-    - removed more debug log stuff im so sorry
-    
+<items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
+  <!-- changelog:
+  - biretta now spawns confessionals at the start of a floor instead of the end
+  - ticket roll slot machines wont spawn in unavailable spots
   -->
 
   <!--planned qol :333
@@ -48,7 +14,7 @@
   * make teratomas "grisly"
   * make chaos heart -> medkit (in shop)
   
-  also try implementing void's call already and doubling cherry and legion and also do something about glitchcity-->
+  also try implementing void's call already and doubling cherry and legion-->
 
 <!--also make item id 11, 14, 30, 32, 35, 39, 100-->
 
@@ -67,7 +33,7 @@
   <passive id="15" name="Wooden Horn" description="DMG + Evil Up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG Up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" spassivecache="true"/> 
-  <passive id="18" name="Nightshade" gfx="nightshade.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
+  <passive id="18" name="Nightshade" gfx="nightshade2.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
   <active id="19" name="Book of Lucifer" gfx="bookoflucifer3.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
   <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
@@ -129,16 +95,16 @@
   <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/>
   <passive id="93" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
   <passive id="101" name="Hellfire" gfx="hellfire.png" description="Satan's siren" devilprice="2" quality="3" tags="offensive summonable"/>
+  <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
   <passive id="111" name="Lanky Mushroom" description="DMG + range up + tears down" gfx="lankymushroom.png" cache="damage range firedelay size" quality="2" tags="mushroom offensive summonable"/>
   <familiar id="112" name="Swords of Light" description="Justice comes forth" gfx="swordoflight.png" quality="2" tags="offensive summonable"/>
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
   <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
-  <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
-  <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   <passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>
   <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
-  <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
+  <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
+  <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
   <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="141" name="Curse of Ares" gfx="curseofares.png" description="Death begets war" quality="1" tags="offensive summonable"/>
@@ -154,7 +120,7 @@
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true"/>
   <familiar id="94" name="Little Attractor" hidden="true"/> 
-  <passive id="95" name="Banana Milk" description="DMG down + Fruity tears" hidden="true" cache="damage tearflag"/>  
+  <passive id="95" name="Banana Milk" description="DMG down + fruity tears" gfx="bananamilk.png" cache="damage tearflag"/>  
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive"/>
   <passive id="97" name="Bottle of Shampoo" hidden="true"/>
   <active id="98" name="Magic Clay" hidden="true"/>
@@ -195,6 +161,8 @@
   <passive id="145" name="Air Freshener" hidden="true"/>
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true"/>
   <passive id="147" name="Piece of Silver" hidden="true"/>
+
+  <passive id="148" name=" Ganymede " hidden="true"/>
   
   <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
   <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
@@ -228,6 +196,8 @@
   <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
   <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>
+  
+  <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->
@@ -239,7 +209,9 @@
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
+
   <trinket id="36" name="Card Graveyard" hidden="true"/> <!-- code done :3 -->
+  <trinket id="38" name="Halloween Candy" hidden="true"/>
   
   <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>

@@ -20,11 +20,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.OnFireTear)
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_GODLY_TOMATO] = {
         isTrinket = true,
-        desc = "↑ 12% chance to give a fired tear a godhead aura",
+        desc = "↑ Chance to give a fired tear a {{Collectible331}} Godhead aura",
         metadataFunction = function (item)
             EID:addGoldenTrinketMetadata(item, {"↑ +2% chance", "↑ +4% chance"} )
         end,
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"12% chance to give a fired tear a godhead aura"})
     }
 }
 return this

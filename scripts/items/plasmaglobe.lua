@@ -11,7 +11,7 @@ SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_ELECT
     ApplyLogic = function (_, p, tear)
         if p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) then
             local rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) 
-            print(ProcChance(p))
+            --print(ProcChance(p))
             if rng:RandomFloat() > ProcChance(p) then
                 return
             end

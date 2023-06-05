@@ -25,6 +25,7 @@ end, CollectibleType.SOMETHINGWICKED_MTRBITEM)
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_MTRBITEM] = {
         desc = "",
+        Hide = true,
     }
 }
 return this

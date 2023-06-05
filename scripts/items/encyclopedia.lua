@@ -26,7 +26,7 @@ function this:UseItem(_, rngObj, player)
     local shopIDx = game:GetLevel():QueryRoomTypeIndex(RoomType.ROOM_LIBRARY, true, rngObj)
     game:StartRoomTransition(shopIDx, Direction.NO_DIRECTION, RoomTransitionAnim.TELEPORT)
 
-    return { Discharge = false, ShowAnim = true}
+    return { Discharge = false }
 end
 
 this.lastEncycloCheck = nil

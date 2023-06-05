@@ -48,7 +48,8 @@ end, CacheFlag.CACHE_FIREDELAY)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RELIQUARY] = {
-        desc = "Even better items?"
+        desc = "Even better items?",
+        Hide = true,
     }
 }
 return this
