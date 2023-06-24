@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_WHITE_ROSE = Isaac.GetItemIdByName("White Rose")
 
 function this:TearsCache(player)
     player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE)) --SomethingWicked.StatUps:GetFireDelay(SomethingWicked.StatUps:GetTears(player.MaxFireDelay) * (1 + (0.15 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))))

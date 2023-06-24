@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-TrinketType.SOMETHINGWICKED_DICE_ROLLER = Isaac.GetTrinketIdByName("Dice Roller")
 this.dice = { CollectibleType.COLLECTIBLE_D6, CollectibleType.COLLECTIBLE_D8,
 CollectibleType.COLLECTIBLE_D12, CollectibleType.COLLECTIBLE_D10, CollectibleType.COLLECTIBLE_D20 }
 

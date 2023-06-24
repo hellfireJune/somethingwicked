@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM = Isaac.GetItemIdByName("Cursed Mushroom")
 this.CurseDuration = 15
 this.WispCurseRadius = 100
 

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_NIGHTSHADE = Isaac.GetItemIdByName("Nightshade")
 this.wispsCap = 5
 
 function this:OnEnemyKill(entity)

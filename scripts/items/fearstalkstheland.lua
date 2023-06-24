@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_FEAR_STALKS_THE_LAND = Isaac.GetItemIdByName("Fear Stalks The Land!")
 this.dreadColor = Color(1, 1, 1, 1, 0.4)
 
 function this:UseItem(_, _, player)

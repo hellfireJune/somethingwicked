@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA = Isaac.GetItemIdByName("Encyclopedia")
 this.bonusLibraryChance = 0.2
 
 function this:NewLevel()

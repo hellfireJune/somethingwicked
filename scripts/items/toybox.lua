@@ -1,13 +1,12 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_TOYBOX = Isaac.GetItemIdByName("Toybox")
 
 function this:UseItem(_, _, player)
     --[[for i = 1, 4, 1 do
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
         AMostWickedCollectionPt1:UtilAddSmeltedTrinket(trinket, player)
-    end
+    end]]
 
-    SomethingWicked.sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)]]
+    SomethingWicked.sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
     local tempEffects = player:GetEffects()
     tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX, true, 3)
     return { Remove = true}

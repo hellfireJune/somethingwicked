@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-TrinketType.SOMETHINGWICKED_LUCKY_BUTTON = Isaac.GetTrinketIdByName("Lucky Button")
 
 local function spawnPickup(variant, position, rng, subType)
     subType = subType or 0

@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL = Isaac.GetTrinketIdByName("Sugar Coated Pill")
 
 function this:UsePill(effect, player)
     if player:HasTrinket(TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL) then

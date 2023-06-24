@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_TEMPERANCE = Isaac.GetItemIdByName("Temperance")
-TrinketType.SOMETHINGWICKED_SURGICAL_MASK = Isaac.GetTrinketIdByName("Surgical Mask")
 local heartValues = {
     [HeartSubType.HEART_HALF] = 1,
     [HeartSubType.HEART_FULL] = 2,

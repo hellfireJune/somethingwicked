@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_EMPTY_BOOK = Isaac.GetTrinketIdByName("Blank Book")
 this.dummyItem = Isaac.GetItemIdByName("dummy item 002")
 
 function this:PlayerUpdate(player)

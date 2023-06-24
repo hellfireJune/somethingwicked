@@ -1,7 +1,6 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK = Isaac.GetItemIdByName("Teratoma Chunk")
 FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName("Teratoma Orbital")
-this.MovementSpeedCap = 14
+--this.MovementSpeedCap = 14
 
 this.spriteArray = {
     "teratoma_sheet_001",
@@ -12,9 +11,9 @@ this.spriteArray = {
 function this:FamiliarInit(familiar)
     local sprite = familiar:GetSprite()
 
-    familiar:AddToOrbit(20)
+    --[[familiar:AddToOrbit(20)
     familiar.OrbitDistance = Vector(20, 20)
-	familiar.OrbitSpeed = 0.02
+	familiar.OrbitSpeed = 0.02]]
 
     local rng = familiar:GetDropRNG()
     sprite:ReplaceSpritesheet(0, "gfx/familiars/"..SomethingWicked:GetRandomElement(this.spriteArray, rng)..".png")
@@ -24,23 +23,19 @@ end
 this.minDistanceToDie = 70
 function this:UpdateFamiliar(orbital)
     local player = orbital.Player
-    orbital.OrbitDistance = Vector(20, 20) 
-	orbital.OrbitSpeed = 0.02
+    --[[orbital.OrbitDistance = Vector(20, 20) 
+	orbital.OrbitSpeed = 0.02]]
 
-    local position = (orbital:GetOrbitPosition(player.Position + player.Velocity))
+    --[[local position = (orbital:GetOrbitPosition(player.Position + player.Velocity))
     local velocity = (position) - orbital.Position
     if velocity:Length() > this.MovementSpeedCap then
         velocity:Resize(this.MovementSpeedCap)
-    end
-    orbital.Velocity = SomethingWicked.EnemyHelpers:Lerp(orbital.Velocity, velocity, 0.25)
+    end]]
+    --orbital.Velocity = SomethingWicked.EnemyHelpers:Lerp(orbital.Velocity, velocity, 0.25)
     if orbital.RoomClearCount >= 1 then
         orbital.RoomClearCount = 0
 
         player:ThrowBlueSpider(orbital.Position, orbital.Position + (RandomVector() * 20))
-    end
-
-    if orbital.Position:Distance(player.Position) < this.minDistanceToDie then
-        SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(orbital, true, true, true)
     end
 end
 

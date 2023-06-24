@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM = Isaac.GetItemIdByName("Avenger Emblem")
 
 function this:damageCache(player)
     player.Damage = SomethingWicked.StatUps:DamageUp(player, 1 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM))
@@ -9,7 +8,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.damageCache, Ca
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM] = {
-        desc = "↑ +1 damage up",
+        desc = "↑ {{Damage}} +1 Damage up",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Damage up by 1"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_BOSS,

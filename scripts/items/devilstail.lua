@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_DEVILSTAIL = Isaac.GetItemIdByName("Devil's Tail")
 this.smokeColor = Color(0, 0, 0, 1, 0.2, 0.2 ,0.2)
 
 function this:RemoveHeartContainerThing(player)

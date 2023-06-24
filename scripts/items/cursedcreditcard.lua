@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CURSED_CREDIT_CARD = Isaac.GetItemIdByName("Cursed Credit Card")
 this.ProcChance = 0.35
 
 this.couldBuyItemTable = {

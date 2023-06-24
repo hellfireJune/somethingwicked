@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_OLD_DICE = Isaac.GetItemIdByName("Old Dice")
 this.effect = Isaac.GetEntityVariantByName("Dice Overhead VFX")
 this.BaseMaxCharge = 2
 

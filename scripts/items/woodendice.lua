@@ -1,9 +1,7 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS = Isaac.GetItemIdByName("Book of Exodus")
-CollectibleType.SOMETHINGWICKED_WOODEN_DICE = Isaac.GetItemIdByName("Wooden Dice")
 
 function this:PickupInit(pickup)
-    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS)
+    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
 
     for _, player in ipairs(players) do
         if (pickup:GetSprite():IsPlaying("Appear") or pickup:GetSprite():IsPlaying("AppearFast")) 
@@ -114,8 +112,7 @@ function this:UseDice(_, rngObj, player, flags)
     return true
 end
 
---stole this shmancy gold color from gold rune cheers love xoxoxoxoxo
-this.goldColor = Color(0.9, 0.8, 0, 1, 0.8, 0.7)
+this.goldColor = Color(0.9, 0.8, 0, 1, 0.85, 0.75)
 function this:UseBook(_, rngObj, player, flags)
     local p_data = player:GetData()
     p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
@@ -158,16 +155,18 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.NewLevel)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, this.PickupInit, PickupVariant.PICKUP_TRINKET)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseBook, CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseBook, CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseDice, CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, this.SmelterHook, CollectibleType.COLLECTIBLE_SMELTER)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.ShittyWorkaroundMarblesCheck) --i loooove marbles
+SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
+    player.Luck = player.Luck + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
+end, CacheFlag.CACHE_LUCK)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS] = {
-        desc = "↑ Doubles all trinket spawns#Converts any trinkets to golden trinkets on use",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Doubles all trinket spawns","Converts any trinkets to golden trinkets on use"}),
+    [CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS] = {
+        desc = "Converts any trinkets to golden trinkets on use↑ While held, doubles all trinket spawns#↑ {{Luck}} +1 Luck while held",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
@@ -175,8 +174,7 @@ this.EIDEntries = {
         }
     },
     [CollectibleType.SOMETHINGWICKED_WOODEN_DICE] = {
-        desc = "↑ Gulps one trinket upon entering a new floor#Rerolls any trinkets on you, smelted or not, upon use",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Gulps one trinket upon entering a new floor","Rerolls any trinkets on you, smelted or not, upon use"}),
+        desc = "Rerolls any trinkets on you, smelted or not, upon use#↑ While held, gulps one trinket upon entering a new floor#↑ {{Luck}} +1 Luck while held",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,

@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY = Isaac.GetItemIdByName("Lantern Battery")
-TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY = Isaac.GetTrinketIdByName("Cellphone Battery")
 
 local procChance = 0.25
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, function ()

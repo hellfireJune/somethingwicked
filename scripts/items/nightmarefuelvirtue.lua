@@ -1,6 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL = Isaac.GetTrinketIdByName("Nightmare Fuel")
-TrinketType.SOMETHINGWICKED_VIRTUE = Isaac.GetTrinketIdByName("Virtue")
 
 function this:CacheFlag(player)    
     local n_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)

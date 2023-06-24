@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE = Isaac.GetItemIdByName("Facestabber")
 TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestabber")
 
 local chargebar = Sprite()

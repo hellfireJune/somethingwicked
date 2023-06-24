@@ -2,8 +2,6 @@ local this = {}
 local mod = SomethingWicked
 this.BirettaPosition = Vector(520, 160)
 this.ScratchTicketPosition = Vector(120, 160)
-CollectibleType.SOMETHINGWICKED_BIRETTA = Isaac.GetItemIdByName("Biretta")
-TrinketType.SOMETHINGWICKED_TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll")
 
 function this:OnRoomClear()
     local room = SomethingWicked.game:GetRoom()

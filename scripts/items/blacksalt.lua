@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BLACK_SALT = Isaac.GetItemIdByName("Black Salt")
 
 local function procChance(player) 
     return 1 + (player.Luck / 10)

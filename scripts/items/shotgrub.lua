@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("The Black Death")
 --this.color = Color()
 
 mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_SHOTGRUB, {

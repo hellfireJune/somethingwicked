@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SAINTS_HEAD = Isaac.GetItemIdByName("Saint's Head")
 
 local baseAmount = 10 local moreAmountMax = 8
 function this:EnemyDeath(entity)

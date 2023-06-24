@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_SPOOL_OF_YARN = Isaac.GetItemIdByName("Spool of Yarn")
 
 mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_UNRAVEL, {
     ApplyLogic = function (_, player)

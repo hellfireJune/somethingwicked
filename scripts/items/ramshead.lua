@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_RAMS_HEAD = Isaac.GetItemIdByName("Ram's Head")
 
 function this:TearsCache(player)
     player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_RAMS_HEAD) * 0.7)
@@ -14,7 +13,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.DamageCache, Ca
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RAMS_HEAD] = {
-        desc = "↑ +0.7 tears#↑ +1.3 damage up",
+        desc = "↑ +0.7 tears#↑ {{Damage}} +1.3 Damage up",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"+25% fire rate", "+1.3 damage up"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,

@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CURSE_MASK = Isaac.GetItemIdByName("Curse Mask")
-CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION = Isaac.GetItemIdByName("Black Moon Medallion")
 
 function this:OnDamage(player, amount, flag)
     player = player:ToPlayer()

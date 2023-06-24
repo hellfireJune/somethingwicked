@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CHAOS_HEART = Isaac.GetItemIdByName("Chaos Heart")
 this.MinFailUse = 5
 this.MaxSucceedUse = 9
 this.framesAfter = 12

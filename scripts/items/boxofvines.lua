@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SPECIAL_HERBS_BOX = Isaac.GetItemIdByName("Special Herbs Boxset")
 
 local function procChance(player, c_rng)
     return 1

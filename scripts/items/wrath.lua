@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath")
 EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
 EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
 TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")

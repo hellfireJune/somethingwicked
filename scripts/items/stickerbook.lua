@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_STICKER_BOOK = Isaac.GetItemIdByName("Sticker Book")
 TearVariant.SOMETHINGWICKED_HEART_STICKER = Isaac.GetEntityVariantByName("Heart Sticker Tear")
 TearVariant.SOMETHINGWICKED_BOMB_STICKER = Isaac.GetEntityVariantByName("Bomb Sticker Tear")
 TearVariant.SOMETHINGWICKED_SKULL_STICKER = Isaac.GetEntityVariantByName("Skull Sticker Tear")

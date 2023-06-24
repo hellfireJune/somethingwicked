@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE = Isaac.GetItemIdByName("Electric Dice")
-TrinketType.SOMETHINGWICKED_BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Battery")
 this.blacklist = { 577, 585, 622, 628, 127, 297, 347, 475, 483, 490, 515}
 
 function this:ItemUse(id, _, player, flags)

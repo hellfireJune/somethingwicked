@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_RED_LOCKBOX = Isaac.GetItemIdByName("Red Lockbox")
 
 function this:OnPickup(player, room)
     local myRNG = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)

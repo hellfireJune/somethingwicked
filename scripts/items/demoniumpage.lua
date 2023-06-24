@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_BLACK_AMULET = Isaac.GetTrinketIdByName("Demonium Page")
 this.crashPreventer = 0
 
 function this:BossPoolEdit(collectible, itempooltype, decrease, seed)
@@ -9,7 +8,7 @@ function this:BossPoolEdit(collectible, itempooltype, decrease, seed)
         return
     end
 
-    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BLACK_AMULET) then
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_DEMONIUM_PAGE) then
             while this.crashPreventer < 100 do
                 local config = Isaac.GetItemConfig()
                 local itempool = SomethingWicked.game:GetItemPool()
@@ -27,7 +26,7 @@ function this:BossPoolEdit(collectible, itempooltype, decrease, seed)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_GET_COLLECTIBLE, this.BossPoolEdit)
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_BLACK_AMULET] = {
+    [TrinketType.SOMETHINGWICKED_DEMONIUM_PAGE] = {
         desc = "!!! While held, the only Boss Room items that can appear are ones that modify damage",
         isTrinket = true,
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"While held, the only Boss Room pool items that can appear are ones that modify damage"})

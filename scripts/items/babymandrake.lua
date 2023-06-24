@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE = Isaac.GetItemIdByName("Baby Mandrake")
 EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE = Isaac.GetEntityVariantByName("Mandrake Scream (Large)")
 
 function this:UseItem(_, _, player, flags)

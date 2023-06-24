@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_PHOBOS_AND_DEIMOS = Isaac.GetItemIdByName("Phobos and Deimos")
 FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Familiar")
 FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
 

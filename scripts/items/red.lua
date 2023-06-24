@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE = Isaac.GetItemIdByName("Red")
 this.Dataset = {}
 this.hasInit = false
 function this:Init()

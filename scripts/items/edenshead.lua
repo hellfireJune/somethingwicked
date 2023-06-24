@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_EDENS_HEAD = Isaac.GetItemIdByName("Eden's Head")
 this.throwables = {
     CollectibleType.COLLECTIBLE_BOBS_ROTTEN_HEAD,
     CollectibleType.COLLECTIBLE_CANDLE,

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM = Isaac.GetItemIdByName("Rogue planet")
 FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
 
 function this:ShootTear(tear)

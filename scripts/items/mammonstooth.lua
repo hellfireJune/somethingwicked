@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MAMMONS_TOOTH = Isaac.GetItemIdByName("Mammon's Tooth")
 
 function this:damageCache(player)
     player.Damage = SomethingWicked.StatUps:DamageUp(player, 0.7 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_MAMMONS_TOOTH))

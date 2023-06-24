@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_GIFT_CARD = Isaac.GetTrinketIdByName("Gift Card")
 
 function this:PEffectUpdate(player)
     if player:HasTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD) then

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BRAVERY = Isaac.GetItemIdByName("Bravery")
 this.DamageMult = 1.5
 
 local flag = false

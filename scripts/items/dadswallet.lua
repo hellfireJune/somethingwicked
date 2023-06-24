@@ -1,7 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_DADS_WALLET = Isaac.GetItemIdByName("Lost Wallet")
-CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK = Isaac.GetItemIdByName("Mammon's Piggybank")
-TrinketType.SOMETHINGWICKED_MEAL_COUPON = Isaac.GetTrinketIdByName("Meal Coupon")
 
 this.PickupCollisionChecks = {
     [PickupVariant.PICKUP_HEART] = {

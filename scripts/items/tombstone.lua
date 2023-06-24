@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_TOMBSTONE = Isaac.GetItemIdByName("Tombstone")
 EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
 EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
 

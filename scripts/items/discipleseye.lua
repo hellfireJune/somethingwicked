@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE = Isaac.GetItemIdByName("Disciple's Eye")
 
 function  this:PlayerUpdate(player)
     local lvel = SomethingWicked.game:GetLevel()

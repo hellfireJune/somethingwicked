@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_FIBROUS_DYSPLASIA = Isaac.GetItemIdByName("Fibrous Dysplasia")
 
 function this:PlayerUpdate(player)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FIBROUS_DYSPLASIA) then

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_D_STOCK = Isaac.GetItemIdByName("D-Stock")
 
 function this:ItemUse()
     local room = SomethingWicked.game:GetRoom()

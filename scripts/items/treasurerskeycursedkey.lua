@@ -1,6 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_TREASURERS_KEY = Isaac.GetTrinketIdByName("Treasurer's Key")
-TrinketType.SOMETHINGWICKED_CURSED_KEY = Isaac.GetTrinketIdByName("Cursed Key")
 
 --this.CurseList = {}
 this.RooomTypeBlackList = { RoomType.ROOM_SECRET_EXIT } 

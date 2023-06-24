@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_OLD_BELL = Isaac.GetItemIdByName("Hushed Bell")
 
 local freezeDuration = 120
 local EnemiesToUnfreeze = {}

@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_PRESSURE_VALVE = Isaac.GetItemIdByName("Pressure Valve")
 
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
     if flags == CacheFlag.CACHE_FIREDELAY then

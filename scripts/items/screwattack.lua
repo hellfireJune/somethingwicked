@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_SCREW_ATTACK = Isaac.GetItemIdByName("Screw Attack")
 
 local baseChance = 0.11
 local function ProcChance(player, tear)

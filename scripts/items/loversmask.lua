@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_LOVERS_MASK = Isaac.GetItemIdByName("Lover's Mask")
 
 local shouldntBlock = false
 local procChance = 0.33

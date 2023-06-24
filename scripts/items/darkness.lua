@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_DARKNESS = Isaac.GetItemIdByName("Darkness")
 
 local otherSpeedMult = 0.15
 mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_DARKNESS, {

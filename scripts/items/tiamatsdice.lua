@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_TIAMATS_DICE = Isaac.GetItemIdByName("Tiamat's Dice")
 this.PricePool = 
 {
     { 0, 20},
@@ -24,7 +23,7 @@ function this:UseItem(_, rngObj)
             item:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, collectible, false)
             local price = SomethingWicked:UtilWeightedGetThing(this.PricePool, rngObj)
             if price ~= nil then
-                item.Price = price 
+                item.Price = price
                 item.AutoUpdatePrice = false
                 item.ShopItemId = -1
             end

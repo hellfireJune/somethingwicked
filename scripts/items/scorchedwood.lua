@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_SCORCHED_WOOD = Isaac.GetTrinketIdByName("Scorched Wood")
 
 function this:OnKill(enemy)
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_WOOD)

@@ -1,10 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByName("Star of the Bottomless Pit")
-CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood")
-TrinketType.SOMETHINGWICKED_OWL_FEATHER = Isaac.GetTrinketIdByName("Owl Feather")
-CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger")
-
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
 

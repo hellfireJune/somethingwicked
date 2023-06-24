@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE = Isaac.GetItemIdByName("Plasma Globe")
 local mod = SomethingWicked
 
 this.baseProcChance = 0.125

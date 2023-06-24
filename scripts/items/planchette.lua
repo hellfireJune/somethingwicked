@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_PLANCHETTE = Isaac.GetItemIdByName("Planchette")
 this.AffectedCompanions = {FamiliarVariant.ITEM_WISP, FamiliarVariant.WISP, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, FamiliarVariant.GHOST_BABY}
 
 function this:BuffFamiliarHP(familiar)

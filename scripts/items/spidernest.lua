@@ -1,6 +1,5 @@
 local this = {}
 EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
-CollectibleType.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetItemIdByName("Spider Egg")
 this.framesToSpawnEggs = 165
 this.SpiderCap = 7
 local mod = SomethingWicked

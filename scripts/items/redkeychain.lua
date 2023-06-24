@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_RED_KEYCHAIN = Isaac.GetTrinketIdByName("Red Keychain")
 
 local ccSpawnChance = 0.1
 SomethingWicked:AddCallback(ModCallbacks.MC_GET_CARD, function ()

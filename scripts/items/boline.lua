@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BOLINE = Isaac.GetItemIdByName("Boline")
 
 function this:ItemUse(_, _, player, flags)
     return SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_BOLINE)

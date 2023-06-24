@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MARBLE_SPROUT = Isaac.GetItemIdByName("Marble Sprout")
-CollectibleType.SOMETHINGWICKED_TASK_MANAGER = Isaac.GetItemIdByName("Task Manager")
 
 function this:UseSprout(_, rngObj, player)
     return this:SpawnLocusts(player, rngObj, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD)

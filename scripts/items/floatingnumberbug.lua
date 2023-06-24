@@ -1,6 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG = Isaac.GetTrinketIdByName("Floating Point Bug")
-TrinketType.SOMETHINGWICKED_BAG_OF_MUGWORTS = Isaac.GetTrinketIdByName("Bag of Mugworts")
 
 this.PossibleCorruptions = {
     [0] = {

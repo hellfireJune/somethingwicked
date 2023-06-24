@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coins")
 
 function this:PickupCollision(heart, player)
     if heart.SubType ~= HeartSubType.HEART_FULL 

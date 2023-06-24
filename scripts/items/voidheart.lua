@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart")
  
 function this:PostPlayerUpdate()
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_VOID_HEART)

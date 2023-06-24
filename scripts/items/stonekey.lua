@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_STONE_KEY = Isaac.GetTrinketIdByName("Stone Key")
 
 function this:PickupCollision(chest, player)
     player = player:ToPlayer()

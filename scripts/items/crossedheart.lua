@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CROSSED_HEART = Isaac.GetItemIdByName("Crossed Heart")
 
 this.validSubtypes = {HeartSubType.HEART_FULL, HeartSubType.HEART_HALF, HeartSubType.HEART_SCARED, HeartSubType.HEART_DOUBLEPACK, HeartSubType.HEART_BLENDED}
 this.ProcChance = 0.5

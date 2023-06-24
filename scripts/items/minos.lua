@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MINOS_ITEM = Isaac.GetItemIdByName("Minos")
 FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
 FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
 this.angleVariance = 10

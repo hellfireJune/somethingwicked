@@ -1,6 +1,5 @@
 local mod = SomethingWicked
 local this = {}
-CollectibleType.SOMETHINGWICKED_AIR_FRESHENER = Isaac.GetItemIdByName("Air Freshener")
 --tear color 0, 221, 100
 local color = Color(0, 0.62, 0.24, 0.5)
 local dis = 80

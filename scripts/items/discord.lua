@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MTRBITEM = Isaac.GetItemIdByName("Curse of Ares")
 local mod = SomethingWicked
 
 local function procChance(player)

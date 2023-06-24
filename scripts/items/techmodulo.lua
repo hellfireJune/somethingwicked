@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_TECH_MODULO = Isaac.GetItemIdByName("Tech-Modulo")
 
 local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) then

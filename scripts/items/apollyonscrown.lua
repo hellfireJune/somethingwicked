@@ -1,6 +1,5 @@
 local this = {}
 this.dummyItem = Isaac.GetItemIdByName("dummy item 001") 
-CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyon's Crown") 
 
 function this:FamiliarCache(player)
     local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN)

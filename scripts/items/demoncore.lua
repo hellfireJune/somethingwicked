@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_DEMON_CORE = Isaac.GetTrinketIdByName("Demon Core")
 
 function this:OnDamage(player)
     player = player:ToPlayer()

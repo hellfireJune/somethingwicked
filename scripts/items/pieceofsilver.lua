@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER = Isaac.GetItemIdByName("Piece of Silver")
 
 local function proc(player)
     return 1

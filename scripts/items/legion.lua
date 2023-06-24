@@ -1,9 +1,7 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_LEGION_ITEM = Isaac.GetItemIdByName("Legion")
 FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar")
 FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion Familiar B")
 
-CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY = Isaac.GetItemIdByName("Doubling Cherry")
 FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar")
 
 local frameDiff = 20

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CURSED_CANDLE = Isaac.GetItemIdByName("Cursed Candle")
 this.wickedFire = 23
 this.CurseDuration = 5.5
 

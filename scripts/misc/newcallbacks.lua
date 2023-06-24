@@ -15,7 +15,7 @@ this.CustomCallbacks = {
     [ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
     [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
-    [ccabEnum.SWCB_EVALUATE_DEVIL_CHANCE] = {},
+    [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
 }
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
@@ -193,14 +193,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
 local brim = {
     LaserVariant.THICK_RED, LaserVariant.BRIM_TECH, LaserVariant.THICKER_RED, LaserVariant.THICKER_BRIM_TECH, }
 function this:LaserUpdate(laser)
-    if (not mod:UtilTableHasValue(brim) and laser.FrameCount == 1) or
-    laser.FrameCount % 4 == 2 then
-        if laser.Variant == LaserVariant.THICK_BROWN
-        or laser.Variant == LaserVariant.TRACTOR_BEAM
-        or laser.Variant == LaserVariant.LIGHT_RING then
-            return
-        end
-
+    if not mod:UtilTableHasValue(brim) then
+        return
+    end
+    if laser.FrameCount % 4 == 1 then
         local player = SomethingWicked:UtilGetPlayerFromTear(laser)
         
         for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
@@ -209,7 +205,25 @@ function this:LaserUpdate(laser)
     end
 end
 
+local function laserInit(_, laser)
+    if laser.Variant == LaserVariant.THIN_RED then
+        local foes = Isaac.FindInRadius(laser.Position, 01, EntityPartition.ENTITY_FAMILIAR)
+        for key, value in pairs(foes) do
+            if value.Type == 3 and value.Variant == FamiliarVariant.FINGER then
+                return
+            end
+        end
+        
+        local player = SomethingWicked:UtilGetPlayerFromTear(laser)
+        
+        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
+            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player, false)
+        end
+    end
+end
+
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, laserInit)
     
 function this:PostFirePureEval(player)
     local p_data = player:GetData()
@@ -340,82 +354,99 @@ end)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.NewWaveOnChargeGameUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.CheckTheChecker, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER)
 
-
---Devil deal chance
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
+function SomethingWicked:AddItemWispForEval(player, collectible, num)
     local p_data = player:GetData()
-    p_data.sw_ddChance = 0    
-    for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_EVALUATE_DEVIL_CHANCE]) do
+    p_data.sw_itemWisps[collectible] = (p_data.sw_itemWisps[collectible] or 0) + num
+end
+--Devil deal chance
+function mod:EvalutePWisps(player)
+    local p_data = player:GetData()
+    p_data.sw_ddChance = 0 p_data.sw_itemWisps = {}
+    for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_EVALUATE_TEMP_WISPS]) do
         callb(_, player, p_data)
     end
-	local amount = p_data.sw_ddChance
+	local ddAmount = p_data.sw_ddChance
 
-    local data = this:GetDevilData(player)
-    local wispRefs = this:GetDevilWispRefs()
-    local currWisps = 0
-    for i, _ in pairs(data) do
-        if wispRefs[i] then
-            currWisps = currWisps + 1
-        end
-    end
-    if amount ~= currWisps then
-    end
+	this:SetItemWisps(player, ddAmount, -1)
 
-	this:SetDevilWisps(player, amount - currWisps)
-end)
+    for key, value in pairs(p_data.sw_itemWisps) do
+        this:SetItemWisps(player, value, key)
+    end
+end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.EvalutePWisps)
+
 
 -- the below code is some rewritten TT stuff (except its not actually TT stuff and its fiendfolio stuff, thanks connor fiendfolio)
 
 -- okay so i probably shouldnt include this but idk, its good for attaching wisp to player
-function this:GetDevilData(player)
+function this:GetWispData(player)
 	local data = player:GetData()
-    data.SomethingWickedPData.devilWisps = data.SomethingWickedPData.devilWisps or {}
-	return data.SomethingWickedPData.devilWisps
+    data.SomethingWickedPData.itemWisps = data.SomethingWickedPData.itemWisps or {}
+	return data.SomethingWickedPData.itemWisps
 end
-function this:GetDevilWispRefs()
-	if not SomethingWicked.save.runData.devilWisps then
-		SomethingWicked.save.runData.devilWisps = {}
+function this:GetWispRefs()
+	if not SomethingWicked.save.runData.itemWisps then
+		SomethingWicked.save.runData.itemWisps = {}
 	end
-	return SomethingWicked.save.runData.devilWisps
+	return SomethingWicked.save.runData.itemWisps
 end
 
 function this:InitializeDevilWisp(wisp)
 	wisp:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	wisp.Visible = false
 	wisp:RemoveFromOrbit()
-	wisp:GetData().sw_devilDealWisp = true
+	wisp:GetData().sw_itemWisp = true
 end
-function this:SetDevilWisps(player, amount)
+function this:SetItemWisps(player, amount, type)
+    
 	amount = amount or 1
-	local wispRefs = this:GetDevilWispRefs()
-    local data = this:GetDevilData(player)
+	local wispRefs = this:GetWispRefs()
+    local data = this:GetWispData(player)
+    
+    local currWisps = 0
+    for i, t in pairs(data) do
+        if wispRefs[i] and t == type then
+            currWisps = currWisps + 1
+        end
+    end
+    amount = amount - currWisps
 	
+    --print(amount, amount+currWisps, currWisps, type)
 	if amount < 0 then
-		this:RemoveDevilWisp(player, -amount)
+		this:RemoveDevilWisp(player, -amount, type)
 	else
 		-- Add the hidden item wisp.
 		for i = 1, amount do
-			local wisp = player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position)
+			local wisp 
+            if type == -1 then
+                wisp = player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position)
+            else
+                wisp = player:AddItemWisp(type, player.Position)
+            end
 			this:InitializeDevilWisp(wisp)
 			wispRefs[""..wisp.InitSeed] = true
 			this:devilWispUpdate(wisp)
-			data[""..wisp.InitSeed] = true
+			data[""..wisp.InitSeed] = type
 		end
 	end
 end
 
-function this:RemoveDevilWisp(player, amount)
+function this:RemoveDevilWisp(player, amount, type)
 	amount = amount or 1
-	local wispRefs = this:GetDevilWispRefs()
-    local data = this:GetDevilData(player)
+	local wispRefs = this:GetWispRefs()
+    local data = this:GetWispData(player)
 	
 	for i, wisp in pairs(data) do
+        if type ~= wisp then
+            goto continue
+        end
         data[i] = nil
         wispRefs[i] = nil
 		amount = amount - 1
 		if amount <= 0 then
             return
 		end
+	    ::continue::
 	end
 end
 
@@ -429,21 +460,25 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, this.discEffectInit, EffectVar
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, this.discEffectInit, EffectVariant.POOF01)
 
 function this:discItemWispInit(wisp)
-	if not wisp:GetData().sw_devilDealWisp and (this:GetDevilWispRefs()[""..wisp.InitSeed]) then
+	if not wisp:GetData().sw_itemWisp and (this:GetWispRefs()[""..wisp.InitSeed]) then
 		-- This wisp isn't marked as a disc wisp, but there's supposed to be a disc wisp with this InitSeed.
 		-- Most likely, we've quit and continued a run. Re-initialize this as a disc wisp and hide it.
 		mod:InitializeDevilWisp(wisp)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.discItemWispInit, FamiliarVariant.WISP)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.discItemWispInit)
 
+local function isWispNeeded(wisp, player)
+    return player:GetData().sw_itemWisps[wisp.SubType] ~= nil
+end
 function this:devilWispUpdate(wisp)
 	local data = wisp:GetData()
 	
-	if not data.sw_devilDealWisp then return end
+	if not data.sw_itemWisp then return end
 	wisp.Position = Vector(-100, -50)
 	wisp.Velocity = Vector.Zero
-	if not this:GetDevilWispRefs()[""..wisp.InitSeed] then
+    print(isWispNeeded(wisp, wisp.Player))
+	if not this:GetWispRefs()[""..wisp.InitSeed] or not isWispNeeded(wisp, wisp.Player) then
 		-- This disc wisp should no longer exist.
 		suppressWispDeathEffects = true
 		wisp:Kill()
@@ -451,21 +486,21 @@ function this:devilWispUpdate(wisp)
 		mod.sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.devilWispUpdate, FamiliarVariant.WISP)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.devilWispUpdate)
 
 function this:discItemWispCollision(wisp)
-	if wisp:GetData().sw_devilDealWisp then
+	if wisp:GetData().sw_itemWisp then
 		return true
 	end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, this.discItemWispCollision, FamiliarVariant.WISP)
 
 function this:discItemWispDamage(entity, _, _, damageSourceRef)
-	if entity and entity:GetData().sw_devilDealWisp then
+	if entity and entity:GetData().sw_itemWisp then
 		return false
 	end
 	
-	if damageSourceRef.Entity and damageSourceRef.Entity:GetData().sw_devilDealWisp then
+	if damageSourceRef.Entity and damageSourceRef.Entity:GetData().sw_itemWisp then
 		return false
 	end
 end
@@ -473,7 +508,7 @@ mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY,
 
 function this:discItemWispTears(tear)
     local spawner = tear.SpawnerEntity
-	if spawner and spawner:GetData().sw_devilDealWisp then
+	if spawner and spawner:GetData().sw_itemWisp then
 		tear:Remove()
 	end
 end
@@ -483,9 +518,9 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.discItemWispTears)
 --sac altar fix made by deadinfinity, for fiendfolio
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, function()
     for _, wisp in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, -1, false, false)) do
-        if wisp:GetData().sw_devilDealWisp then
+        if wisp:GetData().sw_itemWisp then
             local fam = wisp:ToFamiliar()
-            wisp:GetData().sw_devilDealWispPlayer = fam.Player
+            wisp:GetData().sw_itemWispPlayer = fam.Player
             fam.Player = nil
         end
     end
@@ -493,13 +528,13 @@ end, CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR)
 
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function()
     for _, wisp in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, -1, false, false)) do
-        if wisp:GetData().sw_devilDealWisp then
-            local player = wisp:GetData().sw_devilDealWispPlayer
+        if wisp:GetData().sw_itemWisp then
+            local player = wisp:GetData().sw_itemWispPlayer
             if player then
                 wisp:ToFamiliar().Player = player
             end
 
-            wisp:GetData().sw_devilDealWispPlayer = nil
+            wisp:GetData().sw_itemWispPlayer = nil
         end
     end
 end, CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR)

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CHASM = Isaac.GetItemIdByName("Chasm")
 
 function this:UseItem(_, _, player)
     local stacksToAdd = 0

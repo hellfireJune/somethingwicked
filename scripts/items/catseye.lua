@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_CATS_EYE = Isaac.GetTrinketIdByName("Cat's Eye")
 
 function  this:EnterRoom()
     local room = SomethingWicked.game:GetRoom()

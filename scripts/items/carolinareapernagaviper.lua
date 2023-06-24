@@ -1,6 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_NAGA_VIPER = Isaac.GetItemIdByName("Naga Viper")
-CollectibleType.SOMETHINGWICKED_CAROLINA_REAPER = Isaac.GetItemIdByName("Carolina Reaper")
 this.wickedFire = 23
 
 function this:FirePure(shooter, vector, scalar, player)

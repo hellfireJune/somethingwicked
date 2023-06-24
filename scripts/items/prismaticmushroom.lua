@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_PRISMATIC_MUSHROOM = Isaac.GetItemIdByName("Prismatic Mushroom")
 
 this.PossibleEffects = {
     function (ent)

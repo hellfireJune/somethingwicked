@@ -1,7 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_RELIQUARY = Isaac.GetItemIdByName("Reliquary")
-
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, room, id)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RELIQUARY) then
         return

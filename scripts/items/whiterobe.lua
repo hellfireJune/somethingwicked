@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_WHITE_ROBE = Isaac.GetItemIdByName("White Robe")
 this.ProcChance = 0.09
 
 function this:OnDamage(entity, amount, flag)

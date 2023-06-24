@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_LIGHTHOUSE = Isaac.GetItemIdByName("Lighthouse")
 FamiliarVariant.SOMETHINGWICKED_BIG_WISP = Isaac.GetEntityVariantByName("Fat Wisp")
 
 function this:FamiliarInit(familiar)

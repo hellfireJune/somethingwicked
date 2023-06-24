@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_OLD_URN = Isaac.GetItemIdByName("Old Urn")
 
 function this:OnPickup(player, room)
     for i = 1, 3, 1 do

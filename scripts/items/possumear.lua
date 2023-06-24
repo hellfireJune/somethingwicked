@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_POSSUMS_EAR = Isaac.GetItemIdByName("Possum's Ear")
 
 function this:UseItem(_, _, player, flags)
     local returnArray = {

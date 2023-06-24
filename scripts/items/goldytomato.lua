@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_GODLY_TOMATO = Isaac.GetTrinketIdByName("Godly Tomato")
 
 function this:OnFireTear(tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)

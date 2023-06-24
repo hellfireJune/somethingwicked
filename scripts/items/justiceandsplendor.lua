@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetItemIdByName("Swords of Light")
 FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetEntityVariantByName("Splendorous Sword")
 
 function this:PEffectUpdate(player)

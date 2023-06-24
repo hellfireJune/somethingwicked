@@ -1,12 +1,15 @@
 local mod = SomethingWicked
 local this = {}
-CollectibleType.SOMETHINGWICKED_GANYMEDE = Isaac.GetItemIdByName(" Ganymede ")
 
 local fireNeeded = 3
 local volleyNum = 12
 local minSpread = 27.5
 local additionalSpread = 40
 function this:OnFirePure(shooter, vector, scalar, player)
+    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_GANYMEDE) then
+        return
+    end
+
     local p_data = player:GetData()
     p_data.sw_ganymedeTick = p_data.sw_ganymedeTick or 0
     if shooter.Type == EntityType.ENTITY_PLAYER then
@@ -93,7 +96,7 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
         end
         local ov = g.olOrbVec
         local pos = (tear.Position-ov)
-        local nPos = pos+vel
+        local nPos = pos+vel -- make this a lerp :3
 
         local dis = tear.Position - pos
         local ang = mod.EnemyHelpers:GetAngleDegreesButGood(dis) local len = dis:Length()

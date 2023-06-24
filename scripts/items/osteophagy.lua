@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_OSTEOPHAGY = Isaac.GetItemIdByName("Osteophagy")
 
 function this:UseItem(_, _, player, flags)
     local returnArray = {

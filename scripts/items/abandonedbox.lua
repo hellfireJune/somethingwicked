@@ -1,13 +1,10 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_ABANDONED_BOX = Isaac.GetItemIdByName("Abandoned Box")
-CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER = Isaac.GetItemIdByName("Brittle Dagger")
 this.BrittleDaggerIDs = {
     CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER,
     Isaac.GetItemIdByName(" Brittle Dagger "),
     Isaac.GetItemIdByName("  Brittle Dagger  "),
     Isaac.GetItemIdByName("   Brittle Dagger   "),
 }
-CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE = Isaac.GetItemIdByName("Dagger Handle")
 
 function this:UseBox(_, rngObj, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 then

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_STAR_SPAWN = Isaac.GetItemIdByName("Star Spawn")
 
 this.TotalMult = 2.4
 this.MinMult = 0.2

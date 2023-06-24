@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_LITTLE_ATTRACTOR_ITEM = Isaac.GetItemIdByName("Little Attractor")
 FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar")
 
 function this:FamiliarUpdate(familiar)

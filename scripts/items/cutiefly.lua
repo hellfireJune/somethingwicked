@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CUTIE_FLY_ITEM = Isaac.GetItemIdByName("Cutie Fly")
 FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY = Isaac.GetEntityVariantByName("Cutie Fly")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, function(_, familiar) 

@@ -1,7 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_HELLFIRE = Isaac.GetItemIdByName("Hellfire")
-CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD = Isaac.GetItemIdByName("Martyral Baptism")
 
 local cobIFrames = 24
 local function procChance(player)

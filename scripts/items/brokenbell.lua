@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BROKEN_BELL = Isaac.GetItemIdByName("Broken Bell")
 
 local maxFrames = 36
 function this:PlayerUpdate(player)

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MAGIC_CLAY = Isaac.GetItemIdByName("Magic Clay")
 this.formSlot = Isaac.GetItemIdByName(" Magic Clay ")
 this.formFortune = Isaac.GetItemIdByName("  Magic Clay  ")
 this.formBlood = Isaac.GetItemIdByName("   Magic Clay   ")

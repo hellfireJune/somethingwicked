@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR = Isaac.GetItemIdByName("Crying Minotaur")
 EffectVariant.SOMETHINGWICKED_DREAD_POOF = Isaac.GetEntityVariantByName("Dread Poof")
 
 this.baseProcChance = 0.15

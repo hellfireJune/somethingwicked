@@ -1,6 +1,5 @@
 local this = {}
-local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_LAST_PRISM = Isaac.GetItemIdByName("Last Prism")--[]
+local mod = SomethingWicked--[]
 FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Prism Helper")
 
 local prismOffset = 20

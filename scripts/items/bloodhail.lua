@@ -1,6 +1,5 @@
 local mod = SomethingWicked
 local this = {}
-CollectibleType.SOMETHINGWICKED_BLOOD_HAIL = Isaac.GetItemIdByName("Blood Hail")
 
 local function procChance(player)
    return 0.2 + (player.Luck*0.05) 

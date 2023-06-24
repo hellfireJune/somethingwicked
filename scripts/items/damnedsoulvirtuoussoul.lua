@@ -1,7 +1,5 @@
 local this = {}
 this.lastHadCurse = false
-TrinketType.SOMETHINGWICKED_DAMNED_SOUL = Isaac.GetTrinketIdByName("Damned Soul")
-TrinketType.SOMETHINGWICKED_VIRTUOUS_SOUL = Isaac.GetTrinketIdByName("Virtuous Soul")
 
 this.dmgUp = 0.3
 this.tearsUp = 0.3

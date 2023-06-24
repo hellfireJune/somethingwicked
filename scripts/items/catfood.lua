@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_CAT_FOOD = Isaac.GetItemIdByName("Cat Food")
 
 --[[function this:OnKill(enemy)
     for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_WICKED_SOUL = Isaac.GetItemIdByName("Wicked Soul")
 
 this.AvailableCurses = {
     LevelCurse.CURSE_OF_DARKNESS,
@@ -21,8 +20,8 @@ function this:OnCache(player, flags)
     if flags == CacheFlag.CACHE_SHOTSPEED then
         player.ShotSpeed = player.ShotSpeed + (0.05 * mult) end
     if flags == CacheFlag.CACHE_RANGE then
-        player.TearRange = player.TearRange + (1.2 * mult * 40) end
-
+        player.TearRange = player.TearRange + (1.2 * mult * 40)
+    end
 end
 
 function this:onNewLevel()

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BALROGS_HEAD = Isaac.GetItemIdByName("Balrog's Head")
 this.head = Isaac.GetEntityVariantByName("Balrog Head")
 
 function this:ItemUse(_, _, player, flags)

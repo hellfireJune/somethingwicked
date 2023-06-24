@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SILVER_RING = Isaac.GetItemIdByName("Silver Ring")
 
 function this:damageCache(player)
     player.Damage = SomethingWicked.StatUps:DamageUp(player, 0.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING), 0, 1 + 0.1 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING))
@@ -9,7 +8,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.damageCache, Ca
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_SILVER_RING] = {
-        desc = "↑ +0.3 Damage up#↑ +10% Damage Multiplier",
+        desc = "↑ {{Damage}}  +0.3 Damage up#↑ +10% Damage Multiplier",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_GOLDEN_CHEST,
             SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME,

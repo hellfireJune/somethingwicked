@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_STRANGE_APPLE = Isaac.GetItemIdByName("Strange Apple")
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE = Isaac.GetEntityVariantByName("Retro Snake")
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("Retro Snake (body)")
 this.Flags = 1 | 8 | 16

@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_MR_SKITS = Isaac.GetTrinketIdByName("Mr. Skits")
 
 function this:OnKillBoss(_, br)
     if br then

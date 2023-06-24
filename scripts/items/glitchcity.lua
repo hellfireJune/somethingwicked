@@ -11,7 +11,7 @@ function this:PlayerUpdate(player)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY) then
         local stacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
         local p_data = player:GetData()
-        p_data.sw_glitchCityTimer = (p_data.sw_glitchCityTimer or 170) - (stacks + 1)
+        p_data.sw_glitchCityTimer = (p_data.sw_glitchCityTimer or 170) - (stacks+0.2)
         --print(p_data.sw_glitchCityTimer, stacks, (stacks*10))
         
         local room = game:GetRoom()
@@ -23,12 +23,14 @@ function this:PlayerUpdate(player)
         if p_data.sw_glitchCityTimer < 0 then
             while p_data.sw_glitchCityTimer < 0 do
                 local target = mod.FamiliarHelpers:FindNearestVulnerableEnemy(player.Position)
+                local randomPos = player.Position + RandomVector()*rng:RandomFloat()*200
                 if target and target.Position:Distance(player.Position) > 240 then
                     target = nil
+                elseif target then
+                    randomPos = mod.EnemyHelpers:Lerp(randomPos,
+                    target.Position + (math.max((rng:RandomFloat()*target.Size)-28, 00)*(RandomVector()+Vector(0, -1))), rng:RandomFloat())
                 end
 
-                local randomPos = target and target.Position + (math.max((rng:RandomFloat()*target.Size)-28, 00)*(RandomVector()+Vector(0, -1))) 
-                or player.Position + RandomVector()*rng:RandomFloat()*200--Vector( math.max(80, rng:RandomInt(width-40)), math.max(80, rng:RandomInt(height-40))) + Vector(0, 80)
                 randomPos = room:GetClampedGridIndex(randomPos)
                 randomPos = room:GetGridPosition(randomPos)
 
@@ -82,7 +84,7 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
 
-local damage = 80
+local damage = 60
 function this:EffectUpdate(effect)
     local room = game:GetRoom()
     local pos = room:GetClampedGridIndex(effect.Position)

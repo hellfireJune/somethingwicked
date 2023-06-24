@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_BOBS_HEART = Isaac.GetTrinketIdByName("Bob's Heart")
 
 function this:PickupInit(entity)
     if entity.SubType ~= HeartSubType.HEART_FULL 

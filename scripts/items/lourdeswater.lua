@@ -1,7 +1,6 @@
 local this = {}
 local mod = SomethingWicked
 local game = Game()
-CollectibleType.SOMETHINGWICKED_LOURDES_WATER = Isaac.GetItemIdByName("Lourdes Water")
 EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
 
 local directory = "gfx/grid/grid_lourdeswaterangelstatue.anm2"

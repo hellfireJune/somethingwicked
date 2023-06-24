@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY = Isaac.GetItemIdByName("Sacrificial Effigy")
 this.heartsToSpawn = 2
 
 function this:NewLevel()

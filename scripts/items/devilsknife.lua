@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM = Isaac.GetItemIdByName("Devilsknife")
 FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE = Isaac.GetEntityVariantByName("Devilsknife")
 
 function this:FamiliarInit(familiar)

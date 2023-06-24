@@ -1,8 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_GOLDEN_CARD = Isaac.GetItemIdByName("Golden Card")
-CollectibleType.SOMETHINGWICKED_BOOSTER_BOX = Isaac.GetItemIdByName("Booster Box")
-TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD = Isaac.GetTrinketIdByName("Card Graveyard")
 
 function this:UseItem(_, rng, player)
     local p_data = player:GetData()

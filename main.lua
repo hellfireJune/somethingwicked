@@ -147,6 +147,34 @@ function SomethingWicked:UtilWeightedGetThing(pool, myRNG)
     end
   end
 end
+function SomethingWicked:utilMerge(t1, t2)
+  for k,v in ipairs(t2) do
+     table.insert(t1, v)
+  end
+
+  return t1
+end
+local weightedPools = {
+  { ItemPoolType.POOL_TREASURE, 405 },
+  { ItemPoolType.POOL_SHOP, 95 },
+  { ItemPoolType.POOL_BOSS, 59 },
+  { ItemPoolType.POOL_DEVIL, 92 },
+  { ItemPoolType.POOL_ANGEL, 62 },
+  { ItemPoolType.POOL_CURSE, 33 },
+  { ItemPoolType.POOL_SECRET, 62 },
+}
+local weightedGreedPools = {
+  -- treasure, boss, shop, devil, angel, curse, secret
+}
+local bothModePools = {
+  -- everything but the above
+}
+function SomethingWicked:GetRandomPool(myRNG)
+  local greed = SomethingWicked.game.Difficulty > Difficulty.DIFFICULTY_HARD
+  local pool = greed and weightedGreedPools or weightedPools
+  pool = SomethingWicked:utilMerge(pool, bothModePools)
+  return SomethingWicked:UtilWeightedGetThing(pool, myRNG)
+end
 
 function SomethingWicked:UtilCompareColors(color1, color2)
   if color1.R == color2.R
@@ -359,6 +387,7 @@ local itemsToLoad = {
   "boline",
   "oldbell",
   "lastprism",
+  "assisttrophy",
   
   --"themistake"
   "twofcoins",

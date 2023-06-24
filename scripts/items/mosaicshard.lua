@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_MOSAIC_SHARD = Isaac.GetItemIdByName("Prismatic Shard")
 
 local function procChance(player, rng)
     return 1

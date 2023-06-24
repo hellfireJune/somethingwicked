@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_VOID_BOMBS = Isaac.GetItemIdByName("Void Bombs")
 EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
 this.BombSpriteSheet = "gfx/items/pick ups/bombs/costumes/voidbombs.png"
 

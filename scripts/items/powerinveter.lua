@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-TrinketType.SOMETHINGWICKED_POWER_INVERTER = Isaac.GetTrinketIdByName("Power Inverter")
 
 local chargeTypes = {
     [BatterySubType.BATTERY_MICRO] = 2,

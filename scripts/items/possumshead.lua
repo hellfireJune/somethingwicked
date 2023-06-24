@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_POSSUMS_HEAD = Isaac.GetItemIdByName("Possum's Head")
 
 function this:UseItem(_, _, player)
     if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) ~= true then

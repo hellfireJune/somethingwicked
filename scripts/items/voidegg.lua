@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_VOID_EGG = Isaac.GetItemIdByName("Void Egg")
 this.HeartValues = {
     [HeartSubType.HEART_FULL] = 3,
     [HeartSubType.HEART_SCARED] = 3,

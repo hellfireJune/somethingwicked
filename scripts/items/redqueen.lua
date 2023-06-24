@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_RED_QUEEN = Isaac.GetItemIdByName("Red Queen")
 
 local function proc(player) 
     return 1

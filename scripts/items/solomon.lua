@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM = Isaac.GetItemIdByName("Solomon")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 
 this.RoomCount = 8

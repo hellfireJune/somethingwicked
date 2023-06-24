@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_ICE_WAND = Isaac.GetItemIdByName("Ice Wand")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player, flags)
     SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_ICE_WAND)

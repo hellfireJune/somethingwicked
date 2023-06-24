@@ -39,6 +39,7 @@
 		<Item Name="Lourdes Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -265,6 +266,7 @@
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

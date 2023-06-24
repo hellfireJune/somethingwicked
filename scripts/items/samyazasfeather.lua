@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_SAMYAZAS_PLUME = Isaac.GetItemIdByName("Samyaza's Plume")
 
 this.TearColor = Color(0.35, 0.2, 0.35)
 function this:FireTear(tear)

@@ -1,6 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_GACHAPON = Isaac.GetTrinketIdByName("Gachapon")
-CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER = Isaac.GetItemIdByName("Trinket Smasher")
 this.MinimumDrops = 2
 this.MaximumDrops = 4
 this.pickupTable = {PickupVariant.PICKUP_HEART, PickupVariant.PICKUP_COIN,

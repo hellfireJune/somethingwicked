@@ -1,7 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_LIGHT_SHARD = Isaac.GetItemIdByName("Light Shard")
-CollectibleType.SOMETHINGWICKED_DARK_SHARD = Isaac.GetItemIdByName("Dark Shard")
 
 TearVariant.SOMETHINGWICKED_LIGHT_SHARD = 1
 TearVariant.SOMETHINGWICKED_DARK_SHARD = 2

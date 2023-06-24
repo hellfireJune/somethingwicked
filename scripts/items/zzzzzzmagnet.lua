@@ -1,5 +1,4 @@
 local this = {}
-TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
     SomethingWicked:UtilScheduleForUpdate(this.CheckForDealDoors, 0, ModCallbacks.MC_POST_UPDATE)

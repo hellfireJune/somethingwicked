@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_JOKER_BABY = Isaac.GetItemIdByName("Joker Baby")
 TearVariant.SOMETHINGWICKED_JOKER_DIAMONDS = Isaac.GetEntityVariantByName("Joker Baby Diamonds")
 TearVariant.SOMETHINGWICKED_JOKER_CLUBS = Isaac.GetEntityVariantByName("Joker Baby Clubs")
 TearVariant.SOMETHINGWICKED_JOKER_SPADES = Isaac.GetEntityVariantByName("Joker Baby Spades")

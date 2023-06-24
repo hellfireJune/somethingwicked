@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_REGEN_RING = Isaac.GetItemIdByName("Band of Regeneration")
 
 local roomsNeedToHeal = 2
 local healAmount = 1

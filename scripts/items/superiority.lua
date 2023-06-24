@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_SUPERIORITY = Isaac.GetItemIdByName("Superiority")
 
 function this:Update(player)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_SUPERIORITY) then

@@ -1,9 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_BANANA_MILK = Isaac.GetItemIdByName("Banana Milk")
-TrinketType.SOMETHINGWICKED_GODLY_TOMATO = Isaac.GetTrinketIdByName("Godly Tomato")
-TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY = Isaac.GetTrinketIdByName("Halloween Candy")
-TrinketType.SOMETHINGWICKED_POPPET = Isaac.GetTrinketIdByName("Poppet")
 
 local flagsBlacklist = {
     TearFlags.TEAR_GISH,

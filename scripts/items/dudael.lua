@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_DUDAEL = Isaac.GetItemIdByName("Dudael")
 FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST = Isaac.GetEntityVariantByName("Dudael Ghost")
 
 local frameCooldown = 15

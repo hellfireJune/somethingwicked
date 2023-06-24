@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_BOOK_OF_LEVIATHAN = Isaac.GetItemIdByName("  Book of Leviathan  ")
 
 function this:UseItem(_, _, player)
     player:AddBlackHearts(2)

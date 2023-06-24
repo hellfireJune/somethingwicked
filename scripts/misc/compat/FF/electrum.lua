@@ -25,7 +25,7 @@ local synergies = {
     [CollectibleType.SOMETHINGWICKED_TIAMATS_DICE] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_XXXS_FAVOURITE_TOYS] = function ()
+    [CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS] = function ()
         
     end,
     [CollectibleType.SOMETHINGWICKED_CURSED_CANDLE] = function ()

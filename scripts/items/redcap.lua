@@ -2,7 +2,6 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 local this = {}
 local sHeartValues = { [HeartSubType.HEART_HALF_SOUL] = 1, [HeartSubType.HEART_SOUL] = 2}
-CollectibleType.SOMETHINGWICKED_RED_CAP = Isaac.GetItemIdByName("Red Cap")
 
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
     player = player:ToPlayer()

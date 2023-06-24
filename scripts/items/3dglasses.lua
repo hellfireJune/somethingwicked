@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_3D_GLASSES = Isaac.GetItemIdByName(" 3D Glasses ")
 this.procChance = 0.25
 this.damageMult = 0.5
 this.angle = 10
@@ -66,14 +65,32 @@ function this:SplitLasersToo(laser, player, pure)
                 if laser.Variant == LaserVariant.THIN_RED then
                     new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, this.damageMult)
                 else
-                    new = player:FireBrimstone(newAngle, nil, this.damageMult)
+                    new = player:FireBrimstone(newAngle, laser, this.damageMult)
                 end
                 new.Color = this.LaserColors[i]
+                new:GetData().sw_laserParent = laser
+                new:GetData().sw_angleOffset = i
             end
             this.isFiringMoreLasers = false
         end
     end
 end
+
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, function (_, laser)
+    local pl = laser:GetData().sw_laserParent
+    if not pl then
+        return
+    end
+
+    if not pl:Exists() then
+        laser:Remove()
+    else
+        laser.Timeout = pl.Timeout
+        laser.Angle = pl.Angle + laser:GetData().sw_angleOffset
+        laser.Position = pl.Position
+        laser.ParentOffset = pl.ParentOffset
+    end
+end)
 
 local function SplitBombsAswell(_, bomb)
     if not bomb.IsFetus
@@ -110,7 +127,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, SplitBombsAswell)
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_3D_GLASSES] = {
-        desc = "↑ 25% chance to shoot out 2 more tears that deal "..this.damageMult.." of your damage upon fire",
+        desc = "↑ 25% chance to shoot 2 additional tears that deal half of your damage",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"25% chance to shoot out 2 more tears that deal "..this.damageMult.." of your damage upon tear fire"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,

@@ -1,7 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-CollectibleType.SOMETHINGWICKED_CAT_TEASER = Isaac.GetItemIdByName("Cat Teaser")
-CollectibleType.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetItemIdByName("Fuzzy Fly")
 FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar")
 local function TearWobble(tear, angle)
     local t_data = tear:GetData()
