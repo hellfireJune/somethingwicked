@@ -52,40 +52,6 @@ function this:DoGoldenBattery(player, battery)
     return newIdx
 end
 
---[[SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, function (_, player)
-    local p_data = player:GetData()
-    if p_data.SomethingWickedPData.inverterCharges
-    and p_data.SomethingWickedPData.inverterBattery then
-        local bterry = p_data.SomethingWickedPData.inverterBattery
-        if this:IsPickingUpBtery(bterry) then
-            local iconfig = Isaac.GetItemConfig()
-            local tmult = math.min(player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_POWER_INVERTER), 1)
-            local dmgToAdd = ((chargeTypes[bterry.SubType] or 6) / 6) * dmgPer6Charges * tmult
-            p_data.SomethingWickedPData.chargeDiffs = {}
-            for key, value in pairs(p_data.SomethingWickedPData.inverterCharges) do
-                local item = player:GetActiveItem(key)
-                local coll = iconfig:GetCollectible(item)
-                if coll.ChargeType ~= ItemConfig.CHARGE_SPECIAL then
-                    player:SetActiveCharge(key, value)
-                    SomethingWicked.game:GetHUD():FlashChargeBar(player, key)
-                end
-            end
-            p_data.SomethingWickedPData.dischargeWait = 8
-
-            p_data.SomethingWickedPData.inverterdmgToAdd = (p_data.SomethingWickedPData.inverterdmgToAdd or 0) + dmgToAdd
-            player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-            player:EvaluateItems()
-        end
-
-        p_data.SomethingWickedPData.inverterCharges = nil
-        p_data.SomethingWickedPData.inverterBattery = nil
-    end
-end)
-
-function this:IsPickingUpBtery(bterry)
-    return not bterry:Exists() or bterry:GetSprite():IsPlaying("Collect")
-end]]
-
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
     local p_data = player:GetData()
     if p_data.SomethingWickedPData.inverterdmgToAdd then
@@ -120,9 +86,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
             end
         end
     end
-end)
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function ()
 end)
 
 this.EIDEntries = {

@@ -1,14 +1,9 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
-FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
 this.angleVariance = 10
 this.MoveSpeed = 6
 this.MinimumReturnDistance = 100
 this.FrameDifferences = 1
 this.Flags = 1 | 8 | 16
-
-CollectibleType.SOMETHINGWICKED_HYDRUS = Isaac.GetItemIdByName("Snake")
-CollectibleType.SOMETHINGWICKED_HYDRA = Isaac.GetItemIdByName("Hydra")
 
 this.AnimationEnum = {
     [Vector(0, 1)] = "IdleDown",

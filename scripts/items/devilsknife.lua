@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE = Isaac.GetEntityVariantByName("Devilsknife")
 
 function this:FamiliarInit(familiar)
     familiar:AddToOrbit(60)

@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar")
 local function TearWobble(tear, angle)
     local t_data = tear:GetData()
     t_data.sw_wobbleLastAngle = t_data.sw_wobbleLastAngle or 0

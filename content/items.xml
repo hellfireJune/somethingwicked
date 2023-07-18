@@ -9,6 +9,7 @@
   - glitchcity nerfs (damage decreased from 80->60, slightly less fast spawning, will no longer spawn directly on top of enemies)
   - wooden dice and book of exodus now both give +1 luck while held
   - trinket smasher is now 10 coins in the shop
+  - wicked soul stat changes
   - minor eid / description changes
   - animation and sound changes for a bunch of items
   -->
@@ -25,7 +26,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 14, 30, 32, 35, 39, 100, and 141-->
+  <!--also make item id 11, 14, 30, 32, 35, 39, 74, 100, and 141-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -93,7 +94,6 @@
   <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true"/>
   <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable" hidden="true"/>
   <active id="73" name="Prismatic Mushroom" description="Rainbow room effects" hidden="true"/> <!--code done-->
-  <passive id="74" name="Samyaza's Plume" cache="firedelay" hidden="true"/>
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="Poison fire shot" quality="3" tags="offensive summonable"/>
@@ -223,9 +223,9 @@
   <trinket id="36" name="Card Graveyard" hidden="true"/> <!-- code done :3 -->
   <trinket id="38" name="Halloween Candy" hidden="true"/>
   
-  <passive name="dummy item 001" description="tell june if u see this" hidden="true"/>
-  <passive id="705" name="lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
-  <passive name="dummy item 002" description="tell june if u see this" hidden="true" tags="book"/>
+  <passive name="[sw] apollyons crown dummy item" description="tell june if u see this" hidden="true"/>
+  <passive id="705" name="[sw] lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
+  <passive name="[sw] bookworm dummy item" description="tell june if u see this" hidden="true" tags="book"/>
 
 
   <passive name="Knave of Hearts" hidden="true"/> <!--remove-->

@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetEntityVariantByName("Splendorous Sword")
 
 function this:PEffectUpdate(player)
     local p_data = player:GetData()

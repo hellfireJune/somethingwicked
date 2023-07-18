@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY = Isaac.GetEntityVariantByName("Cutie Fly")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, function(_, familiar) 
     familiar:AddToOrbit(-27)

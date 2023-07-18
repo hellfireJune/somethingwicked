@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea")
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, function (_, familiar)
     familiar:AddToFollowers()

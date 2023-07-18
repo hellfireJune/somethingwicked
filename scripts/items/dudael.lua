@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST = Isaac.GetEntityVariantByName("Dudael Ghost")
 
 local frameCooldown = 15
 local maxGhosts = 7

@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_BIG_WISP = Isaac.GetEntityVariantByName("Fat Wisp")
 
 function this:FamiliarInit(familiar)
     familiar:AddToOrbit(8)

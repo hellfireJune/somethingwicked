@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
 
 local wisps = 8
 local angleOffset = 15

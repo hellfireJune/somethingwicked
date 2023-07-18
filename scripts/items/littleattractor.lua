@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar")
 
 function this:FamiliarUpdate(familiar)
     familiar:MoveDiagonally(1)

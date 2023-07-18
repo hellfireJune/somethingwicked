@@ -1,19 +1,19 @@
-SomethingWicked = RegisterMod("Something Wicked", 1)
-SomethingWicked.game = Game()
-SomethingWicked.sfx = SFXManager()
+local mod = RegisterMod("Something Wicked", 1)
+local game = Game()
+SomethingWicked = mod
 
 --i think i got this one from deliverance
-function SomethingWicked:UtilGetAllPlayers() 
+function mod:UtilGetAllPlayers() 
   local players = {}
     
-  for i = 0, SomethingWicked.game:GetNumPlayers() - 1 do
+  for i = 0, game:GetNumPlayers() - 1 do
       players[i + 1] = Isaac.GetPlayer(i)
   end
 
   return players
 end
 
-function SomethingWicked:UtilTableHasValue (tab, val)
+function mod:UtilTableHasValue (tab, val)
   for index, value in pairs(tab) do
       if value == val then
           return true
@@ -23,12 +23,12 @@ function SomethingWicked:UtilTableHasValue (tab, val)
   return false
 end
 
-function SomethingWicked:Clamp(val, max, min)
+function mod:Clamp(val, max, min)
   return math.max(max, math.min(val, min))
 end
 
 --these two are also from tainted treasures
-function SomethingWicked:utilRunUpdates(tab) --This is from Fiend Folio
+function mod:utilRunUpdates(tab) --"This is from Fiend Folio"
   for i = #tab, 1, -1 do
       local f = tab[i]
       f.Delay = f.Delay - 1
@@ -40,12 +40,12 @@ function SomethingWicked:utilRunUpdates(tab) --This is from Fiend Folio
 end
 
 local delayedFuncs = {}
-function SomethingWicked:UtilScheduleForUpdate(func, delay, callback)
+function mod:UtilScheduleForUpdate(func, delay, callback)
   callback = callback or ModCallbacks.MC_POST_UPDATE
   if not delayedFuncs[callback] then
       delayedFuncs[callback] = {}
-      SomethingWicked:AddCallback(callback, function()
-          SomethingWicked:utilRunUpdates(delayedFuncs[callback])
+      mod:AddCallback(callback, function()
+          mod:utilRunUpdates(delayedFuncs[callback])
       end)
   end
 
@@ -53,8 +53,8 @@ function SomethingWicked:UtilScheduleForUpdate(func, delay, callback)
 end
 
 
---i take-a lambchop's code
-function SomethingWicked:utilForceBloodTear(tear)
+--lamb's
+function mod:utilForceBloodTear(tear)
 	if tear.Variant == TearVariant.BLUE then
 		tear:ChangeVariant(TearVariant.BLOOD)
 	elseif tear.Variant == TearVariant.NAIL then
@@ -75,7 +75,7 @@ end
 
 --removes the player's current trinkets, gives the player the one you provided, uses the smelter, then gives the player back the original trinkets.
 --TY to kittenchilly for this snippet.
-function SomethingWicked:UtilAddSmeltedTrinket(trinket, player)
+function mod:UtilAddSmeltedTrinket(trinket, player)
   if not player then
       player = Isaac.GetPlayer(0)
   end
@@ -147,7 +147,7 @@ function SomethingWicked:UtilWeightedGetThing(pool, myRNG)
     end
   end
 end
-function SomethingWicked:utilMerge(t1, t2)
+function mod:utilMerge(t1, t2)
   for k,v in ipairs(t2) do
      table.insert(t1, v)
   end
@@ -169,54 +169,20 @@ local weightedGreedPools = {
 local bothModePools = {
   -- everything but the above
 }
-function SomethingWicked:GetRandomPool(myRNG)
-  local greed = SomethingWicked.game.Difficulty > Difficulty.DIFFICULTY_HARD
+function mod:GetRandomPool(myRNG)
+  local greed = game.Difficulty > Difficulty.DIFFICULTY_HARD
   local pool = greed and weightedGreedPools or weightedPools
-  pool = SomethingWicked:utilMerge(pool, bothModePools)
-  return SomethingWicked:UtilWeightedGetThing(pool, myRNG)
+  pool = mod:utilMerge(pool, bothModePools)
+  return mod:UtilWeightedGetThing(pool, myRNG)
 end
 
-function SomethingWicked:UtilCompareColors(color1, color2)
-  if color1.R == color2.R
-  and color1.G == color2.G
-  and color1.B == color2.B
-  and color1.A == color2.A
-  and color1.RO == color2.RO
-  and color1.GO == color2.GO
-  and color1.BO == color2.BO then
-    return true
-  end
-  return false
-end
-
-function SomethingWicked:UtilGenerateWikiDesc(strings, quoteString)
-  local wikiTable = 
-  {
-    {str = "Effect", fsize = 2, clr = 3, halign = 0},
-  }
-
-  for index, value in ipairs(strings) do
-    table.insert(wikiTable,
-  {str = "-"..value})
-  end
-
-  if quoteString ~= nil then
-    table.insert(wikiTable, {str = ""})
-    table.insert(wikiTable, {str = "- -- ----[]---- -- -", fsize = 1, halign = 0})
-    table.insert(wikiTable, {str = ""})
-    table.insert(wikiTable, {str = "\""..quoteString.."\""})
-  end
-
-  return { wikiTable }
-end
-
-function SomethingWicked:GetRandomElement(table, rng)
+function mod:GetRandomElement(table, rng)
   local num = rng:RandomInt(#table) + 1
   return table[num]
 end
 
 --mom found the tainted treasures method i nabbed so the room gen stuff would work
-function SomethingWicked:UtilShuffleTable(tbl, rng)
+function mod:UtilShuffleTable(tbl, rng)
 	for i = #tbl, 2, -1 do
     local j = rng:RandomInt(i) + 1
     tbl[i], tbl[j] = tbl[j], tbl[i]
@@ -224,55 +190,112 @@ function SomethingWicked:UtilShuffleTable(tbl, rng)
   return tbl
 end
 
---not writing 99 null checks forgive me
-SomethingWicked.encyclopediaLootPools = {
-  POOL_TREASURE = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_TREASURE or -1,
-  POOL_SHOP = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_SHOP or -1,
-  POOL_BOSS = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_BOSS or -1,
-  POOL_DEVIL = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_DEVIL or -1,
-  POOL_ANGEL = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_ANGEL or -1,
-  POOL_SECRET = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_SECRET or -1,
-  POOL_LIBRARY = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_LIBRARY or -1,
-  POOL_SHELL_GAME = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_SHELL_GAME or -1,
-  POOL_GOLDEN_CHEST = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GOLDEN_CHEST or -1,
-  POOL_RED_CHEST = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_RED_CHEST or -1,
-  POOL_BEGGAR = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_BEGGAR or -1,
-  POOL_DEMON_BEGGAR = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_DEMON_BEGGAR or -1,
-  POOL_CURSE = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_CURSE or -1,
-  POOL_KEY_MASTER = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_KEY_MASTER or -1,
-  POOL_BATTERY_BUM = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_BATTERY_BUM or -1,
-  POOL_MOMS_CHEST = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_MOMS_CHEST or -1,
-  POOL_GREED_TREASURE = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_TREASURE or -1,
-  POOL_GREED_BOSS = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_BOSS or -1,
-  POOL_GREED_SHOP = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_SHOP or -1,
-  POOL_GREED_DEVIL = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_DEVIL or -1,
-  POOL_GREED_ANGEL = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_ANGEL or -1,
-  POOL_GREED_CURSE = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_CURSE or -1,
-  POOL_GREED_SECRET = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_GREED_SECRET or -1,
-  POOL_CRANE_GAME	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_CRANE_GAME or -1,
-  POOL_ULTRA_SECRET	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_ULTRA_SECRET or -1,
-  POOL_BOMB_BUM	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_BOMB_BUM or -1,
-  POOL_PLANETARIUM	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_PLANETARIUM or -1,
-  POOL_OLD_CHEST	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_OLD_CHEST or -1,
-  POOL_BABY_SHOP	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_BABY_SHOP or -1,
-  POOL_WOODEN_CHEST	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_WOODEN_CHEST or -1,
-  POOL_ROTTEN_BEGGAR	 = Encyclopedia ~= nil and Encyclopedia.ItemPools.POOL_ROTTEN_BEGGAR or -1,
+function mod:BoolToNum(bool)
+  if bool then
+    return 1
+  end
+  return 0
+end
+
+local function incl(script)
+  include("scripts/"..script)
+end
+
+
+mod.CONST = {}
+local earlyLoad = {
+  "constants/constants",
+  "constants/items",
+  "constants/desc",
+  "meta/toolbox",
+  "meta/savedata",
+  "meta/callbacks",
+  --"meta/cardController"
 }
 
-local itemsToLoad = {
-  --compact these into one file pleaaase juney
-  "avengeremblem",
-  "woodenhorn",
-  --"lanternold",
-  "silverring",
-  "mammonstooth",
-  "chiliPigEar",
-  "whiterose",
+for index, value in ipairs(earlyLoad) do
+  incl(value)
+end
+
+local midLoad = {
+  "items/wickedsoul",
+  "items/dstock",
+}
+for index, value in ipairs(midLoad) do
+  incl(value)
+end
+function mod:EvaluateGenericStatItems(player, flags)
+  if not player then
+    return
+  end
+  local wickedSoulMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+
+  if flags == CacheFlag.CACHE_DAMAGE then
+    player.Damage = mod:DamageUp(player, 1 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM))
+    player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
+    player.Damage = mod:DamageUp(player, 0.3 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_SILVER_RING)))
+    player.Damage = mod:DamageUp(player, 0.5 * wickedSoulMult)
+  end
+  if flags == CacheFlag.CACHE_FIREDELAY then
+    player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))
+    player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO))
+  end
+  if flags == CacheFlag.CACHE_LUCK then
+    player.Luck = player.Luck + (1 * wickedSoulMult) 
+  end
+  if flags == CacheFlag.CACHE_SPEED then
+    player.MoveSpeed = player.MoveSpeed + (0.2 * wickedSoulMult)
+    player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO)*0.3
+  end
+  if flags == CacheFlag.CACHE_SHOTSPEED then
+      player.ShotSpeed = player.ShotSpeed + (0.1 * wickedSoulMult) 
+  end
+  if flags == CacheFlag.CACHE_RANGE then
+      player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
+  end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
+
+function mod:EvaluateLateStats(player, flags)
+  if flags == CacheFlag.CACHE_DAMAGE then
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SILVER_RING) then
+      player.Damage = player.Damage * 1.1
+    end
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
+      player.Damage = player.Damage * 1.3
+    end
+  end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.LATE, mod.EvaluateLateStats)
+
+function mod:GenericOnPickups(player, room, id)
+  if id == CollectibleType.SOMETHINGWICKED_WHITE_ROSE then
+    for i = 1, 4, 1 do
+      player:AddWisp(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES, player.Position)
+    end
+  end
+end
+mod:AddCustomCBack(mod.ENUMS.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
+
+function mod:OnNewFloor()
+  local level = game:GetLevel()
+  local currRoom = level:GetCurrentRoomDesc()
+  local currIdx = level:GetCurrentRoomIndex()
+
+  if level:GetStartingRoomIndex() == currIdx
+  and currRoom.VisitedCount == 1 then
+    -- new floor
+    for index, value in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)) do
+      mod:WickedSoulOnPickup(value)
+    end
+  end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, mod.OnNewFloor)
+
+--[[local itemsToLoad = {
   "ramshead",
-  "corruption",
-  "samyazasfeather",
   "lankymushroom",
-  "bottleofshampoo",
+  "wickedsoul"
 
   "discipleseye",
   "redlockbox",
@@ -285,7 +308,7 @@ local itemsToLoad = {
   "fitusfortunus",
   "oldurn",
   "apollyonscrown",
-  "childstoys",
+  "woodendice",
   "biretta",
   "wrath",
   "bravery",
@@ -355,7 +378,6 @@ local itemsToLoad = {
   "weirdapple",
   "jokerbaby",
 
-  "dstock",
   "balrogshead",
   "possumear",
   "osteophagy",
@@ -389,13 +411,11 @@ local itemsToLoad = {
   "lastprism",
   "assisttrophy",
   
-  --"themistake"
   "twofcoins",
   "scorchedwood",
   "stonekey",
   "bobsheart",
   "catseye",
-  --"goldytomato", OUTDATED 
   "damnedsoulvirtuoussoul",
   "sugarcoatedpill",
   "treasurerskeycursedkey",
@@ -461,114 +481,37 @@ local postMiscLoad = {
   "cardController",
   "compat/____core",
   "dss/deadseascrolls"
-}
---[[local enemiesToLoad = {
-  --"experiment",
-  "menacefly",
-  "dukeoftheabyss"
 }]]
-
-SomethingWicked.addedCollectibles = {}
-SomethingWicked.addedTrinkets = {}
-
-for _, i in ipairs(earlyMiscLoad) do
-  include("scripts/misc/"..i)
-end
-local itemsMissingPools = "Items missing pools: "
-local itemsMissingDescs = "Items missing descs: "
-for _, i in ipairs(itemsToLoad) do
-  --print(i)
-  local item = include("scripts/items/"..i)
-  for id, entry in pairs(item.EIDEntries) do
-    if entry.isTrinket then
-      table.insert(SomethingWicked.addedTrinkets, id)
-    else
-      table.insert(SomethingWicked.addedCollectibles, id)
-    end
-  if EID ~= nil then
-    if entry.isTrinket == true then
-      EID:addTrinket(id, entry.desc)
-      if entry.metadataFunction ~= nil then
-        entry.metadataFunction(id)
-      end
-    else
-      EID:addCollectible(id, entry.desc)
-    end
-  end
-  
-  if Encyclopedia ~= nil then
-      local table = {
-        ID = id,
-        ModName = "Something Wicked (The Unlisted Beta)",
-        Class = "Something Wicked",
-      }
-      if entry.encycloDesc == nil then
-        --[[table.WikiDesc = {
-          {
-            { str = "Test.", clr="1" },
-            { str = "Test.", clr="2" },
-            { str = "Test.", clr="3" },
-            { str = "Test.", clr="4" }
-          }
-        }
-        table.Hide = true
-        itemsMissingDescs = itemsMissingDescs..id.." "]]--
-        table.WikiDesc = Encyclopedia.EIDtoWiki(entry.desc or "???")
-      else
-        table.WikiDesc = entry.encycloDesc
-      end
-      table.Hide = entry.Hide or false
-      if entry.isTrinket ~= true then
-        
-        if entry.pools == nil then
-          itemsMissingPools = itemsMissingPools..id.." "
-        else
-          table.Pools = entry.pools
-        end
-        Encyclopedia.AddItem(table)
-      else
-        Encyclopedia.AddTrinket(table)
-      end
-    end
-  end
-end
---print(itemsMissingPools)
---print(itemsMissingDescs)
-for _, i in ipairs(cardsToLoad) do
-  local card = include("scripts/cards/"..i)
-    for id, entry in pairs(card.EIDEntries) do
-      if not SomethingWicked:UtilTableHasValue(SomethingWicked.BoonIDs, id) then
-      end
-      if EID ~= nil then
-      EID:addCard(id, entry.desc)
-      end
-    end
-  end
---[[for _, i in ipairs(enemiesToLoad) do
-  include("scripts/enemies/"..i)
-end]]
---include("scripts/players/abiah")
-include("scripts/players/bsides")
-for _, i in ipairs(postMiscLoad) do
-  --print(i)
-  include("scripts/misc/"..i)
-end
-
 
 --thanks to both Eternal Items: Repented and Deliverance for this amalgamation of yoinked code, for loading item files
 
---Also thanks to lambchop_is_ok, for tweaking up the sprite for the secret shop BG, aswell as sending me the GetPlayerFromTear method
-
-if not StageAPI then
-  --print("StageAPI is highly recomennded if yo want to experience all Something Wicked has. Download it please :)")
-end
-print("Something wicked this way comes...")
-
 --Putting full credits here so i dont forget when i release the mod
 --[[
-Spriting Help: lambchop_is_ok, Dallan
-Concept art + some general concepting: Nevernamed (Bt Y)
-Music (not used yet): Hux
-Special Thanks (Modding Help & Code used): lambchop_is_ok, fly_6, Agent Cucco, kittenchilly, Xalum, Fiend and the Fiendfolio team, the Tainted Treasures team
-Special Thanks (Playtesting & feedback): TheTurtleMelon (Massive Emphasis Here, probably the most feedback and the most vocal feedback i got), We Strvn, Skkull, Not a Bot, Saturn
+Lead coder and spriter: hellfireJune
+Guest spriter (costumes and death items): steve2552
+Concept art + some general concepting: Nevernamed
+Playtesting, feedback, and reporting bugs: 
+  TheTurtleMelon
+  We Strvn
+  Skkull
+  Saturn
+  oilyspoily
+  SinBiscuit
+  Steve2552
+  Sosor
+  lwrachnya
+  Aeronaut
+  Some Bunny
+Special thanks: 
+  lambchop_is_ok
+  PattieMurr (music, unused)
+  DungeonPenguin
+  Onehand and Unobtained (the turtlemelon tattoo)
+  The Fiend Folio team
+  The Gungeon Modding Crew
+  and the countless mods that i sampled for code when i didn't know how to code in lua
 ]]
+
+
+
+print("Something wicked this way comes...")

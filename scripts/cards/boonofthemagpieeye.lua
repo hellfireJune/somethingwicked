@@ -1,6 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKED_MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")
-Card.SOMETHINGWICKED_MAGPIE_EYE_BOON = Isaac.GetCardIdByName("MagpieEyeBoon")
 
 function this:OnNewRoom()
     for _, v in ipairs(SomethingWicked:UtilGetAllPlayers()) do

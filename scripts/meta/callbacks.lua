@@ -1,8 +1,8 @@
-local this = {}
 local mod = SomethingWicked
+local game = Game()
 
-local ccabEnum = SomethingWicked.CustomCallbacks
-this.CustomCallbacks = {
+local ccabEnum = mod.ENUMS.CustomCallbacks
+mod.__callbacks = {
     [ccabEnum.SWCB_PICKUP_ITEM] = {
         UniversalPickupCallbacks = {},
         IDBasedPickupCallbacks = {}
@@ -11,54 +11,58 @@ this.CustomCallbacks = {
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_ON_LASER_FIRED] = {},
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
-    [ccabEnum.SWCB_KNIFE_EFFECT_EVAL] = {},
-    [ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED] = {},
+    [ccabEnum.SWCB_POST_PURCHASE_PICKUP] = {},
     [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
     [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
     [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
 }
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
-function SomethingWicked:AddCustomCBack(type, funct, id)
+function mod:AddCustomCBack(type, funct, id)
     if type == ccabEnum.SWCB_PICKUP_ITEM then
-        this:AddPickupFunction(funct, id)
+        id = id or -1
+    
+        if id == -1 then
+            table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, funct)
+            return
+        end
+    
+        mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] = mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] or {}
+        table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], funct)
         return
     end
 
-    local cBackTable = this.CustomCallbacks[type]
+    local cBackTable = mod.__callbacks[type]
     table.insert(cBackTable, funct)
 end
 
---function takes a player argument and a room argument
-function this:AddPickupFunction(func, id)
-    id = id or -1
-
-    if id == -1 then
-        table.insert(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, func)
+function mod:CallCustomCback(type, arg1, arg2, arg3, arg4, subtype)
+    local callbacks = mod.__callbacks[type]
+    if type == ccabEnum.SWCB_PICKUP_ITEM then
+        subtype = subtype or -1
+        callbacks = callbacks[subtype]
+        if subtype ~= -1 then
+            mod:CallCustomCback(ccabEnum.SWCB_PICKUP_ITEM, arg1, arg2, arg3, arg4, -1)
+        end
+    end
+    if callbacks == nil then
         return
     end
-
-    this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] = this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] or {}
-    table.insert(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], func)
+    for _, v in pairs(callbacks) do
+        v(callbacks, arg1, arg2, arg3, arg4)
+    end
 end
 
+
 --This is a **heavily** modified version of some of AgentCucco's code, shoutouts to her
-function this:PickupMethod(player)
+local function CheckForPickup(_, player)
     local p_data = player:GetData()
     if p_data.SomethingWickedPData.heldItem then
         if player:IsExtraAnimationFinished() then
             local id = p_data.SomethingWickedPData.heldItem
             if player:HasCollectible(id) then
-                local room = SomethingWicked.game:GetRoom()
-                for _, func in ipairs(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks) do
-                    func(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, player, room, id)
-                end  
-
-                if this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] then        
-                    for _, func in ipairs(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id]) do
-                        func(this.CustomCallbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], player, room, id)
-                    end  
-                end
+                local room = game:GetRoom()
+                mod:CallCustomCback(ccabEnum.SWCB_PICKUP_ITEM, player, room, id, nil, id)
             end
             p_data.SomethingWickedPData.heldItem = nil 
         end
@@ -74,10 +78,11 @@ function this:PickupMethod(player)
         p_data.SomethingWickedPData.heldItem = targetItem.ID
     end
 end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CheckForPickup)
 
-this.forgottenEsqueBones = {1, 2, 3, 4, 9}
+local forgottenEsqueBones = {1, 2, 3, 4, 9}
 
-function this:OnTearHit(tear, collider)
+local function OnTearHit(_, tear, collider)
     collider = collider:ToNPC()
     if not collider
     or not collider:IsVulnerableEnemy() then
@@ -86,7 +91,7 @@ function this:OnTearHit(tear, collider)
 
     local procCoefficient = 1
     if tear.Type == EntityType.ENTITY_KNIFE then
-        if SomethingWicked:UtilTableHasValue(this.forgottenEsqueBones, tear.Variant)
+        if SomethingWicked:UtilTableHasValue(forgottenEsqueBones, tear.Variant)
         and  tear:IsFlying() == false then
             return
         else
@@ -100,38 +105,20 @@ function this:OnTearHit(tear, collider)
         end
         t_data.sw_collideMap[""..collider.InitSeed] = true
 
-        local result = SomethingWicked:__callStatusEffects(collider, tear)
+        --[[local result = SomethingWicked:__callStatusEffects(collider, tear)
         if result ~= nil then
-            return nil
-        end
+            return result
+        end]]
     end
 
-    local player = SomethingWicked:UtilGetPlayerFromTear(tear)
+    local player = mod:UtilGetPlayerFromTear(tear)
 
     if collider:IsVulnerableEnemy() and player then
-        this:CallOnhitCallback(tear, collider, player, procCoefficient)
+        mod:CallCustomCback(ccabEnum.SWCB_ON_ENEMY_HIT, tear, collider, player, procCoefficient)
     end
 end
 
-function this:CallOnhitCallback(tear, collider, player, procCoefficient)
-    for _, v in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_ENEMY_HIT]) do
-        v(this, tear, collider, player, procCoefficient)
-    end
-end
-
-function this:CallKnifeEvalCallback(tear, collider, player)
-    local flag = true
-    for _, v in pairs(this.CustomCallbacks[ccabEnum.SWCB_KNIFE_EFFECT_EVAL]) do
-        local nflag = v(this, tear, collider, player)
-        if nflag ~= nil then
-            flag = flag and nflag
-        end
-    end
-
-    return flag
-end
-
-function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
+local function OnEntityDMG(_, ent, amount, flags, source, dmgCooldown)
     if ent:IsVulnerableEnemy() ~= true then
         return
     end
@@ -139,69 +126,50 @@ function this:OnEntityDMG(ent, amount, flags, source, dmgCooldown)
     local player
     local entity = source.Entity
     if source.Type == EntityType.ENTITY_BOMB then
-        player = SomethingWicked:UtilGetPlayerFromTear(entity)
+        player = mod:UtilGetPlayerFromTear(entity)
     elseif (source.Type == EntityType.ENTITY_PLAYER and flags & DamageFlag.DAMAGE_LASER ~= 0) then
         entity = entity:ToPlayer()
         local mult = amount / entity.Damage
-        this:CallOnhitCallback(entity, ent, entity, mult)
+        mod:CallCustomCback(ccabEnum.SWCB_ON_ENEMY_HIT, entity, ent, entity, mult)
         return
     end
 
     if player then
-        this:CallOnhitCallback(entity, ent, player, 1)
-    end
-    if source.Type == EntityType.ENTITY_KNIFE then
-        return this:CallKnifeEvalCallback(entity, ent, player)
+        mod:CallCustomCback(ccabEnum.SWCB_ON_ENEMY_HIT, entity, ent, player, 1)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.OnTearHit)
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, this.OnTearHit)
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnEntityDMG)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PickupMethod)
-this.onKillPos = nil
-function this:OnKill(enemy)
-    local room = SomethingWicked.game:GetRoom()
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, OnTearHit)
+mod:AddCallback(ModCallbacks.MC_PRE_KNIFE_COLLISION, OnTearHit)
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnEntityDMG)
+local function CheckForBossDeath(_, enemy)
+    local room = game:GetRoom()
     local rType = room:GetType()
     if enemy:IsBoss() and (rType == RoomType.ROOM_BOSS or rType == RoomType.ROOM_BOSSRUSH
      or rType == RoomType.ROOM_MINIBOSS) then
-        this.onKillPos = enemy.Position
+        local onKillPos = enemy.Position
+        mod:UtilScheduleForUpdate(function ()
+            if Isaac.CountBosses() > 0 then
+                return
+            end
+
+            mod:CallCustomCback(ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED, onKillPos, rType)
+        end, 0, ModCallbacks.MC_POST_UPDATE)
     end
 end
 
-function this:DelayShit()
-    if this.onKillPos
-    and Isaac.CountBosses() == 0 then
-        local r = SomethingWicked.game:GetRoom()
-        if r:GetType() == RoomType.ROOM_MINIBOSS then
-            for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED]) do
-                value(this.CustomCallbacks[ccabEnum.SWCB_ON_MINIBOSS_ROOM_CLEARED], this.onKillPos)
-            end
-        else
-            local isBossRush = r:GetType() == RoomType.ROOM_BOSSRUSH
-            for _, value in pairs(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED]) do
-                value(this.CustomCallbacks[ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED], this.onKillPos, isBossRush)
-            end
-        end
-        this.onKillPos = nil
-    end
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.DelayShit)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, CheckForBossDeath)
 
 local brim = {
     LaserVariant.THICK_RED, LaserVariant.BRIM_TECH, LaserVariant.THICKER_RED, LaserVariant.THICKER_BRIM_TECH, }
-function this:LaserUpdate(laser)
+local function LaserUpdate(_, laser)
     if not mod:UtilTableHasValue(brim) then
         return
     end
     if laser.FrameCount % 4 == 1 then
-        local player = SomethingWicked:UtilGetPlayerFromTear(laser)
+        local player = mod:UtilGetPlayerFromTear(laser)
         
-        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
-            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player, laser.FrameCount <= 2)
-        end
+        mod:CallCustomCback(ccabEnum.SWCB_ON_LASER_FIRED, laser, player, laser.FrameCount <= 2)
     end
 end
 
@@ -214,18 +182,15 @@ local function laserInit(_, laser)
             end
         end
         
-        local player = SomethingWicked:UtilGetPlayerFromTear(laser)
-        
-        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED]) do
-            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_LASER_FIRED], laser, player, false)
-        end
+        local player = mod:UtilGetPlayerFromTear(laser)
+        mod:CallCustomCback(ccabEnum.SWCB_ON_LASER_FIRED, laser, player, true)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, this.LaserUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, LaserUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, laserInit)
     
-function this:PostFirePureEval(player)
+local function PostFirePureEval(_, player)
     local p_data = player:GetData()
     p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
     p_data.sw_processFireDelay = p_data.sw_processFireDelay or false
@@ -239,7 +204,7 @@ function this:PostFirePureEval(player)
                 sprite = value:GetSprite()
                 animflag = string.match(sprite:GetAnimation(), "Shoot")
                 if value.ShootDirection ~= Direction.NO_DIRECTION then
-                    p_data.somethingWicked_lastAimedDirection = SomethingWicked.HoldItemHelpers:AimToVector(value.ShootDirection)
+                    p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(value.ShootDirection)
                 end
                 break
             end
@@ -249,7 +214,7 @@ function this:PostFirePureEval(player)
             
         end
         if player:GetFireDirection() ~= Direction.NO_DIRECTION then
-            p_data.somethingWicked_lastAimedDirection = SomethingWicked.HoldItemHelpers:AimToVector(player:GetFireDirection())
+            p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(player:GetFireDirection())
         end
     end
     --print(player.FireDelay)
@@ -261,16 +226,16 @@ function this:PostFirePureEval(player)
     if animflag or fireDelayFlag then
         if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
             p_data.somethingWicked_processedPureFire = true
-            this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
+            mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, player, p_data.somethingWicked_lastAimedDirection, 1, player)
             p_data.sw_lastNegativeFireDelay = 0
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
                 familiar = familiar:ToFamiliar()
                 if familiar and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-                    if SomethingWicked.FamiliarHelpers:DoesFamiliarShootPlayerTears(familiar)
+                    if mod:DoesFamiliarShootPlayerTears(familiar)
                     and not (familiar.Variant == FamiliarVariant.INCUBUS and playerType == PlayerType.PLAYER_LILITH) then
-                        local scalar = this:GetFamiliarPureFireScalar(familiar, playerType)
-                        this:CallPureFireCallback(familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
+                        local scalar = mod:GetFamiliarPureFireScalar(familiar, playerType)
+                        mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
                     end
                 end
             end
@@ -289,13 +254,13 @@ function this:PostFirePureEval(player)
     
 end
 
-function SomethingWicked:DebugPostPureFireCallback()
+function mod:DebugPostPureFireCallback()
     local player = Isaac.GetPlayer(1)
     local p_data = player:GetData()
-    this:CallPureFireCallback(player, p_data.somethingWicked_lastAimedDirection, 1, player)
+    mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, player, p_data.somethingWicked_lastAimedDirection, 1, player)
 end
 
-function this:GetFamiliarPureFireScalar(familiar, playertype)
+function mod:GetFamiliarPureFireScalar(familiar, playertype)
     local variant = familiar.Variant
     if variant == FamiliarVariant.INCUBUS
     or variant == FamiliarVariant.UMBILICAL_BABY then
@@ -307,52 +272,41 @@ function this:GetFamiliarPureFireScalar(familiar, playertype)
     return 0.35
 end
 
-function this:CallPureFireCallback(shooter, direction, scalar, player)
-    for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE]) do
-        callb(this.CustomCallbacks[ccabEnum.SWCB_ON_FIRE_PURE], shooter, direction, scalar, player)
-    end
-end
-
-
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CallbackPriority.IMPORTANT, this.PostFirePureEval)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CallbackPriority.IMPORTANT, PostFirePureEval)
 
 --new wave/on item charge
 local queueNewWaveCheck = false
-function this:CheckTheChecker(familiar)
+local function CheckTheChecker(_, familiar)
     familiar.Velocity = Vector(-400, -400)
     if familiar.RoomClearCount > 0 then
         queueNewWaveCheck = true
-        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE]) do
-            callb(this.CustomCallbacks[ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE], familiar.RoomClearCount)
-        end
+        mod:CallCustomCback(ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE, familiar.RoomClearCount)
         familiar.RoomClearCount = 0
     end
 end
 
-function this:NewWaveOnChargeGameUpdate()
+function mod:NewWaveOnChargeGameUpdate()
     if #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER) == 0 then
         Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER, 0, Vector(0, 0), Vector(0, 0), nil)
     end
 
-    local r = SomethingWicked.game:GetRoom()
+    local r = game:GetRoom()
     if queueNewWaveCheck and
      ((Isaac.CountEnemies() > 0 and r:GetType() ~= RoomType.ROOM_BOSSRUSH) or Isaac.CountBosses() > 0)
     then
         queueNewWaveCheck = false
-        for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_NEW_WAVE_SPAWNED]) do
-            callb(this.CustomCallbacks[ccabEnum.SWCB_NEW_WAVE_SPAWNED])
-        end
+        mod:CallCustomCback(ccabEnum.SWCB_NEW_WAVE_SPAWNED)
     end
 end
 
-function SomethingWicked:UtilGetFireVector(vector, player)
+function mod:UtilGetFireVector(vector, player)
     return (vector * (player.ShotSpeed * 10) + player.Velocity):Resized(player.ShotSpeed * 10) 
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     queueNewWaveCheck = false
 end)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.NewWaveOnChargeGameUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.CheckTheChecker, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.NewWaveOnChargeGameUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, CheckTheChecker, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER)
 
 function SomethingWicked:AddItemWispForEval(player, collectible, num)
     local p_data = player:GetData()
@@ -362,15 +316,13 @@ end
 function mod:EvalutePWisps(player)
     local p_data = player:GetData()
     p_data.sw_ddChance = 0 p_data.sw_itemWisps = {}
-    for _, callb in ipairs(this.CustomCallbacks[ccabEnum.SWCB_EVALUATE_TEMP_WISPS]) do
-        callb(_, player, p_data)
-    end
+    mod:CallCustomCback(ccabEnum.SWCB_EVALUATE_TEMP_WISPS, player, p_data)
 	local ddAmount = p_data.sw_ddChance
 
-	this:SetItemWisps(player, ddAmount, -1)
+	mod:SetItemWisps(player, ddAmount, -1)
 
     for key, value in pairs(p_data.sw_itemWisps) do
-        this:SetItemWisps(player, value, key)
+        mod:SetItemWisps(player, value, key)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.EvalutePWisps)
@@ -379,62 +331,29 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.EvalutePWisps)
 -- the below code is some rewritten TT stuff (except its not actually TT stuff and its fiendfolio stuff, thanks connor fiendfolio)
 
 -- okay so i probably shouldnt include this but idk, its good for attaching wisp to player
-function this:GetWispData(player)
+function mod:GetWispData(player)
 	local data = player:GetData()
     data.SomethingWickedPData.itemWisps = data.SomethingWickedPData.itemWisps or {}
 	return data.SomethingWickedPData.itemWisps
 end
-function this:GetWispRefs()
+function mod:GetWispRefs()
 	if not SomethingWicked.save.runData.itemWisps then
 		SomethingWicked.save.runData.itemWisps = {}
 	end
 	return SomethingWicked.save.runData.itemWisps
 end
 
-function this:InitializeDevilWisp(wisp)
+function mod:InitializeDevilWisp(wisp)
 	wisp:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 	wisp.Visible = false
 	wisp:RemoveFromOrbit()
 	wisp:GetData().sw_itemWisp = true
 end
-function this:SetItemWisps(player, amount, type)
-    
-	amount = amount or 1
-	local wispRefs = this:GetWispRefs()
-    local data = this:GetWispData(player)
-    
-    local currWisps = 0
-    for i, t in pairs(data) do
-        if wispRefs[i] and t == type then
-            currWisps = currWisps + 1
-        end
-    end
-    amount = amount - currWisps
-	
-    --print(amount, amount+currWisps, currWisps, type)
-	if amount < 0 then
-		this:RemoveDevilWisp(player, -amount, type)
-	else
-		-- Add the hidden item wisp.
-		for i = 1, amount do
-			local wisp 
-            if type == -1 then
-                wisp = player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position)
-            else
-                wisp = player:AddItemWisp(type, player.Position)
-            end
-			this:InitializeDevilWisp(wisp)
-			wispRefs[""..wisp.InitSeed] = true
-			this:devilWispUpdate(wisp)
-			data[""..wisp.InitSeed] = type
-		end
-	end
-end
 
-function this:RemoveDevilWisp(player, amount, type)
+local function RemoveDevilWisp(player, amount, type)
 	amount = amount or 1
-	local wispRefs = this:GetWispRefs()
-    local data = this:GetWispData(player)
+	local wispRefs = mod:GetWispRefs()
+    local data = mod:GetWispData(player)
 	
 	for i, wisp in pairs(data) do
         if type ~= wisp then
@@ -449,36 +368,68 @@ function this:RemoveDevilWisp(player, amount, type)
 	    ::continue::
 	end
 end
+function mod:SetItemWisps(player, amount, type)
+    
+	amount = amount or 1
+	local wispRefs = mod:GetWispRefs()
+    local data = mod:GetWispData(player)
+    
+    local currWisps = 0
+    for i, t in pairs(data) do
+        if wispRefs[i] and t == type then
+            currWisps = currWisps + 1
+        end
+    end
+    amount = amount - currWisps
+	
+    --print(amount, amount+currWisps, currWisps, type)
+	if amount < 0 then
+		RemoveDevilWisp(player, -amount, type)
+	else
+		-- Add the hidden item wisp.
+		for i = 1, amount do
+			local wisp 
+            if type == -1 then
+                wisp = player:AddWisp(CollectibleType.COLLECTIBLE_SATANIC_BIBLE, player.Position)
+            else
+                wisp = player:AddItemWisp(type, player.Position)
+            end
+			mod:InitializeDevilWisp(wisp)
+			wispRefs[""..wisp.InitSeed] = true
+			mod:__devilWispUpdate(wisp)
+			data[""..wisp.InitSeed] = type
+		end
+	end
+end
 
 local suppressWispDeathEffects = false
-function this:discEffectInit(eff)
+local function discEffectInit(eff)
 	if suppressWispDeathEffects then
 		eff:Remove()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, this.discEffectInit, EffectVariant.TEAR_POOF_A)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, this.discEffectInit, EffectVariant.POOF01)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, discEffectInit, EffectVariant.TEAR_POOF_A)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, discEffectInit, EffectVariant.POOF01)
 
-function this:discItemWispInit(wisp)
-	if not wisp:GetData().sw_itemWisp and (this:GetWispRefs()[""..wisp.InitSeed]) then
+local function discItemWispInit(_, wisp)
+	if not wisp:GetData().sw_itemWisp and (mod:GetWispRefs()[""..wisp.InitSeed]) then
 		-- This wisp isn't marked as a disc wisp, but there's supposed to be a disc wisp with this InitSeed.
 		-- Most likely, we've quit and continued a run. Re-initialize this as a disc wisp and hide it.
 		mod:InitializeDevilWisp(wisp)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.discItemWispInit)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, discItemWispInit)
 
 local function isWispNeeded(wisp, player)
     return player:GetData().sw_itemWisps[wisp.SubType] ~= nil
 end
-function this:devilWispUpdate(wisp)
+function mod:__devilWispUpdate(wisp)
 	local data = wisp:GetData()
 	
 	if not data.sw_itemWisp then return end
 	wisp.Position = Vector(-100, -50)
 	wisp.Velocity = Vector.Zero
-    print(isWispNeeded(wisp, wisp.Player))
-	if not this:GetWispRefs()[""..wisp.InitSeed] or not isWispNeeded(wisp, wisp.Player) then
+	if not mod:GetWispRefs()[""..wisp.InitSeed] or not isWispNeeded(wisp, wisp.Player) then
 		-- This disc wisp should no longer exist.
 		suppressWispDeathEffects = true
 		wisp:Kill()
@@ -486,16 +437,16 @@ function this:devilWispUpdate(wisp)
 		mod.sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
 	end
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.devilWispUpdate)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.__devilWispUpdate)
 
-function this:discItemWispCollision(wisp)
+local function discItemWispCollision(_, wisp)
 	if wisp:GetData().sw_itemWisp then
 		return true
 	end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, this.discItemWispCollision, FamiliarVariant.WISP)
+mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, discItemWispCollision, FamiliarVariant.WISP)
 
-function this:discItemWispDamage(entity, _, _, damageSourceRef)
+local function discItemWispDamage(_, entity, _, _, damageSourceRef)
 	if entity and entity:GetData().sw_itemWisp then
 		return false
 	end
@@ -504,15 +455,15 @@ function this:discItemWispDamage(entity, _, _, damageSourceRef)
 		return false
 	end
 end
-mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, this.discItemWispDamage)
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, discItemWispDamage)
 
-function this:discItemWispTears(tear)
+local function discItemWispTears(_, tear)
     local spawner = tear.SpawnerEntity
 	if spawner and spawner:GetData().sw_itemWisp then
 		tear:Remove()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.discItemWispTears)
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, discItemWispTears)
 
 
 --sac altar fix made by deadinfinity, for fiendfolio
@@ -538,3 +489,5 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function()
         end
     end
 end, CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR)
+
+--purchase item

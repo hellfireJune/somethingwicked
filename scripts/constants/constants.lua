@@ -1,17 +1,33 @@
+--june will put all global colours and etc here
 local mod = SomethingWicked
-mod.CustomCallbacks = {
+
+EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
+
+mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
+
+mod.CONST.CursePool = {
+    LevelCurse.CURSE_OF_DARKNESS,
+    LevelCurse.CURSE_OF_THE_LOST,
+    LevelCurse.CURSE_OF_THE_UNKNOWN,
+    LevelCurse.CURSE_OF_MAZE,
+    LevelCurse.CURSE_OF_BLIND,
+}
+
+--enums
+mod.ENUMS = {}
+mod.ENUMS.CustomCallbacks = {
     SWCB_PICKUP_ITEM = 1,
     SWCB_ON_ENEMY_HIT = 2,
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
     SWCB_ON_FIRE_PURE = 5,
-    SWCB_KNIFE_EFFECT_EVAL = 6,
-    SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
+    SWCB_POST_PURCHASE_PICKUP = 6,
+    --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
     SWCB_NEW_WAVE_SPAWNED = 8,
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,
     SWCB_EVALUATE_TEMP_WISPS = 10
 }
-mod.MachineVariant = {
+mod.ENUMS.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
     MACHINE_FORTUNE = 3,
@@ -31,10 +47,10 @@ mod.MachineVariant = {
     MACHINE_CONFESSIONAL = 17,
     MACHINE_BEGGAR_ROTTEN = 18
 }
-mod.ItemPoolEnum = {
+mod.ENUMS.ItemPools = {
     TERATOMA_BEGGAR = 1
 }
-mod.CustomTearFlags = {
+mod.ENUMS.CustomTearFlags = {
     FLAG_SHOTGRUB = 1 << 0,
     FLAG_KNAVE_OF_HEARTS = 1 << 1,
     FLAG_DREAD = 1 << 2,
@@ -53,7 +69,7 @@ mod.CustomTearFlags = {
     FLAG_DARKNESS = 1 << 15,
     FLAG_COINSHOT = 1 << 16,
 }
-mod.CustomCardTypes = {
+mod.ENUMS.CustomCardTypes = {
     CARDTYPE_THOTH = 1,
     CARDTYPE_THOTH_REVERSED = 2,
     CARDTYPE_FRENCH_PLAYING = 3,

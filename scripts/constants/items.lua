@@ -1,9 +1,11 @@
+local mod = SomethingWicked
+
 CollectibleType.SOMETHINGWICKED_3D_GLASSES = Isaac.GetItemIdByName(" 3D Glasses ")
 CollectibleType.SOMETHINGWICKED_ABANDONED_BOX = Isaac.GetItemIdByName("Abandoned Box")
 CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER = Isaac.GetItemIdByName("Brittle Dagger") --unfinished
 CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE = Isaac.GetItemIdByName("Dagger Handle") --unfinished
 CollectibleType.SOMETHINGWICKED_AIR_FRESHENER = Isaac.GetItemIdByName("Air Freshener") --unfinished
-CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyon's Crown")
+CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyon's Crown") --retouch
 CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY = Isaac.GetItemIdByName("Assist Trophy")
 CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM = Isaac.GetItemIdByName("Avenger Emblem")
 CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE = Isaac.GetItemIdByName("Baby Mandrake") --unfinished
@@ -11,7 +13,7 @@ CollectibleType.SOMETHINGWICKED_BALROGS_HEAD = Isaac.GetItemIdByName("Balrog's H
 CollectibleType.SOMETHINGWICKED_BALROGS_HEART = Isaac.GetItemIdByName("Balrog's Heart") --unfinished (might deserve not balrog-ness)
 CollectibleType.SOMETHINGWICKED_BANANA_MILK = Isaac.GetItemIdByName("Banana Milk") --unfinished
 CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE = Isaac.GetItemIdByName("Electric Dice")
-CollectibleType.SOMETHINGWICKED_BIRETTA = Isaac.GetItemIdByName("Biretta")
+CollectibleType.SOMETHINGWICKED_BIRETTA = Isaac.GetItemIdByName("Biretta") -- touch up
 CollectibleType.SOMETHINGWICKED_BLACK_SALT = Isaac.GetItemIdByName("Black Salt") --unfinsihed
 CollectibleType.SOMETHINGWICKED_BLOOD_HAIL = Isaac.GetItemIdByName("Blood Hail") --unfinished
 CollectibleType.SOMETHINGWICKED_BOLINE = Isaac.GetItemIdByName("Boline")
@@ -24,7 +26,7 @@ CollectibleType.SOMETHINGWICKED_BRAVERY = Isaac.GetItemIdByName("Bravery")
 CollectibleType.SOMETHINGWICKED_BROKEN_BELL = Isaac.GetItemIdByName("Broken Bell") --unfinished
 CollectibleType.SOMETHINGWICKED_NAGA_VIPER = Isaac.GetItemIdByName("Naga Viper")
 CollectibleType.SOMETHINGWICKED_CAROLINA_REAPER = Isaac.GetItemIdByName("Carolina Reaper")
-CollectibleType.SOMETHINGWICKED_CAT_FOOD = Isaac.GetItemIdByName("Cat Food")
+CollectibleType.SOMETHINGWICKED_CAT_FOOD = Isaac.GetItemIdByName("Cat Food") -- retouch
 CollectibleType.SOMETHINGWICKED_CAT_TEASER = Isaac.GetItemIdByName("Cat Teaser")
 CollectibleType.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetItemIdByName("Fuzzy Fly") --unfinished
 CollectibleType.SOMETHINGWICKED_CHAOS_HEART = Isaac.GetItemIdByName("Chaos Heart") -- entire redesign now
@@ -141,6 +143,8 @@ CollectibleType.SOMETHINGWICKED_WOODEN_HORN = Isaac.GetItemIdByName("Wooden Horn
 CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath") -- minor retouch, maybe
 CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL = Isaac.GetItemIdByName("Yellow Sigil") -- retouch when nightmares retouched
 CollectibleType.SOMETHINGWICKED_THE_YOYO = Isaac.GetItemIdByName("The Yo-Yo!") -- unfinished
+CollectibleType.SOMETHINGWICKED_HYDRUS = Isaac.GetItemIdByName("Snake")
+CollectibleType.SOMETHINGWICKED_HYDRA = Isaac.GetItemIdByName("Hydra") --unfinished
 
 TrinketType.SOMETHINGWICKED_TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll") -- retouch
 TrinketType.SOMETHINGWICKED_BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Battery") --unfinished
@@ -179,3 +183,37 @@ TrinketType.SOMETHINGWICKED_CURSED_KEY = Isaac.GetTrinketIdByName("Cursed Key")
 TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coins") -- retouch. gotta do the gold thing probably.
 TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
+
+Card.SOMETHINGWICKED_MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")
+Card.SOMETHINGWICKED_MAGPIE_EYE_BOON = Isaac.GetCardIdByName("MagpieEyeBoon")
+
+FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar")
+FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY = Isaac.GetEntityVariantByName("Cutie Fly")
+FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE = Isaac.GetEntityVariantByName("Devilsknife")
+FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST = Isaac.GetEntityVariantByName("Dudael Ghost")
+FamiliarVariant.SOMETHINGWICKED_BIG_WISP = Isaac.GetEntityVariantByName("Fat Wisp")
+FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetEntityVariantByName("Splendorous Sword")
+FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Prism Helper")
+FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar")
+FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion Familiar B")
+FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar")
+FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar")
+FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
+FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
+FamiliarVariant.SOMETHINGWICKED_THE_MISTAKE = Isaac.GetEntityVariantByName("Mistake Familiar") -- giga unfinished
+FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea")
+
+
+local itemPoolEnum = mod.ENUMS.ItemPools
+mod.CONST.POOLS = {
+    [itemPoolEnum.TERATOMA_BEGGAR] = {
+        { item = CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU, weight = 1},
+        { item = CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK, weight = 1}
+    }
+}
+
+mod.CONST.DUMMYITEMS = {
+    APOLLYONS_CROWN = Isaac.GetItemIdByName("[sw] apollyons crown dummy item"),
+    LUST_NULLITEM = Isaac.GetItemIdByName("[sw] lust dummy helper"),
+    BLANKBOOK_BOOKWORM = Isaac.GetItemIdByName("[sw] bookworm dummy item")
+}

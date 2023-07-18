@@ -1,6 +1,5 @@
 local mod = SomethingWicked
 local cType = mod.CustomCardTypes
-mod.cardCore = {}
 mod.addedCards = {
     [cType.CARDTYPE_THOTH] = {
         [Card.SOMETHINGWICKEDTHOTH_ART] = 1,
@@ -20,7 +19,7 @@ mod.addedCards = {
         [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = 1,}
 }
 local cardSpawnRules = {
-    [cType.CARDTYPE_THOTH] = 0.4,
+    [cType.CARDTYPE_THOTH] = 0--[[.4]],
     [cType.CARDTYPE_THOTH_REVERSED] = 0.6,
     [cType.CARDTYPE_FRENCH_PLAYING] = 0.6
 }
