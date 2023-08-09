@@ -24,7 +24,7 @@ local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     and fire.Type == EntityType.ENTITY_EFFECT
     and fire.Variant == EffectVariant.BLUE_FLAME
     and fire.SubType == this.wickedFire then
-        if e_data.somethingWicked_curseTick and e_data.somethingWicked_curseTick > 0
+        if e_data.sw_curseTick and e_data.sw_curseTick > 0
         then
             return false
         end
@@ -65,7 +65,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, this.OnWispDie, En
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CURSED_CANDLE] = {
-        desc = "Throws a curse flame on use#This cursed flame curses enemies on contact#Cursed enemies will take 1.5x damage, and the curse effect will last for 6 seconds",
+        desc = "Throws a curse flame on use#This cursed flame curses enemies for 6 seconds on contact#Cursed enemies will take 1.5x damage, and the curse effect will last for 6 seconds",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,

@@ -1,5 +1,4 @@
 local this = {}
-CollectibleType.SOMETHINGWICKED_GLITCHCITY = Isaac.GetItemIdByName("GLITCHCITY")
 EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
 EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 local mod = SomethingWicked

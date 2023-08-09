@@ -39,13 +39,8 @@ function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
     if c_rng:RandomFloat() < procChance then
         flags = flags | DamageFlag.DAMAGE_FAKE
     end
-    if ent:HasTrinket(TrinketType.TRINKET_PERFECTION) then
-        SomethingWicked.sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
-        ent:TryRemoveTrinket(TrinketType.TRINKET_PERFECTION)
-        ent:TryRemoveTrinket(TrinketType.TRINKET_PERFECTION + TrinketType.TRINKET_GOLDEN_FLAG)
-    end
     shouldntBlock = true
-    ent:TakeDamage(amount, flags | DamageFlag.DAMAGE_NO_PENALTIES, source, 0)
+    ent:TakeDamage(amount, flags, source, 0)
     shouldntBlock = false
     return false
 end

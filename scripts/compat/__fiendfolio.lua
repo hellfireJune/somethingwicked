@@ -9,6 +9,10 @@ function mod.compat:FFInit()
         ff.ReferenceItems.Actives = TableConcat(ff.ReferenceItems.Actives, fuzzy.Actives)
         ff.ReferenceItems.Passives = TableConcat(ff.ReferenceItems.Passives, fuzzy.Passives)
         ff.ReferenceItems.Trinkets = TableConcat(ff.ReferenceItems.Trinkets, fuzzy.Trinkets)
+
+        ff:AddStackableItems(include(directory.."stackableItems"))
+
+        ff.electrumSynergies = TableConcat(ff.electrumSynergies, include(directory.."electrum"))
     end
 end
 

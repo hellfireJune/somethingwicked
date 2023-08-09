@@ -1,9 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS = Isaac.GetCardIdByName("KnightOfDiamonds")
-Card.SOMETHINGWICKED_KNIGHT_OF_HEARTS = Isaac.GetCardIdByName("KnightOfHearts")
-Card.SOMETHINGWICKED_KNIGHT_OF_SPADES = Isaac.GetCardIdByName("KnightOfSpades")
-Card.SOMETHINGWICKED_KNIGHT_OF_CLUBS = Isaac.GetCardIdByName("KnightOfClubs")
-Card.SOMETHINGWICKED_THE_GAME = Isaac.GetCardIdByName("TheGame") --that you just lost
 
 this.variants = {
     [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = {PickupVariant.PICKUP_COIN, 12},

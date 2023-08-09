@@ -8,16 +8,16 @@ local function NPCUpdate(_, npc)
     end
 
     if npc:HasEntityFlags(EntityFlag.FLAG_CONFUSION) then
-        npc:SetColor(mod.electroStunColor, 2, 3, false, false)
+        npc:SetColor(mod.ElectroStunStatusColor, 2, 3, false, false)
 
         if npc.FrameCount % 6 == 1 then
             local parent = e_data.somethingWicked_electroStunParent
             local lightning = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CHAIN_LIGHTNING, 0, npc.Position, Vector.Zero, parent)
             lightning.CollisionDamage = parent.CollisionDamage / 5
-            lightning.Color = mod.electroStunColor
+            lightning.Color = mod.ElectroStunStatusColor
             lightning.Parent = parent
 
-            lightning:GetSprite().Color = mod.electroStunColor
+            lightning:GetSprite().Color = mod.ElectroStunStatusColor
             local l_data = lightning:GetData()
             l_data.somethingWicked_electroStunLightning = true
             

@@ -19,7 +19,7 @@ function this:FireTear(tear)
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
         local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
-            tear.Color = this.dreadColor
+            tear.Color = this.DreadStatusColor
             local t_data = tear:GetData()
             t_data.somethingWicked_applyingDread = true
         end
@@ -34,7 +34,7 @@ function this:FireLaser(laser, player, pure)
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
         local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
-            laser.Color = this.dreadColor
+            laser.Color = this.DreadStatusColor
             local p_data = player:GetData()
             p_data.somethingWicked_applyingDread = true
 

@@ -1,6 +1,6 @@
-local this = {}
-SomethingWicked.SlotHelpers = {}
-SomethingWicked.SlotHelpers.slots = { }
+local mod = SomethingWicked
+local game = Game()
+SomethingWicked.slotData = { }
 
 --[[
     Possible Values for the InitData table
@@ -23,7 +23,7 @@ SomethingWicked.SlotHelpers.slots = { }
     animEventPayout
     animEventDeath
 ]]
-function SomethingWicked.SlotHelpers:Init(initData)
+function mod:InitSlotData(initData)
     if initData.slotVariant == nil then
         print("june you bogus youre going to break your slot machines")
         return
@@ -47,10 +47,27 @@ function SomethingWicked.SlotHelpers:Init(initData)
     initData.animFramesDeath = initData.animFramesDeath or 1
     initData.animNameBroken = initData.animNameBroken or "Broken"
 
-    SomethingWicked.SlotHelpers.slots[initData.slotVariant] = initData
+    mod.slotData[initData.slotVariant] = initData
 end
 
-function this:MachineUpdate(player)
+local function removingStuff(pickup, machine)
+    if pickup.FrameCount <= 3
+    and machine.Position:Distance(pickup.Position) <= machine.Size + pickup.Size + machine.Velocity:Length() + pickup.Velocity:Length()
+    then
+        pickup:Remove()
+    end
+end
+
+local function MachineNewRoom()
+    for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_SLOT)) do
+        local v_slotData = mod.slotData[value.Variant]
+        if v_slotData and v_slotData.removeSubTypesAboveOne and
+         value.SubType > 0 then
+            value:Remove()
+        end
+    end
+end
+local function MachineUpdate(_, player)
     --Like, 90% of this code I nabbed from andromeda's Wisp Wizard
     --Which itself was nabbed from the Harlot Beggar's mod, heh
 
@@ -59,12 +76,12 @@ function this:MachineUpdate(player)
     local machiness = Isaac.FindByType(EntityType.ENTITY_SLOT)
 
     for i, machine in ipairs(machiness) do
-        if SomethingWicked.SlotHelpers.slots[machine.Variant] then
-            local v_slotData = SomethingWicked.SlotHelpers.slots[machine.Variant]
+        if mod.slotData[machine.Variant] then
+            local v_slotData = mod.slotData[machine.Variant]
             local v_sprite = machine:GetSprite()
             local v_data = machine:GetData()
 
-            v_data.PersistantBeggarData = v_data.PersistantBeggarData or this:BeggarData(machine)
+            v_data.PersistantBeggarData = v_data.PersistantBeggarData or mod:BeggarData(machine)
     
             if machine.SubType == 0 then
                 if v_sprite:IsPlaying(v_slotData.animNamePlaying) and v_sprite:GetFrame() == v_slotData.animFramesPlaying then 
@@ -88,7 +105,7 @@ function this:MachineUpdate(player)
                                     if v_slotData.isEvilBeggar then
                                         flag = LevelStateFlag.STATE_EVIL_BUM_LEFT
                                     end
-                                    SomethingWicked.game:GetLevel():SetStateFlag(flag, true)
+                                    game:GetLevel():SetStateFlag(flag, true)
                                 end
                             end
                         else
@@ -126,10 +143,10 @@ function this:MachineUpdate(player)
                     end
                 end
                 for _, pickup in ipairs(Isaac.FindByType(EntityType.ENTITY_PICKUP)) do
-                    this:removingStuff(pickup, machine)
+                    removingStuff(pickup, machine)
                 end
                 for _, pickup in ipairs(Isaac.FindByType(EntityType.ENTITY_BOMB)) do
-                    this:removingStuff(pickup, machine)
+                    removingStuff(pickup, machine)
                 end
     
                 if v_slotData.isBeggar then
@@ -138,7 +155,7 @@ function this:MachineUpdate(player)
                     if v_slotData.isEvilBeggar then
                         flag = LevelStateFlag.STATE_EVIL_BUM_KILLED
                     end
-                    SomethingWicked.game:GetLevel():SetStateFlag(flag, true)
+                    game:GetLevel():SetStateFlag(flag, true)
                 else
                     if (not v_sprite:IsPlaying(v_slotData.animNameDeath))
                     and (not (v_sprite:GetAnimation() == v_slotData.animNameBroken)) then
@@ -163,47 +180,24 @@ function this:MachineUpdate(player)
     end
 end
 
-function this:removingStuff(pickup, machine)
-    if pickup.FrameCount <= 3
-    and machine.Position:Distance(pickup.Position) <= machine.Size + pickup.Size + machine.Velocity:Length() + pickup.Velocity:Length()
-    then
-        pickup:Remove()
-    end
-end
-
-function this:MachineNewRoom()
-    for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_SLOT)) do
-        local v_slotData = SomethingWicked.SlotHelpers.slots[value.Variant]
-        if v_slotData and v_slotData.removeSubTypesAboveOne and
-         value.SubType > 0 then
-            value:Remove()
-        end
-    end
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.MachineUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.MachineNewRoom)
-
-function SomethingWicked.SlotHelpers:GetPayoutVector(v_rng)
-    local angle = v_rng:RandomInt(120)
-    return Vector.FromAngle(angle + 30) * 5
-end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, MachineUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, MachineNewRoom)
 
 --Slot/Beggar Data
 SomethingWicked.save.runData.BeggarData = {}
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, ent)
+mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, ent)
     if ent.Type == EntityType.ENTITY_SLOT
-    and SomethingWicked.SlotHelpers.slots[ent.Variant] then
+    and mod.slotData[ent.Variant] then
         SomethingWicked.save.runData.BeggarData[""..ent.InitSeed] = ent:GetData().PersistantBeggarData
     end
 end)
 
-function this:BeggarData(machine)
-    SomethingWicked.save.runData.BeggarData = SomethingWicked.save.runData.BeggarData or {}
+function mod:BeggarData(machine)
+    mod.save.runData.BeggarData = mod.save.runData.BeggarData or {}
     local hash = ""..machine.InitSeed
-    if SomethingWicked.save.runData.BeggarData[hash] then
-        return SomethingWicked.save.runData.BeggarData[hash]
+    if mod.save.runData.BeggarData[hash] then
+        return mod.save.runData.BeggarData[hash]
     else
         return {}
     end
@@ -213,7 +207,7 @@ end
 --Helper Functions
 
 
-function SomethingWicked.SlotHelpers:BaseCoinCanPlay(player, slot, chance)
+function mod:BeggarCoinCanPlay(player, slot, chance)
     if player:GetNumCoins() > 0 then
         player:AddCoins(-1)
         local s_data = slot:GetData()
@@ -222,7 +216,7 @@ function SomethingWicked.SlotHelpers:BaseCoinCanPlay(player, slot, chance)
         local v_rng = slot:GetDropRNG()
         local rndmFloat = v_rng:RandomFloat()
         if rndmFloat <= chance
-        and (SomethingWicked.game.Difficulty ~= Difficulty.DIFFICULTY_HARD or s_data.PersistantBeggarData.TimesSpentMoneyOn > 6) then
+        and (game.Difficulty ~= Difficulty.DIFFICULTY_HARD or s_data.PersistantBeggarData.TimesSpentMoneyOn > 6) then
             return rndmFloat
         end
         return 0

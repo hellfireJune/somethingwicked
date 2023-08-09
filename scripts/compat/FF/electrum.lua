@@ -74,3 +74,4 @@ local synergies = {
         
     end,
 }
+return synergies

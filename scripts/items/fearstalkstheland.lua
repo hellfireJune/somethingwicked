@@ -1,5 +1,5 @@
 local this = {}
-this.dreadColor = Color(1, 1, 1, 1, 0.4)
+this.DreadStatusColor = Color(1, 1, 1, 1, 0.4)
 
 function this:UseItem(_, _, player)
     return true

@@ -1,8 +1,10 @@
-local function genericWikiTable(id)
+local mod = SomethingWicked
+local function genericWikiTable(id, desc)
     return {
         ID = id,
         ModName = "Something Wicked (The Unlisted Beta)",
         Class = "Something Wicked",
+        WikiDesc = Encyclopedia.EIDToWiki(desc)
     }
 end
 --not writing 99 null checks forgive me
@@ -43,13 +45,22 @@ local encyclopediaLootPools = {
 if EID then
     local icon = Sprite()
     icon:Load("gfx/ui/eid_icon.anm2", true)
-
     EID:addIcon("SomethingWicked", "Idle", 0, 32, 32, 6, 4, icon)
 
     EID:setModIndicatorName("Something Wicked")
     EID:setModIndicatorIcon("SomethingWicked")
-
 end
+mod.CONST.GENERIC_DESCRIPTIONS = {
+    CURSE = "Cursed enemies will take 1.5x damage, and will gain a slight slowing effect",
+    DREAD = "",
+    BITTER = "",
+    ELECTROSTUN = "",
+
+    NIGHTMARES = "",
+    TERATOMAS = "",
+
+    CARDDRAW = "Cannot use The Fool? The Lovers?, The Stars? or Wheel of Fortune?#Teleport cards will only be rarely used, and cannot be drawn during boss fights",
+}
 local collectibles = {
     [CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM] = {
         desc = "↑ {{Damage}} +1 Damage up",
@@ -93,7 +104,12 @@ local collectibles = {
         },
     },
     [CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO] = {
-        desc = "↑ {{Tears}} +0.5 Tears up#↑ {{Speed}} +0.3 Speed up"
+        desc = "↑ {{Tears}} +0.5 Tears up#↑ {{Speed}} +0.3 Speed up",
+        pools = {
+            encyclopediaLootPools.POOL_BOSS,
+            encyclopediaLootPools.POOL_GOLDEN_CHEST,
+            encyclopediaLootPools.POOL_GREED_BOSS
+        }
     },
     [CollectibleType.SOMETHINGWICKED_D_STOCK] = {
         desc = "{{Shop}} Restocks the current shop if used inside a shop#Will also similarly restock {{DevilRoom}} Devil Deals and {{Collectible586}} Stairway shops",
@@ -101,22 +117,108 @@ local collectibles = {
             encyclopediaLootPools.POOL_SHOP,
             encyclopediaLootPools.POOL_GREED_SHOP,
         },
+    },
+    [CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM] = {
+        desc = "↑ {{Damage}} +0.7 Damage up#↓ {{Tears}} -0.4 Tears down#↑ {{Range}} 0.75 Range up#Makes Isaac 50% taller and 25% thinner",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+            encyclopediaLootPools.POOL_GREED_BOSS
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE] = {
+        desc = "↑ Has a chance to use an active item 1-2 more times on use",
+        pools = {
+            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
+        desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#{{Luck}} Scales with luck",
+        pools = { mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
+            mod.encyclopediaLootPools.POOL_GREED_DEVIL}
+    },
+    [CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD] = {
+        desc = "!!! Enemies respawn at half health on death#↑ Room clear rewards will run twice#↑ +2 luck",
+        Hide = true,
+    },
+    [CollectibleType.SOMETHINGWICKED_OLD_URN] = {
+        desc = "{{Card81}} Spawns 3 soul stones on pickup#{{Rune}} Will spawn runes if no soul stones are unlocked",
+        pools = {
+            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
+            SomethingWicked.encyclopediaLootPools.POOL_SECRET,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
+            SomethingWicked.encyclopediaLootPools.POOL_GREED_SECRET
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_RED_LOCKBOX] = {
+        desc = "{{SoulHeart}} Spawns 4-6 soul hearts on pickup",
+        pools = {
+            SomethingWicked.encyclopediaLootPools.POOL_RED_CHEST,
+            SomethingWicked.encyclopediaLootPools.POOL_DEMON_BEGGAR,
+            SomethingWicked.encyclopediaLootPools.POOL_KEY_MASTER,
+            SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
+        },
     }
 }
 
 for index, value in pairs(collectibles) do
-    print(index, value.desc)
+    --print(index, value.desc)
+    if EID then
+        EID:addCollectible(index, value.desc)
+    end
+            
+    if Encyclopedia and Encyclopedia.EIDToWiki then --/shrug
+        local tab = genericWikiTable(index, value.desc)
+        tab.Pools = value.pools
+        tab.Hide = value.Hide or false
+        Encyclopedia.AddItem(tab)
+    end
+end
+
+local trinkets = {
+    [TrinketType.SOMETHINGWICKED_TWO_OF_COINS] = {
+        desc = "{{Heart}} Spawns 2-4 coins upon picking up a red heart"
+    },
+    [TrinketType.SOMETHINGWICKED_CATS_EYE] = {
+        desc = "↑ Spawns 1 sack upon entering a {{SecretRoom}} Secret Room",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, nil, 1)
+        end
+    },
+    [TrinketType.SOMETHINGWICKED_STONE_KEY] = {
+        desc = "↑ Opening a secret room will refund one bomb#Walking into bomb chests opens them for free",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, {"25% chance to spawn an additional bomb from opening Secret Rooms", 
+            "50% chance to spawn an additional bomb from opening Secret Rooms"})
+        end
+    },
+    [TrinketType.SOMETHINGWICKED_TREASURERS_KEY] = {
+        desc = "{{TreasureRoom}} Treasure Rooms and {{Planetarium}} Planetariums will spawn unlocked",
+    },
+    [TrinketType.SOMETHINGWICKED_CURSED_KEY] = {
+        desc = "{{CursedRoom}} All locked doors will spawn as unlocked Curse Room doors",
+    },
+    [TrinketType.SOMETHINGWICKED_DICE_ROLLER] = {
+        desc = "Using an active item has a chance to trigger one of the following effects:#{{Collectible105}} D6#{{Collectible406}} D8#{{Collectible285}} D10#{{Collectible386}} D12#{{Collectible166}} D20#Chance scales with the charge of the item used"
+    }
+}
+
+for key, value in pairs(trinkets) do
     if value.desc then
         if EID then
-            EID:addCollectible(index, value.desc)
+            EID:addTrinket(key, value.desc)
+
+            if value.metadataFunction then
+                value.metadataFunction(key)
+            end
         end
-            
-        if Encyclopedia and Encyclopedia.EIDToWiki then --/shrug
-            local tab = genericWikiTable(index)
-            tab.WikiDesc = Encyclopedia.EIDToWiki(value.desc)
-            tab.Pools = value.pools
+
+        if Encyclopedia and Encyclopedia.EIDToWiki then
+            local tab = genericWikiTable(key, value.desc)
             tab.Hide = value.Hide or false
-            Encyclopedia.AddItem(tab)
+            Encyclopedia.AddTrinket(tab)
         end
     end
 end

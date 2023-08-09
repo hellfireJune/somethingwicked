@@ -52,27 +52,6 @@ function mod:UtilScheduleForUpdate(func, delay, callback)
   table.insert(delayedFuncs[callback], { Func = func, Delay = delay })
 end
 
-
---lamb's
-function mod:utilForceBloodTear(tear)
-	if tear.Variant == TearVariant.BLUE then
-		tear:ChangeVariant(TearVariant.BLOOD)
-	elseif tear.Variant == TearVariant.NAIL then
-		tear:ChangeVariant(TearVariant.NAIL_BLOOD)
-	elseif tear.Variant == TearVariant.GLAUCOMA then
-		tear:ChangeVariant(TearVariant.GLAUCOMA_BLOOD)
-	elseif tear.Variant == TearVariant.CUPID_BLUE then
-		tear:ChangeVariant(TearVariant.CUPID_BLOOD)
-	elseif tear.Variant == TearVariant.EYE then
-		tear:ChangeVariant(TearVariant.EYE_BLOOD)
-	elseif tear.Variant == TearVariant.PUPULA then
-		tear:ChangeVariant(TearVariant.PUPULA_BLOOD)
-	elseif tear.Variant == TearVariant.GODS_FLESH then
-		tear:ChangeVariant(TearVariant.GODS_FLESH_BLOOD)
-	end
-end
-
-
 --removes the player's current trinkets, gives the player the one you provided, uses the smelter, then gives the player back the original trinkets.
 --TY to kittenchilly for this snippet.
 function mod:UtilAddSmeltedTrinket(trinket, player)
@@ -210,16 +189,28 @@ local earlyLoad = {
   "meta/toolbox",
   "meta/savedata",
   "meta/callbacks",
-  --"meta/cardController"
+  "meta/customslots",
+  "meta/cardController",
+
+  "effects/__core"
 }
 
 for index, value in ipairs(earlyLoad) do
   incl(value)
 end
 
+local i_ = "items/"
 local midLoad = {
-  "items/wickedsoul",
-  "items/dstock",
+  i_.."wickedSoul",
+  i_.."dStock",
+  i_.."electricDiceBustedBattery",
+  i_.."hellfireCrownOfBlood",
+  i_.."oldUrn",
+
+  i_.."twoOfCoins",
+  i_.."stoneKey",
+  i_.."treasurersKeyCursedKey",
+  i_.."blankBook",
 }
 for index, value in ipairs(midLoad) do
   incl(value)
@@ -229,19 +220,25 @@ function mod:EvaluateGenericStatItems(player, flags)
     return
   end
   local wickedSoulMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+  local goldenWatchMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH)
+  local lankyMushMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM)
 
   if flags == CacheFlag.CACHE_DAMAGE then
-    player.Damage = mod:DamageUp(player, 1 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM))
-    player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
-    player.Damage = mod:DamageUp(player, 0.3 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_SILVER_RING)))
     player.Damage = mod:DamageUp(player, 0.5 * wickedSoulMult)
+    player.Damage = mod:DamageUp(player, lankyMushMult * 0.7)
+
+    player.Damage = mod:DamageUp(player, 1 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM)))
+    player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
+    player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING))
   end
   if flags == CacheFlag.CACHE_FIREDELAY then
+    player.MaxFireDelay = mod:TearsUp(player, lankyMushMult * -0.4)
+
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO))
   end
   if flags == CacheFlag.CACHE_LUCK then
-    player.Luck = player.Luck + (1 * wickedSoulMult) 
+    player.Luck = player.Luck + (1 * wickedSoulMult)
   end
   if flags == CacheFlag.CACHE_SPEED then
     player.MoveSpeed = player.MoveSpeed + (0.2 * wickedSoulMult)
@@ -252,6 +249,11 @@ function mod:EvaluateGenericStatItems(player, flags)
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
+      player.TearRange = player.TearRange + (40 * 0.75 * lankyMushMult)
+  end
+
+  if flags == CacheFlag.CACHE_SIZE then
+    player.SpriteScale = player.SpriteScale * (lankyMushMult == 0 and Vector(1, 1) or Vector(0.75, 1.5))
   end
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
@@ -274,39 +276,82 @@ function mod:GenericOnPickups(player, room, id)
       player:AddWisp(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES, player.Position)
     end
   end
+  if id == CollectibleType.SOMETHINGWICKED_RED_LOCKBOX then
+    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
+    for i = 1, 4 + c_rng:RandomInt(3), 1 do
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
+    end
+  end
+  mod:OldUrnPickup(player, room, id)
 end
 mod:AddCustomCBack(mod.ENUMS.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
 
-function mod:OnNewFloor()
+function mod:OnNewRoom()
+
   local level = game:GetLevel()
   local currRoom = level:GetCurrentRoomDesc()
   local currIdx = level:GetCurrentRoomIndex()
 
-  if level:GetStartingRoomIndex() == currIdx
-  and currRoom.VisitedCount == 1 then
-    -- new floor
-    for index, value in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)) do
-      mod:WickedSoulOnPickup(value)
+  if currRoom.VisitedCount == 1 and level:GetStartingRoomIndex() == currIdx then
+      -- new floor
+      mod.save.runData.CurseList = {}
+
+      for index, value in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)) do
+        mod:WickedSoulOnPickup(value)
+      end
+    end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, mod.OnNewRoom)
+
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
+  local room = game:GetRoom()
+  local rtype = room:GetType()
+
+  local level = game:GetLevel()
+  local currRoom = level:GetCurrentRoomDesc()
+  local currIdx = level:GetCurrentRoomIndex()
+
+  if currRoom.VisitedCount == 1 then
+    --cats eye
+    if rtype == RoomType.ROOM_SECRET or rtype == RoomType.ROOM_SUPERSECRET then
+      for i = 1, mod:GlobalGetTrinketNum(TrinketType.SOMETHINGWICKED_CATS_EYE), 1 do
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_GRAB_BAG, 0, room:FindFreePickupSpawnPosition(room:GetCenterPos()), Vector.Zero, nil)
+      end
     end
   end
+  
+  for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
+    local door = room:GetDoor(i)
+    if door then
+      mod:CurseKeyTreasuersKeyDoorChecks(door, currIdx)
+    end
+  end
+end)
+
+function mod:Updately()
+  local npcs = Isaac.GetRoomEntities()
+  
+  for i = 1, #npcs, 1 do
+    local npc = npcs[i]
+    npcs[i] = npc:ToNPC()
+  end
+
+  for _, npc in pairs(npcs) do
+    mod:HellfireCOBUpdate(npc)
+  end
 end
-mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, mod.OnNewFloor)
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
 
 --[[local itemsToLoad = {
   "ramshead",
-  "lankymushroom",
-  "wickedsoul"
 
   "discipleseye",
-  "redlockbox",
-  "batteryD",
   "newlocustitems",
   "voidbombs",
   "catfood",
   "whiterobe",
   "nightshade",
   "fitusfortunus",
-  "oldurn",
   "apollyonscrown",
   "woodendice",
   "biretta",
@@ -339,7 +384,6 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, m
   "knaveofhearts",
   "redqueen",
   "brokenbell",
-  "hellfireCrownOfBlood",
   "saintshead",
   "eyeofprovidence",
   "tombstone",
@@ -354,7 +398,6 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, m
   "techmodulo",
   "pressurevalve",
   "lightsharddarkshard",
-  "discord",
   "pendulum",
   "chrismatory",
   "yoyo",
@@ -411,17 +454,13 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, m
   "lastprism",
   "assisttrophy",
   
-  "twofcoins",
   "scorchedwood",
-  "stonekey",
   "bobsheart",
-  "catseye",
   "damnedsoulvirtuoussoul",
   "sugarcoatedpill",
-  "treasurerskeycursedkey",
   "demoncore",
   "emptybook",
-  "demoniumpage", -- demonium page
+  "demoniumpage",
   "gachapon",
   "voidheart",
   "mrskits",
@@ -430,7 +469,6 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_NEW_ROOM, CallbackPriority.EARLY, m
   "zzzzzzmagnet",
   "redkeychain",
   "powerinveter",
-  "diceroller"
 }
 
 local cardsToLoad = {

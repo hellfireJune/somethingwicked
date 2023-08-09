@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 local cobIFrames = 24
@@ -6,7 +5,7 @@ local function procChance(player)
     return 0.13 + (player.Luck*0.04)
 end
 local shouldMakeDMGCrazy = false
-function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
+local function OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     if shouldMakeDMGCrazy then
         return
     end
@@ -43,9 +42,9 @@ function this:OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTakeDMG)
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, OnTakeDMG)
 
-function this:NPCUpdate(ent)
+function mod:HellfireCOBUpdate(ent)
     local e_data = ent:GetData()
     
     if e_data.sw_crownOfBloodMarked then
@@ -100,7 +99,6 @@ function this:NPCUpdate(ent)
         e_data.sw_hellfirePrimedFrames = 30
     end
 end
-mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, this.NPCUpdate)
 
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
     if not mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) then
@@ -141,17 +139,3 @@ mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
     end
     --chest
 end)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
-        desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#Scales with luck",
-        encycloDesc = mod:UtilGenerateWikiDesc({"On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions", "Scales with luck"}),
-        pools = { mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
-            mod.encyclopediaLootPools.POOL_GREED_DEVIL}
-    },
-    [CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD] = {
-        desc = "!!! Enemies respawn at half health on death#↑ Room clear rewards will run twice#↑ +2 luck",
-        Hide = true,
-    }
-}
-return this

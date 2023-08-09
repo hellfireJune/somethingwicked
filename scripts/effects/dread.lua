@@ -32,7 +32,7 @@ local function NPCUpdate(_, ent)
 
     e_data.somethingWicked_dreadStacks = e_data.somethingWicked_dreadStacks or 0
     if e_data.somethingWicked_dreadStacks > 0 then
-        ent:SetColor(mod.dreadColor, 2, 1, false, false)
+        ent:SetColor(mod.DreadStatusColor, 2, 1, false, false)
     end
 end
 mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, NPCUpdate)

@@ -1,5 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKEDTHOTH_FORTUNE = Isaac.GetCardIdByName("Fortune")
 
 function this:UseCard(_, player)
     player:UseActiveItem(CollectibleType.COLLECTIBLE_D7, UseFlag.USE_NOANIM)

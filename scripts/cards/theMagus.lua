@@ -1,5 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKEDTHOTH_THE_MAGUS = Isaac.GetCardIdByName("TheMagus")
 this.AmountToSpawn = 2
 
 function this:UseCard(_, player)

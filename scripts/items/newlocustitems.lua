@@ -87,7 +87,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.enemyDeath)
 
 --wormwood time
 function this:InitWormwoodLocust(familiar)
-    familiar:GetSprite().Color = mod.WWColor
+    familiar:GetSprite().Color = mod.BitterStatusColor
 end
 
 local isDoingWWDamage

@@ -254,17 +254,12 @@ function mod:SpawnPickupShmorgabord(payout, variant, rng, position, spawner, pos
     end 
 end
 
---[[
-this.Coins = {
-    [10] = CoinSubType.COIN_DIME,
-    [5] = CoinSubType.COIN_NICKEL,
-    [1] = CoinSubType.COIN_PENNY
-}
-this.CoinOrders = {
-    [1] = 10,
-    [2] = 5,
-    [3] = 1,
-} ]]
+
+function mod:GetPayoutVector(v_rng)
+    local angle = v_rng:RandomInt(120)
+    return Vector.FromAngle(angle + 30) * 5
+end
+
 function mod:CanPickupPickupGeneric(heart, player)
     if (not heart:IsShopItem() or (heart.Price > player:GetNumCoins() and player:IsExtraAnimationFinished()))
     then
@@ -831,6 +826,25 @@ function mod:DoesFamiliarShootPlayerTears(familiar)
 	or familiar.Variant == FamiliarVariant.UMBILICAL_BABY
     or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION
     or familiar.Variant == FamiliarVariant.SOMETHINGWICKED_LEGION_B) 
+end
+
+--lamb's
+function mod:utilForceBloodTear(tear)
+	if tear.Variant == TearVariant.BLUE then
+		tear:ChangeVariant(TearVariant.BLOOD)
+	elseif tear.Variant == TearVariant.NAIL then
+		tear:ChangeVariant(TearVariant.NAIL_BLOOD)
+	elseif tear.Variant == TearVariant.GLAUCOMA then
+		tear:ChangeVariant(TearVariant.GLAUCOMA_BLOOD)
+	elseif tear.Variant == TearVariant.CUPID_BLUE then
+		tear:ChangeVariant(TearVariant.CUPID_BLOOD)
+	elseif tear.Variant == TearVariant.EYE then
+		tear:ChangeVariant(TearVariant.EYE_BLOOD)
+	elseif tear.Variant == TearVariant.PUPULA then
+		tear:ChangeVariant(TearVariant.PUPULA_BLOOD)
+	elseif tear.Variant == TearVariant.GODS_FLESH then
+		tear:ChangeVariant(TearVariant.GODS_FLESH_BLOOD)
+	end
 end
 
 function mod:GetOrbitalPositionInLayer(fcheck, player)

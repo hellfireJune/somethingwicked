@@ -1,5 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKED_STONE_OF_THE_PIT = Isaac.GetCardIdByName("StoneOfThePit")
 
 function this:CardUse(_, player)
     --local tempEffects = player:GetEffects()

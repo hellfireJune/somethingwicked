@@ -1,6 +1,4 @@
 local this = {}
-Card.SOMETHINGWICKEDTHOTH_LUST = Isaac.GetCardIdByName("Lust")
-this.helperEffect = Isaac.GetItemIdByName("lust dummy helper")
 
 this.SpeedDown = 0.4
 

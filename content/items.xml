@@ -1,17 +1,46 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
-  - Added Assist Trophy
+  Additions:
+  - Added Assist Trophy and Shampoo
 
-  - 3d glasses no longer spews out several lasers and also no longer breaks with finger
-  - 3d glasses improvements for brim (Interrupting a brim will now stop the bonus brims fired by it, works with soy milk)
-  - biretta now spawns confessionals at the start of a floor instead of the end
-  - ticket roll slot machines wont spawn in unavailable spots
-  - glitchcity nerfs (damage decreased from 80->60, slightly less fast spawning, will no longer spawn directly on top of enemies)
-  - wooden dice and book of exodus now both give +1 luck while held
-  - trinket smasher is now 10 coins in the shop
-  - wicked soul stat changes
-  - minor eid / description changes
-  - animation and sound changes for a bunch of items
+  Changes:
+  - D-Stock:
+    - Now restocks devil deals and angel shops
+
+  - Two of Coins:
+    - Now does appropriate VFX on heart pickup
+    - Scales with heart worth and trinket multipliers
+
+  - Stone Key:
+    - Now actually properly refunds bombs from opening secret rooms
+    - Scales with trinket multipliers
+
+  - 3D Glasses
+    - Brimstone lasers will now be aptly interrupted if the main laser is interrupted, and soy milk lasers will keep firing for the duration of the main laser
+
+  - Trinket Smasher
+    - Now 10 coins in the shop
+
+  - Wooden Dice and Book of Exodus
+    - Both will grant +1 luck while held, now
+
+  - Blank Book
+    - Golden Blank Book will now grant two items worth of progress towards Bookworm (Doesn't work with Mom's Box)
+
+  - Misc: 
+    - Removed Possum's Ear and Possum's Head (BYE!)
+    - biretta now spawns confessionals at the start of a floor instead of the end
+    - ticket roll slot machines wont spawn in unavailable spots
+    - glitchcity nerfs (damage decreased from 80->60, slightly less fast spawning, will no longer spawn directly on top of enemies)
+    - wicked soul stat changes
+    - minor eid / description changes
+    - animation and sound changes for a bunch of items
+
+  Fixes:
+  - Hellfire will now work with enemies that have had their AI overriden (eg. Reworked Foes enemies)
+  - Finger will no longer do funny things with 3D glasses
+  - FiendFolio electrum synergies and stackable item compat now actually works
+
   -->
 
   <!--planned qol :333
@@ -26,7 +55,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 14, 30, 32, 35, 39, 74, 100, and 141-->
+  <!--also make item id 11, 14, 30, 32, 35, 39, 74, 100, 110, 144 and 141-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -37,10 +66,8 @@
   <passive id="7" name="Star of the Bottomless Pit" description = "Bearer of the key" gfx="starofthebottomlessredux.png" quality="3" devilprice="2" tags="offensive devil summonable" achievement="340"/>
   <passive id="8" name="Void Bombs" description="Abyssal bombs +5 bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
   <passive id="9" name="Cat Food" description="HP up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
-  <active id="10" name="Possum's Ear" description="Into bones" gfx="possumsear.png" quality="3" tags="nolostbr" achievement="391"/> 
-  <active id="12" name="Possum's Head" description="Scavenger" gfx="possumshead.png" tags="offensive" quality="2" maxcharges="2"/> 
   <passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> <!--Needs costume-->
-  <passive id="15" name="Wooden Horn" description="DMG + Evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
+  <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" spassivecache="true"/> 
   <passive id="18" name="Nightshade" gfx="nightshade2.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
@@ -86,7 +113,6 @@
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil" achievement="597"/> <!--costume-->
   <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" tags="offensive" hidden="true"/>
   <passive id="65" name="The Black Death" hidden="true"/>
-  <passive id="66" name="Hydra" hidden="true"/>
   <passive id="67" name="Snake" gfx="thesnake.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
   <passive id="68" name="Crying Minotaur"  hidden="true"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
@@ -115,6 +141,7 @@
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
+  <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="6"/>
   
   <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
@@ -132,16 +159,13 @@
   <familiar id="94" name="Little Attractor" hidden="true"/> 
   <passive id="95" name="Banana Milk" description="DMG down + fruity tears" gfx="bananamilk.png" cache="damage tearflag"/>  
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive"/>
-  <passive id="97" name="Bottle of Shampoo" hidden="true"/>
   <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
-  <passive id="103" name="Broken Bell" hidden="true"/> <!--check this?? -->
   <familiar id="104" name="Ms. Gonorrhea" hidden="true"/>
   <active id="105" name="Marble Sprout" hidden="true"/> 
   <passive id="106" name="Black Moon Medallion" hidden="true"/>
   <active id="108" name="Task Manager" hidden="true"/>
   <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive"/> <!--code done, needs testing-->
-  <passive id="110" name="Special Herbs Boxset" hidden="true"/> <!--needs more made--> <!--remove (maybe?)-->
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable"/>
@@ -167,7 +191,6 @@
 
   <passive id="142" name="Pendulum" description="" gfx="goldenwatch.png" hidden="true"/>
   <passive id="143" name="The Yo-Yo!" hidden="true"/>
-  <passive id="144" name="Spool of Yarn" hidden="true"/>
   <passive id="145" name="Air Freshener" hidden="true"/>
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true"/>
   <passive id="147" name="Piece of Silver" hidden="true"/>
@@ -203,9 +226,9 @@
   <trinket id="20" name="Gift Card" description="6 percent off!" gfx="giftcard.png"/>
   <trinket id="21" name="ZZZZZZ Magnet" description="World 23's deals" gfx="blankbook.png" hidden="true"/>
   <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> 
+  <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
   <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
-  <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
@@ -214,31 +237,16 @@
   <trinket id="25" name="Red Keychain" hidden="true"/> <!--code done-->
   <trinket id="26" name="Lucky Button" hidden="true"/> <!--better fortune machines-->
   <trinket id="27" name="Surgical Mask" hidden="true"/> <!--did'd-->
-  <trinket id="28" name="Onyx Fly" hidden="true"/> <!--flat fly dmg up-->
+  <trinket id="28" name="Halloween Candy" hidden="true"/>
   <trinket id="29" name="Floating Point Bug" hidden="true"/> <!--coded-->
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
 
   <trinket id="36" name="Card Graveyard" hidden="true"/> <!-- code done :3 -->
-  <trinket id="38" name="Halloween Candy" hidden="true"/>
   
   <passive name="[sw] apollyons crown dummy item" description="tell june if u see this" hidden="true"/>
   <passive id="705" name="[sw] lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
   <passive name="[sw] bookworm dummy item" description="tell june if u see this" hidden="true" tags="book"/>
-
-
-  <passive name="Knave of Hearts" hidden="true"/> <!--remove-->
-  <passive name="Prismatic Shard" hidden="true"/> <!--damagin enemies spawns flares nearby that spawn rainbow fires--> <!--remove-->
-  <active name="Osteophagy" description="Bone eater" gfx="osteophagyitem.png" quality="3" tags="nolostbr nogreed" hidden="true"/>
-  <!--<passive id="14" name="Star Shot" description="Wormwood's Wrath" gfx="whiterobe.png" quality="4" hidden="true"/> -->
-  <passive name="Mammon's Tooth" gfx="mammonstooth.png" description="DMG Up" quality="2" tags="offensive summonable" cache="damage" hidden="true"/> 
-  <passive name="Pig Ear" gfx="pigear.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
-  <passive name="Chili" gfx="chili.png" description="DMG Up" quality="2" tags="offensive" cache="damage" tags="offensive" hidden="true"/> 
-  <passive name="Curse of Ares" gfx="curseofares.png" description="Death begets war" quality="1" tags="offensive summonable" hidden="true"/>
-  <!--<passive id="17" name="Lantern" description="DMG Up + Guiding Light" gfx="lantern.png" quality="2" tags="offensive" cache="damage"/> Needs costume-->
-  <!--<passive id="14" name="Tech V" description="Tech aura" gfx="balrog.png" tags="offensive"/> Not done-->
-  <!--<active id="16" name="Makeshift Bombapult" description="Aerial bombardment" gfx="balrog.png"/> this one might be a bit too hard to do rn--> 
-  <!--<passive id="39" name="Ark of the Covenant" gfx="oldurn.png" description="Misfortune follows you" quality="3" tags="offensive"/> saved for next update-->
-  <!--<familiar id="40" name="Samuel" gfx="planetoid.png" description="Prophet Buddy" quality="2" tags="offensive summonable" cache="familiars"/> saved for next update-->
+  <passive name="[sw] golden bookworm dummy item" description="tell june if u see this" hidden="true" tags="book"/>
 </items>
