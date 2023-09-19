@@ -1,4 +1,5 @@
 local this = {}
+local mod = SomethingWicked
 
 function this:PickupInit(pickup)
     local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
@@ -73,8 +74,14 @@ function this:UseDice(_, rngObj, player, flags)
             player:TryRemoveTrinket(trinket)
             trinketsToAdd = trinketsToAdd + 1
 
+            local gilded = false
             if trinket >= TrinketType.TRINKET_GOLDEN_FLAG then
+                gilded = true
                 gildedTrinketsToAdd = gildedTrinketsToAdd + 1
+            end
+
+            if trinket % TrinketType.TRINKET_GOLDEN_FLAG == TrinketType.SOMETHINGWICKED_GACHAPON then
+                mod:GachaponDestroy(nil, player, gilded)
             end
         end
     end

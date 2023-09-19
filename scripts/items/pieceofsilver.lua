@@ -4,7 +4,7 @@ local mod = SomethingWicked
 local function proc(player)
     return 1
 end
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_COINSHOT, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_COINSHOT, {
     ApplyLogic = function (_, player, tear)
         if tear.Type == EntityType.ENTITY_TEAR and player:HasCollectible(CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER)

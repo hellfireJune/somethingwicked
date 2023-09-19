@@ -1,4 +1,4 @@
-local this = {}
+local mod = SomethingWicked
 
 function this:ItemUse(_, _, player, flags)
     return SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_BOLINE)
@@ -23,7 +23,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpda
 
 function this:EffectUpdate(effect)
     if effect.SubType == 1 then
-        effect.Velocity = SomethingWicked.EnemyHelpers:Lerp(effect.Velocity, Vector.Zero, 0.2)
+        effect.Velocity = mod:Lerp(effect.Velocity, Vector.Zero, 0.2)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdate, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)
@@ -31,7 +31,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdat
 function this:PlayerTakeDMG(player)
     player = player:ToPlayer()
     if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BOLINE) then
-        SomethingWicked.ItemHelpers:ChargeFirstActiveOfTypeThatNeedsCharge(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
+        SomethingWicked:ChargeFirstActiveOfTypeThatNeedsCharge(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
     end
 end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.PlayerTakeDMG, EntityType.ENTITY_PLAYER)
@@ -42,10 +42,14 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPri
         return
     end
 
-    local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, wisp.Position, Vector.Zero, wisp)
     local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, wisp.Position, Vector.Zero, wisp):ToLaser()
-    effect.Visible = false
-    void.Parent = effect
+    if wisp:HasMortalDamage() then    
+        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, wisp.Position, Vector.Zero, wisp)
+        effect.Visible = false
+        void.Parent = effect
+    else
+        void.Parent = wisp
+    end
     void.Radius = 40
     void.Timeout = 46
     void:AddTearFlags(TearFlags.TEAR_PULSE)

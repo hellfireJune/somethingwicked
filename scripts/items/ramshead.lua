@@ -14,7 +14,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.DamageCache, Ca
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_RAMS_HEAD] = {
         desc = "↑ +0.7 tears#↑ {{Damage}} +1.3 Damage up",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"+25% fire rate", "+1.3 damage up"}),
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
             SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME,

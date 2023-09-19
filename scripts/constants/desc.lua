@@ -49,9 +49,13 @@ if EID then
 
     EID:setModIndicatorName("Something Wicked")
     EID:setModIndicatorIcon("SomethingWicked")
+
+    local curseIcon = Sprite()
+    curseIcon:Load("gfx/somethingwicked_status_effects.anm2", true)
+    EID:addIcon("SWCurseStatusIcon", "Curse", 0, 14, 14, 6, 4, curseIcon)
 end
-mod.CONST.GENERIC_DESCRIPTIONS = {
-    CURSE = "Cursed enemies will take 1.5x damage, and will gain a slight slowing effect",
+mod.GENERIC_DESCRIPTIONS = {
+    CURSE = "#{{SWCurseStatusIcon}} Cursed enemies will take 1.5x damage, and will gain a slight slowing effect",
     DREAD = "",
     BITTER = "",
     ELECTROSTUN = "",
@@ -130,14 +134,14 @@ local collectibles = {
     [CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE] = {
         desc = "↑ Has a chance to use an active item 1-2 more times on use",
         pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP
         },
     },
     [CollectibleType.SOMETHINGWICKED_HELLFIRE] = {
         desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#{{Luck}} Scales with luck",
-        pools = { mod.encyclopediaLootPools.POOL_DEVIL, mod.encyclopediaLootPools.POOL_ULTRA_SECRET,
-            mod.encyclopediaLootPools.POOL_GREED_DEVIL}
+        pools = { encyclopediaLootPools.POOL_DEVIL, encyclopediaLootPools.POOL_ULTRA_SECRET,
+            encyclopediaLootPools.POOL_GREED_DEVIL}
     },
     [CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD] = {
         desc = "!!! Enemies respawn at half health on death#↑ Room clear rewards will run twice#↑ +2 luck",
@@ -146,20 +150,92 @@ local collectibles = {
     [CollectibleType.SOMETHINGWICKED_OLD_URN] = {
         desc = "{{Card81}} Spawns 3 soul stones on pickup#{{Rune}} Will spawn runes if no soul stones are unlocked",
         pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_SECRET,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SECRET
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+            encyclopediaLootPools.POOL_GREED_SECRET
         }
     },
     [CollectibleType.SOMETHINGWICKED_RED_LOCKBOX] = {
         desc = "{{SoulHeart}} Spawns 4-6 soul hearts on pickup",
         pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_RED_CHEST,
-            SomethingWicked.encyclopediaLootPools.POOL_DEMON_BEGGAR,
-            SomethingWicked.encyclopediaLootPools.POOL_KEY_MASTER,
-            SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
+            encyclopediaLootPools.POOL_RED_CHEST,
+            encyclopediaLootPools.POOL_DEMON_BEGGAR,
+            encyclopediaLootPools.POOL_KEY_MASTER,
+            encyclopediaLootPools.POOL_ULTRA_SECRET,
         },
+    },
+    [CollectibleType.SOMETHINGWICKED_ITEM_BOX] = {
+        desc = "\1 Grants the effect of 4 random items for the current room",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_SECRET }
+    },
+    [CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM] = {
+        desc = "Upon use, curses all enemies in the room for 7 seconds"..mod.GENERIC_DESCRIPTIONS.CURSE,
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER] = {
+        desc = "{{Trinket}} Destroys any held trinkets on use#Spawns 3-4 random pickups on trinket destroy#Increases the spawn rate of trinkets",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_STAR_SPAWN] = {
+        desc = "↑ {{Damage} 1.2x Damage#↑ {{Tears}} 1.2x Tears#\1 On damage, applies a random multiplier to both tears and damage#Lowest multipler can be 0.5x, Highest multipler can be 2.4x",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_ULTRA_SECRET, encyclopediaLootPools.POOL_GREED_TREASURE }
+    },
+    [CollectibleType.SOMETHINGWICKED_BRAVERY] = {
+        desc = "↑ 1.5x damage against bosses and champion enemies",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GOLDEN_CHEST,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_PLANCHETTE] = {
+        desc = "↑ {{Collectible163}} All Wisps, Nightmares, and other ghost-like familiars have double HP and deal double damage#"
+        .."{{Collectible584}} Spawns four unique Book of Virtues wisps on pickup#{{BlackHeart}} +1 Black Heart",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_GREED_CURSE
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_AIR_FRESHENER] = {
+        Hide = true,
+        desc = "freshens air"
+    },
+    {
+        [CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA] = {
+            desc = "↑ Bonus 33% chance to spawn a {{Library}} Library on new floor entry while held#{{Library}} Teleports the player to the Library on use# !!! Only charged if there is a library on the floor",
+            pools = {
+                encyclopediaLootPools.POOL_LIBRARY,
+                encyclopediaLootPools.POOL_TREASURE
+            }
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE] = {
+        desc = "{{Confusion}} Tears have a chance to confuse enemies for 2 seconds and cause them to shoot lightning out in random directions#{{Luck}} 100% chance at 14 Luck",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_VOID_BOMBS] = {
+        desc = "{{Bomb}} +5 bombs #{{Collectible399}} Isaac's bombs spawn a Maw of The Void ring upon exploding",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_BOMB_BUM
+        }
     }
 }
 
@@ -190,7 +266,7 @@ local trinkets = {
     [TrinketType.SOMETHINGWICKED_STONE_KEY] = {
         desc = "↑ Opening a secret room will refund one bomb#Walking into bomb chests opens them for free",
         metadataFunction = function (item)
-            EID:addGoldenTrinketMetadata(item, {"25% chance to spawn an additional bomb from opening Secret Rooms", 
+            EID:addGoldenTrinketMetadata(item, {"25% chance to spawn an additional bomb from opening Secret Rooms",
             "50% chance to spawn an additional bomb from opening Secret Rooms"})
         end
     },
@@ -202,7 +278,26 @@ local trinkets = {
     },
     [TrinketType.SOMETHINGWICKED_DICE_ROLLER] = {
         desc = "Using an active item has a chance to trigger one of the following effects:#{{Collectible105}} D6#{{Collectible406}} D8#{{Collectible285}} D10#{{Collectible386}} D12#{{Collectible166}} D20#Chance scales with the charge of the item used"
-    }
+    },
+    [TrinketType.SOMETHINGWICKED_GACHAPON] = {
+        desc = "{{Trinket}} If rerolled or destroyed by any means, grants the following to the player who held it last"
+        ..": #\1 {{Damage}} +0.6 Damage#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up#↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, nil, { 0.6, 0.5, 0.2, 0.1, 0.75, 1 } )
+        end
+    },
+    [TrinketType.SOMETHINGWICKED_POWER_INVERTER] = {
+        desc = "{{Battery}} Batteries give a {{Damage}} +0.9 Damage up for the current floor, instead of active item charge",
+    },
+    [TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL] = {
+        desc = "{{Pill}} Using a pill will turn all pills of that type into Full Health pills for the rest of the run#This trinket is consumed on pill use",
+    },
+    [TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE] = {
+        desc = "{{EternalHeart}} Chance to spawn an Eternal Heart upon taking damage",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, {"Chance increased!"})
+        end
+    },
 }
 
 for key, value in pairs(trinkets) do
@@ -233,4 +328,5 @@ if EID then
     EID.descriptions["en_us"].bookOfVirtuesWisps[CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU] = "Do nothing by themselves, will destroy self and spawn a blue spider if the item is used again"
     EID.descriptions["en_us"].bookOfVirtuesWisps[CollectibleType.SOMETHINGWICKED_GOLDEN_CARD] = "Does another random card effect on death"
     EID.descriptions["en_us"].bookOfVirtuesWisps[CollectibleType.SOMETHINGWICKED_BOLINE] = "Double HP wisps that spawn weaker maw of the void rings on damage"
+    EID.descriptions["en_us"].bookOfVirtuesWisps[CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA] = "Spawns 4 wisps that dissapear if there is not a library on the floor, cannot have more than 4 wisps at once"
 end

@@ -2,6 +2,7 @@
 local mod = SomethingWicked
 
 EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
+EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
 
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 
@@ -10,6 +11,9 @@ mod.CurseStatusColor = Color(1, 1, 1, 1, 0.1, 0, 0.3)
 mod.BitterStatusColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
 mod.DreadStatusColor = Color(1, 1, 1, 1, 0.4)
 mod.ElectroStunStatusColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
+
+mod.ElectroStunTearColor = Color(1, 1, 1, 1, 0.4, 0.656, 0.8)
+mod.PlasmaGlobeBaseProc = 0.125
 
 --FAMILIARS
 FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar")
@@ -21,12 +25,15 @@ FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetEntityVariantByN
 FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Prism Helper")
 FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar")
 FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion Familiar B")
-FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar")
-FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar")
+FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar") -- unfinished
+FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar") --unfinished
 FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
 FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
-FamiliarVariant.SOMETHINGWICKED_THE_MISTAKE = Isaac.GetEntityVariantByName("Mistake Familiar") -- giga unfinished
-FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea")
+FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea") --unfinished
+FamiliarVariant.SOMETHINGWICKED_YOYO = Isaac.GetEntityVariantByName("Wicked Yo-Yo") --still unfnished but oh well
+
+--[LAMP OIL, ROPE,] BOMBS
+BombVariant.SOMETHINGWICKED_VOID = 2761
 
 mod.CONST.CursePool = {
     LevelCurse.CURSE_OF_DARKNESS,
@@ -35,29 +42,15 @@ mod.CONST.CursePool = {
     LevelCurse.CURSE_OF_MAZE,
     LevelCurse.CURSE_OF_BLIND,
 }
-mod.CONST.InfinityBeggarMachinePool = {
-    mod.MachineVariant.MACHINE_SLOT,
-    mod.MachineVariant.MACHINE_BLOOD,
-    mod.MachineVariant.MACHINE_FORTUNE,
-    mod.MachineVariant.MACHINE_BEGGAR,
-    mod.MachineVariant.MACHINE_DEVIL_BEGGAR,
-    mod.MachineVariant.MACHINE_SHELL_GAME,
-    mod.MachineVariant.MACHINE_KEYMASTER,
-    mod.MachineVariant.MACHINE_BOMBBUM,
-    mod.MachineVariant.MACHINE_RESTOCK,
-    mod.MachineVariant.MACHINE_BATTERY_BUM,
-    mod.MachineVariant.MACHINE_HELL_GAME,
-    mod.MachineVariant.MACHINE_CRANE_GAME,
-    mod.MachineVariant.MACHINE_TERATOMA_BEGGAR,
-    mod.MachineVariant.MACHINE_VOID_BEGGAR,
-    mod.MachineVariant.MACHINE_VOIDBLOOD,
-    mod.MachineVariant.MACHINE_BEGGAR_ROTTEN,
-    mod.MachineVariant.MACHINE_CONFESSIONAL,
+mod.PlanchetteFamiliars = {
+    FamiliarVariant.ITEM_WISP,
+    FamiliarVariant.WISP,
+    FamiliarVariant.SOMETHINGWICKED_NIGHTMARE,
+    FamiliarVariant.GHOST_BABY
 }
 
 --enums
-mod.ENUMS = {}
-mod.ENUMS.CustomCallbacks = {
+mod.CustomCallbacks = {
     SWCB_PICKUP_ITEM = 1,
     SWCB_ON_ENEMY_HIT = 2,
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
@@ -67,9 +60,10 @@ mod.ENUMS.CustomCallbacks = {
     --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
     SWCB_NEW_WAVE_SPAWNED = 8,
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,
-    SWCB_EVALUATE_TEMP_WISPS = 10
+    SWCB_EVALUATE_TEMP_WISPS = 10,
+    SWCB_ON_NPC_EFFECT_TICK = 11,
 }
-mod.ENUMS.MachineVariant = {
+mod.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
     MACHINE_FORTUNE = 3,
@@ -94,18 +88,17 @@ mod.ENUMS.MachineVariant = {
     MACHINE_VOID_BEGGAR = Isaac.GetEntityVariantByName("Void Beggar"),
     MACHINE_INFINITEBEGGAR = Isaac.GetEntityVariantByName("Infinite Beggar")
 }
-mod.ENUMS.ItemPools = {
+mod.ItemPools = {
     TERATOMA_BEGGAR = 1
 }
-mod.ENUMS.CustomTearFlags = {
+mod.CustomTearFlags = {
     FLAG_SHOTGRUB = 1 << 0,
     FLAG_KNAVE_OF_HEARTS = 1 << 1,
     FLAG_DREAD = 1 << 2,
     FLAG_BALROG_HEART = 1 << 3,
     FLAG_BITTER = 1 << 4,
     FLAG_ELECTROSTUN = 1 << 5,
-    FLAG_SHADOWSTATUS = 1 << 6,
-    FLAG_MAGNIFYING = 1 << 7,
+    FLAG_COINSHOT = 1 << 6,
     FLAG_PROVIDENCE = 1 << 8,
     FLAG_BLACK_SALT = 1 << 9,
     FLAG_RAIN_HELLFIRE = 1 << 10,
@@ -114,10 +107,28 @@ mod.ENUMS.CustomTearFlags = {
     FLAG_CAT_TEASER = 1 << 13,
     FLAG_UNRAVEL = 1 << 14,
     FLAG_DARKNESS = 1 << 15,
-    FLAG_COINSHOT = 1 << 16,
 }
-mod.ENUMS.CustomCardTypes = {
+mod.CustomCardTypes = {
     CARDTYPE_THOTH = 1,
     CARDTYPE_THOTH_REVERSED = 2,
     CARDTYPE_FRENCH_PLAYING = 3,
+}
+mod.CONST.InfinityBeggarMachinePool = {
+    mod.MachineVariant.MACHINE_SLOT,
+    mod.MachineVariant.MACHINE_BLOOD,
+    mod.MachineVariant.MACHINE_FORTUNE,
+    mod.MachineVariant.MACHINE_BEGGAR,
+    mod.MachineVariant.MACHINE_DEVIL_BEGGAR,
+    mod.MachineVariant.MACHINE_SHELL_GAME,
+    mod.MachineVariant.MACHINE_KEYMASTER,
+    mod.MachineVariant.MACHINE_BOMBBUM,
+    mod.MachineVariant.MACHINE_RESTOCK,
+    mod.MachineVariant.MACHINE_BATTERY_BUM,
+    mod.MachineVariant.MACHINE_HELL_GAME,
+    mod.MachineVariant.MACHINE_CRANE_GAME,
+    mod.MachineVariant.MACHINE_TERATOMA_BEGGAR,
+    mod.MachineVariant.MACHINE_VOID_BEGGAR,
+    mod.MachineVariant.MACHINE_VOIDBLOOD,
+    mod.MachineVariant.MACHINE_BEGGAR_ROTTEN,
+    mod.MachineVariant.MACHINE_CONFESSIONAL,
 }

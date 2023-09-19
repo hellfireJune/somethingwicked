@@ -18,4 +18,4 @@ function mod:WickedSoulOnPickup(player)
     --when vfx, do here.
 end
 
-mod:AddCustomCBack(mod.ENUMS.CustomCallbacks.SWCB_PICKUP_ITEM, mod.WickedSoulOnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.WickedSoulOnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)

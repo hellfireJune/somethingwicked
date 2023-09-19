@@ -2,7 +2,7 @@ local this = {}
 local mod = SomethingWicked
 
 local otherSpeedMult = 0.15
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_DARKNESS, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DARKNESS) then
             return true

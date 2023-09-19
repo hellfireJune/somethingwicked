@@ -16,6 +16,7 @@ CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE = Isaac.GetItemIdByName("Dagger Ha
 CollectibleType.SOMETHINGWICKED_AIR_FRESHENER = Isaac.GetItemIdByName("Air Freshener") --unfinished
 CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyon's Crown") --retouch
 CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY = Isaac.GetItemIdByName("Assist Trophy")
+CollectibleType.SOMETHINGWICKED_ITEM_BOX = Isaac.GetItemIdByName("Item Box")
 CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE = Isaac.GetItemIdByName("Baby Mandrake") --unfinished
 CollectibleType.SOMETHINGWICKED_BALROGS_HEAD = Isaac.GetItemIdByName("Balrog's Head")
 CollectibleType.SOMETHINGWICKED_BALROGS_HEART = Isaac.GetItemIdByName("Balrog's Heart") --unfinished (might deserve not balrog-ness)
@@ -93,7 +94,6 @@ CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByNa
 CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood") -- unfinished, retouch
 CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger") -- unfinished, hoo boy
 CollectibleType.SOMETHINGWICKED_NIGHTSHADE = Isaac.GetItemIdByName("Nightshade") -- weird, retouch
-CollectibleType.SOMETHINGWICKED_OLD_BELL = Isaac.GetItemIdByName("Hushed Bell") -- resprite/thematic redesign, add shader and sfx, then boom its done
 CollectibleType.SOMETHINGWICKED_OLD_DICE = Isaac.GetItemIdByName("Old Dice") -- check bug tet mentioned
 CollectibleType.SOMETHINGWICKED_OLD_URN = Isaac.GetItemIdByName("Old Urn") -- retouch
 CollectibleType.SOMETHINGWICKED_PENDULUM = Isaac.GetItemIdByName("Pendulum") -- so close to finished
@@ -120,7 +120,6 @@ CollectibleType.SOMETHINGWICKED_SCREW_ATTACK = Isaac.GetItemIdByName("Screw Atta
 CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("The Black Death") -- possibly re-do entirely
 CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM = Isaac.GetItemIdByName("Solomon") -- retouch
 CollectibleType.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetItemIdByName("Spider Egg") -- retouch for the love
-CollectibleType.SOMETHINGWICKED_SPOOL_OF_YARN = Isaac.GetItemIdByName("Spool of Yarn") -- unfinished
 CollectibleType.SOMETHINGWICKED_STAR_SPAWN = Isaac.GetItemIdByName("Star Spawn")
 CollectibleType.SOMETHINGWICKED_STICKER_BOOK = Isaac.GetItemIdByName("Sticker Book") -- unfinished
 CollectibleType.SOMETHINGWICKED_SUPERIORITY = Isaac.GetItemIdByName("Superiority") --idk man a costume would be nice
@@ -169,13 +168,14 @@ TrinketType.SOMETHINGWICKED_POWER_INVERTER = Isaac.GetTrinketIdByName("Power Inv
 TrinketType.SOMETHINGWICKED_RED_KEYCHAIN = Isaac.GetTrinketIdByName("Red Keychain") -- unfinished
 TrinketType.SOMETHINGWICKED_SURGICAL_MASK = Isaac.GetTrinketIdByName("Surgical Mask") -- unfinished, justn eeds sprite
 TrinketType.SOMETHINGWICKED_SCORCHED_WOOD = Isaac.GetTrinketIdByName("Scorched Wood") -- retouch
-TrinketType.SOMETHINGWICKED_STONE_KEY = Isaac.GetTrinketIdByName("Stone Key") -- retouch like rn
+TrinketType.SOMETHINGWICKED_STONE_KEY = Isaac.GetTrinketIdByName("Stone Key")
 TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL = Isaac.GetTrinketIdByName("Sugar Coated Pill") --retouch
 TrinketType.SOMETHINGWICKED_TREASURERS_KEY = Isaac.GetTrinketIdByName("Treasurer's Key")
 TrinketType.SOMETHINGWICKED_CURSED_KEY = Isaac.GetTrinketIdByName("Cursed Key")
 TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coins") -- retouch. gotta do the gold thing probably.
 TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
+TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print") -- unfinished
 
 --CARDS
 Card.SOMETHINGWICKED_MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")
@@ -195,7 +195,7 @@ Card.SOMETHINGWICKEDTHOTH_LUST = Isaac.GetCardIdByName("Lust")
 Card.SOMETHINGWICKEDTHOTH_THE_MAGUS = Isaac.GetCardIdByName("TheMagus")
 
 
-local itemPoolEnum = mod.ENUMS.ItemPools
+local itemPoolEnum = mod.ItemPools
 mod.CONST.POOLS = {
     [itemPoolEnum.TERATOMA_BEGGAR] = {
         { item = CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU, weight = 1},

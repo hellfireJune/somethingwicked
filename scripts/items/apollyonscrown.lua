@@ -1,7 +1,7 @@
-local this = {}
+local mod = SomethingWicked
 
 function this:FamiliarCache(player)
-    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN)
+    local stacks, rng, sourceItem = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN)
     player:CheckFamiliar(FamiliarVariant.ABYSS_LOCUST, stacks*2, rng, sourceItem, this.dummyItem)
 end
 

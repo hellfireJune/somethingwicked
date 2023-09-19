@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy and Shampoo
+  - Added Assist Trophy, Shampoo, Item Box, Indulgence Print
 
   Changes:
   - D-Stock:
@@ -15,31 +15,60 @@
     - Now actually properly refunds bombs from opening secret rooms
     - Scales with trinket multipliers
 
-  - 3D Glasses
+  - 3D Glasses:
     - Brimstone lasers will now be aptly interrupted if the main laser is interrupted, and soy milk lasers will keep firing for the duration of the main laser
 
-  - Trinket Smasher
+  - Trinket Smasher:
     - Now 10 coins in the shop
+    - Passively increases the chance for trinkets to spawn (same as smelter)
+
+  - Gachapon:
+    - Now grants an all stats up if broken
+    - Properly does effect if rerolled by Wooden Dice
+
+  - Dice Roller
+    - Will also use dice if the player used an item that consumes resources instead of charge
+    - Using an item with time based charge will treat it as if its less than 1 charge now, not more than 12
 
   - Wooden Dice and Book of Exodus
-    - Both will grant +1 luck while held, now
+    - Both will now grant +1 luck while held
 
   - Blank Book
     - Golden Blank Book will now grant two items worth of progress towards Bookworm (Doesn't work with Mom's Box)
 
+  - Planchette
+    - Now doubles the collision damage from wisps also
+
+  - Biretta
+    - Now spawns confessionals at the start of the floor
+
+  - Star Spawn
+    - Math much better, will lead to much less breakage
+
+  - Glitchcity
+    - Damage from individual tiles nerfed from 80->60
+    - Spawning speed changed to be less fast and have less of an additional flat bonus from having just one or more copies of the item
+    - Less generously spawns on top of enemies
+
+  - Encyclopedia
+    - Increased chance to spawn a library from a 20% chance to a 33% chance
+    - For some reason, if you have multiple encyclopedias in your inventory, they'll all be charged if a library's present
+    - Also added BoV and BoB synergies
+
   - Misc: 
     - Removed Possum's Ear and Possum's Head (BYE!)
-    - biretta now spawns confessionals at the start of a floor instead of the end
-    - ticket roll slot machines wont spawn in unavailable spots
-    - glitchcity nerfs (damage decreased from 80->60, slightly less fast spawning, will no longer spawn directly on top of enemies)
-    - wicked soul stat changes
-    - minor eid / description changes
-    - animation and sound changes for a bunch of items
+    - Added status effect icons for curse
+    - Electro-stun and curse will no longer apply to enemies immune to status effects
+    - Minor eid / description changes
+    - Animation and sound changes for a bunch of items
 
   Fixes:
-  - Hellfire will now work with enemies that have had their AI overriden (eg. Reworked Foes enemies)
+  - Ticket Roll's slot machines will no longer spawn in spots obviously unreachable by the player
+  - Hellfire, Curse and Electro-Stun will now work with enemies that have had their AI overriden (eg. Reworked Foes enemies)
   - Finger will no longer do funny things with 3D glasses
   - FiendFolio electrum synergies and stackable item compat now actually works
+  - Electro-Stun is now a lot better coded; no longer deals double the damage its meant to do, and will no longer sometimes damage it's host
+  - Void Bombs no longer crashes the game instantly with hot bombs, excelsior or glitter bombs
 
   -->
 
@@ -49,13 +78,13 @@
   *costume for spider nest, apollyon's crown, hellfire
   *literally redo all of devilstail? i hate it?
   *curse status effect icon
-  *make nightmares better. passive damage ig?
   * make teratomas "grisly"
   * make chaos heart -> medkit (in shop)
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 14, 30, 32, 35, 39, 74, 100, 110, 144 and 141-->
+  <!--also make item id 11, 14, 30, 32, 35, 37, 39, 74, 100, 103, 110, 119, 133, 144 and 141
+  and trinket id 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -86,7 +115,6 @@
   <passive id="33" name="White Rose" gfx="whiterose.png" description="Tears + Faith Up" quality="2" tags="offensive" cache="firedelay" tags="offensive" soulhearts="2" achievement="404"/> <!--costume-->
   <passive id="34" name="Ram's Head" gfx="ramshead.png" description="DMG + Tears Up" quality="3" tags="offensive" cache="damage firedelay" tags="offensive summonable"/> <!--dingleshmorf (costume)-->
   <passive id="36" name="Superiority" gfx="superiority.png" description="DMG up against weaker phonies" quality="3" tags="offensive summonable"/> <!--consume-->
-  <active id="37" name="Joel!" gfx="oldurn.png" description="Voidy brother" quality="1" tags="offensive" hidden="true"/> 
   <active id="38" name="Void Egg" gfx="voidegg.png" description="Locust generator" quality="2" maxcharges="3" tags="offensive" achievement="340"/>
   <active id="41" name="Lost Wallet" gfx="lostwallet.png" description="Almost empty..." quality="2" tags="offensive" maxcharges="4" chargetype="special"/> 
   <familiar id="42" name="Minos" gfx="minos_spritesheet.png" description="Rattle, rattle, rattle" quality="3" tags="offensive summonable" cache="familiars"/> <!--sewing machine-->
@@ -142,7 +170,8 @@
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
   <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
-  <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="6"/>
+  <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
+  <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="" tags="offensive"/>
   
   <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
 
@@ -169,10 +198,9 @@
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable"/>
-  <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true"/> <!--also make-->
+  <passive id="116" name="Blood Hial" description="Red as all hellfire" hidden="true"/> <!--also make-->
   <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true"/>
   <passive id="118" name="Black Salt" hidden="true"/>
-  <familiar id="119" name="The Mistake" gfx="omgmistake.png" description="He's a little confused" quality="0" tags="offensive summonable" hidden="true"/>
   <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="3" tags="offensive summonable" hidden="true"/>
   <passive id="122" name="Tombstone" hidden="true"/>
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true"/>
@@ -183,14 +211,13 @@
   <passive id="129" name="Light Shard" hidden="true"/>
   <passive id="130" name="Dark Shard" hidden="true"/>
   <passive id="131" name="Screw Attack" hidden="true"/>
-  <active id="133" name="Hushed Bell" description="It rings softly..." hidden="true" gfx="hushedbell.png" quality="4" maxcharges="1"/>
   <passive id="135" name="Void's Call" hidden="true" description="Cycle of blood" quality="3" maxcharges="1"/>
   <passive id="137" name="Pressure Valve" hidden="true" quality="1" cache="firedelay" tags="offensive summonable tearsup"/>
   <passive id="138" name="Cat Teaser" hidden="true" quality="0"/>
   <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true"/>
 
   <passive id="142" name="Pendulum" description="" gfx="goldenwatch.png" hidden="true"/>
-  <passive id="143" name="The Yo-Yo!" hidden="true"/>
+  <passive id="143" name="The Yo-Yo!" hidden="true" gfx="sw_yoyo.png"/>
   <passive id="145" name="Air Freshener" hidden="true"/>
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true"/>
   <passive id="147" name="Piece of Silver" hidden="true"/>
@@ -231,6 +258,8 @@
   <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
+
+  <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->

@@ -2,6 +2,7 @@ local mod = SomethingWicked
 mod.compat = {}
 local callbacksAdded = false
 local directory = "scripts/misc/compat/"
+local game = Game()
 
 include(directory.."__fiendfolio")
 include(directory.."__retribution")
@@ -12,7 +13,7 @@ function mod.compat:Init()
         mod.compat:FFInit()
     end
 end
-if mod.game:GetFrameCount() ~= 0 then
+if game:GetFrameCount() ~= 0 then
     mod.compat:Init()
 end
 mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.compat.Init)

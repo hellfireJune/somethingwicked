@@ -12,7 +12,7 @@ local function itemCheck(player, hasItem, hasTrinket, item)
     end
 end
 
-local function PlayerUpdate(player)
+local function PlayerUpdate(_, player)
     local hasTrinket = player:HasTrinket(TrinketType.SOMETHINGWICKED_EMPTY_BOOK)
     local hasItem = player:HasCollectible(dummyItem)
     itemCheck(player, hasItem, hasTrinket, dummyItem)

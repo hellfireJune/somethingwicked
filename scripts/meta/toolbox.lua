@@ -1,5 +1,6 @@
 --item helpers
 local mod = SomethingWicked
+local game = Game()
 
 function mod:GlobalPlayerHasCollectible(type, ignoreModifs)
     for index, value in ipairs(mod:UtilGetAllPlayers()) do
@@ -76,7 +77,7 @@ function mod:CheckPlayerForActiveData(player, item)
     return 0, -1
 end
 
-function mod:GetAllActiveDatasOfType(player, item)
+function SomethingWicked:GetAllActiveDatasOfType(player, item)
     local table = {}
     for i = 0, 3, 1 do
         local currentItem = player:GetActiveItem(i)
@@ -90,7 +91,7 @@ end
 
 --From REP+. Removes the player queued item
 function mod:RemoveQueuedItem(player)
-    --"oh boy how great is that to work with queued items. so much fun!" -Anonymous ~~damned soul~~ Repentance Plus Coder (Presumably Mr. SeemsGood)
+    --"oh boy how great is that to work with queued items. so much fun!" -Anonymous Repentance Plus Coder (Presumably Mr. SeemsGood)
     local id = player.QueuedItem.Item.ID
     local b = player.QueuedItem.Item.AddBombs
     local b_p = player:GetNumBombs()
@@ -974,18 +975,12 @@ end
 
 --bombs
 function mod:ShouldConvertBomb(bomb, player, collectible, spritesheet, dataIdentifer, fetusChance)
-    local sprite = bomb:GetSprite()
     local bombData = bomb:GetData()
     if player:HasCollectible(collectible) then
-        local c_rng = player:GetCollectibleRNG(collectible)
-        if bomb.IsFetus and c_rng:RandomFloat() > fetusChance then
+        bombData[dataIdentifer] = true
+        if bomb.Variant == 4 or bomb.Variant == 3 then
             return false
         end
-        if (bomb.Variant > 4 or bomb.Variant < 3) then
-            sprite:ReplaceSpritesheet(0, spritesheet)
-            sprite:LoadGraphics()
-        end
-        bombData[dataIdentifer] = true
         return true
     end
     return false
@@ -1110,9 +1105,10 @@ end
 return mult
 end
 
-function mod:TearsUp(player, tears, flat)
+function mod:TearsUp(player, tears, flat, mult)
   tears = tears or 0
   flat = flat or 0
+  mult = mult or 1
 
   local baseMult = mod:GetCurrentTearsMultiplier(player)
   
@@ -1121,8 +1117,8 @@ function mod:TearsUp(player, tears, flat)
 
   local currentTears = mod:GetTears(player.MaxFireDelay)
   local currmax = 5 + (player:GetTrinketMultiplier(TrinketType.TRINKET_CANCER))
-  tears = math.min(tears*1.1 + currentTears, math.max(currmax * baseMult, currentTears)) - currentTears + flat
-  return mod:GetFireDelay(math.max((currentTears + tears), 0.2))
+  tears = math.min(tears*1.1 + currentTears, math.max(currmax * baseMult * mult, currentTears)) - currentTears + flat
+  return mod:GetFireDelay(math.max((currentTears + tears) * mult, 0.2))
 end
 
 --shamelessly nabbed from an old message from mr.seemsgood i found.
@@ -1252,3 +1248,29 @@ function mod:AngularMovementFunction(familiar, target, speed, variance, lerpMult
     end
     familiar.Velocity = mod:Lerp(minosVel, minosVel:Rotated(newAng), lerpMult):Resized(speed)
 end
+
+--optimised i think?
+local tearsToUpdate = {}
+local tearUpdateRefs = {}
+--passes a tear as argument to the func
+function SomethingWicked:AddToTearUpdateList(index, tear, func)
+    if not tearUpdateRefs[index] then
+        tearUpdateRefs[index] = func
+    end
+
+    tearsToUpdate[index] = tearsToUpdate[index] or {}
+    table.insert(tearsToUpdate[index], tear)
+end
+
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE,  function ()
+    local room = game:GetRoom()
+    if room:GetFrameCount() == 0 then
+        tearsToUpdate = {}
+    end
+
+    for index, tears in pairs(tearsToUpdate) do
+        for _, tear in ipairs(tears) do
+            tearUpdateRefs[index](tear)
+        end
+    end
+end)

@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 local game = Game()
 
-local ccabEnum = mod.ENUMS.CustomCallbacks
+local ccabEnum = mod.CustomCallbacks
 mod.__callbacks = {
     [ccabEnum.SWCB_PICKUP_ITEM] = {
         UniversalPickupCallbacks = {},
@@ -15,6 +15,7 @@ mod.__callbacks = {
     [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
     [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
     [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
+    [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {}
 }
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
@@ -105,6 +106,7 @@ local function OnTearHit(_, tear, collider)
         end
         t_data.sw_collideMap[""..collider.InitSeed] = true
 
+        SomethingWicked:__callStatusEffects(collider, tear)
         --[[local result = SomethingWicked:__callStatusEffects(collider, tear)
         if result ~= nil then
             return result
@@ -309,6 +311,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.NewWaveOnChargeGame
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, CheckTheChecker, FamiliarVariant.SOMETHINGWICKED_THE_CHECKER)
 
 function SomethingWicked:AddItemWispForEval(player, collectible, num)
+    num = num or 1
+
     local p_data = player:GetData()
     p_data.sw_itemWisps[collectible] = (p_data.sw_itemWisps[collectible] or 0) + num
 end
@@ -489,5 +493,23 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function()
         end
     end
 end, CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR)
+
+--tick update
+
+function mod:Updately()
+    local npcs = Isaac.GetRoomEntities()
+    
+    for i = 1, #npcs, 1 do
+      local npc = npcs[i]
+      npcs[i] = npc:ToNPC()
+    end
+  
+    for _, npc in pairs(npcs) do
+        mod:CallCustomCback(ccabEnum.SWCB_ON_NPC_EFFECT_TICK, npc)
+    end
+
+    mod:StatusTickMaster()
+end
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
 
 --purchase item

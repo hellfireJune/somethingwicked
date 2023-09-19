@@ -1,4 +1,6 @@
 local mod = SomethingWicked
+local game = Game()
+
 local cType = mod.CustomCardTypes
 mod.addedCards = {
     [cType.CARDTYPE_THOTH] = {
@@ -44,10 +46,10 @@ local function isWickedCard(id, types)
     end
     return false
 end
-function mod.cardCore:DebugGetCardOdds(maxRuns)
+function mod:DebugGetCardOdds(maxRuns)
     local c = {}
     for i = 1, maxRuns, 1 do
-        local card = mod.game:GetItemPool():GetCard(Random() + 1, true, true, false)
+        local card = game:GetItemPool():GetCard(Random() + 1, true, true, false)
         if isWickedCard(card) then
             c[card] = (c[card] or 0) + 1
         end
@@ -56,10 +58,10 @@ function mod.cardCore:DebugGetCardOdds(maxRuns)
         print(key..": "..(value/(maxRuns/100)).."% chance of appearance")
     end
 end
-function mod.cardCore:DebugGetSpecificCardOdds(id, maxRuns)
+function mod:DebugGetSpecificCardOdds(id, maxRuns)
     local c = {}
     for i = 1, maxRuns, 1 do
-        local card = mod.game:GetItemPool():GetCard(Random() + 1, true, true, false)
+        local card = game:GetItemPool():GetCard(Random() + 1, true, true, false)
         if id == card then
             c[card] = (c[card] or 0) + 1
         end
@@ -79,19 +81,19 @@ function mod:AlterCardSpawnRates(rng, card, getPlayingCards, getRunes, onlyRunes
         crashPreventer = 0
         return
     end
-    if mod:UtilTableHasValue(mod.BoonIDs, card) then
+    --[[if mod:UtilTableHasValue(mod.BoonIDs, card) then
         local nextCard = card
-        nextCard = mod.game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
+        nextCard = game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
 
         return nextCard
-    end
+    end]]
 
     local type = getCardType(card)
     if type then
         local weight = cardSpawnRules[type] * (mod.addedCards[type][card] or 1)
         local flaot = rng:RandomFloat()
         if flaot > weight then
-            return mod.game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
+            return game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
         end
     end
 
@@ -110,7 +112,7 @@ local function BoonCheckForHold(_, entity, input, action)
             if (player:GetCard(0) == value or player:GetCard(1) == value) and  
             p_data.somethingWicked_DropButtonHoldcount >= 60 then
                 local roomPos = function ()
-                    return mod.game:GetRoom():FindFreePickupSpawnPosition(player.Position)
+                    return game:GetRoom():FindFreePickupSpawnPosition(player.Position)
                 end
 
                 for i = 1, 2, 1 do
@@ -162,13 +164,13 @@ local function PreventCardDropping(_, card)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, PreventCardDropping, PickupVariant.PICKUP_TAROTCARD)
-mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_TAROTCARD)
-mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_PILL)
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, BoonOverrideHold)
-mod:AddCallback(ModCallbacks.MC_INPUT_ACTION, BoonCheckForHold)
+--mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, PreventCardDropping, PickupVariant.PICKUP_TAROTCARD)
+--mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_TAROTCARD)
+--mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_PILL)
+--mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, BoonOverrideHold)
+--mod:AddCallback(ModCallbacks.MC_INPUT_ACTION, BoonCheckForHold)
 
-function mod.cardCore:UseBoonCard(startID, targetID, player, useflags)
+function mod:UseBoonCard(startID, targetID, player, useflags)
     if useflags & (UseFlag.USE_CARBATTERY | UseFlag.USE_MIMIC) ~= 0 then
         return
     end

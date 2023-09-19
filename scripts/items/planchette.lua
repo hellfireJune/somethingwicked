@@ -1,16 +1,22 @@
-local this = {}
-this.AffectedCompanions = {FamiliarVariant.ITEM_WISP, FamiliarVariant.WISP, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, FamiliarVariant.GHOST_BABY}
+local mod = SomethingWicked
 
-function this:BuffFamiliarHP(familiar)
-    if not SomethingWicked:UtilTableHasValue(this.AffectedCompanions, familiar.Variant) then
+function mod:IsPlanchetteFamiliar(familiar)
+    return mod:UtilTableHasValue(mod.PlanchetteFamiliars, familiar.Variant)
+end
+
+local function heal(familiar)
+    familiar.MaxHitPoints = familiar.MaxHitPoints * 2
+    familiar:AddHealth(familiar.MaxHitPoints/2)
+end
+local function BuffFamiliarHP(_, familiar)
+    if not mod:IsPlanchetteFamiliar(familiar) then
         return
     end
 
     local player = familiar.Player
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
-        if familiar.FrameCount == 5 then
-            familiar.MaxHitPoints = familiar.MaxHitPoints * 2
-            familiar:AddHealth(familiar.MaxHitPoints - familiar.HitPoints)
+        if familiar.FrameCount == 5 and familiar.MaxHitPoints > 0 then
+            heal(familiar)
         end
         if not player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
             familiar.SpriteScale = Vector(1.2, 1.2)
@@ -18,39 +24,65 @@ function this:BuffFamiliarHP(familiar)
     end
 end
 
-function this:WispFire(tear)
-    if tear.FrameCount ~= 1 then
-        return
-    end
-
+local function WispFire(_, tear)
     local spawner = tear.SpawnerEntity
-    if spawner and spawner.Type == EntityType.ENTITY_FAMILIAR and SomethingWicked:UtilTableHasValue(this.AffectedCompanions, spawner.Variant) then
+    if spawner then
         spawner = spawner:ToFamiliar()
-        if spawner.Player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
+        if not spawner or not mod:IsPlanchetteFamiliar(spawner) then
+            return
+        end
+        local p = spawner.Player
+        if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
             tear.Scale = tear.Scale * 1.2
             tear.CollisionDamage = tear.CollisionDamage * 2
         end
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.WispFire)
-SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.BuffFamiliarHP)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, room)
+local function PlanchetteOnPickup(_, player)
+    local p_hash = GetPtrHash(player)
+
+    local currentFamiliars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR)
+    for _, familiar in ipairs(currentFamiliars) do
+        if mod:IsPlanchetteFamiliar(familiar) then
+            local p = familiar.Player
+            if p and p_hash == GetPtrHash(p) then
+                heal(familiar)
+            end
+        end
+    end
+
     for i = 1, 4, 1 do
         player:AddWisp(CollectibleType.SOMETHINGWICKED_PLANCHETTE, player.Position)
     end
-end, CollectibleType.SOMETHINGWICKED_PLANCHETTE)
+end
 
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_PLANCHETTE] = {
-        desc = "↑ All wisps, nightmares, and other ghost-like familiars have double HP and deal double damage from tears#Spawns four unique Book of Virtues wisps on pickup#+1 black heart",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"All wisps and nightmares have double HP and deal double damage from tears","Spawns four unique Book of Virtues wisps on pickup","+1 black heart",}),
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_CURSE
-        }
-    }
-}
-return this
+local preDmgFlag = false
+local function PreEntityTakeDMG(_, ent, amount, flags, source, dmgCooldown)
+    if not ent or preDmgFlag then
+        return
+    end
+    local e = ent:ToNPC()
+    if not e then
+        return
+    end
+
+    local s = source.Entity
+    if not s then
+        return
+    end
+    s = s:ToFamiliar()
+    if not s or not mod:IsPlanchetteFamiliar(s) then
+        return
+    end
+
+    preDmgFlag = true
+    ent:TakeDamage(amount*2, flags, s, dmgCooldown)
+    preDmgFlag = false
+    return false
+end
+
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, PreEntityTakeDMG)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, WispFire)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BuffFamiliarHP)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, PlanchetteOnPickup, CollectibleType.SOMETHINGWICKED_PLANCHETTE)

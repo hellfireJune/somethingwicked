@@ -6,7 +6,7 @@ local function ProcChance(player, tear)
     local luck = player.Luck + (player:GetTrinketMultiplier(TrinketType.TRINKET_TEARDROP_CHARM) * 3) - (tear.Type == EntityType.ENTITY_TEAR and 0 or 2)
     return baseChance + (luck*0.04)
 end
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_SCREW_ATTACK, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SCREW_ATTACK, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SCREW_ATTACK) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SCREW_ATTACK)

@@ -14,10 +14,19 @@ local function UseItem(_, id, _, player, flags)
     local charge, slot = mod.ItemHelpers:CheckPlayerForActiveData(player, id)
 
     if slot ~= -1 then
+        local iconfig = Isaac.GetItemConfig()
+        local cc = iconfig:GetCollectible(id)
+
+        if cc.ChargeType == ItemConfig.CHARGE_TIMED then
+            charge = 0.8
+        elseif cc.ChargeType == ItemConfig.CHARGE_SPECIAL then
+            charge = 4
+        end
+
         local d = { slot = slot, charge = charge, id = id }
         d.coins = player:GetNumCoins()
         d.bombs = player:GetNumBombs()
-        d.keys = player:GetNumKeys()
+        d.keys = player:GetNumKeys() 
         d.hearts = player:GetHearts()
         d.shearts = player:GetSoulHearts()
 
@@ -26,7 +35,7 @@ local function UseItem(_, id, _, player, flags)
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 
-local function PEffect(player)
+local function PEffect(_, player)
     local p_data = player:GetData()
     if p_data.sw_drData then
         local d = p_data.sw_drData

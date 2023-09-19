@@ -1,11 +1,11 @@
 local mod = SomethingWicked
 local blacklist = { 577, 585, 622, 628, 127, 297, 347, 475, 483, 490, 515}
 
-local function ItemUse(id, _, player, flags)
+local function ItemUse(_, id, _, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 or flags & UseFlag.USE_OWNED == 0 then
         return
     end
-    local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, id)
+    local charge, slot = mod:CheckPlayerForActiveData(player, id)
     if charge == 0 or slot ~= -1
     or SomethingWicked:UtilTableHasValue(blacklist, id) then
         return

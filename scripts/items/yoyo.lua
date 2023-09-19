@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-FamiliarVariant.SOMETHINGWICKED_YOYO = Isaac.GetEntityVariantByName("Wicked Yo-Yo")
 local angVariance = 20
 local maxSpeed = 20
 local wantedDistance = 120

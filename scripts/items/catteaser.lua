@@ -26,7 +26,7 @@ local function TearUpdate(tear)
     end
 end
 
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_CAT_TEASER, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_CAT_TEASER, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CAT_TEASER) then
             return true

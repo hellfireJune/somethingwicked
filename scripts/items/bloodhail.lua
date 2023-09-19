@@ -4,7 +4,7 @@ local this = {}
 local function procChance(player)
    return 0.2 + (player.Luck*0.05) 
 end
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
         and ((tear.Parent and tear.Parent.Type == 1)) then

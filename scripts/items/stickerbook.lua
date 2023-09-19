@@ -6,7 +6,7 @@ TearVariant.SOMETHINGWICKED_SKULL_STICKER = Isaac.GetEntityVariantByName("Skull 
 local function ProcChance(player)
     return 1
 end
-SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_STICKER_BOOK, {
+SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_STICKER_BOOK, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STICKER_BOOK) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)

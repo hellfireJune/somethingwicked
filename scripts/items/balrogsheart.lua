@@ -2,7 +2,7 @@ local this = {}
 local mod = SomethingWicked
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
 
-SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
+SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
     TearVariant = TearVariant.SOMETHINGWICKED_BALROG_CLUSTER,
     OverrideTearUpdate = function (_, tear)
         this:TearUpdate(tear)

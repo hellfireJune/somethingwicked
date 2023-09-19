@@ -18,10 +18,12 @@ if door and not mod:UtilTableHasValue(RooomTypeBlackList, door.TargetRoomType) t
             --Treasurer's Key
     if (door:IsRoomType(RoomType.ROOM_TREASURE) or door:IsRoomType(RoomType.ROOM_PLANETARIUM))
     and door:GetVariant() == DoorVariant.DOOR_LOCKED then
-        if mod.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY) then
+        if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY) then
             door:SetLocked(false)
         end
     end
+    
+    mod.save.runData.CurseList = mod.save.runData.CurseList or {}
 
             --Cursed Key
     local containsIndex = (mod:UtilTableHasValue(SomethingWicked.save.runData.CurseList, door.TargetRoomIndex)
@@ -29,7 +31,7 @@ if door and not mod:UtilTableHasValue(RooomTypeBlackList, door.TargetRoomType) t
     local isLocked = (door:GetVariant() == DoorVariant.DOOR_LOCKED 
     or door:GetVariant() == DoorVariant.DOOR_LOCKED_DOUBLE)
 
-        if (isLocked and mod.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CURSED_KEY))
+        if (isLocked and mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CURSED_KEY))
         or containsIndex then
             local roomType = nil
             if SomethingWicked:UtilTableHasValue(SomethingWicked.save.runData.CurseList, door.TargetRoomIndex) 

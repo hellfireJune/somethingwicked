@@ -1,11 +1,13 @@
 local mod = SomethingWicked
+local sfx = SFXManager()
+local game = Game()
 
 local cobIFrames = 24
 local function procChance(player)
     return 0.13 + (player.Luck*0.04)
 end
 local shouldMakeDMGCrazy = false
-local function OnTakeDMG(ent, amount, flags, source, dmgCooldown)
+local function OnTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     if shouldMakeDMGCrazy then
         return
     end
@@ -24,14 +26,14 @@ local function OnTakeDMG(ent, amount, flags, source, dmgCooldown)
     elseif not e_data.sw_hellfirePrimedFrames and ent.HitPoints < 0.1 then
         return
     end
-    local flag, player = mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
+    local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
     if flag and player then
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_HELLFIRE)
         if e_data.sw_isHellfireMarked == nil then
             e_data.sw_isHellfireMarked = c_rng:RandomFloat() < procChance(player)
         end
     end
-    if mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
+    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
         e_data.sw_crownOfBloodMarked = true
     end
     if e_data.sw_isHellfireMarked or e_data.sw_crownOfBloodMarked then
@@ -62,7 +64,7 @@ function mod:HellfireCOBUpdate(ent)
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 3, ent.Position, Vector.Zero, ent)
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 4, ent.Position, Vector.Zero, ent)
             ent:Update()
-            mod.sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1)
+            sfx:Play(SoundEffect.SOUND_DEATH_BURST_LARGE, 1)
         end
         return
     end
@@ -88,20 +90,22 @@ function mod:HellfireCOBUpdate(ent)
             local color = Color(1, 1, 1, 1, 1)
             ent:SetColor(color, 8, 3, true, false)
 
-            mod.sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
+            sfx:Play(SoundEffect.SOUND_BEEP, 1, 0)
         elseif e_data.sw_hellfirePrimedFrames == 0 then
             ent:BloodExplode()
             ent:TakeDamage(10, 0, EntityRef(ent), 0)
             Game():BombTearflagEffects(ent.Position, 1, TearFlags.TEAR_BRIMSTONE_BOMB, Isaac.GetPlayer(0), 1)
-            mod.sfx:Stop(SoundEffect.SOUND_BEEP)
+            sfx:Stop(SoundEffect.SOUND_BEEP)
         end
     elseif ent.HitPoints < 0.1 then
         e_data.sw_hellfirePrimedFrames = 30
     end
 end
 
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_NPC_EFFECT_TICK, mod.HellfireCOBUpdate)
+
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
-    if not mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) then
+    if not mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) then
         return
     end
 
@@ -110,32 +114,41 @@ mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
         luck = luck + value.Luck
     end
     luck = mod:Clamp(luck, 10, 0)
-    local rng = mod.ItemHelpers:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD)
+    local rng = mod:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD)
 
     --https://bindingofisaacrebirth.fandom.com/wiki/Room_Clear_Awards?so=search
     local thing = (rng:RandomFloat() * luck * 0.1) + rng:RandomFloat()
+    local type = PickupVariant.PICKUP_COIN
     if thing < 0.22 then
         return
     end
     if thing < 0.3 then
-        --tarot, pill, or trinket
-        return
+        --card, pill, or trinket
+        goto spawn
     end
     if thing < 0.45 then
-        --coin
-        return
+        type = PickupVariant.PICKUP_COIN
+        goto spawn
     end
     if thing < 0.6 then
-        --heart
-        return
+        type = PickupVariant.PICKUP_HEART
+        goto spawn
     end
     if thing < 0.8 then
-        --key
-        return
+        type = PickupVariant.PICKUP_KEY
+        goto spawn
     end
     if thing < 0.95 then
-        --bomb
-        return
+        type = PickupVariant.PICKUP_BOMB
+        goto spawn
     end
     --chest
+
+    ::spawn::
+    mod:UtilScheduleForUpdate(function ()
+        local room = game:GetRoom()
+        local pos = room:FindFreePickupSpawnPosition(room:GetCenterPos())
+        
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, type, 0, pos, Vector.Zero, nil)
+    end, 1)
 end)

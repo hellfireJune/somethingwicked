@@ -48,9 +48,9 @@
     <!--Wisps-->
     <!--DStock--> <wisp id="2" damage="2" fireDelay="60" flameColor="flame_gold" coreColor="core_gold" coreGfx="coin.png" tearColor="tear_yellow" tearScale="1" tearFlags2="44" procChance="0.5" tearVariant="20"/>
     <!--Balrog's Head--> <wisp id="3" hp="1" flameColor="flame_orange" coreColor="core_orange" tearColor="tear_orange" canShoot="false" layer="2"/>
-	<!--possums ear--> <wisp id="10" hp="4" flameColor="flame_white" coreColor="core_white" tearColor="tear_white" coreGfx="heart.png" layer="1"/>
+	<!--possums ear <wisp id="10" hp="4" flameColor="flame_white" coreColor="core_white" tearColor="tear_white" coreGfx="heart.png" layer="1"/>-->
 	<!--osteophagy <wisp id="11" hp="10" damage="3" flameColor="flame_red" coreColor="core_red" coreGfx="heart.png" tearVariant="2" layer="1"/>-->
-	<!--possums head--> <wisp id="12" hp="1" flameColor="flame_white" coreColor="core_white" tearColor="tear_white" canShoot="false" layer="0"/>
+	<!--possums head <wisp id="12" hp="1" flameColor="flame_white" coreColor="core_white" tearColor="tear_white" canShoot="false" layer="0"/>-->
 	<!--nightshade--> <wisp id="18" hp="1" damage="1.5" flameColor="flame_purple" coreColor="core_purple" tearColor="tear_purple" layer="0" tearFlags="2"/>
 	<!--book of lucifer--> <wisp id="19" damage="3" flameColor="flame_black" coreColor="core_red" tearColor="tear_red" layer="1" tearFlags="1 52" tearScale="1" tearVariant="1"/>
 	<!--toybox--> <wisp id="20" flameColor="flame_yellow" coreColor="core_yellow" tearColor="tear_yellow" count="4" layer="1"/>
@@ -62,6 +62,7 @@
 	<!--chaos heart--> <wisp id="46" hp="10" canShoot="false" flameColor="flame_pink" coreColor="core_pink" tearColor="tear_pink" coreGfx="heart.png" layer="2"/>
 	<!--cursed mush--> <wisp id="47" hp="1" flameColor="flame_purple" coreColor="core_purple" tearColor="tear_purple" coreGfx="skull.png" canShoot="false" layer="2"/>
 	<!--old dice--> <wisp id="50" hp="4" flameColor="core_grey" tearColor="tear_black" coreColor="core_black" coreGfx="dice.png" />
+	<!--encyclopedia--> <wisp id="56" flameColor="flame_bright_blue" coreColor="core_gold" tearColor="tear_bright_blue"/>
 	<!--trinket smasher--> <wisp id="57" hp="1" flameColor="flame_gold" coreColor="core_gold" tearColor="tear_yellow" count="2" layer="1"/>
 	<!--chasm--> <wisp id="58" damage="4" hp="3" flameColor="flame_black" tearColor="tear_bright_blue" coreColor="core_bright_blue" count="0" coreGfx="fly.png"/>
 	<!--planchette--> <wisp id="59" hp="4" flameColor="core_grey" tearColor="tear_grey" coreColor="core_grey"/>

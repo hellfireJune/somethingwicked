@@ -1,6 +1,8 @@
 local mod = RegisterMod("Something Wicked", 1)
-local game = Game()
 SomethingWicked = mod
+
+local game = Game()
+local sfx = SFXManager()
 
 --i think i got this one from deliverance
 function mod:UtilGetAllPlayers() 
@@ -16,7 +18,7 @@ end
 function mod:UtilTableHasValue (tab, val)
   for index, value in pairs(tab) do
       if value == val then
-          return true
+          return true, index
       end
   end
 
@@ -191,6 +193,8 @@ local earlyLoad = {
   "meta/callbacks",
   "meta/customslots",
   "meta/cardController",
+  "meta/customTearFlags",
+  "meta/redkeyLevelGen",
 
   "effects/__core"
 }
@@ -206,12 +210,40 @@ local midLoad = {
   i_.."electricDiceBustedBattery",
   i_.."hellfireCrownOfBlood",
   i_.."oldUrn",
+  i_.."assistTrophyItemBox",
+  i_.."trinketSmasher",
+  i_.."cursedMushroom",
+  i_.."starSpawn",
+  i_.."bravery",
+  i_.."planchette",
+  i_.."encyclopedia",
 
   i_.."twoOfCoins",
   i_.."stoneKey",
   i_.."treasurersKeyCursedKey",
   i_.."blankBook",
+  i_.."diceRoller",
+  i_.."gachapon",
+  i_.."powerInverter"
 }
+mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
+  ApplyLogic = function (_, p, tear)
+      if p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) then
+          local rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) 
+          local proc = p.Luck >= 0 and (mod.PlasmaGlobeBaseProc + (mod.PlasmaGlobeBaseProc * (p.Luck / 2))) or (mod.PlasmaGlobeBaseProc / math.abs(p.Luck))
+          if rng:RandomFloat() > proc then
+              return
+          end
+          return true
+      end
+  end,
+  EnemyHitEffect = function (_, tear, pos, enemy)
+      local p = mod:UtilGetPlayerFromTear(tear)
+      mod:UtilAddElectrostun(enemy, p, 60)
+  end,
+  TearColor = mod.ElectroStunTearColor
+})
+
 for index, value in ipairs(midLoad) do
   incl(value)
 end
@@ -222,34 +254,44 @@ function mod:EvaluateGenericStatItems(player, flags)
   local wickedSoulMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
   local goldenWatchMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH)
   local lankyMushMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM)
+  local gachaponMult = mod:GachaponStatsEvaluate(player)
+  local p_data = player:GetData()
 
   if flags == CacheFlag.CACHE_DAMAGE then
     player.Damage = mod:DamageUp(player, 0.5 * wickedSoulMult)
     player.Damage = mod:DamageUp(player, lankyMushMult * 0.7)
+    player.Damage = mod:DamageUp(player, 0.6 * gachaponMult)
 
     player.Damage = mod:DamageUp(player, 1 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM)))
     player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
     player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING))
+    player.Damage = mod:DamageUp(player, p_data.SomethingWickedPData.EncycloBelialBuff or 0)
+    
+    if p_data.SomethingWickedPData.inverterdmgToAdd then
+        player.Damage = mod:DamageUp(player, 0, p_data.SomethingWickedPData.inverterdmgToAdd)
+    end
   end
   if flags == CacheFlag.CACHE_FIREDELAY then
     player.MaxFireDelay = mod:TearsUp(player, lankyMushMult * -0.4)
+    player.MaxFireDelay = mod:TearsUp(player, gachaponMult*0.2)
 
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO))
   end
   if flags == CacheFlag.CACHE_LUCK then
-    player.Luck = player.Luck + (1 * wickedSoulMult)
+    player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult))
   end
   if flags == CacheFlag.CACHE_SPEED then
-    player.MoveSpeed = player.MoveSpeed + (0.2 * wickedSoulMult)
+    player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult))
+
     player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO)*0.3
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = player.ShotSpeed + (0.1 * wickedSoulMult) 
+      player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult)) 
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
-      player.TearRange = player.TearRange + (40 * 0.75 * lankyMushMult)
+      player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult))
   end
 
   if flags == CacheFlag.CACHE_SIZE then
@@ -267,6 +309,7 @@ function mod:EvaluateLateStats(player, flags)
       player.Damage = player.Damage * 1.3
     end
   end
+  mod:StarSpawnEval(player, flags)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.LATE, mod.EvaluateLateStats)
 
@@ -284,7 +327,7 @@ function mod:GenericOnPickups(player, room, id)
   end
   mod:OldUrnPickup(player, room, id)
 end
-mod:AddCustomCBack(mod.ENUMS.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
 
 function mod:OnNewRoom()
 
@@ -328,19 +371,110 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
   end
 end)
 
-function mod:Updately()
-  local npcs = Isaac.GetRoomEntities()
-  
-  for i = 1, #npcs, 1 do
-    local npc = npcs[i]
-    npcs[i] = npc:ToNPC()
+function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
+  if not ent then
+    return
   end
+  local p = ent:ToPlayer()
+  if p then
+    mod:StarSpawnPlayerDamage(p)
 
-  for _, npc in pairs(npcs) do
-    mod:HellfireCOBUpdate(npc)
+    --indulgence
+    if p:HasTrinket(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE) then
+      local t_rng = p:GetTrinketRNG(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE)
+      if t_rng:RandomFloat() < 0.1*p:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE) then
+          local room = game:GetRoom()
+          local pos = room:FindFreePickupSpawnPosition(p.Position)
+          Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, pos, Vector.Zero, p)
+      end
+    end
   end
 end
-mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, mod.PostEntityTakeDMG)
+
+function mod:OnUsePill(effect, player)
+  if player:HasTrinket(TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL) then
+    mod.save.runData.sugarCoatedPillEffect = effect
+    player:TryRemoveTrinket(TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL)
+
+    sfx:Play(SoundEffect.SOUND_VAMP_GULP)
+end
+end
+mod:AddCallback(ModCallbacks.MC_USE_PILL, mod.OnUsePill)
+
+function mod:GetPillEffect(effect)
+  local sugar = (mod.save.runData.sugarCoatedPillEffect)
+  if sugar and sugar == effect then
+    return PillEffect.PILLEFFECT_FULL_HEALTH
+  end
+end
+mod:AddCallback(ModCallbacks.MC_GET_PILL_EFFECT, mod.GetPillEffect)
+
+local bombVariants = {
+  [2761] = { CollectibleType.SOMETHINGWICKED_VOID_BOMBS, "sw_isVoidBomb" }
+}
+function mod:BombInit(bomb)
+  local p = bomb.SpawnerEntity
+  if not p then return end
+  p = p:ToPlayer()
+  local b_data = bomb:GetData()
+
+  if not p then return end
+  
+    for index, value in pairs(bombVariants) do
+      local id = value[1]
+      if type(id) == "function" then
+        id = id(bomb, p)
+      else
+        id = p:HasCollectible(id)
+      end
+
+      if id then
+        b_data[value[2]] = true
+
+        if bomb.Variant > 4 or bomb.Variant < 3 then
+          bomb.Variant = index
+        end
+      end
+  end
+end
+mod:AddCallback(ModCallbacks.MC_POST_BOMB_INIT, mod.BombInit)
+function mod:BombUpdate(bomb)
+  local p = bomb.SpawnerEntity
+  if not p then return end
+  p = p:ToPlayer()
+  if not p then return end
+
+  local b_data = bomb:GetData()
+    local b_s = bomb:GetSprite()
+    if b_s:IsPlaying("Explode") then
+      --void bombs
+      if b_data.sw_isVoidBomb then
+        local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_VOID_BOMBS)
+        if not bomb.IsFetus or (c_rng:RandomFloat() > 0.2 + (0.026 * p.Luck)) then
+          local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, p)
+          local void = Isaac.Spawn(EntityType.ENTITY_LASER, LaserVariant.THICK_RED, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, p)
+          void=void:ToLaser()
+
+          effect.Visible = false
+          void.Parent = effect
+          void.Timeout = 76
+          void:AddTearFlags(TearFlags.TEAR_PULSE)
+          void.CollisionDamage = bomb.ExplosionDamage/12
+
+          local scaleMult = math.max(0.4, bomb.ExplosionDamage/100)
+          void.Size = void.Size*scaleMult
+          void:Update()
+          void.SpriteScale = Vector(scaleMult, scaleMult)
+          void.SizeMulti = Vector(scaleMult, scaleMult)
+          void.Radius = 80*scaleMult
+
+          sfx:Play(SoundEffect.SOUND_MAW_OF_VOID, 1, 0)
+        end
+      end
+    end
+  end
+mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
 
 --[[local itemsToLoad = {
   "ramshead",
@@ -349,14 +483,12 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "newlocustitems",
   "voidbombs",
   "catfood",
-  "whiterobe",
   "nightshade",
   "fitusfortunus",
   "apollyonscrown",
   "woodendice",
   "biretta",
   "wrath",
-  "bravery",
   "superiority",
   "cursedcreditcard",
   "spidernest",
@@ -364,7 +496,6 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "legion",
   "teratomashield",
   "sacrificialheart",
-  "planchette",
   "glitchcity",
   "crossedheart",
   "devilstail",
@@ -374,7 +505,6 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "carolinareapernagaviper",
   "cursemask",
   "red",
-  "starspawn",
   "plasmaglobe",
   "bananamilk",
   "safetymasktemperance",
@@ -401,7 +531,6 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "pendulum",
   "chrismatory",
   "yoyo",
-  "spoolofyarn",
   "airfreshener",
   "pieceofsilver",
   "darkness",
@@ -422,9 +551,6 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "jokerbaby",
 
   "balrogshead",
-  "possumear",
-  "osteophagy",
-  "possumshead",
   "bookoflucifer",
   "toybox",
   "tiamatsdice",
@@ -433,9 +559,7 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "bookofinsanity",
   "voidegg",
   "chaosheart",
-  "cursedmushroom",
   "olddice",
-  "encyclopedia",
   "chasm",
   "fetusinfetu",
   "edenshead",
@@ -450,25 +574,19 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
   "dudael",
   "magicclay",
   "boline",
-  "oldbell",
   "lastprism",
-  "assisttrophy",
   
   "scorchedwood",
   "bobsheart",
   "damnedsoulvirtuoussoul",
-  "sugarcoatedpill",
   "demoncore",
-  "emptybook",
   "demoniumpage",
-  "gachapon",
   "voidheart",
   "mrskits",
   "giftcard",
   "nightmarefuelvirtue",
   "zzzzzzmagnet",
   "redkeychain",
-  "powerinveter",
 }
 
 local cardsToLoad = {
@@ -490,27 +608,6 @@ local cardsToLoad = {
 
   --"turkeyvulture", --also void beggar and rotten beggar
   "bourgeoisTarot",
-}
-
-local earlyMiscLoad = {
-  "saveHandler",
-
-  "redkeyLevelGenStuff",
-  --"roomStuff/_core",
-
-  "ezEnums",
-  
-  "newcallbacks",
-  "slotmachinesfuckingsuck",
-  "tearflagslibcore",
-  
-  "dirtystatupsdonedirtquick",
-  "itemHelpers",
-  "enemyHelpers",
-  "familiarHelpers",
-  "hitscanHelper",
-  
-  "statusEffects/__core",
 }
 local postMiscLoad = {
   "EIDadder",

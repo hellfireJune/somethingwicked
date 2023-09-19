@@ -17,11 +17,22 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, OnEnemyTakeDMG)
 
 local slow = 0.9
-local function NPCUpdate(_, ent)
+function mod:CurseStatusUpdate(ent)
     local e_data = ent:GetData()
-    if e_data.sw_curseTick and e_data.sw_curseTick > 0 then 
-        ent.Velocity = ent.Velocity * slow
+    if e_data.sw_curseTick then
+        if e_data.sw_curseTick < 0 then
+            e_data.sw_curseTick = nil
+            if e_data.sw_cursefrictionApplied then
+                ent.Friction = ent.Friction / slow
+                e_data.sw_cursefrictionApplied = nil
+            end
+            return
+        end
         e_data.sw_curseTick = e_data.sw_curseTick - 1
+
+        if not e_data.sw_cursefrictionApplied then
+            ent.Friction = ent.Friction * slow
+            e_data.sw_cursefrictionApplied = true
+        end
     end
 end
-mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, NPCUpdate)

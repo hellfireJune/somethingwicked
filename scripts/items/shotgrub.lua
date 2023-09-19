@@ -2,7 +2,7 @@ local this = {}
 local mod = SomethingWicked
 --this.color = Color()
 
-mod.TFCore:AddNewFlagData(mod.CustomTearFlags.FLAG_SHOTGRUB, {
+mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SHOTGRUB, {
     ApplyLogic = function (_, player, tear)
         if tear.Parent == nil
         or tear.Parent.Type ~= 1 then

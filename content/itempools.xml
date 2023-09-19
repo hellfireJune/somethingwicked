@@ -39,7 +39,7 @@
 		<Item Name="Lourdes Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Item Box" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -99,6 +99,7 @@
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="GLITCHCITY" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Item Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="devil">
@@ -268,7 +269,7 @@
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Item Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

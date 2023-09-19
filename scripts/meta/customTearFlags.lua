@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-SomethingWicked.TFCore = {}
 SomethingWicked.TearFlagData = {}
 
 --[[
@@ -29,10 +28,10 @@ SomethingWicked.TearFlagData = {}
     LaserColor
     AquariusSpritesheet
 ]]
-function SomethingWicked.TFCore:AddNewFlagData(enumeration, initData)
+function SomethingWicked:AddNewTearFlag(enumeration, initData)
     SomethingWicked.TearFlagData[enumeration] = initData
 end
-function SomethingWicked.TFCore:AddTearFlag(tear, flag)
+function SomethingWicked:AddTearFlag(tear, flag)
     local t_data = tear:GetData()
     t_data.somethingWicked_customTearFlags = (t_data.somethingWicked_customTearFlags or 0) | flag
 end
@@ -43,9 +42,19 @@ function mod:GetDMGFromTearLike(ent)
     end
     return ent.CollisionDamage
 end
-function mod.TFCore:HasFlags(ent, flag)
+function mod:HasFlags(ent, flag)
     local t_data = ent:GetData()
     return t_data.somethingWicked_customTearFlags and t_data.somethingWicked_customTearFlags & flag > 0
+end
+
+local tearsWithFlags = {}
+local tearRefs = {}
+
+local function PostApply(player, tear, flag)
+    tearsWithFlags[tear.Index] = (tearsWithFlags[tear.Index] or {})
+    table.insert(tearsWithFlags[tear.Index], flag)
+
+    tearRefs[tear.Index] = tear
 end
 
 local function GetTearFlagsToApply(player, tear)
@@ -57,6 +66,7 @@ local function GetTearFlagsToApply(player, tear)
             if value.PostApply then
                 value:PostApply(player, tear)
             end
+            PostApply(player, tear, enum)
         end
     end
     return flagsToReturn
@@ -146,9 +156,15 @@ local function TearRemove(_, tear)
                     if t_data.somethingWicked_customTearFlags & key > 0 and flag.PostApply then
                         flag:PostApply(player, tear)
                     end
+                    PostApply(player, tear, key)
                 end
             end
         end
+    end
+
+    if tearsWithFlags[tear.Index] or tearRefs[tear.Index] then
+        tearsWithFlags[tear.Index] = nil
+        tearRefs[tear.Index] = nil
     end
 end
 
@@ -187,10 +203,10 @@ end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, CallbackPriority.EARLY, this.OnTearHit)
 --SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTearHit)
 
-function this:OnTearUpdate(tear)
+--[[function this:OnTearUpdate(tear)
     --[[if tear.FrameCount == 0 then
         return
-    end]]
+    end
     local t_data = tear:GetData()
     if t_data.somethingWicked_customTearFlags == nil then
         return
@@ -204,7 +220,21 @@ function this:OnTearUpdate(tear)
         end
     end
 end
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_TEAR_UPDATE, CallbackPriority.LATE, this.OnTearUpdate)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_TEAR_UPDATE, CallbackPriority.LATE, this.OnTearUpdate)]]
+
+mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function ()
+    for idx, tear in pairs(tearRefs) do
+        if tear and tear:Exists()  then
+            local flags = tearsWithFlags[idx]
+            for _, flag in pairs(flags) do
+                local f_data = SomethingWicked.TearFlagData[flag]
+                if f_data.OverrideTearUpdate then
+                    f_data:OverrideTearUpdate(tear)
+                end
+            end
+        end
+    end
+end)
 
 local function absVector(vector)
     local X = math.abs(vector.X) local y = math.abs(vector.Y)

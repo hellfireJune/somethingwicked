@@ -1,6 +1,6 @@
 local this = {}
 
-SomethingWicked.TFCore:AddNewFlagData(SomethingWicked.CustomTearFlags.FLAG_PROVIDENCE, {
+SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_PROVIDENCE, {
     EnemyHitEffect = function (_, tear, pos, enemy)
         this:HitEnemy(tear, pos, enemy)
     end,

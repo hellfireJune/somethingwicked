@@ -1,5 +1,6 @@
-local this = {}
 local mod = SomethingWicked
+local game = Game()
+local sfx = SFXManager()
 
 local chargeTypes = {
     [BatterySubType.BATTERY_MICRO] = 2,
@@ -12,14 +13,14 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     if not player or not player:HasTrinket(TrinketType.SOMETHINGWICKED_POWER_INVERTER) then
         return
     end
-    if not SomethingWicked.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
+    if not mod:CanPickupPickupGeneric(pickup, player) then
         return
     end
 
     local sprite = pickup:GetSprite()
     sprite:Play("Collect")
     pickup:Die()
-    mod.sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
+    sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
 
     local tmult = math.min(player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_POWER_INVERTER), 1)
@@ -28,7 +29,7 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     local p_data = player:GetData()
     p_data.SomethingWickedPData = p_data.SomethingWickedPData or {}
     if pickup.SubType == BatterySubType.BATTERY_GOLDEN then
-        p_data.SomethingWickedPData.goldenBatteryRandomRoom = this:DoGoldenBattery(player, pickup)
+        p_data.SomethingWickedPData.goldenBatteryRandomRoom = mod:DoGoldenBattery(player, pickup)
     end
     
     p_data.SomethingWickedPData.inverterdmgToAdd = (p_data.SomethingWickedPData.inverterdmgToAdd or 0) + dmgToAdd
@@ -37,10 +38,10 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     return true
 end, PickupVariant.PICKUP_LIL_BATTERY)
 
-function this:DoGoldenBattery(player, battery)
+function mod:DoGoldenBattery(player, battery)
     player:TakeDamage(2, DamageFlag.DAMAGE_NO_PENALTIES, EntityRef(battery), 1)
 
-    local level = SomethingWicked.game:GetLevel()
+    local level = game:GetLevel()
     local currIdx = level:GetCurrentRoomIndex()
     
     local newIdx = currIdx
@@ -52,18 +53,11 @@ function this:DoGoldenBattery(player, battery)
     return newIdx
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
-    local p_data = player:GetData()
-    if p_data.SomethingWickedPData.inverterdmgToAdd then
-        player.Damage = SomethingWicked.StatUps:DamageUp(player, 0, p_data.SomethingWickedPData.inverterdmgToAdd)
-    end
-end, CacheFlag.CACHE_DAMAGE)
-
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     local allPlayers = SomethingWicked:UtilGetAllPlayers()
     for index, player in ipairs(allPlayers) do
         local p_data = player:GetData()
-        local level = SomethingWicked.game:GetLevel()
+        local level = game:GetLevel()
         local currRoom = level:GetCurrentRoomDesc ()
         local currIdx = level:GetCurrentRoomIndex()
 
@@ -79,7 +73,8 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
             if gidx and gidx == currIdx then
                 p_data.SomethingWickedPData.goldenBatteryRandomRoom = nil
 
-                local roomPos = SomethingWicked.game:GetRoom():FindFreePickupSpawnPosition(Isaac.GetRandomPosition())
+                local room = game:GetRoom()
+                local roomPos = room:FindFreePickupSpawnPosition(Isaac.GetRandomPosition())
                 local battery = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_GOLDEN, roomPos, Vector.Zero, nil)
                 battery:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
                 battery:GetSprite():Play("Idle")
@@ -87,11 +82,3 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
         end
     end
 end)
-
-this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_POWER_INVERTER] = {
-        isTrinket = true,
-        desc = "Batteries give a damage up for the current floor instead of active item charge",
-    }
-}
-return this
