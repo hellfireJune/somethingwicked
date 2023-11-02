@@ -1,17 +1,21 @@
 local this = {}
 local mod = SomethingWicked
-TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
+local sfx = SFXManager()
 
-SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
-    TearVariant = TearVariant.SOMETHINGWICKED_BALROG_CLUSTER,
+mod:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
     OverrideTearUpdate = function (_, tear)
         this:TearUpdate(tear)
     end ,
-    ApplyLogic = function (_, player, tear)
+    ApplyLogic = function (_, player, tear) 
         return this:FireTear(player, tear)
     end,
     AnyHitEffect = function (_, tear, pos)
         this:TearOnHit(tear, pos)
+    end,
+    PostApply = function (_, tear)
+        if tear.Type == EntityType.ENTITY_TEAR then
+            tear.Velocity = tear.Velocity * 1.625
+        end
     end
 })
 
@@ -26,8 +30,7 @@ function this:TearUpdate(tear)
 end
 
 function this:TearOnHit(tear, pos)
-    mod.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK)
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, tear.Position, Vector.Zero, tear)
+    sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK)
     local thefloatingfire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, pos, Vector.Zero, tear):ToEffect()
     thefloatingfire.CollisionDamage = tear.CollisionDamage/3
     thefloatingfire:SetTimeout(70)
@@ -38,10 +41,6 @@ function this:FireTear(player, tear)
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BALROGS_HEART)
         local f = c_rng:RandomFloat()
         if f < 1+0.15 then
-            if tear.Type == EntityType.ENTITY_TEAR then
-                tear.Velocity = tear.Velocity * 1.625
-            end
-
             return true
         end
     end

@@ -1,31 +1,32 @@
 local mod = SomethingWicked
 
 CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM = Isaac.GetItemIdByName("Avenger Emblem")
+CollectibleType.SOMETHINGWICKED_BOLINE = Isaac.GetItemIdByName("Boline")
+CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS = Isaac.GetItemIdByName("Book of Exodus")
+CollectibleType.SOMETHINGWICKED_D_STOCK = Isaac.GetItemIdByName("D-Stock")
 CollectibleType.SOMETHINGWICKED_WICKED_SOUL = Isaac.GetItemIdByName("Wicked Soul")
 CollectibleType.SOMETHINGWICKED_WOODEN_HORN = Isaac.GetItemIdByName("Wooden Horn")
-CollectibleType.SOMETHINGWICKED_D_STOCK = Isaac.GetItemIdByName("D-Stock")
 CollectibleType.SOMETHINGWICKED_SILVER_RING = Isaac.GetItemIdByName("Silver Ring")
 CollectibleType.SOMETHINGWICKED_WHITE_ROSE = Isaac.GetItemIdByName("White Rose")
+CollectibleType.SOMETHINGWICKED_STAR_SPAWN = Isaac.GetItemIdByName("Star Spawn")
+CollectibleType.SOMETHINGWICKED_ITEM_BOX = Isaac.GetItemIdByName("Item Box")
+CollectibleType.SOMETHINGWICKED_WOODEN_DICE = Isaac.GetItemIdByName("Wooden Dice")
 
 CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO = Isaac.GetItemIdByName("Bottle of Shampoo") -- just give a costume? Test
 
 CollectibleType.SOMETHINGWICKED_3D_GLASSES = Isaac.GetItemIdByName(" 3D Glasses ")
 CollectibleType.SOMETHINGWICKED_ABANDONED_BOX = Isaac.GetItemIdByName("Abandoned Box")
-CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER = Isaac.GetItemIdByName("Brittle Dagger") --unfinished
-CollectibleType.SOMETHINGWICKED_DAGGER_HANDLE = Isaac.GetItemIdByName("Dagger Handle") --unfinished
 CollectibleType.SOMETHINGWICKED_AIR_FRESHENER = Isaac.GetItemIdByName("Air Freshener") --unfinished
 CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN = Isaac.GetItemIdByName("Apollyon's Crown") --retouch
 CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY = Isaac.GetItemIdByName("Assist Trophy")
-CollectibleType.SOMETHINGWICKED_ITEM_BOX = Isaac.GetItemIdByName("Item Box")
 CollectibleType.SOMETHINGWICKED_BABY_MANDRAKE = Isaac.GetItemIdByName("Baby Mandrake") --unfinished
 CollectibleType.SOMETHINGWICKED_BALROGS_HEAD = Isaac.GetItemIdByName("Balrog's Head")
 CollectibleType.SOMETHINGWICKED_BALROGS_HEART = Isaac.GetItemIdByName("Balrog's Heart") --unfinished (might deserve not balrog-ness)
-CollectibleType.SOMETHINGWICKED_BANANA_MILK = Isaac.GetItemIdByName("Banana Milk") --unfinished
+CollectibleType.SOMETHINGWICKED_FRUIT_MILK = Isaac.GetItemIdByName("Fruit Milk") --unfinished
 CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE = Isaac.GetItemIdByName("Electric Dice")
 CollectibleType.SOMETHINGWICKED_BIRETTA = Isaac.GetItemIdByName("Biretta") -- touch up
 CollectibleType.SOMETHINGWICKED_BLACK_SALT = Isaac.GetItemIdByName("Black Salt") --unfinsihed
 CollectibleType.SOMETHINGWICKED_BLOOD_HAIL = Isaac.GetItemIdByName("Blood Hail") --unfinished
-CollectibleType.SOMETHINGWICKED_BOLINE = Isaac.GetItemIdByName("Boline")
 CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY = Isaac.GetItemIdByName("Book of Insanity") -- nightmares in general need retouch
 CollectibleType.SOMETHINGWICKED_BOOK_OF_LEVIATHAN = Isaac.GetItemIdByName("  Book of Leviathan  ") --unfinished
 CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER = Isaac.GetItemIdByName("Book of Lucifer") -- needs retouch
@@ -37,8 +38,6 @@ CollectibleType.SOMETHINGWICKED_CAT_TEASER = Isaac.GetItemIdByName("Cat Teaser")
 CollectibleType.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetItemIdByName("Fuzzy Fly") --unfinished
 CollectibleType.SOMETHINGWICKED_CHAOS_HEART = Isaac.GetItemIdByName("Chaos Heart") -- entire redesign now
 CollectibleType.SOMETHINGWICKED_CHASM = Isaac.GetItemIdByName("Chasm") --retouch
-CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS = Isaac.GetItemIdByName("Book of Exodus")
-CollectibleType.SOMETHINGWICKED_WOODEN_DICE = Isaac.GetItemIdByName("Wooden Dice")
 CollectibleType.SOMETHINGWICKED_CHRISMATORY = Isaac.GetItemIdByName("Chrismatory") --fix weird bug with angellic lyre. maybe move effect to different item then make this like spectre
 CollectibleType.SOMETHINGWICKED_CROSSED_HEART = Isaac.GetItemIdByName("Crossed Heart")
 CollectibleType.SOMETHINGWICKED_CURSED_CANDLE = Isaac.GetItemIdByName("Cursed Candle")
@@ -92,7 +91,7 @@ CollectibleType.SOMETHINGWICKED_THE_MISTAKE = Isaac.GetItemIdByName("The Mistake
 CollectibleType.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetItemIdByName("Ms. Gonorrhea") -- unfinished, just needs design
 CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT = Isaac.GetItemIdByName("Star of the Bottomless Pit")
 CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD = Isaac.GetItemIdByName("Plague of Wormwood") -- unfinished, retouch
-CollectibleType.SOMETHINGWICKED_DEBUGGER = Isaac.GetItemIdByName("Debugger") -- unfinished, hoo boy
+CollectibleType.SOMETHINGWICKED_SAND_FLIES = Isaac.GetItemIdByName("S AND FLIES") -- unfinished, hoo boy
 CollectibleType.SOMETHINGWICKED_NIGHTSHADE = Isaac.GetItemIdByName("Nightshade") -- weird, retouch
 CollectibleType.SOMETHINGWICKED_OLD_DICE = Isaac.GetItemIdByName("Old Dice") -- check bug tet mentioned
 CollectibleType.SOMETHINGWICKED_OLD_URN = Isaac.GetItemIdByName("Old Urn") -- retouch
@@ -101,8 +100,6 @@ CollectibleType.SOMETHINGWICKED_PHOBOS_AND_DEIMOS = Isaac.GetItemIdByName("Phobo
 CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER = Isaac.GetItemIdByName("Piece of Silver") -- so close to finished
 CollectibleType.SOMETHINGWICKED_PLANCHETTE = Isaac.GetItemIdByName("Planchette") -- maybe retouch
 CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE = Isaac.GetItemIdByName("Plasma Globe")
-CollectibleType.SOMETHINGWICKED_POSSUMS_EAR = Isaac.GetItemIdByName("Possum's Ear") -- scrap me
-CollectibleType.SOMETHINGWICKED_POSSUMS_HEAD = Isaac.GetItemIdByName("Possum's Head") -- scrap me
 CollectibleType.SOMETHINGWICKED_PRESSURE_VALVE = Isaac.GetItemIdByName("Pressure Valve") -- unfinished. release with costume or die
 CollectibleType.SOMETHINGWICKED_PRISMATIC_MUSHROOM = Isaac.GetItemIdByName("Prismatic Mushroom") -- unfinished
 CollectibleType.SOMETHINGWICKED_RAMS_HEAD = Isaac.GetItemIdByName("Ram's Head") -- add costume for the love of god
@@ -120,7 +117,6 @@ CollectibleType.SOMETHINGWICKED_SCREW_ATTACK = Isaac.GetItemIdByName("Screw Atta
 CollectibleType.SOMETHINGWICKED_SHOTGRUB = Isaac.GetItemIdByName("The Black Death") -- possibly re-do entirely
 CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM = Isaac.GetItemIdByName("Solomon") -- retouch
 CollectibleType.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetItemIdByName("Spider Egg") -- retouch for the love
-CollectibleType.SOMETHINGWICKED_STAR_SPAWN = Isaac.GetItemIdByName("Star Spawn")
 CollectibleType.SOMETHINGWICKED_STICKER_BOOK = Isaac.GetItemIdByName("Sticker Book") -- unfinished
 CollectibleType.SOMETHINGWICKED_SUPERIORITY = Isaac.GetItemIdByName("Superiority") --idk man a costume would be nice
 CollectibleType.SOMETHINGWICKED_TECH_MODULO = Isaac.GetItemIdByName("Tech-Modulo") -- give me tear colour and costume
@@ -132,7 +128,7 @@ CollectibleType.SOMETHINGWICKED_VOID_BOMBS = Isaac.GetItemIdByName("Void Bombs")
 CollectibleType.SOMETHINGWICKED_VOID_EGG = Isaac.GetItemIdByName("Void Egg") --idfk man, retouch?
 CollectibleType.SOMETHINGWICKED_CALL_OF_THE_VOID = Isaac.GetItemIdByName("Void's Call") -- finish asap
 CollectibleType.SOMETHINGWICKED_STRANGE_APPLE = Isaac.GetItemIdByName("Strange Apple") -- rework visuals and movement/tile size thing
-CollectibleType.SOMETHINGWICKED_WHITE_ROBE = Isaac.GetItemIdByName("White Robe") -- maybe rework entirely
+--CollectibleType.SOMETHINGWICKED_WHITE_ROBE = Isaac.GetItemIdByName("White Robe") -- maybe rework entirely
 CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath") -- minor retouch, maybe
 CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL = Isaac.GetItemIdByName("Yellow Sigil") -- retouch when nightmares retouched
 CollectibleType.SOMETHINGWICKED_THE_YOYO = Isaac.GetItemIdByName("The Yo-Yo!") -- unfinished
@@ -175,7 +171,7 @@ TrinketType.SOMETHINGWICKED_CURSED_KEY = Isaac.GetTrinketIdByName("Cursed Key")
 TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coins") -- retouch. gotta do the gold thing probably.
 TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
-TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print") -- unfinished
+TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print")
 
 --CARDS
 Card.SOMETHINGWICKED_MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")
@@ -204,15 +200,7 @@ mod.CONST.POOLS = {
 }
 
 mod.CONST.DUMMYITEMS = {
-    APOLLYONS_CROWN = Isaac.GetItemIdByName("[sw] apollyons crown dummy item"),
     LUST_NULLITEM = Isaac.GetItemIdByName("[sw] lust dummy helper"),
     BLANKBOOK_BOOKWORM = Isaac.GetItemIdByName("[sw] bookworm dummy item"),
     BLANKBOOK_GOLDEN = Isaac.GetItemIdByName("[sw] golden bookworm dummy item")
-}
-
-mod.CONST.BRITTLEDAGGER = {
-    [1]=CollectibleType.SOMETHINGWICKED_BRITTLE_DAGGER,
-    [2]=Isaac.GetItemIdByName(" Brittle Dagger "),
-    [3]=Isaac.GetItemIdByName("  Brittle Dagger  "),
-    [4]=Isaac.GetItemIdByName("   Brittle Dagger   "),
 }

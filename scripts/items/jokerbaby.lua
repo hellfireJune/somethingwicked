@@ -1,7 +1,4 @@
 local this = {}
-TearVariant.SOMETHINGWICKED_JOKER_DIAMONDS = Isaac.GetEntityVariantByName("Joker Baby Diamonds")
-TearVariant.SOMETHINGWICKED_JOKER_CLUBS = Isaac.GetEntityVariantByName("Joker Baby Clubs")
-TearVariant.SOMETHINGWICKED_JOKER_SPADES = Isaac.GetEntityVariantByName("Joker Baby Spades")
 --[[
     hearts: knave of hearts effect
     clubs: minor inner eye

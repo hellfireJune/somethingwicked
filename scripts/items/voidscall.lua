@@ -1,7 +1,6 @@
 local this = {}
 local mod = SomethingWicked
 local sfx = SFXManager()
-TearVariant.SOMETHINGWICKED_VOIDSBLADE = Isaac.GetEntityVariantByName("Call of the Void Tear")
 
 local frameWait = 2
 local angleVariance = 5

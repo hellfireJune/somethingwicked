@@ -3,7 +3,7 @@ local mod = SomethingWicked
 
 local baseChance = 0.11
 local function ProcChance(player, tear)
-    local luck = player.Luck + (player:GetTrinketMultiplier(TrinketType.TRINKET_TEARDROP_CHARM) * 3) - (tear.Type == EntityType.ENTITY_TEAR and 0 or 2)
+    local luck = player.Luck + (player:GetTrinketMultiplier(TrinketType.TRINKET_TEARDROP_CHARM) * 3) - (tear.Type == EntityType.ENTITY_TEAR and 0 or 3)
     return baseChance + (luck*0.04)
 end
 mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SCREW_ATTACK, {
@@ -35,7 +35,6 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SCREW_ATTACK, {
     end
 })
 function this:PreCollide(tear, collider)
-    
     if tear.FrameCount % 3 == 0 then
         if collider:TakeDamage(tear.CollisionDamage, 0, EntityRef(tear), 0) then
         end

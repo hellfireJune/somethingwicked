@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
@@ -42,17 +41,3 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, function (_, bomb)
     end
     FirePerpendicularLasers(_,player,bomb, bomb.ExplosionDamage/player.Damage)
 end)
-
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-    if flags == CacheFlag.CACHE_DAMAGE then
-        player.Damage = mod.StatUps:DamageUp(player, 0, 0, player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) and 0.666 or 1)
-    end
-end)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_TECH_MODULO] = {
-        desc = "Firing a tear will fire two perpendicular half damage lasers at wherever the tear would land#↓ {{Damage}} -33.3% damage down",
-        pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE, mod.encyclopediaLootPools.POOL_CRANE_GAME}
-    }
-}
-return this

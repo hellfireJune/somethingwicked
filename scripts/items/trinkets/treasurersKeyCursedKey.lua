@@ -13,7 +13,7 @@ local DoorSprites = {
     [RoomType.ROOM_CHEST] = "curse_chest_door",
 }
 
-function mod:CurseKeyTreasuersKeyDoorChecks(door, gridIndex)
+function mod:CurseKeyTreasurersKeyDoorChecks(door, gridIndex)
 if door and not mod:UtilTableHasValue(RooomTypeBlackList, door.TargetRoomType) then     
             --Treasurer's Key
     if (door:IsRoomType(RoomType.ROOM_TREASURE) or door:IsRoomType(RoomType.ROOM_PLANETARIUM))

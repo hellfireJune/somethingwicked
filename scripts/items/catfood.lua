@@ -27,10 +27,10 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.DelayShit)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)]]
 
-function this:BossRoomClear(pos, isBR)
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
+function this:BossRoomClear(pos)
+    local flag, player = SomethingWicked:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
     if flag and player then
-        local numCatFood = SomethingWicked.ItemHelpers:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
+        local numCatFood = SomethingWicked:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
         for i = 1, numCatFood * 5, 1 do
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF, pos, RandomVector() * 5, player)
         end

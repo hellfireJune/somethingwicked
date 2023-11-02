@@ -1,7 +1,5 @@
-local this = {}
 local mod = SomethingWicked
 local game = Game()
-EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
 
 local directory = "gfx/grid/grid_lourdeswaterangelstatue.anm2"
 local directions = {
@@ -34,7 +32,7 @@ local otherRockSprites = {
     }, --down
 }
 
-function this:NewRoomLogic()
+local function NewRoomLogic()
     local level = game:GetLevel()
     local room = game:GetRoom()
     mod.save.runData = mod.save.runData or {}
@@ -49,8 +47,8 @@ function this:NewRoomLogic()
     if not mod.save.runData.CoE_rooms[idx] then
         local newData = {}
         
-        local stacks = mod.ItemHelpers:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
-        local rng = mod.ItemHelpers:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
+        local stacks = mod:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
+        local rng = mod:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
 
         local rocks = {}
         for i = 0, room:GetGridSize(), 1 do
@@ -58,8 +56,8 @@ function this:NewRoomLogic()
             if g and g:GetType() == GridEntityType.GRID_ROCK then
                 local emptyAdjacent = false
                 for ii = 0, 3, 1 do
-                    local o_idx = i + mod.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][ii]
-                    if math.abs(mod.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][ii]) == 13 then
+                    local o_idx = i + mod.adjindexes[RoomShape.ROOMSHAPE_1x1][ii]
+                    if math.abs(mod.adjindexes[RoomShape.ROOMSHAPE_1x1][ii]) == 13 then
                         o_idx = i + room:GetGridWidth()
                     end
                     local o_g = room:GetGridEntity(o_idx)
@@ -95,7 +93,7 @@ function this:NewRoomLogic()
         sprite:Update()
 
         for i = 0, 3, 1 do
-            local key = mod.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][i]
+            local key = mod.adjindexes[RoomShape.ROOMSHAPE_1x1][i]
             local o_idx = rockIdx + key
             if math.abs(key) == 13 then
                 o_idx = rockIdx + room:GetGridWidth()
@@ -112,6 +110,9 @@ function this:NewRoomLogic()
                         else
                             o_sprite:SetFrame(newFrame)
                         end
+
+                        o_sprite:Update()
+                        adjRock:Update()
                     end
                 end
             end
@@ -129,26 +130,31 @@ end
 local radius = 100
 local dmg = 5
 local cooldown = 30
-function this:EffectUpdate(effect)
+local function EffectUpdate(_, effect)
     local e_sprite = effect:GetSprite()
     local e_data = effect:GetData()
     local rock = e_data.somethingWicked_edithparentRock
     if rock and rock.State == 1 then
         e_data.sw_CoEattackCooldown = e_data.sw_CoEattackCooldown or 0
         if e_data.sw_CoEattackCooldown <= 0 then
+            local level = game:GetLevel()
+            local stage = level:GetAbsoluteStage()
+
             local enemies = Isaac.FindInRadius(effect.Position, radius, EntityPartition.ENEMY)
             for _, ent in ipairs(enemies) do
-                if not ent:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
-                    local veloc = ent.Position - effect.Position
-                    veloc = veloc:Normalized():Resized(20)
+                if ent.Type ~= EntityType.ENTITY_BOMB then
+                    if not ent:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
+                        local veloc = ent.Position - effect.Position
+                        veloc = veloc:Normalized():Resized(20)
 
-                    ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK)
-                    ent:AddVelocity(veloc)
+                        ent:AddEntityFlags(EntityFlag.FLAG_KNOCKED_BACK)
+                        ent:AddVelocity(veloc)
+                    end
+
+                    ent:TakeDamage(10 + 2 * (stage - 1), 0, EntityRef(effect), 1)
+                    ent:SetColor(Color(1, 1, 1, 1, 0.5, 0.5, 0.5), math.floor(cooldown*0.6666), 1, true, false)
+                    e_data.sw_CoEattackCooldown = cooldown
                 end
-
-                ent:TakeDamage(dmg, 0, EntityRef(effect), 1)
-                ent:SetColor(Color(1, 1, 1, 1, 0.5, 0.5, 0.5), math.floor(cooldown*0.6666), 1, true, false)
-                e_data.sw_CoEattackCooldown = cooldown
             end
         else
             e_data.sw_CoEattackCooldown = e_data.sw_CoEattackCooldown - 1
@@ -187,7 +193,7 @@ function this:EffectUpdate(effect)
     end
 end
 
-function this:PEffectUpdate(player)
+local function PEffectUpdate(_, player)
     local p_data = player:GetData()
     local shouldBoost = p_data.sw_inEdithAura
     if shouldBoost == nil then
@@ -208,38 +214,6 @@ function this:PEffectUpdate(player)
     p_data.sw_inEdithAura = false
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoomLogic)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdate, EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE)
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-    local shouldBoost = player:GetData().sw_shouldEdithBoost
-    if flags == CacheFlag.CACHE_FIREDELAY then
-        player.MaxFireDelay = mod.StatUps:TearsUp(player, 0, 0, shouldBoost and 1.5 or 1)
-    end
-    if flags == CacheFlag.CACHE_TEARFLAG and shouldBoost then
-        player.TearFlags = player.TearFlags | TearFlags.TEAR_HOMING
-    end
-    if flags == CacheFlag.CACHE_TEARCOLOR and shouldBoost then
-        player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
-    end
-    if flags == CacheFlag.CACHE_DAMAGE and shouldBoost then
-        player.Damage = mod.StatUps:DamageUp(player, 0, 0, 1.2)
-    end
-end)
---[[mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player)
-    player:AddEternalHearts(1)
-end, CollectibleType.SOMETHINGWICKED_LOURDES_WATER)]]
-
---[[mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, effect)
-    if effect.SubType == 4 and effect.Parent and effect.Parent:Exists() then
-        effect:GetSprite():RenderLayer(1, Isaac.WorldToScreen(effect.Position))
-    end
-end, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)]]
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LOURDES_WATER] = {
-        desc = "↑ Every room, a random rock will turn into an angellic statue#Standing inside the statue's aura grants:#↑ {{Damage}} +20% Damage#↑ {{Tears}} +150% Tears Multiplier#Homing tears#↑ Enemies that try to enter the aura will be damaged and repelled",
-        Hide = true,
-    }
-}
-return this
+mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, NewRoomLogic)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)

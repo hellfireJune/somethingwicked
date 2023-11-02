@@ -10,7 +10,7 @@ function this:OnEnemyKill(entity)
     
     if entity:IsEnemy() and entity:ToNPC():IsChampion() then
         local e_Rng =  entity:GetDropRNG()
-        for _, player in ipairs(SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_FITUS_FORTUNUS)) do
+        for _, player in ipairs(SomethingWicked:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_FITUS_FORTUNUS)) do
             if e_Rng:RandomFloat() <= 0.33 then
                 local pickupToCreate = SomethingWicked.defaultPickupTable[e_Rng:RandomInt(#SomethingWicked.defaultPickupTable) + 1]
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, pickupToCreate, 0, entity.Position, Vector.Zero, entity)

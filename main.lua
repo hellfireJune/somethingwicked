@@ -145,10 +145,32 @@ local weightedPools = {
   { ItemPoolType.POOL_SECRET, 62 },
 }
 local weightedGreedPools = {
-  -- treasure, boss, shop, devil, angel, curse, secret
+  { ItemPoolType.POOL_GREED_TREASURE, 343 },
+  { ItemPoolType.POOL_GREED_SHOP, 87 },
+  { ItemPoolType.POOL_GREED_BOSS, 83 },
+  { ItemPoolType.POOL_GREED_DEVIL, 83 },
+  { ItemPoolType.POOL_GREED_ANGEL, 51 },
+  { ItemPoolType.POOL_GREED_CURSE, 30 },
+  { ItemPoolType.POOL_GREED_SECRET, 58 },
 }
 local bothModePools = {
-  -- everything but the above
+  { ItemPoolType.POOL_LIBRARY, 15 },
+  { ItemPoolType.POOL_GOLDEN_CHEST, 25 },
+  { ItemPoolType.POOL_RED_CHEST, 15 },
+  { ItemPoolType.POOL_BEGGAR, 27 },
+  { ItemPoolType.POOL_DEMON_BEGGAR, 35 },
+  { ItemPoolType.POOL_KEY_MASTER, 22 },
+  { ItemPoolType.POOL_BOMB_BUM, 20 },
+  { ItemPoolType.POOL_PLANETARIUM, 11 },
+  { ItemPoolType.POOL_ULTRA_SECRET, 92 },
+  { ItemPoolType.POOL_CRANE_GAME, 96 },
+  { ItemPoolType.POOL_SHELL_GAME, 6 },
+  { ItemPoolType.POOL_ROTTEN_BEGGAR, 9 },
+  { ItemPoolType.POOL_BATTERY_BUM, 10 },
+  { ItemPoolType.POOL_OLD_CHEST, 25 },
+  { ItemPoolType.POOL_WOODEN_CHEST, 11 },
+  { ItemPoolType.POOL_MOMS_CHEST, 20 },
+  { ItemPoolType.POOL_BABY_SHOP, 84 },
 }
 function mod:GetRandomPool(myRNG)
   local greed = game.Difficulty > Difficulty.DIFFICULTY_HARD
@@ -179,6 +201,7 @@ function mod:BoolToNum(bool)
 end
 
 local function incl(script)
+  print(script)
   include("scripts/"..script)
 end
 
@@ -204,27 +227,41 @@ for index, value in ipairs(earlyLoad) do
 end
 
 local i_ = "items/"
-local midLoad = {
-  i_.."wickedSoul",
-  i_.."dStock",
-  i_.."electricDiceBustedBattery",
-  i_.."hellfireCrownOfBlood",
-  i_.."oldUrn",
-  i_.."assistTrophyItemBox",
-  i_.."trinketSmasher",
-  i_.."cursedMushroom",
-  i_.."starSpawn",
-  i_.."bravery",
-  i_.."planchette",
-  i_.."encyclopedia",
+local p_ = i_.."passive/"
+local a_ = i_.."active/"
+local f_ = i_.."familiars/"
+local m_ = i_.."misc/"
+local t_ = i_.."trinkets/"
 
-  i_.."twoOfCoins",
-  i_.."stoneKey",
-  i_.."treasurersKeyCursedKey",
-  i_.."blankBook",
-  i_.."diceRoller",
-  i_.."gachapon",
-  i_.."powerInverter"
+local midLoad = {
+  p_.."wickedSoul",
+  a_.."dStock",
+  p_.."electricDiceBustedBattery",
+  p_.."hellfireCrownOfBlood",
+  p_.."oldUrn",
+  a_.."assistTrophyItemBox",
+  a_.."trinketSmasher",
+  a_.."cursedMushroom",
+  p_.."starSpawn",
+  p_.."bravery",
+  p_.."planchette",
+  a_.."encyclopedia",
+  p_.."lourdesWater",
+  a_.."boline",
+  a_.."woodenDiceBookOfExodus",
+  p_.."techModulo",
+  p_.."apollyonsCrown",
+  f_.."strangeApple",
+  m_.."fruitMilkHalloweenCandyFlagMods",
+  a_.."tiamatsDice",
+
+  t_.."twoOfCoins",
+  t_.."stoneKey",
+  t_.."treasurersKeyCursedKey",
+  t_.."blankBook",
+  t_.."diceRoller",
+  t_.."gachapon",
+  t_.."powerInverter",
 }
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
   ApplyLogic = function (_, p, tear)
@@ -256,6 +293,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   local lankyMushMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM)
   local gachaponMult = mod:GachaponStatsEvaluate(player)
   local p_data = player:GetData()
+  local lourdesBuff = p_data.sw_shouldEdithBoost
 
   if flags == CacheFlag.CACHE_DAMAGE then
     player.Damage = mod:DamageUp(player, 0.5 * wickedSoulMult)
@@ -293,6 +331,34 @@ function mod:EvaluateGenericStatItems(player, flags)
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
       player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult))
   end
+  if flags == CacheFlag.CACHE_TEARFLAG then
+    if lourdesBuff then
+      player.TearFlags = player.TearFlags | TearFlags.TEAR_HOMING
+    end
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
+        if not p_data.SomethingWickedPData.FruitMilkFlags then
+            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FRUIT_MILK)
+            local newFlags = mod:GenerateFruitFlag(c_rng)
+            p_data.SomethingWickedPData.FruitMilkFlags = newFlags
+        end
+
+        --print(p_data.SomethingWickedPData.FruitMilkFlags)
+        player.TearFlags = player.TearFlags | p_data.SomethingWickedPData.FruitMilkFlags
+    end
+
+    if p_data.SomethingWickedPData.BonusVanillaFlags then
+        player.TearFlags = player.TearFlags | p_data.SomethingWickedPData.BonusVanillaFlags
+    end
+  end
+  if flags == CacheFlag.CACHE_TEARCOLOR then
+    if lourdesBuff then
+      player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
+    end
+  end
+  if  flags == CacheFlag.CACHE_FAMILIARS then
+    local stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_STRANGE_APPLE)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_RETROSNAKE, stacks, rng, source)
+  end
 
   if flags == CacheFlag.CACHE_SIZE then
     player.SpriteScale = player.SpriteScale * (lankyMushMult == 0 and Vector(1, 1) or Vector(0.75, 1.5))
@@ -301,12 +367,27 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
 
 function mod:EvaluateLateStats(player, flags)
+  local shouldBoost = player:GetData().sw_shouldEdithBoost
+  if flags == CacheFlag.CACHE_FIREDELAY then
+    if shouldBoost then
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1.5)
+    end
+  end
   if flags == CacheFlag.CACHE_DAMAGE then
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SILVER_RING) then
       player.Damage = player.Damage * 1.1
     end
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
       player.Damage = player.Damage * 1.3
+    end
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
+      player.Damage = player.Damage * 0.25
+    end
+    if shouldBoost then
+      player.Damage = player.Damage * 1.2
+    end
+    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) then
+        player.Damage = player.Damage * 2/3
     end
   end
   mod:StarSpawnEval(player, flags)
@@ -318,12 +399,20 @@ function mod:GenericOnPickups(player, room, id)
     for i = 1, 4, 1 do
       player:AddWisp(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES, player.Position)
     end
+    return
   end
   if id == CollectibleType.SOMETHINGWICKED_RED_LOCKBOX then
     local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
     for i = 1, 4 + c_rng:RandomInt(3), 1 do
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
     end
+    return
+  end
+  if id then
+    for i = 1, 2, 1 do
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)
+    end
+    return
   end
   mod:OldUrnPickup(player, room, id)
 end
@@ -338,9 +427,26 @@ function mod:OnNewRoom()
   if currRoom.VisitedCount == 1 and level:GetStartingRoomIndex() == currIdx then
       -- new floor
       mod.save.runData.CurseList = {}
+      
+      for _, player in ipairs(mod:UtilGetAllPlayers()) do
+        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) then
+          player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
+        end
+        
+        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
+          mod:WickedSoulOnPickup(player)
+        end
+      end
 
-      for index, value in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)) do
-        mod:WickedSoulOnPickup(value)
+      --wickerman
+      if mod:GenericShouldGenerateRoom(level, game) then
+        local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
+        if flag and player then
+            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
+            if not mod:RoomTypeCurrentlyExists(RoomType.ROOM_SACRIFICE, level, rng) then
+                mod:GenerateSpecialRoom("sacrifice", 1, 5, true, rng)
+            end
+        end
       end
     end
 end
@@ -366,8 +472,13 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
   for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
     local door = room:GetDoor(i)
     if door then
-      mod:CurseKeyTreasuersKeyDoorChecks(door, currIdx)
+      mod:CurseKeyTreasurersKeyDoorChecks(door, currIdx)
     end
+  end
+
+  local abyssLocusts = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST)
+  for _, player in ipairs(mod:UtilGetAllPlayers()) do
+    mod:DestroyCrownLocustsWithInitSeeds(nil, abyssLocusts, player)
   end
 end)
 
@@ -378,6 +489,7 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
   local p = ent:ToPlayer()
   if p then
     mod:StarSpawnPlayerDamage(p)
+    mod:BolineTakeDMG(p)
 
     --indulgence
     if p:HasTrinket(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE) then
@@ -388,6 +500,19 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
           Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, pos, Vector.Zero, p)
       end
     end
+
+    return
+  end
+
+  local w = ent:ToFamiliar()
+  if w then
+    if w.Variant == FamiliarVariant.WISP then
+      local collectibleType = w.SubType
+
+      mod:PostBolineWispTakeDamage(w, collectibleType)
+    end
+
+    return
   end
 end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, mod.PostEntityTakeDMG)
@@ -477,95 +602,84 @@ function mod:BombUpdate(bomb)
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
 
 --[[local itemsToLoad = {
-  "ramshead",
+  !-"ramshead",
 
-  "discipleseye",
-  "newlocustitems",
-  "voidbombs",
-  "catfood",
-  "nightshade",
-  "fitusfortunus",
-  "apollyonscrown",
-  "woodendice",
-  "biretta",
-  "wrath",
-  "superiority",
-  "cursedcreditcard",
-  "spidernest",
-  "3dglasses",
+  !-"discipleseye",
+  !-"newlocustitems",
+  !-"catfood",
+  !-"nightshade",
+  !-"fitusfortunus",
+  !-"biretta",
+  !-"wrath",
+  !-"superiority",
+  !-"cursedcreditcard",
+  !-"spidernest",
+  !-"3dglasses",
   "legion",
-  "teratomashield",
-  "sacrificialheart",
-  "glitchcity",
-  "crossedheart",
-  "devilstail",
+  !-"teratomashield",
+  !-"sacrificialheart",
+  !-"glitchcity",
+  !-"crossedheart",
+  !!-"devilstail",
   "shotgrub",
   "minotaur",
   "balrogsheart",
-  "carolinareapernagaviper",
+  !-"carolinareapernagaviper",
   "cursemask",
-  "red",
-  "plasmaglobe",
+  !-"red",
   "bananamilk",
   "safetymasktemperance",
-  "loversmask",
-  "boxofvines",
-  "mosaicshard",
-  "knaveofhearts",
+  !-"loversmask",
   "redqueen",
   "brokenbell",
   "saintshead",
   "eyeofprovidence",
   "tombstone",
   "blacksalt",
-  "lanternbatterycellphonebattery",
-  "ringofregen",
-  "lourdeswater",
+  !-"lanternbatterycellphonebattery",
+  !-"ringofregen",
   "bloodhail",
-  "redcap",
+  !-"redcap",
   "voidscall",
   "screwattack",
-  "techmodulo",
   "pressurevalve",
   "lightsharddarkshard",
   "pendulum",
-  "chrismatory",
+  !-"chrismatory",
   "yoyo",
   "airfreshener",
   "pieceofsilver",
   "darkness",
   "ganymede",
   
-  "rogueplanet",
-  "minos",
-  "yellowshard",
-  "solomon",
-  "devilsknife",
+  !-"rogueplanet",
+  !-"minos",
+  !-"yellowshard",
+  !-"solomon",
+  !-"devilsknife",
   "phobosanddeimos",
   "littleattractor",
   "msgonorrhea",
-  "justiceandsplendor",
+  !-"justiceandsplendor",
   "cutiefly",
   "fatwisp",
-  "weirdapple",
   "jokerbaby",
 
-  "balrogshead",
-  "bookoflucifer",
-  "toybox",
-  "tiamatsdice",
-  "cursedcandle",
-  "dadswallet",
-  "bookofinsanity",
-  "voidegg",
-  "chaosheart",
-  "olddice",
-  "chasm",
-  "fetusinfetu",
-  "edenshead",
-  "abandonedbox",
+  !-"balrogshead",
+  !-"bookoflucifer",
+  !-"toybox",
+  !-"cursedcandle",
+  !-"dadswallet",
+  !-"bookofinsanity",
+  !-"voidegg",
+  !-"chaosheart",
+  !-"olddice",
+  !-"chasm",
+  !-"fetusinfetu",
+  !-"edenshead",
+  !-"abandonedbox",
   "facestabber",
-  "goldencard",
+  !-"goldencard",
   "fearstalkstheland",
   "bookofleviathan",
   "marblesprouttaskmanager",
@@ -573,18 +687,17 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "icewand",
   "dudael",
   "magicclay",
-  "boline",
   "lastprism",
   
-  "scorchedwood",
-  "bobsheart",
-  "damnedsoulvirtuoussoul",
-  "demoncore",
-  "demoniumpage",
-  "voidheart",
+  !-"scorchedwood",
+  !-"bobsheart",
+  !-"damnedsoulvirtuoussoul",
+  !-"demoncore",
+  !-"demoniumpage",
+  !-"voidheart",
   "mrskits",
-  "giftcard",
-  "nightmarefuelvirtue",
+  !-"giftcard",
+  !-"nightmarefuelvirtue",
   "zzzzzzmagnet",
   "redkeychain",
 }

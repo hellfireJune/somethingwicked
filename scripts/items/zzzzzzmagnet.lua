@@ -35,7 +35,7 @@ end)
 
 this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET] = {
-        desc = "!!! Turns all doors to Devil Rooms and Angel Rooms into doors to",
+        desc = "!!! Turns all doors to Devil Rooms and Angel Rooms into doors to the Error Room",
         isTrinket = true,
     }
 }

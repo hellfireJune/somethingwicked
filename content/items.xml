@@ -1,11 +1,35 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy, Shampoo, Item Box, Indulgence Print
+  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print
 
   Changes:
+  - Lourdes Water
+    - No longer repels bombs
+
+  - Star Spawn
+    - Math much better, will no longer give absolutely abyssmal stats
+
+  - Apollyon's Crown
+    - Now has a chance to grant locusts from specific items upon entering a new room
+    - Spawns 2-4 locusts now, which changes on a per room basis
+  
+  - Gachapon:
+    - Now grants an all stats up if broken, instead of random pickups
+    - Properly does effect if rerolled by Wooden Dice
+    
+  - Glitchcity
+    - Damage from individual tiles nerfed from 80->60
+    - Spawning speed changed to be less fast and have less of an additional flat bonus from having just one or more copies of the item
+    - Less generously spawns on top of enemies
+
+  - Encyclopedia
+    - Increased chance to spawn a library from a 20% chance to a 33% chance
+    - For some reason, if you have multiple encyclopedias in your inventory, they'll all be charged if a library's present
+    - Also added BoV and BoB synergies
+
   - D-Stock:
-    - Now restocks devil deals and angel shops
+    - Now also restocks devil deals and angel shops
 
   - Two of Coins:
     - Now does appropriate VFX on heart pickup
@@ -22,10 +46,6 @@
     - Now 10 coins in the shop
     - Passively increases the chance for trinkets to spawn (same as smelter)
 
-  - Gachapon:
-    - Now grants an all stats up if broken
-    - Properly does effect if rerolled by Wooden Dice
-
   - Dice Roller
     - Will also use dice if the player used an item that consumes resources instead of charge
     - Using an item with time based charge will treat it as if its less than 1 charge now, not more than 12
@@ -36,27 +56,28 @@
   - Blank Book
     - Golden Blank Book will now grant two items worth of progress towards Bookworm (Doesn't work with Mom's Box)
 
+  - Tiamat's Dice
+    - Wider range of coin prices (from 7-53 to 7-93)
+    - Random pool now vaguely follows Chaos logic, more likely to roll larger pools
+
+  - Biretta
+    - Now spawns confessionals at the start of the floor, instead of at the end
+
+  - Boline
+    - Increased the thickness of maw of the void ring
+
+  - Void Bombs
+    - Ring radius and thickness now scales with bomb explosion size
+    
   - Planchette
     - Now doubles the collision damage from wisps also
 
-  - Biretta
-    - Now spawns confessionals at the start of the floor
-
-  - Star Spawn
-    - Math much better, will lead to much less breakage
-
-  - Glitchcity
-    - Damage from individual tiles nerfed from 80->60
-    - Spawning speed changed to be less fast and have less of an additional flat bonus from having just one or more copies of the item
-    - Less generously spawns on top of enemies
-
-  - Encyclopedia
-    - Increased chance to spawn a library from a 20% chance to a 33% chance
-    - For some reason, if you have multiple encyclopedias in your inventory, they'll all be charged if a library's present
-    - Also added BoV and BoB synergies
-
   - Misc: 
-    - Removed Possum's Ear and Possum's Head (BYE!)
+    - Resprited Red
+    - Removed Possum's Ear, Possum's Head, and White Robe
+      - Possum's ear filled a niche that on it's own was very interesting but the base effect itself is done to death in other mods and honestly it wasnt all that great.
+      - Possum's head just sucked, and the "Possum -> bones" thing was generally just a weird piece of theming i dont think was really that good at all
+      - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
     - Added status effect icons for curse
     - Electro-stun and curse will no longer apply to enemies immune to status effects
     - Minor eid / description changes
@@ -69,6 +90,7 @@
   - FiendFolio electrum synergies and stackable item compat now actually works
   - Electro-Stun is now a lot better coded; no longer deals double the damage its meant to do, and will no longer sometimes damage it's host
   - Void Bombs no longer crashes the game instantly with hot bombs, excelsior or glitter bombs
+  - Lourdes Water is no longer hidden from Encyclopedia
 
   -->
 
@@ -83,8 +105,8 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 14, 30, 32, 35, 37, 39, 74, 100, 103, 110, 119, 133, 144 and 141
-  and trinket id 38-->
+  <!--also make item id 10, 11, 12, 14, 30, 32, 35, 37, 39, 40, 74, 82, 83, 100, 103, 110, 119, 133, 144 and 141
+  and trinket id 15 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -95,10 +117,10 @@
   <passive id="7" name="Star of the Bottomless Pit" description = "Bearer of the key" gfx="starofthebottomlessredux.png" quality="3" devilprice="2" tags="offensive devil summonable" achievement="340"/>
   <passive id="8" name="Void Bombs" description="Abyssal bombs +5 bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
   <passive id="9" name="Cat Food" description="HP up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
-  <passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> <!--Needs costume-->
+  <!--<passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> Needs costume-->
   <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
-  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" spassivecache="true"/> 
+  <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" passivecache="true"/> 
   <passive id="18" name="Nightshade" gfx="nightshade2.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
   <active id="19" name="Book of Lucifer" gfx="bookoflucifer3.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
@@ -152,7 +174,7 @@
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="Poison fire shot" quality="3" tags="offensive summonable"/>
   <passive id="78" name="Lantern Battery" gfx="lanternbattery.png" quality="2" description="More charge" tags="offensive battery"/>
-  <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red.png"/> <!--costume required-->
+  <passive id="80" name="Red" description="One more red nightmare..." quality="1" tags="offensive summonable" gfx="red2.png"/> <!--costume required-->
   <passive id="86" name="Lover's Mask" description="Hearty damage block" gfx="loversmask.png" tags="nolostbr" quality="2"/> <!--code done i think?-->
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
   <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/>
@@ -177,16 +199,14 @@
 
   <passive id="79" name="Plague of Wormwood" hidden="true"/> <!--code done-->
   <passive id="81" name="Curse Mask" description="Curse admission free"/> <!--code done-->
-  <active id="82" name="Brittle Dagger" hidden="true"/> <!--code done-->
-  <active id="83" name="Dagger Handle" hidden="true"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true"/>
   <active id="85" name="Baby Mandrake" maxcharges="2" gfx="lilmandrake.png" description="Radial stun scream" hidden="true"/> <!--radial petrify-->
-  <passive id="87" name="Debugger" hidden="true"/>
+  <passive id="87" name="S AND FLIES" hidden="true"/>
   <active id="88" name="  Book of Leviathan  " hidden="true" maxcharges="4" chargetype="special" cache="damage"/>
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true"/>
   <familiar id="94" name="Little Attractor" hidden="true"/> 
-  <passive id="95" name="Banana Milk" description="DMG down + fruity tears" gfx="bananamilk.png" cache="damage tearflag"/>  
+  <passive id="95" name="Fruit Milk" description="DMG down + rainbow tears" cache="damage tearflag"/>  
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive"/>
   <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
@@ -198,7 +218,7 @@
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable"/>
-  <passive id="116" name="Blood Hial" description="Red as all hellfire" hidden="true"/> <!--also make-->
+  <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true"/> <!--also make-->
   <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true"/>
   <passive id="118" name="Black Salt" hidden="true"/>
   <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="3" tags="offensive summonable" hidden="true"/>
@@ -224,10 +244,7 @@
 
   <passive id="148" name=" Ganymede " hidden="true"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly"/>
-  
-  <active name=" Brittle Dagger " hidden="true"/> <!--durabilty 1-->
-  <active name="  Brittle Dagger  " hidden="true"/> <!--durabilty 2-->
-  <active name="   Brittle Dagger   " hidden="true"/> <!--durabilty 3-->
+
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true"/> <!--slot-->
   <active name="  Magic Clay  " gfx="hellfire.png" hidden="true"/> <!--fortune-->
   <active name="   Magic Clay   " gfx="lilmandrake.png" hidden="true"/> <!--blood-->
@@ -251,11 +268,11 @@
   <trinket id="18" name="Blank Book" description="Counts for something..." gfx="blankbook.png"/> 
   <trinket id="19" name="Mr. Skits" description="Nightmare friend" gfx="blankbook.png" hidden="true"/>
   <trinket id="20" name="Gift Card" description="6 percent off!" gfx="giftcard.png"/>
-  <trinket id="21" name="ZZZZZZ Magnet" description="World 23's deals" gfx="blankbook.png" hidden="true"/>
+  <trinket id="21" name="ZZZZZZ Magnet" description="23-3" gfx="blankbook.png" hidden="true"/>
   <trinket id="24" name="Owl Feather" gfx="owlfeather.png" description="Devil of War"/> 
+  <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
   <trinket id="34" name="Power Inverter" gfx="powerinverter.png" description="Batteries -> strength"/>
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
-  <trinket id="30" name="Ticket Roll" gfx="ticketroll.png" description="On-the-go arcades"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
@@ -271,11 +288,9 @@
   <trinket id="31" name="Bag of Mugworts" hidden="true"/> <!--coded-->
   <trinket id="32" name="Scorched Page" hidden="true"/> <!-- code done-->
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
-
   <trinket id="36" name="Card Graveyard" hidden="true"/> <!-- code done :3 -->
   
-  <passive name="[sw] apollyons crown dummy item" description="tell june if u see this" hidden="true"/>
-  <passive id="705" name="[sw] lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>
+  <!--<passive id="705" name="[sw] lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>-->
   <passive name="[sw] bookworm dummy item" description="tell june if u see this" hidden="true" tags="book"/>
   <passive name="[sw] golden bookworm dummy item" description="tell june if u see this" hidden="true" tags="book"/>
 </items>

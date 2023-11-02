@@ -1,7 +1,4 @@
 local this = {}
-TearVariant.SOMETHINGWICKED_HEART_STICKER = Isaac.GetEntityVariantByName("Heart Sticker Tear")
-TearVariant.SOMETHINGWICKED_BOMB_STICKER = Isaac.GetEntityVariantByName("Bomb Sticker Tear")
-TearVariant.SOMETHINGWICKED_SKULL_STICKER = Isaac.GetEntityVariantByName("Skull Sticker Tear")
 
 local function ProcChance(player)
     return 1

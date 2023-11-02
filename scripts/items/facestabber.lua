@@ -1,6 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestabber")
 
 local chargebar = Sprite()
 chargebar:Load("gfx/chargebar.anm2", true)

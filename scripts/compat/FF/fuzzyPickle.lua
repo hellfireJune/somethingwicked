@@ -4,6 +4,7 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_CHAOS_HEART, Reference = "Ring of Pain"},
         {ID = CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM, Reference = "Super Mario Bros"},
         {ID = CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY, Reference = "Super Smash Bros"},
+        {ID = CollectibleType.SOMETHINGWICKED_ITEM_BOX, Reference = "Mario Kart"}
     },
     Passives = {
         {ID = CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM, Reference = "Terraria"},

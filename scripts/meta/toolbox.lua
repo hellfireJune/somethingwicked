@@ -1,6 +1,7 @@
 --item helpers
 local mod = SomethingWicked
 local game = Game()
+local sfx = SFXManager()
 
 function mod:GlobalPlayerHasCollectible(type, ignoreModifs)
     for index, value in ipairs(mod:UtilGetAllPlayers()) do
@@ -581,8 +582,8 @@ function mod:ChargeFirstActiveOfTypeThatNeedsCharge(player, collectible, chargeT
             player:SetActiveCharge(math.min(newMaxCharge, charge + chargeToAdd), slot)
 
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
-            SomethingWicked.game:GetHUD():FlashChargeBar(player, slot)
-            SomethingWicked.sfx:Play(SoundEffect.SOUND_BEEP)
+            game:GetHUD():FlashChargeBar(player, slot)
+            sfx:Play(SoundEffect.SOUND_BEEP)
             return
         end
     end
@@ -877,83 +878,16 @@ function mod:DynamicOrbit(familiar, parent, speed, distance)
     return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
 end
 
---these 2 taken and modified from retribution thanks xalum
-function mod:GridAlignPosition(pos)
+--Modified retribution function, thank you Xalum
+function mod:GridAlignPosition(pos, scalar)
     local x = pos.X
     local y = pos.Y
+    local tile = 40 * (scalar or 1)
 
-    x = 40 * math.floor(x/40 + 0.5)
-    y = 40 * math.floor(y/40 + 0.5)
+    x = tile * math.floor(x/tile+0.5*scalar)
+    y = tile * math.floor(y/tile+0.5*scalar)
 
     return Vector(x, y)
-end
-
-function mod:SnakePathFind(entity, targetPosition, initialDirection, stuck)
-    if stuck == nil then
-        stuck = false
-    end
-		local room = SomethingWicked.game:GetRoom()
-		local entityPosition = mod:GridAlignPosition(entity.Position)
-		targetPosition = mod:GridAlignPosition(targetPosition)
-
-		local loopingPositions = {targetPosition}
-		local indexedGrids = {}
-
-		local index = 0
-		while #loopingPositions > 0 do
-			local temporaryLoop = {}
-
-			for _, position in pairs(loopingPositions) do
-				if room:IsPositionInRoom(position, 0) then
-					if room:GetGridCollisionAtPos(position) == GridCollisionClass.COLLISION_NONE or index == 0 then
-						local gridIndex = room:GetGridIndex(position)
-						if not indexedGrids[gridIndex] then
-							indexedGrids[gridIndex] = index
-
-							for i = 1, 4 do
-								table.insert(temporaryLoop, position + Vector(40, 0):Rotated(i * 90))
-							end
-						end
-					end
-				end
-			end
-			
-			index = index + 1
-			loopingPositions = temporaryLoop
-		end
-
-		local index = 99999
-		local choice = entityPosition
-
-		for i = -1, 1 do
-			local position = entityPosition + ((Vector(40, 40) * initialDirection):Rotated(i * 90))
-			local positionIndex = room:GetGridIndex(position)
-			local value = indexedGrids[positionIndex]
-
-			if value and value <= index then
-				index = value
-				choice = position
-
-                if i ~= 0 then
-                    
-                local newPosition = entityPosition + ((Vector(40, 40) * initialDirection):Rotated(180))
-                local newpositionIndex = room:GetGridIndex(newPosition)
-                local newvalue = indexedGrids[newpositionIndex]
-    
-                if newvalue and newvalue <= index then
-                        index = newvalue
-                        choice = position
-                    end
-                end
-			end
-
-	end
-    if index == 99999
-    and not stuck then
-        choice, stuck = mod:SnakePathFind(entity, entityPosition, initialDirection, true)
-    end
-
-    return choice, index == 99999 and stuck
 end
 
 function mod:FindNearestVulnerableEnemy(pos, dis, blacklist)

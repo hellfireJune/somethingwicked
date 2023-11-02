@@ -236,6 +236,71 @@ local collectibles = {
             encyclopediaLootPools.POOL_GREED_DEVIL,
             encyclopediaLootPools.POOL_BOMB_BUM
         }
+    },
+    [CollectibleType.SOMETHINGWICKED_BOLINE] = {
+        desc = "{{Collectible399}} Throws a Maw of the Void ring on use#Will also recharge on taking damage",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+        }
+    }, 
+    [CollectibleType.SOMETHINGWICKED_LOURDES_WATER] = {
+        desc = "↑ Every room, a random rock will turn into an angellic statue#Standing inside the statue's aura grants:#↑ {{Damage}} +20% Damage#↑ {{Tears}} +150% Tears Multiplier#Homing tears#↑ Enemies that try to enter the aura will be damaged and repelled",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_ANGEL,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS] = {
+        desc = "{{Trinket}} Converts any trinkets to golden trinkets on use↑ While held, doubles all trinket spawns#↑ {{Luck}} +1 Luck while held",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+            encyclopediaLootPools.POOL_LIBRARY
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_WOODEN_DICE] = {
+        desc = "{{Trinket}} Rerolls any trinkets on you, smelted or not, upon use#↑ While held, smelts one trinket upon entering a new floor#↑ {{Luck}} +1 Luck while held",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY] = {
+        desc = "↑ Every floor will spawn a {{SacrificeRoom}} Sacrifice Room if possible#Spawns 2 red hearts on pickup",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_CRANE_GAME
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN] = {
+        desc = "{{Collectible706}}Spawns 2-4 permanent abyss locusts as companions#Can rarely spawn unique locusts with the effects of other item's locusts",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_BABY_SHOP,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_TECH_MODULO] = {
+        desc = "Firing a tear will fire two perpendicular half damage lasers at wherever the tear would land#↓ {{Damage}} -33.3% damage down",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME}
+    },
+    [CollectibleType.SOMETHINGWICKED_STRANGE_APPLE] = {
+        desc = [[↑ Spawns a snake familiar that takes up half a grid of position and moves along the grid every 6 frames#
+            Deals 10 damage from the head, 5 damage from the body, and does individual damage from every segment colliding]],
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_ULTRA_SECRET, encyclopediaLootPools.POOL_BABY_SHOP,
+            encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_GREED_SECRET
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_TIAMATS_DICE] = {
+        desc = "Rerolls items into items from a random item pool, with a random cost",
+        pools = {
+            encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_GREED_SECRET
+        }
     }
 }
 
@@ -288,6 +353,9 @@ local trinkets = {
     },
     [TrinketType.SOMETHINGWICKED_POWER_INVERTER] = {
         desc = "{{Battery}} Batteries give a {{Damage}} +0.9 Damage up for the current floor, instead of active item charge",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, nil, {0.9})
+        end
     },
     [TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL] = {
         desc = "{{Pill}} Using a pill will turn all pills of that type into Full Health pills for the rest of the run#This trinket is consumed on pill use",
@@ -298,6 +366,22 @@ local trinkets = {
             EID:addGoldenTrinketMetadata(item, {"Chance increased!"})
         end
     },
+    [TrinketType.SOMETHINGWICKED_GODLY_TOMATO] = {
+        desc = "{{Collectible331}} Chance to give a fired tear a Godhead aura",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, {"↑ Chance doubled!", "↑ Chance tripled!"} )
+        end,
+    },
+    [TrinketType.SOMETHINGWICKED_POPPET] = {
+        desc = "{{Collectible462}} Chance to give a fired tear the effects of Eye of Belial",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, {"↑ Chance doubled!", "↑ Chance tripled!"} )
+        end,
+    },
+    [TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY] = {
+        desc = "you wanna know wh",
+        Hide = true
+    }
 }
 
 for key, value in pairs(trinkets) do

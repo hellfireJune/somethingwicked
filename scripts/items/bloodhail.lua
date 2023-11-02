@@ -10,23 +10,26 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
         and ((tear.Parent and tear.Parent.Type == 1)) then
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
             if c_rng:RandomFloat() < procChance(player) then
-                if tear.Type == EntityType.ENTITY_TEAR then
-                    mod:utilForceBloodTear(tear)
-                end
                 return true
             end
         end
     end,
     EnemyHitEffect = function (_, tear, pos, enemy)
         this:HitEnemy(tear, enemy, pos)
+    end,
+    PostApply = function (_, player, tear)
+        if tear.Type == EntityType.ENTITY_TEAR then
+            mod:utilForceBloodTear(tear)
+        end
+        
     end
 })
 
 function this:HitEnemy(tear, enemy, pos)
     local rng = tear:GetDropRNG()
     local angle = Vector.FromAngle(rng:RandomInt(360))
-    angle = angle:Resized(mod.EnemyHelpers:Lerp(enemy.Size + 10, enemy.Size + 75, rng:RandomFloat()))
-    local posToSpawnAt = enemy.Position + angle
+    angle = angle:Resized(mod:Lerp(enemy.Size - 10, enemy.Size + 45, rng:RandomFloat()))
+    local posToSpawnAt = enemy.Position + enemy.Velocity + angle
 
     local player = mod:UtilGetPlayerFromTear(tear)
     local fallingTear = player:FireTear(posToSpawnAt, Vector.Zero, false, true, false)
@@ -38,9 +41,6 @@ function this:HitEnemy(tear, enemy, pos)
     fallingTear.FallingSpeed = 3
     mod:utilForceBloodTear(fallingTear)
     fallingTear:Update()
-
-    local t_data = fallingTear:GetData()
-    t_data.sw_bloodHailStyle = rng:RandomInt(2) == 1 and "haemo" or "hellfire"
 end
 
 function this:RemoveTear(tear)

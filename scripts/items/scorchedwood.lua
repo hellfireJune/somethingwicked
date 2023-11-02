@@ -22,8 +22,7 @@ this.EIDEntries = {
         desc =  "↑ Enemies have a 33% chance to spawn a Red Candle fire upon kill",
         metadataFunction = function (item)
             EID:addGoldenTrinketMetadata(item, nil, 33)
-        end,
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Enemies have a 33% chance to spawn a Red Candle fire upon kill"})
+        end
     }
 }
 return this

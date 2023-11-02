@@ -1,37 +1,26 @@
-local this = {}
 local mod = SomethingWicked
+local sfx = SFXManager()
+local game = Game()
 
-function this:PickupInit(pickup)
-    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
+local function PickupInit(_, pickup)
+    local players = mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
 
     for _, player in ipairs(players) do
         if (pickup:GetSprite():IsPlaying("Appear") or pickup:GetSprite():IsPlaying("AppearFast")) 
         and pickup:GetSprite():GetFrame() == 0 then
             if pickup.SpawnerType ~= EntityType.ENTITY_PLAYER then
-                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, SomethingWicked.game:GetRoom():FindFreePickupSpawnPosition(pickup.Position), pickup.Velocity, player)
+                local room = game:GetRoom()
+
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, 0, room:FindFreePickupSpawnPosition(pickup.Position+Vector(40,0)), pickup.Velocity, player)
             end
         end
     end
 end
 
-function this:NewLevel()
-    local players = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
+--floorly smelt now in main.lua
 
-    for _, player in ipairs(players) do
-        player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
-    end
-end
-
-function this:SmelterHook(_, rngObj, player, flags)
+local function ShittyWorkaroundMarblesCheck(_, player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
-    if player:GetTrinket(0) ~= 0 then
-        table.insert(p_data.SomethingWickedPData.TrinketInventory, player:GetTrinket(0))
-    end
-end
-function this:ShittyWorkaroundMarblesCheck(player)
-    local p_data = player:GetData()
-    --print(#p_data.SomethingWickedPData.TrinketInventory)
     p_data.somethingwicked_LastHeldTrinkets = p_data.somethingwicked_LastHeldTrinkets or {}
     for key, value in pairs(p_data.somethingwicked_LastHeldTrinkets) do
         local isGolden = value >= TrinketType.TRINKET_GOLDEN_FLAG
@@ -62,7 +51,7 @@ function SomethingWicked:UtilRefreshTrinketInventory(player)
     p_data.SomethingWickedPData.TrinketInventory = newTable
 end
 
-function this:UseDice(_, rngObj, player, flags)
+local function UseDice(_, _, rngObj, player, flags)
     local p_data = player:GetData()
     local trinketsToAdd = 0
     local smeltedTrinketsToAdd = 0
@@ -98,7 +87,7 @@ function this:UseDice(_, rngObj, player, flags)
         end
     end
 
-    local itemPool = SomethingWicked.game:GetItemPool()
+    local itemPool = game:GetItemPool()
     for i = 1, trinketsToAdd + smeltedTrinketsToAdd, 1 do
         local trinketToAdd = itemPool:GetTrinket()
         --print(trinketToAdd)
@@ -119,28 +108,7 @@ function this:UseDice(_, rngObj, player, flags)
     return true
 end
 
-this.goldColor = Color(0.9, 0.8, 0, 1, 0.85, 0.75)
-function this:UseBook(_, rngObj, player, flags)
-    local p_data = player:GetData()
-    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
-    for i = 0, player:GetMaxTrinkets() - 1 , 1 do
-        local trinket = player:GetTrinket(i)
-        if trinket < TrinketType.TRINKET_GOLDEN_FLAG and trinket ~= 0 then
-            return this:BookEffect(player, trinket)
-        end
-    end
-    
-    SomethingWicked:UtilRefreshTrinketInventory(player)
-    for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
-        if player:HasTrinket(value)
-        and value < TrinketType.TRINKET_GOLDEN_FLAG and value ~= 0  then
-            return this:BookEffect(player, value, false)
-        end
-    end
-
-    return { Discharge = false, ShowAnim = true }
-end
-function this:BookEffect(player, trinket, inInventory)
+local function BookEffect(player, trinket, inInventory)
     inInventory = inInventory or inInventory == nil
     player:TryRemoveTrinket(trinket)
     if inInventory then
@@ -151,41 +119,50 @@ function this:BookEffect(player, trinket, inInventory)
     end
 
     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, player.Position, Vector.Zero, player)
-    poof.Color = this.goldColor
+    poof.Color = mod.ColourGold
+    poof.SpriteScale = Vector(1.5, 1.5)
     local crater = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_CRATER, 0, player.Position, Vector.Zero, player)
-    crater.Color = this.goldColor
-    SomethingWicked.sfx:Play(SoundEffect.SOUND_ULTRA_GREED_COIN_DESTROY)
+    crater.Color = mod.ColourGold
+    sfx:Play(SoundEffect.SOUND_ULTRA_GREED_COIN_DESTROY)
+
+    game:SpawnParticles(player.Position, 98, 4, 2)
     return true
+end
+local function UseBook(_, _, rngObj, player, flags)
+    local p_data = player:GetData()
+    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
+    for i = 0, player:GetMaxTrinkets() - 1 , 1 do
+        local trinket = player:GetTrinket(i)
+        if trinket < TrinketType.TRINKET_GOLDEN_FLAG and trinket ~= 0 then
+            return BookEffect(player, trinket)
+        end
+    end
+    
+    SomethingWicked:UtilRefreshTrinketInventory(player)
+    for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
+        if player:HasTrinket(value)
+        and value < TrinketType.TRINKET_GOLDEN_FLAG and value ~= 0  then
+            return BookEffect(player, value, false)
+        end
+    end
+
+    return { Discharge = false, ShowAnim = true }
 end
 --TrinketType.TRINKET_GOLDEN_FLAG
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, this.NewLevel)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, this.PickupInit, PickupVariant.PICKUP_TRINKET)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, PickupInit, PickupVariant.PICKUP_TRINKET)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseBook, CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseDice, CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseBook, CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseDice, CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, this.SmelterHook, CollectibleType.COLLECTIBLE_SMELTER)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.ShittyWorkaroundMarblesCheck) --i loooove marbles
+SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, function (_, rngObj, player, flags)
+    local p_data = player:GetData()
+    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
+    if player:GetTrinket(0) ~= 0 then
+        table.insert(p_data.SomethingWickedPData.TrinketInventory, player:GetTrinket(0))
+    end
+end, CollectibleType.COLLECTIBLE_SMELTER)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, ShittyWorkaroundMarblesCheck) --i loooove marbles
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
     player.Luck = player.Luck + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
 end, CacheFlag.CACHE_LUCK)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS] = {
-        desc = "Converts any trinkets to golden trinkets on use↑ While held, doubles all trinket spawns#↑ {{Luck}} +1 Luck while held",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_LIBRARY
-        }
-    },
-    [CollectibleType.SOMETHINGWICKED_WOODEN_DICE] = {
-        desc = "Rerolls any trinkets on you, smelted or not, upon use#↑ While held, gulps one trinket upon entering a new floor#↑ {{Luck}} +1 Luck while held",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-        }
-    }
-}
-return this

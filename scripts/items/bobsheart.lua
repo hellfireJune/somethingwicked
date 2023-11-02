@@ -7,7 +7,7 @@ function this:PickupInit(entity)
         return
     end
 
-    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BOBS_HEART) then
+    if SomethingWicked:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BOBS_HEART) then
         entity:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ROTTEN, true)
     end
 end
@@ -18,7 +18,6 @@ this.EIDEntries = {
     [TrinketType.SOMETHINGWICKED_BOBS_HEART] = {
         isTrinket = true,
         desc = "Turns all red hearts into rotten hearts.",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"While held, all red hearts turn into rotten hearts"})
     }
 }
 return this

@@ -74,3 +74,4 @@ local EIDEntries = {
         desc = "",
     }
 }
+return this

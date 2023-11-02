@@ -9,7 +9,7 @@ this.couldBuyItemTable = {
         return player:GetEffectiveMaxHearts() >= 1, 0.5
     end,
     [PickupPrice.PRICE_THREE_SOULHEARTS] = function (player)
-        return player:GetEffectiveMaxHearts() >= 1, 0.5
+        return player:GetSoulHearts() >= 1, 0.5
     end,
 }
 
@@ -41,7 +41,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupCol
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_CURSED_CREDIT_CARD] = {
-        desc = "Buying a Devil Deal Item has a "..(this.ProcChance * 100).."% chance to not cost hearts#Items which cost more hearts have less of a chance to work#+1 black heart",
+        desc = "Buying a Devil Deal Item has a 50% chance to not cost hearts#Items which cost more hearts have less of a chance to work#+1 black heart",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_CURSE,
             SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,

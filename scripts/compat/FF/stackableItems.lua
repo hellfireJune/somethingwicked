@@ -10,7 +10,8 @@ local stackableItems = {
     CollectibleType.SOMETHINGWICKED_CROSSED_HEART,
     CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM,
     CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY,
-    CollectibleType.SOMETHINGWICKED_LOURDES_WATER -- make this good pls :3
+    CollectibleType.SOMETHINGWICKED_LOURDES_WATER, -- make this good pls :3
+    CollectibleType.SOMETHINGWICKED_TECH_MODULO
 }
 
 return stackableItems

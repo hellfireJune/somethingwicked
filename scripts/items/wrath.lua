@@ -1,8 +1,5 @@
 local this = {}
 local mod = SomethingWicked
-EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
-EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
-TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
 
 local durationTillSpeedUp=18
 local lerpToZero = 0.2
@@ -51,26 +48,6 @@ function this:TearFire(tear)
         SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target or t_data.somethingWicked_trueHoming.backupPos, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
 
     end
-        --[[local enemy = t_data.somethingWicked_trueHoming.target
-        local enemypos = enemy.Position
-
-        local angleToEnemy = (enemypos - tear.Position):GetAngleDegrees()
-        local angleVel = tear.Velocity:GetAngleDegrees()
-
-        local diff = math.abs(angleVel - angleToEnemy)
-        local mult = (t_data.somethingWicked_trueHoming.angleVariance / diff)
-        
-        mult = 1 - math.min(math.max(mult, 0.1), 1) 
-        local check = (diff < t_data.somethingWicked_trueHoming.angleVariance * mult 
-        and diff or nil)
-        local vectorA = Vector.FromAngle((angleVel - (check == nil and t_data.somethingWicked_trueHoming.angleVariance * mult or check)))
-        local vectorB = Vector.FromAngle((angleVel + (check == nil and t_data.somethingWicked_trueHoming.angleVariance * mult or check)))
-
-        local differenceA = (Vector.FromAngle(angleToEnemy) - vectorA):Length()
-        local differenceB = (Vector.FromAngle(angleToEnemy) - vectorB):Length()
-        
-        local vectorToUse = differenceA > differenceB and vectorB or vectorA
-        tear.Velocity = ((t_data.somethingWicked_trueHoming.usesShotspeed and SomethingWicked:UtilGetPlayerFromTear(tear) ~= nil) and SomethingWicked:UtilGetPlayerFromTear(tear).ShotSpeed * 10 or tear.Velocity:Length()) * vectorToUse]]
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
@@ -137,16 +114,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
 
 end)
 
---[[mod:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
-    local sprite = tear:GetSprite()
-    sprite:RenderLayer(1, Isaac.WorldToScreen(tear.Position+(tear.PositionOffset)))
-end, TearVariant.SOMETHINGWICKED_WISP)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, tear)
-    local sprite = tear:GetSprite()
-    sprite:RenderLayer(1, Isaac.WorldToScreen(tear.Position+(tear.PositionOffset)+Vector(16,0)))
-    sprite:SetOverlayRenderPriority(true)
-end, TearVariant.SOMETHINGWICKED_WISP_TRAIL)]]
-
 function this:TearOnHit(tear, collider, player, procChance)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil
@@ -190,7 +157,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpd
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
         local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
-        --explode.SpriteScale = Vector(1.5, 1.5)
         explode.DepthOffset = 20
         mod.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
         mod.sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
@@ -231,9 +197,6 @@ function SomethingWicked:UtilAddTrueHoming(tear, target, angleVariance, usesShot
     t_data.somethingWicked_trueHoming.angleVariance = angleVariance
     t_data.somethingWicked_trueHoming.usesShotspeed = usesShotspeed
 end
-
---SomethingWicked:AddPickupFunction(this.Pickup, CollectibleType.SOMETHINGWICKED_WRATH)
---Usually I'd use this instead, but Heartbreak also gives broken hearts upon rerolling into it, so idk
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_WRATH] = {

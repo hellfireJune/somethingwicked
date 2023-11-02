@@ -1,6 +1,4 @@
 local this = {}
-EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
-EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
 
 local function procChance(player)
     return 1

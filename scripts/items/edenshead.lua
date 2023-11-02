@@ -5,7 +5,8 @@ this.throwables = {
     CollectibleType.COLLECTIBLE_RED_CANDLE,
     CollectibleType.COLLECTIBLE_BOOMERANG,
     CollectibleType.COLLECTIBLE_GLASS_CANNON,
-    CollectibleType.COLLECTIBLE_DOCTORS_REMOTE
+    CollectibleType.COLLECTIBLE_DOCTORS_REMOTE,
+    CollectibleType.COLLECTIBLE_BLACK_HOLE
 }
 
 function this:UseHead(_, rng, player, flags)

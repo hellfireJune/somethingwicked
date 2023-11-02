@@ -3,6 +3,17 @@ local mod = SomethingWicked
 
 EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
 EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
+EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
+EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
+EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
+EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
+EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
+
+TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
+TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
+TearVariant.SOMETHINGWICKED_STICKERBOOK_STICKER = Isaac.GetEntityVariantByName("Sticker Tear")
+TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestabber")
+TearVariant.SOMETHINGWICKED_VOIDSBLADE = Isaac.GetEntityVariantByName("Call of the Void Tear")
 
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 
@@ -16,14 +27,14 @@ mod.ElectroStunTearColor = Color(1, 1, 1, 1, 0.4, 0.656, 0.8)
 mod.PlasmaGlobeBaseProc = 0.125
 
 --FAMILIARS
-FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar")
-FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY = Isaac.GetEntityVariantByName("Cutie Fly")
+FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar") -- unfinished
+FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY = Isaac.GetEntityVariantByName("Cutie Fly") -- unfinished
 FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE = Isaac.GetEntityVariantByName("Devilsknife")
-FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST = Isaac.GetEntityVariantByName("Dudael Ghost")
-FamiliarVariant.SOMETHINGWICKED_BIG_WISP = Isaac.GetEntityVariantByName("Fat Wisp")
+FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST = Isaac.GetEntityVariantByName("Dudael Ghost") -- unfinished
+FamiliarVariant.SOMETHINGWICKED_BIG_WISP = Isaac.GetEntityVariantByName("Fat Wisp") -- unfinished
 FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR = Isaac.GetEntityVariantByName("Splendorous Sword")
-FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Prism Helper")
-FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar")
+FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Prism Helper") -- ybfubusged
+FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar") -- unfinished
 FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion Familiar B")
 FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar") -- unfinished
 FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar") --unfinished
@@ -31,6 +42,9 @@ FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos
 FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
 FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea") --unfinished
 FamiliarVariant.SOMETHINGWICKED_YOYO = Isaac.GetEntityVariantByName("Wicked Yo-Yo") --still unfnished but oh well
+FamiliarVariant.SOMETHINGWICKED_NIGHTMARE = Isaac.GetEntityVariantByName("Nightmare") -- reworkin
+FamiliarVariant.SOMETHINGWICKED_RETROSNAKE = Isaac.GetEntityVariantByName("Retro Snake")
+FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("Retro Snake (body)")
 
 --[LAMP OIL, ROPE,] BOMBS
 BombVariant.SOMETHINGWICKED_VOID = 2761
@@ -131,4 +145,9 @@ mod.CONST.InfinityBeggarMachinePool = {
     mod.MachineVariant.MACHINE_VOIDBLOOD,
     mod.MachineVariant.MACHINE_BEGGAR_ROTTEN,
     mod.MachineVariant.MACHINE_CONFESSIONAL,
+}
+mod.NightmareSubTypes = {
+    NIGHTMARE_STANDARD = 0,
+    NIGHTMARE_PERMANENT = 1,
+    NIGHTMARE_HOLY = 2
 }

@@ -17,7 +17,7 @@ function this:FlyInit(familiar)
     elseif familiar.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
         this:InitGlitchLocust(familiar)
     elseif familiar.SubType == 0 then
-        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DEBUGGER)
+        local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SAND_FLIES)
         if flag and player then
             familiar.SubType = LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
             this:InitGlitchLocust(familiar)
@@ -62,7 +62,6 @@ function this:FlyInit(familiar)
 end
 
 function this:enemyDeath(enemy)
-
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
     if flag and player then
         local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
