@@ -1,4 +1,3 @@
-local this = {}
 this.maxCharge = 8
 this.poofGreen = Color(0, 0.25, 0)
 this.bloodGreen = Color(0, 1, 0, 1, 0, 0.15, 0)

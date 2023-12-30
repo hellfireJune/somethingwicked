@@ -13,7 +13,7 @@ for i = 1, 86, 1 do
     table.insert(PricePool, {i + 7, 0.4})
 end
 
-local function UseItem(_, rngObj)
+local function UseItem(_, _, rngObj)
     local itemsInRoom = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 
     for _, item in ipairs(itemsInRoom) do

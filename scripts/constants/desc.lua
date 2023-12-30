@@ -4,7 +4,7 @@ local function genericWikiTable(id, desc)
         ID = id,
         ModName = "Something Wicked (The Unlisted Beta)",
         Class = "Something Wicked",
-        WikiDesc = Encyclopedia.EIDToWiki(desc)
+        WikiDesc = Encyclopedia.EIDtoWiki(desc)
     }
 end
 --not writing 99 null checks forgive me
@@ -212,15 +212,13 @@ local collectibles = {
         Hide = true,
         desc = "freshens air"
     },
-    {
         [CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA] = {
             desc = "↑ Bonus 33% chance to spawn a {{Library}} Library on new floor entry while held#{{Library}} Teleports the player to the Library on use# !!! Only charged if there is a library on the floor",
             pools = {
                 encyclopediaLootPools.POOL_LIBRARY,
                 encyclopediaLootPools.POOL_TREASURE
             }
-        }
-    },
+        },
     [CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE] = {
         desc = "{{Confusion}} Tears have a chance to confuse enemies for 2 seconds and cause them to shoot lightning out in random directions#{{Luck}} 100% chance at 14 Luck",
         pools = {
@@ -266,7 +264,7 @@ local collectibles = {
             encyclopediaLootPools.POOL_GREED_SHOP,
         }
     },
-    [CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY] = {
+    [CollectibleType.SOMETHINGWICKED_WICKERMAN] = {
         desc = "↑ Every floor will spawn a {{SacrificeRoom}} Sacrifice Room if possible#Spawns 2 red hearts on pickup",
         pools = {
             encyclopediaLootPools.POOL_SHOP,
@@ -301,6 +299,75 @@ local collectibles = {
             encyclopediaLootPools.POOL_SECRET,
             encyclopediaLootPools.POOL_GREED_SECRET
         }
+    },
+    [CollectibleType.SOMETHINGWICKED_CURSED_CREDIT_CARD] = {
+        desc = "{{DevilRoom}} Buying a devil deal Item has a 50% chance to not cost hearts#Has less of a chance to activate on items with a bigger heart price#{{BlackHeart}} +1 Black Heart",
+        pools = {
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_ULTRA_SECRET,
+        },
+        --encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Buying a Devil Deal Item has a "..(this.ProcChance * 100).."% chance to not cost hearts","Items which cost more hearts have less of a chance to work","Adds 1 black heart on pickup"})
+    },
+    [CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE] = {
+        desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#{{Card78}} Spawns 1-3 Cracked Keys",
+        pools = { encyclopediaLootPools.POOL_ULTRA_SECRET}
+    },
+    [CollectibleType.SOMETHINGWICKED_FRUIT_MILK] = {
+        desc = "Each one of Isaac's tears gets four different effects#↓ {{Damage}} x0.2 Damage multiplier",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE }
+    },
+    [CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY] = {
+        desc = "{{Battery}} 25% chance to give bonus charge on room clear or wave clear#Spawns a battery on pickup",
+        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_GREED_SHOP}
+    },
+    [CollectibleType.SOMETHINGWICKED_OLD_DICE] = {
+        desc = [[Upon use, rerolls the current item being picked up into a random passive item
+            #Does nothing if you are not picking up an item
+            #If dropped to pick up another active, can be used while you are picking up the active]],
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+            encyclopediaLootPools.POOL_CRANE_GAME
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_EDENS_HEAD] = {
+        desc = "Uses a random throwable active item on use",
+        encycloDesc = "Uses a random throwable active item on use",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+    },
+    [CollectibleType.SOMETHINGWICKED_CURSED_CANDLE] = {
+        desc = "Throws a curse flame on use#This cursed flame curses enemies for 6 seconds on contact#Cursed enemies will take 1.5x damage, and the curse effect will last for 6 seconds",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_ABANDONED_BOX] = {
+        desc = "{{Warning}} SINGLE USE {{Warning}}#Spawns a random familiar from the current room's item pool",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_RED_CAP] = {
+        desc = "Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#↑ {{Heart}} +2 Health up#+Heals 3 hearts on pickup#↓ {{Shotspeed}} -0.15 Shot Speed down#↓ {{Range}} -0.8 Range down",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET, encyclopediaLootPools.POOL_ULTRA_SECRET }
+    },
+    [CollectibleType.SOMETHINGWICKED_DADS_WALLET] = {
+        desc = "{{Shop}} Allows Isaac to take 4 shop items for free#Charge corresponds to items left to take",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+            encyclopediaLootPools.POOL_OLD_CHEST,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_WICKED_RING] = {
+        desc = "Chance to shoot tears with increased damage that add charge to active items after doing enough damage#Damage needed per charge increases each floor#{{Luck}} Scales with luck",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_GREED_DEVIL
+        }
     }
 }
 
@@ -309,8 +376,8 @@ for index, value in pairs(collectibles) do
     if EID then
         EID:addCollectible(index, value.desc)
     end
-            
-    if Encyclopedia and Encyclopedia.EIDToWiki then --/shrug
+
+    if Encyclopedia and Encyclopedia.EIDtoWiki then --/shrug
         local tab = genericWikiTable(index, value.desc)
         tab.Pools = value.pools
         tab.Hide = value.Hide or false
@@ -381,6 +448,9 @@ local trinkets = {
     [TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY] = {
         desc = "you wanna know wh",
         Hide = true
+    },
+    [TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY] = {
+        desc = "{{Battery}} 25% chance to gain an extra item charge on clearing a room#!!! All batteries are turned into bombs",
     }
 }
 
@@ -394,7 +464,7 @@ for key, value in pairs(trinkets) do
             end
         end
 
-        if Encyclopedia and Encyclopedia.EIDToWiki then
+        if Encyclopedia and Encyclopedia.EIDtoWiki then
             local tab = genericWikiTable(key, value.desc)
             tab.Hide = value.Hide or false
             Encyclopedia.AddTrinket(tab)

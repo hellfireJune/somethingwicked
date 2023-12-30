@@ -1,4 +1,3 @@
-local this = {}
 this.MinFailUse = 5
 this.MaxSucceedUse = 9
 this.framesAfter = 12

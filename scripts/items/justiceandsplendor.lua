@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 function this:PEffectUpdate(player)

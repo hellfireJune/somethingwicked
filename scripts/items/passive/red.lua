@@ -1,33 +1,14 @@
-local this = {}
-this.Dataset = {}
-this.hasInit = false
-function this:Init()
-    if this.hasInit then
+local mod = SomethingWicked
+
+mod.UltraSecretRoomsSet = {}
+local hasInit = false
+function Init()
+    if hasInit then
         return
     end
-    this.hasInit = true
-    SomethingWicked.RedKeyRoomHelpers:InitializeRoomData("ultrasecret", 0, 8, this.Dataset)
+    hasInit = true
+    mod:InitializeRoomData("ultrasecret", 0, 8, mod.UltraSecretRoomsSet)
 end
-
-local function ShouldMake()
-    local level = SomethingWicked.game:GetLevel()
-
-    local rng = RNG()
-    rng:SetSeed(Random() + 1, 1)
-
-    if SomethingWicked.RedKeyRoomHelpers:RoomTypeCurrentlyExists(RoomType.ROOM_ULTRASECRET, level, rng) then
-        return true
-    end
-    return false
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function ()
-    this:Init()
-    if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
-    and ShouldMake() then
-        this:ProcessNewUltraSecretRoom()
-    end
-end)
 
 local rBlacklist = {
     RoomType.ROOM_SECRET,
@@ -36,28 +17,51 @@ local rBlacklist = {
     RoomType.ROOM_BOSS
 }
 
-function this:ProcessNewUltraSecretRoom()
-    local deadends = SomethingWicked.RedKeyRoomHelpers:GetAllDeadEndsRed()
+
+local function GetTargetIDX(deadend, roomdesc, rslot)
+    --print(rslot, roomdesc.Data.Shape)
+    return deadend.roomidx + (SomethingWicked.adjindexes[roomdesc.Data.Shape][deadend.Slot])
+    + (SomethingWicked.adjindexes[RoomShape.ROOMSHAPE_1x1][rslot])
+end
+local function redRoomExists(lvel)
+    for i = 1, 169 do
+        local redRoom = lvel:GetRoomByIdx(i)
+            
+        if redRoom.Data 
+        and redRoom.Data.Type == RoomType.ROOM_ULTRASECRET 
+        and redRoom.DisplayFlags & 1 << 2 == 0 then
+            redRoom.DisplayFlags = (redRoom.DisplayFlags or 0) | 1 << 2
+            return true
+        end
+    end
+end
+function mod:RedGenerate(game, level, player)
+    Init()
+    if mod.HasGenerateRedThisFloor
+    or not redRoomExists(level) then
+        return
+    end
+    mod.HasGenerateRedThisFloor = true
+
+    local deadends = mod:GetAllDeadEndsRed()
     local availableIDXs = {}
     local unavailableIDXs = {}
-
-    local level = SomethingWicked.game:GetLevel()
 
     for _, deadend in ipairs(deadends) do
         --print(deadend.roomidx)
         local roomdesc = level:GetRoomByIdx(deadend.roomidx)
         if roomdesc and roomdesc.Data
-        and not SomethingWicked:UtilTableHasValue(rBlacklist, roomdesc.Data.Type) then 
+        and not mod:UtilTableHasValue(rBlacklist, roomdesc.Data.Type) then 
             --print(roomdesc.Data.Type, SomethingWicked:UtilTableHasValue(rBlacklist, roomdesc.Data.Type))
             --print(rBlacklist[1], rBlacklist[2], rBlacklist[3], rBlacklist[4])
             for i = 1, 3, 1 do
                 local rslot = deadend.Slot - 2 + i
                 if rslot < 0 then rslot = 3 end
                 if rslot >= 4 then rslot = 0 end
-                local targetIDX = this:GetTargetIDX(deadend, roomdesc, rslot)
+                local targetIDX = GetTargetIDX(deadend, roomdesc, rslot)
 
                 if not SomethingWicked:UtilTableHasValue(unavailableIDXs, targetIDX) then
-                    local flag = this:IsValidUSRSpot(targetIDX)
+                    local flag = mod:IsValidUSRSpot(targetIDX, game)
                     if flag then
                         availableIDXs[targetIDX] = (availableIDXs[targetIDX] or 0) + 1
                     else
@@ -83,68 +87,56 @@ function this:ProcessNewUltraSecretRoom()
     local collectibleRNG = Isaac.GetPlayer(0):GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE) --bad
     
     --nabbed from segmented mausoleum
-	local oldchallenge = SomethingWicked.game.Challenge
-	SomethingWicked.game.Challenge = Challenge.CHALLENGE_RED_REDEMPTION
+	local oldchallenge = game.Challenge
+	game.Challenge = Challenge.CHALLENGE_RED_REDEMPTION
     local flag = false local currWeight = heighestWeight
     while not flag and currWeight > 0 do
         if currentTable[currWeight] then
             currentTable[currWeight] = SomethingWicked:UtilShuffleTable(currentTable[currWeight], collectibleRNG)
             
             for _, value in pairs(currentTable[currWeight]) do
-                level:MakeRedRoomDoor(value - 13, DoorSlot.DOWN0)
+                local roomdesc = level:GetRoomByIdx(value)
+                if not roomdesc.Data then
+                    
+                level:MakeRedRoomDoor(value-13, DoorSlot.DOWN0)
                 local roomdesc = level:GetRoomByIdx(value)
                 local nflag = roomdesc ~= nil and roomdesc.Flags & RoomDescriptor.FLAG_RED_ROOM ~= 0
                 flag = flag or nflag
 
                 if flag then
-                    SomethingWicked.RedKeyRoomHelpers:ReplaceRoomFromDataset(this.Dataset, value, collectibleRNG)
+                    mod:ReplaceRoomFromDataset(mod.UltraSecretRoomsSet, value, collectibleRNG)
                     break
+                end
                 end
             end
         end
         currWeight = currWeight - 1
     end
-	SomethingWicked.game.Challenge = oldchallenge
+	game.Challenge = oldchallenge
     level:UpdateVisibility()
 end
 
-function this:IsValidUSRSpot(idx)
-    local level = SomethingWicked.game:GetLevel()
-    local uavailableRR = {}
+function mod:IsValidUSRSpot(idx, game)
+    local level = game:GetLevel()
 
     for j = 1, 4, 1 do
         j = j - 1
-        local RRidx = idx + SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][j]
+        local RRidx = idx + mod.adjindexes[RoomShape.ROOMSHAPE_1x1][j]
         local validRedRoomFunc = function (level, realroom)
-            return SomethingWicked:UtilTableHasValue(rBlacklist, realroom.Data.Type)
+            return mod:UtilTableHasValue(rBlacklist, realroom.Data.Type)
         end
-        if SomethingWicked.RedKeyRoomHelpers:IsValidRedRoomSpot(level, RRidx, validRedRoomFunc) then
+        if not mod:IsValidRedRoomSpot(level, RRidx, validRedRoomFunc) then
             return false
         end
     end
     return true
 end
 
-function this:GetTargetIDX(deadend, roomdesc, rslot)
-    --print(rslot, roomdesc.Data.Shape)
-    return deadend.roomidx + (SomethingWicked.RedKeyRoomHelpers.adjindexes[roomdesc.Data.Shape][deadend.Slot])
-    + (SomethingWicked.RedKeyRoomHelpers.adjindexes[RoomShape.ROOMSHAPE_1x1][rslot])
-end
-
-function this:OnPickup(player, room)
+local function OnPickup(_, player, room)
     local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
     for _ = 1, 1 + rng:RandomInt(2), 1 do
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, Card.CARD_CRACKED_KEY, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
     end
 end
 
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE] = {
-        desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#↑ Spawns 1-3 {{Card78}} Cracked Keys",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Adds an extra Ultra Secret Room to every floor where one can spawn", "Spawns 1-3 cracked keys on pickup"}),
-        pools = { SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET}
-    }
-}
-return this
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)

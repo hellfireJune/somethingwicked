@@ -1,5 +1,3 @@
-local this = {}
-
 local frameDiff = 20
 local function GetIDX(player)
     local truIdx = 0

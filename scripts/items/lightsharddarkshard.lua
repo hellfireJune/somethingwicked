@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 TearVariant.SOMETHINGWICKED_LIGHT_SHARD = 1

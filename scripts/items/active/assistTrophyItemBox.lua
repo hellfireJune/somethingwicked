@@ -5,16 +5,23 @@ local sfx = SFXManager()
 local bList = { CollectibleType.COLLECTIBLE_PLAN_C, CollectibleType.COLLECTIBLE_CLICKER, CollectibleType.COLLECTIBLE_R_KEY }
 local rList = { [CollectibleType.COLLECTIBLE_DEATH_CERTIFICATE] = 0.15, [CollectibleType.COLLECTIBLE_GENESIS] = 0.25 }
 
+mod.AssistTrophyBlacklist = {
+    CollectibleType.COLLECTIBLE_LITTLE_CHAD,
+    CollectibleType.COLLECTIBLE_LOST_SOUL,
+    CollectibleType.COLLECTIBLE_BUM_FRIEND,
+    CollectibleType.COLLECTIBLE_CHARGED_BABY,
+}
+
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
-    
     local tempEffects = player:GetEffects()
     tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_ITEM_BOX, true, 3)
     player:GetData().sw_mysteryWisps = {}
     sfx:Play(SoundEffect.SOUND_POWERUP1, 1, 0)
+
+    return true
 end, CollectibleType.SOMETHINGWICKED_ITEM_BOX)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
-
     local p_data = player:GetData()
     if not player:IsExtraAnimationFinished() then
         return
@@ -50,14 +57,13 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     end
 end)
 
-local familiarBlacklist = {}
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, c_rng, player)
     local c = -1
     local ipool = game:GetItemPool()
     local iconfig = Isaac.GetItemConfig()
 
     local ic = nil
-    while c < 0 or mod:UtilTableHasValue(familiarBlacklist) or ic == nil or ic.Type == ItemType.ITEM_ACTIVE do
+    while c < 0 or mod:UtilTableHasValue(mod.AssistTrophyBlacklist) or ic == nil or ic.Type == ItemType.ITEM_ACTIVE do
         c = ipool:GetCollectible(ItemPoolType.POOL_BABY_SHOP, false)
         ic = iconfig:GetCollectible(c)
     end

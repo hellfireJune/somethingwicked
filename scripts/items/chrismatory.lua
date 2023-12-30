@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 local wisps = 8

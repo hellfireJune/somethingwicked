@@ -1,5 +1,3 @@
-local this = {}
-
 local function ProcChance(player)
     return 1
 end

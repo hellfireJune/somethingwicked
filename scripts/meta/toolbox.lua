@@ -107,7 +107,7 @@ function mod:RemoveQueuedItem(player)
     local sh = player.QueuedItem.Item.AddSoulHearts
     local sh_p = player:GetSoulHearts()
     local bh = player.QueuedItem.Item.AddBlackHearts
-    local bh_p = mod:bitmaskIntoNumber(player)
+    local bh_p = mod:GetBlackHeartsNum(player)
     --
     player:FlushQueueItem()
     player:RemoveCollectible(id)
@@ -567,8 +567,45 @@ function SomethingWicked:TEARFLAG(x)
     return x >= 64 and BitSet128(0,1<<(x-64)) or BitSet128(1<<x,0)
 end
 
-function mod:ChargeFirstActiveOfTypeThatNeedsCharge(player, collectible, chargeToAdd, skipBatteryCheck)
+function SomethingWicked:ChargeFirstActive(player, chargeToAdd, skipBatteryCheck, chargeAllActually, func)
+    func = func or function ()
+        return true
+    end
     chargeToAdd = chargeToAdd or 1
+
+    for i = 0, 3, 1 do
+        print("Ah")
+        local currentItem = player:GetActiveItem(i)
+        if currentItem ~= 0 and player:NeedsCharge(i) then
+            local maxCharge = Isaac.GetItemConfig():GetCollectible(currentItem).MaxCharges
+            local charge = player:GetActiveCharge(i) + player:GetBatteryCharge(i)
+
+            local newMaxCharge = maxCharge * ((player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) or skipBatteryCheck) and 2 or 1)
+            if charge < newMaxCharge
+            and func(player, currentItem, charge) then
+                player:SetActiveCharge(math.min(newMaxCharge, charge + chargeToAdd), i)
+                
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
+                game:GetHUD():FlashChargeBar(player, i)
+                sfx:Play(SoundEffect.SOUND_BEEP)
+                if not chargeAllActually then
+                    goto outofloop
+                end
+            end
+        end
+    end
+    ::outofloop::
+end
+
+function SomethingWicked:ChargeFirstActiveOfType(player, collectible, chargeToAdd, skipBatteryCheck, chargeAllActually, func)
+    return mod:ChargeFirstActive(player, chargeToAdd, skipBatteryCheck, chargeAllActually, function (_, item)
+        func = func or function ()
+            
+        end
+        return func() and collectible == item
+    end)
+
+--[[    chargeToAdd = chargeToAdd or 1
     if skipBatteryCheck == nil then
         skipBatteryCheck = false
     end
@@ -586,7 +623,7 @@ function mod:ChargeFirstActiveOfTypeThatNeedsCharge(player, collectible, chargeT
             sfx:Play(SoundEffect.SOUND_BEEP)
             return
         end
-    end
+    end]]
 end
 
 
@@ -1097,7 +1134,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, hitscanCollide)
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     local t_data = tear:GetData()
     if t_data.sw_isHitScanner then
-        local ang = mod.EnemyHelpers:GetAngleDegreesButGood(tear.Velocity)
+        local ang = mod:GetAngleDegreesButGood(tear.Velocity)
         local angIsDown = (ang < 120 and ang > 60) 
         local removeTearVelocity = t_data.sw_hitscanGridCollied and not angIsDown
         t_data.HitScanFunc(tear.Position + (removeTearVelocity and -tear.Velocity or tear.Velocity) + (angIsDown and -tear.PositionOffset or Vector.Zero))
@@ -1122,7 +1159,7 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
         if skip then
             return
         end
-        local room = mod.game:GetRoom()
+        local room = game:GetRoom()
         local grid = room:GetGridEntityFromPos(tear.Position + (tear.Velocity*2))
         if grid and grid.CollisionClass > 1 then
             t_data.sw_hitscanGridCollied = true
@@ -1183,6 +1220,16 @@ function mod:AngularMovementFunction(familiar, target, speed, variance, lerpMult
     familiar.Velocity = mod:Lerp(minosVel, minosVel:Rotated(newAng), lerpMult):Resized(speed)
 end
 
+function mod:CollisionKnockback(mainPos, otherPos, currVelocity)
+    --stolen from gungeon LMAO
+    local normal = (otherPos - mainPos):Normalized()
+    local velAng = mod:GetAngleDegreesButGood(-currVelocity)
+    local disAng = mod:GetAngleDegreesButGood(normal)
+    local knockBackAngle = (velAng + 2 * (disAng - velAng))%360
+
+    return Vector.FromAngle(knockBackAngle)
+end
+
 --optimised i think?
 local tearsToUpdate = {}
 local tearUpdateRefs = {}
@@ -1203,8 +1250,49 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE,  function ()
     end
 
     for index, tears in pairs(tearsToUpdate) do
-        for _, tear in ipairs(tears) do
-            tearUpdateRefs[index](tear)
+        for tidx, tear in ipairs(tears) do
+            if not tear or not tear:Exists() then
+                table.remove(tearsToUpdate[index], tidx)
+            end
+            tearUpdateRefs[index](mod, tear)
+            
         end
     end
 end)
+
+function SomethingWicked:ClearMovementModifyingTearFlags(tear)
+    tear:ClearTearFlags(TearFlags.TEAR_WIGGLE | TearFlags.TEAR_SPIRAL | TearFlags.TEAR_ORBIT| TearFlags.TEAR_SQUARE| TearFlags.TEAR_BIG_SPIRAL|
+    TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_TURN_HORIZONTAL| TearFlags.TEAR_LUDOVICO)
+end
+
+--for anything that should have special handling for how it modifies tear velocity
+function SomethingWicked:ShouldMultiplyTearVelocity(tear)
+    local t_data = tear:GetData()
+    return t_data.sw_gany == nil or (t_data.sw_gany.isBomb and not t_data.sw_gany.gp)
+end
+function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult)
+    local t_data = tear:GetData()
+    t_data.sw_velMults = t_data.sw_velMults or {}
+    t_data.sw_velMults[index] = t_data.sw_velMults[index] or 1
+
+    local lastMult = t_data.sw_velMults[index]
+    if SomethingWicked:ShouldMultiplyTearVelocity(tear) then
+        local multiplier = (1 / lastMult) * wantedMult
+
+        tear.Velocity = tear.Velocity * multiplier
+        tear.HomingFriction = tear.HomingFriction * multiplier
+        t_data.sw_velMults[index] = wantedMult
+    end
+    return lastMult
+end
+
+function SomethingWicked:GetAllMultipliedTearVelocity(tear)
+    local t_data = tear:GetData()
+    local mult = 1
+    if t_data.sw_velMults ~= nil then
+        for key, value in pairs(t_data.sw_velMults) do
+            mult = mult * value
+        end
+    end
+    return mult
+end

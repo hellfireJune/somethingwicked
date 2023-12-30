@@ -1,4 +1,3 @@
-local this = {}
 this.angleVariance = 10
 this.MoveSpeed = 6
 this.MinimumReturnDistance = 100

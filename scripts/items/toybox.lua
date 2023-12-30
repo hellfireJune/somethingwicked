@@ -1,5 +1,3 @@
-local this = {}
-
 function this:UseItem(_, _, player)
     --[[for i = 1, 4, 1 do
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
@@ -41,7 +39,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpd
 
 this.EIDEntries = {
     [CollectibleType.SOMETHINGWICKED_TOYBOX] = {
-        desc = "↑ Smelts four random trinkets onto you",
+        desc = "{{Warning}} SINGLE USE {{Warning}}# Smelts four random trinkets onto you",
         pools = {
             SomethingWicked.encyclopediaLootPools.POOL_SHOP,
             SomethingWicked.encyclopediaLootPools.POOL_GOLDEN_CHEST,

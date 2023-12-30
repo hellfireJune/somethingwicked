@@ -1,5 +1,3 @@
-local this = {}
-
 function this:OnKill(enemy)
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_WOOD)
     if flag and player then

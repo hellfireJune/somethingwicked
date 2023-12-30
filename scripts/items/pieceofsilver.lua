@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 
 local function proc(player)

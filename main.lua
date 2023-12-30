@@ -201,7 +201,7 @@ function mod:BoolToNum(bool)
 end
 
 local function incl(script)
-  print(script)
+  --print(script)
   include("scripts/"..script)
 end
 
@@ -217,9 +217,11 @@ local earlyLoad = {
   "meta/customslots",
   "meta/cardController",
   "meta/customTearFlags",
+  "meta/customTearVariants",
   "meta/redkeyLevelGen",
 
-  "effects/__core"
+  "effects/__core",
+  "familiars/nightmares",
 }
 
 for index, value in ipairs(earlyLoad) do
@@ -234,6 +236,9 @@ local m_ = i_.."misc/"
 local t_ = i_.."trinkets/"
 
 local midLoad = {
+  m_.."itemPopup",
+  m_.."d4trackers",
+
   p_.."wickedSoul",
   a_.."dStock",
   p_.."electricDiceBustedBattery",
@@ -254,6 +259,17 @@ local midLoad = {
   f_.."strangeApple",
   m_.."fruitMilkHalloweenCandyFlagMods",
   a_.."tiamatsDice",
+  p_.."cursedCreditCard",
+  p_.."red",
+  p_.."lanternBatteryCellphoneBattery",
+  a_.."oldDice",
+  a_.."cursedCandle",
+  a_.."abandonedBox",
+  p_.."redCap",
+  p_.."wickedRing",
+  p_.."darkness",
+  p_.."ganymede",
+  p_.."airFreshener",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -312,24 +328,26 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_FIREDELAY then
     player.MaxFireDelay = mod:TearsUp(player, lankyMushMult * -0.4)
     player.MaxFireDelay = mod:TearsUp(player, gachaponMult*0.2)
+    player.MaxFireDelay = mod:TearsUp(player, 0.45 * goldenWatchMult)
 
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO))
   end
   if flags == CacheFlag.CACHE_LUCK then
-    player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult))
+    player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult+goldenWatchMult))
   end
   if flags == CacheFlag.CACHE_SPEED then
-    player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult))
+    player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult+goldenWatchMult))
 
     player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO)*0.3
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
-      player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult)) 
+      player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult))
+      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_GANYMEDE)))
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
-      player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult))
+      player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult+goldenWatchMult))
   end
   if flags == CacheFlag.CACHE_TEARFLAG then
     if lourdesBuff then
@@ -381,7 +399,7 @@ function mod:EvaluateLateStats(player, flags)
       player.Damage = player.Damage * 1.3
     end
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
-      player.Damage = player.Damage * 0.25
+      player.Damage = player.Damage * 0.2
     end
     if shouldBoost then
       player.Damage = player.Damage * 1.2
@@ -393,6 +411,29 @@ function mod:EvaluateLateStats(player, flags)
   mod:StarSpawnEval(player, flags)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.LATE, mod.EvaluateLateStats)
+
+local quickThrowables = {
+  CollectibleType.SOMETHINGWICKED_CURSED_CANDLE,
+}
+function mod:useItemGeneric(id, rng, player, flags)
+  if id == CollectibleType.SOMETHINGWICKED_EDENS_HEAD then  
+    if flags & UseFlag.USE_CARBATTERY ~= 0 then
+      return
+    end
+
+    local throwable = SomethingWicked:GetRandomElement(mod.edensHeadthrowables, rng)
+    player:UseActiveItem(throwable)
+    return
+  end
+  if mod:UtilTableHasValue(quickThrowables, id) then
+    return mod:HoldItemUseHelper(player, flags, id)
+  end
+  if id == CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK
+  or id == CollectibleType.SOMETHINGWICKED_DADS_WALLET then
+      return { Discharge = false, ShowAnim = true}
+  end
+end
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
 
 function mod:GenericOnPickups(player, room, id)
   if id == CollectibleType.SOMETHINGWICKED_WHITE_ROSE then
@@ -408,7 +449,7 @@ function mod:GenericOnPickups(player, room, id)
     end
     return
   end
-  if id then
+  if id == CollectibleType.SOMETHINGWICKED_WICKERMAN then
     for i = 1, 2, 1 do
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)
     end
@@ -418,8 +459,70 @@ function mod:GenericOnPickups(player, room, id)
 end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
 
-function mod:OnNewRoom()
+function mod:GenericPostPurchase(player, pickup, isDevil)
+  local p_data = player:GetData()
+  if not isDevil then
+    for i = 1, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH), 1 do
+      player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH)
+      mod:QueueItemPopUp(player, CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH, 1, 1)
 
+      sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
+    end
+
+    if pickup.Price == PickupPrice.PRICE_FREE then
+      local id = p_data.somethingWicked_isMammonItem and CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK or CollectibleType.SOMETHINGWICKED_DADS_WALLET
+      
+      local charge, slot = mod:CheckPlayerForActiveData(player, id)
+      if slot == -1 then
+          local _, np = mod:GlobalPlayerHasCollectible(id)
+          if not np then
+              return
+          end
+          charge, slot = mod:CheckPlayerForActiveData(np, id)
+          player = np
+      end
+      
+      if slot ~= -1 and charge > 0 then
+        player:SetActiveCharge(charge - 1, slot)
+        if charge == 1 then
+            player:RemoveCollectible(id)
+        end
+      end
+    end
+  end
+end
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_POST_PURCHASE_PICKUP, mod.GenericPostPurchase)
+
+function mod:LatePickupUpdate(pickup)
+  local p_data = pickup:GetData()
+  
+  if pickup:IsShopItem() then
+    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
+      if pickup.Price > 0 then
+        pickup.Price = PickupPrice.PRICE_FREE
+      end
+    end
+    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK)
+    and pickup.Price ~= PickupPrice.PRICE_FREE then
+      if pickup.Price < 0 then
+        pickup.Price = PickupPrice.PRICE_FREE
+  
+        p_data.somethingWicked_isMammonItem = true
+      end
+    else
+      p_data.somethingWicked_isMammonItem = false
+    end
+    
+    if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_MEAL_COUPON) then
+      if pickup.Price > 0 then
+          pickup.Price = PickupPrice.PRICE_FREE
+      end
+    end
+  end
+end
+mod:AddPriorityCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, CallbackPriority.LATE, mod.LatePickupUpdate)
+
+function mod:OnNewRoom()
   local level = game:GetLevel()
   local currRoom = level:GetCurrentRoomDesc()
   local currIdx = level:GetCurrentRoomIndex()
@@ -427,6 +530,7 @@ function mod:OnNewRoom()
   if currRoom.VisitedCount == 1 and level:GetStartingRoomIndex() == currIdx then
       -- new floor
       mod.save.runData.CurseList = {}
+      mod.HasGenerateRedThisFloor = false
       
       for _, player in ipairs(mod:UtilGetAllPlayers()) do
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) then
@@ -436,13 +540,17 @@ function mod:OnNewRoom()
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
           mod:WickedSoulOnPickup(player)
         end
+
+        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE) then
+          mod:RedGenerate(game, level, player)
+        end
       end
 
       --wickerman
       if mod:GenericShouldGenerateRoom(level, game) then
-        local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
+        local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_WICKERMAN)
         if flag and player then
-            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY)
+            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WICKERMAN)
             if not mod:RoomTypeCurrentlyExists(RoomType.ROOM_SACRIFICE, level, rng) then
                 mod:GenerateSpecialRoom("sacrifice", 1, 5, true, rng)
             end
@@ -469,10 +577,18 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     end
   end
   
+  local glitch = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET)
+  local curse = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CURSED_KEY)
+  local treasure = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY)
+
   for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
     local door = room:GetDoor(i)
     if door then
-      mod:CurseKeyTreasurersKeyDoorChecks(door, currIdx)
+      mod:CurseKeyTreasurersKeyDoorChecks(door, currIdx, curse, treasure)
+
+      if glitch then
+        mod:ZZZZZZConvertDoor(door)
+      end
     end
   end
 
@@ -612,7 +728,6 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   !-"biretta",
   !-"wrath",
   !-"superiority",
-  !-"cursedcreditcard",
   !-"spidernest",
   !-"3dglasses",
   "legion",
@@ -626,7 +741,6 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "balrogsheart",
   !-"carolinareapernagaviper",
   "cursemask",
-  !-"red",
   "bananamilk",
   "safetymasktemperance",
   !-"loversmask",
@@ -636,10 +750,7 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "eyeofprovidence",
   "tombstone",
   "blacksalt",
-  !-"lanternbatterycellphonebattery",
-  !-"ringofregen",
   "bloodhail",
-  !-"redcap",
   "voidscall",
   "screwattack",
   "pressurevalve",
@@ -647,7 +758,6 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "pendulum",
   !-"chrismatory",
   "yoyo",
-  "airfreshener",
   "pieceofsilver",
   "darkness",
   "ganymede",
@@ -668,16 +778,11 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   !-"balrogshead",
   !-"bookoflucifer",
   !-"toybox",
-  !-"cursedcandle",
-  !-"dadswallet",
   !-"bookofinsanity",
   !-"voidegg",
   !-"chaosheart",
-  !-"olddice",
   !-"chasm",
   !-"fetusinfetu",
-  !-"edenshead",
-  !-"abandonedbox",
   "facestabber",
   !-"goldencard",
   "fearstalkstheland",
@@ -757,7 +862,7 @@ Special thanks:
   Onehand and Unobtained (the turtlemelon tattoo)
   The Fiend Folio team
   The Gungeon Modding Crew
-  and the countless mods that i sampled for code when i didn't know how to code in lua
+  and the countless mods that i looked at for reference when i didn't know how to code in lua
 ]]
 
 

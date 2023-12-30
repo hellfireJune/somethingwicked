@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 local angVariance = 20
 local maxSpeed = 20
@@ -37,14 +36,9 @@ function this:YoYoCollide(familiar, other)
         return
     end
 
-    --stolen from gungeon LMAO
-    local normal = (other.Position - familiar.Position):Normalized()
-    local velocity = familiar.Velocity
-    local velAng = mod.EnemyHelpers:GetAngleDegreesButGood(-velocity)
-    local disAng = mod.EnemyHelpers:GetAngleDegreesButGood(normal)
-    local knockBackAngle = (velAng + 2 * (disAng - velAng))%360
+    --PUT COOL KNOCKBACK FUNCTION HERE
 
-    familiar:GetData()["sw_yoknockback"] = (Vector.FromAngle(knockBackAngle)*maxSpeed*1.5)
+    familiar:GetData()["sw_yoknockback"] = (thing*maxSpeed*1.5)
     
     if not other:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
         other:AddVelocity(knockBackAngle*-0.8)

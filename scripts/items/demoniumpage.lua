@@ -1,4 +1,3 @@
-local this = {}
 this.crashPreventer = 0
 
 function this:BossPoolEdit(collectible, itempooltype, decrease, seed)

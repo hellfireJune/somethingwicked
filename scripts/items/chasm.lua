@@ -1,5 +1,3 @@
-local this = {}
-
 function this:UseItem(_, _, player)
     local stacksToAdd = 0
     local itemsInRoom = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)

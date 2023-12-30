@@ -1,26 +1,27 @@
-local this = {}
+local mod = SomethingWicked
+local game = Game()
 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
-    SomethingWicked:UtilScheduleForUpdate(this.CheckForDealDoors, 0, ModCallbacks.MC_POST_UPDATE)
-end)
-
-function this:CheckForDealDoors()
-    
-    if not SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET) then
+local function CheckForDealDoors()
+    if not SomethingWicked:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET) then
         return
     end
-    local room = SomethingWicked.game:GetRoom()
+    local room = game:GetRoom()
 
     for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
         local door = room:GetDoor(i)
-        if door
-        and door.TargetRoomIndex == GridRooms.ROOM_DEVIL_IDX then
-            this:ConvertDoor(door)
+        if door then
+            mod:ZZZZZZConvertDoor(door)
         end
     end
 end
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
+    mod:UtilScheduleForUpdate(CheckForDealDoors, 0, ModCallbacks.MC_POST_UPDATE)
+end)
 
-function this:ConvertDoor(door)
+function mod:ZZZZZZConvertDoor(door)
+    if not door.TargetRoomIndex == GridRooms.ROOM_DEVIL_IDX then
+        return
+    end
     door.TargetRoomIndex = GridRooms.ROOM_ERROR_IDX
     local sprite = door:GetSprite()
     for ii = 1, 4 do
@@ -28,15 +29,7 @@ function this:ConvertDoor(door)
     end
     sprite:LoadGraphics()
 end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
-    this:CheckForDealDoors()
-end)
-
-this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET] = {
+--[[    [TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET] = {
         desc = "!!! Turns all doors to Devil Rooms and Angel Rooms into doors to the Error Room",
         isTrinket = true,
-    }
-}
-return this
+    }]]

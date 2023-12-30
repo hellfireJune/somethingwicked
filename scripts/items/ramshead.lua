@@ -1,5 +1,3 @@
-local this = {}
-
 function this:TearsCache(player)
     player.MaxFireDelay = SomethingWicked.StatUps:TearsUp(player, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_RAMS_HEAD) * 0.7)
 end

@@ -1,4 +1,3 @@
-local this = {}
 this.lastHadCurse = false
 
 this.dmgUp = 0.3

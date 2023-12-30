@@ -1,5 +1,3 @@
-local this = {}
-
 function this:FamiliarInit(familiar)
     familiar:AddToOrbit(8)
     familiar.OrbitDistance = Vector(40, 30)

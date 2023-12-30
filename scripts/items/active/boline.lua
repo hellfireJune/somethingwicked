@@ -38,7 +38,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, Ef
 
 function mod:BolineTakeDMG(player)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BOLINE) then
-        SomethingWicked:ChargeFirstActiveOfTypeThatNeedsCharge(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
+        SomethingWicked:ChargeFirstActiveOfType(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
     end
 end
 

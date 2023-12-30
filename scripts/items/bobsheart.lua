@@ -1,5 +1,3 @@
-local this = {}
-
 function this:PickupInit(entity)
     if entity.SubType ~= HeartSubType.HEART_FULL 
     and entity.SubType ~= HeartSubType.HEART_HALF 

@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 this.BirettaPosition = Vector(520, 160)
 this.ScratchTicketPosition = Vector(120, 160)

@@ -13,12 +13,12 @@ local DoorSprites = {
     [RoomType.ROOM_CHEST] = "curse_chest_door",
 }
 
-function mod:CurseKeyTreasurersKeyDoorChecks(door, gridIndex)
+function mod:CurseKeyTreasurersKeyDoorChecks(door, gridIndex, curse, treasure)
 if door and not mod:UtilTableHasValue(RooomTypeBlackList, door.TargetRoomType) then     
             --Treasurer's Key
     if (door:IsRoomType(RoomType.ROOM_TREASURE) or door:IsRoomType(RoomType.ROOM_PLANETARIUM))
     and door:GetVariant() == DoorVariant.DOOR_LOCKED then
-        if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY) then
+        if treasure then
             door:SetLocked(false)
         end
     end
@@ -31,7 +31,7 @@ if door and not mod:UtilTableHasValue(RooomTypeBlackList, door.TargetRoomType) t
     local isLocked = (door:GetVariant() == DoorVariant.DOOR_LOCKED 
     or door:GetVariant() == DoorVariant.DOOR_LOCKED_DOUBLE)
 
-        if (isLocked and mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CURSED_KEY))
+        if (isLocked and curse)
         or containsIndex then
             local roomType = nil
             if SomethingWicked:UtilTableHasValue(SomethingWicked.save.runData.CurseList, door.TargetRoomIndex) 

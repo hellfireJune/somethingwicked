@@ -1,5 +1,4 @@
 local mod = SomethingWicked
-local this = {}
 
 local function procChance(player)
    return 0.2 + (player.Luck*0.05) 

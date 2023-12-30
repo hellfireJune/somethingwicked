@@ -110,7 +110,7 @@ CollectibleType.SOMETHINGWICKED_RED_QUEEN = Isaac.GetItemIdByName("Red Queen") -
 CollectibleType.SOMETHINGWICKED_RELIQUARY = Isaac.GetItemIdByName("Reliquary") -- unfinished but peak
 CollectibleType.SOMETHINGWICKED_REGEN_RING = Isaac.GetItemIdByName("Band of Regeneration") -- fuck i hate to say retouch and resprite on something this recent buuut
 CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM = Isaac.GetItemIdByName("Rogue planet") -- a million retouches
-CollectibleType.SOMETHINGWICKED_SACRIFICIAL_EFFIGY = Isaac.GetItemIdByName("Sacrificial Effigy") -- maybe resprite? and give costume? also i dont like the on pickup effect
+CollectibleType.SOMETHINGWICKED_WICKERMAN = Isaac.GetItemIdByName("Wickerman") -- give costume? also i dont like the on pickup effect
 CollectibleType.SOMETHINGWICKED_TEMPERANCE = Isaac.GetItemIdByName("Temperance") -- unfinished, release with costume or die
 CollectibleType.SOMETHINGWICKED_SAINTS_HEAD = Isaac.GetItemIdByName("Saint's Head") -- unfinished, love this one though
 CollectibleType.SOMETHINGWICKED_SCREW_ATTACK = Isaac.GetItemIdByName("Screw Attack") -- finish for the love of god
@@ -133,6 +133,7 @@ CollectibleType.SOMETHINGWICKED_WRATH = Isaac.GetItemIdByName("Wrath") -- minor 
 CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL = Isaac.GetItemIdByName("Yellow Sigil") -- retouch when nightmares retouched
 CollectibleType.SOMETHINGWICKED_THE_YOYO = Isaac.GetItemIdByName("The Yo-Yo!") -- unfinished
 CollectibleType.SOMETHINGWICKED_HYDRUS = Isaac.GetItemIdByName("Snake")
+CollectibleType.SOMETHINGWICKED_WICKED_RING = Isaac.GetItemIdByName("Wicked Ring")
 
 TrinketType.SOMETHINGWICKED_TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll") -- retouch
 TrinketType.SOMETHINGWICKED_BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Battery") --unfinished
@@ -172,6 +173,7 @@ TrinketType.SOMETHINGWICKED_TWO_OF_COINS = Isaac.GetTrinketIdByName("Two of Coin
 TrinketType.SOMETHINGWICKED_VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
 TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print")
+TrinketType.SOMETHINGWICKED_SAMPLE_BOX = Isaac.GetTrinketIdByName("Sample Box")
 
 --CARDS
 Card.SOMETHINGWICKED_MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")

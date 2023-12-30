@@ -1,6 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Familiar")
-FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
 
 this.offSet = Vector(30, 30)
 function this:UpdateFamiliar(familiar)

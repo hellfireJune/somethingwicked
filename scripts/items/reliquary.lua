@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, room, id)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RELIQUARY) then

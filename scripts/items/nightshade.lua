@@ -1,4 +1,3 @@
-local this = {}
 this.wispsCap = 5
 
 function this:OnEnemyKill(entity)

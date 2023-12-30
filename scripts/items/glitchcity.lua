@@ -1,4 +1,3 @@
-local this = {}
 EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
 EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 local mod = SomethingWicked

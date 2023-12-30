@@ -1,5 +1,3 @@
-local this = {}
-
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, function(_, familiar) 
     familiar:AddToOrbit(-27)
     familiar.OrbitSpeed = 3

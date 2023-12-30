@@ -9,7 +9,7 @@ local heartMults = {
     [HeartSubType.HEART_BLENDED] = 1,
 }
 
-local function PickupCollision(heart, player)
+local function PickupCollision(_, heart, player)
     if heartMults[heart.SubType] == nil
     or (heart.SubType == HeartSubType.HEART_BLENDED and player:GetHearts() >= player:GetEffectiveMaxHearts()) then
         return
@@ -24,19 +24,19 @@ local function PickupCollision(heart, player)
         local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_TWO_OF_COINS)
 
         t_mult = t_mult*heartMults[heart.SubType]
-        for _ = 1, (1 + t_rng:RandomInt(4))*t_mult, 1 do
+        for _ = 1, math.max(1, (1 + t_rng:RandomInt(4))*t_mult), 1 do
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, player.Position, RandomVector() * 3, player)
-            
-            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, heart.Position, Vector.Zero, player)
-            poof.Color = mod.CONST.ColourGold
-            poof.SpriteScale = Vector(0.5, 0.5)
-
-            local crater = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_CRATER, 0, heart.Position, Vector.Zero, player)
-            crater.Color = mod.CONST.ColourGold
-            crater.SpriteScale = Vector(0.5, 0.5)
-
-            sfx:Play(SoundEffect.SOUND_ULTRA_GREED_COIN_DESTROY)
         end
+            
+        local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, heart.Position, Vector.Zero, player)
+        poof.Color = mod.ColourGold
+        poof.SpriteScale = Vector(0.5, 0.5)
+
+        local crater = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_CRATER, 0, heart.Position, Vector.Zero, player)
+        crater.Color = mod.ColourGold
+        crater.SpriteScale = Vector(0.5, 0.5)
+
+        sfx:Play(SoundEffect.SOUND_ULTRA_GREED_COIN_DESTROY)
     end
 end
  

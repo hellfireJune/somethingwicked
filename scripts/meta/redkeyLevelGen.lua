@@ -75,7 +75,7 @@ function SomethingWicked:UpdateRoomDisplayFlags(initroomdesc)
 				elseif level:GetStateFlag(LevelStateFlag.STATE_MAP_EFFECT) then
 					roomdesc.DisplayFlags = RoomDescriptor.DISPLAY_BOX
 				else
-					roomdesc.DisplayFlags = RoomDescriptor.DISPLAY_NONE
+					roomdesc.DisplayFlags = RoomDescriptor.DISPLAY_ALL
 				end
 			end
 		end

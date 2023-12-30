@@ -1,5 +1,3 @@
-local this = {}
-
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player, flags)
     SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_ICE_WAND)
 end, CollectibleType.SOMETHINGWICKED_ICE_WAND)

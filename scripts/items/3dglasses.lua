@@ -1,4 +1,3 @@
-local this = {}
 this.procChance = 0.25
 this.damageMult = 0.5
 this.angle = 10
@@ -115,8 +114,6 @@ local function SplitBombsAswell(_, bomb)
                 new.Color = this.Colors[i]
                 new.Parent = nil
             end
-        --else
-            --print("failed proc")
         end
     end
 end

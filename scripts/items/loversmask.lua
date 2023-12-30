@@ -1,5 +1,3 @@
-local this = {}
-
 local shouldntBlock = false
 local procChance = 0.33
 function this:BlockDMG(ent, amount, flags, source, dmgCooldown)

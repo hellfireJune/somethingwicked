@@ -181,7 +181,7 @@ function mod:__callStatusEffects(collider, tear)
     if t_data.somethingWicked_customTearFlags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
             if value.EnemyHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
-                value:EnemyHitEffect(tear, tear.Position, collider)
+                value:EnemyHitEffect(tear, tear.Position, collider, mod:UtilGetPlayerFromTear(tear))
             end
         end
     end

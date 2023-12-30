@@ -1,5 +1,3 @@
-local this = {}
-
 function this:PEffectUpdate(player)
     if player:HasTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD) then
         local p_data = player:GetData()

@@ -1,4 +1,3 @@
-local this = {}
 this.roomTables = {
     {2000, 2003}, --wrath
     {2010, 2013}, --gluttony

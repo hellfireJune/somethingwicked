@@ -1,5 +1,3 @@
-local this = {}
-
 function this:OnDamage(player, amount, flag)
     player = player:ToPlayer()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CURSE_MASK) or player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION)

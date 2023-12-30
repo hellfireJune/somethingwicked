@@ -8,7 +8,16 @@ local flagsBlacklist = {
     TearFlags.TEAR_CROSS_BOMB,
     TearFlags.TEAR_BLOOD_BOMB,
     TearFlags.TEAR_BRIMSTONE_BOMB,
-    TearFlags.TEAR_GHOST_BOMB
+    TearFlags.TEAR_GHOST_BOMB,
+    TearFlags.TEAR_BUTT_BOMB,
+    TearFlags.TEAR_CREEP_TRAIL,
+    --removed because theyre annoying and nobody likes them, didnt want to do this soz
+    TearFlags.TEAR_ORBIT,
+    TearFlags.TEAR_BIG_SPIRAL,
+}
+local rarerFlags = {
+    TearFlags.TEAR_NEEDLE,
+    TearFlags.TEAR_LASERSHOT
 }
 mod.quickTearFlagAdders = {
     [TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY] = {
@@ -28,7 +37,8 @@ function mod:GenerateFruitFlag(rng)
     for i = 1, flagsToGive, 1 do
         local flagToAdd = TearFlags.TEAR_NORMAL
         while flagToAdd == TearFlags.TEAR_NORMAL or (newFlags & flagToAdd) == 0
-        or mod:UtilTableHasValue(flagsBlacklist, flagToAdd) do
+        or mod:UtilTableHasValue(flagsBlacklist, flagToAdd)
+        or (mod:UtilTableHasValue(rarerFlags, flagToAdd) and rng:RandomFloat()<0.5) do
             flagToAdd = mod:TEARFLAG(rng:RandomInt(TearFlags.TEAR_EFFECT_COUNT))
         end
 

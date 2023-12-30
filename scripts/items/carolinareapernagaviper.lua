@@ -1,4 +1,3 @@
-local this = {}
 this.wickedFire = 23
 
 function this:FirePure(shooter, vector, scalar, player)

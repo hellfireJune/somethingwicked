@@ -1,6 +1,5 @@
 local mod = SomethingWicked
 local sfx = SFXManager()
-local this = {}
 local sHeartValues = { [HeartSubType.HEART_HALF_SOUL] = 1, [HeartSubType.HEART_SOUL] = 2}
 
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
@@ -8,7 +7,7 @@ mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.L
     if not player or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP) then
         return
     end
-    if not mod.ItemHelpers:CanPickupPickupGeneric(pickup, player) then
+    if not mod:CanPickupPickupGeneric(pickup, player) then
         return
     end
 
@@ -43,17 +42,9 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, pickup)
-    if mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP)
+    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP)
     and sHeartValues[pickup.SubType] ~= nil then
         local red = ((math.sin(pickup.FrameCount / 20)+1)/10)
         pickup:SetColor(Color(1, 0.9, 0.9, 1, red), 2, 1, false, false)
     end
 end, PickupVariant.PICKUP_HEART)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_RED_CAP] = {
-        desc = "↑ Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#↑ {{Heart}} +2 Health up#+Heals 3 hearts on pickup#↓ {{Shotspeed}} -0.15 Shot Speed down#↓ {{Range}} -0.8 Range down",
-        pools = { mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET, mod.encyclopediaLootPools.POOL_ULTRA_SECRET }
-    }
-}
-return this

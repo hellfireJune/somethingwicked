@@ -90,7 +90,7 @@ end
 
 local function Visuals(_, familiar, player)
     local hasBFFs = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS)
-    local color = hasBFFs and Color(1, 0.2, 0.2) or Color(0, 1, 0)
+    local color = hasBFFs and Color(1, 0.2, 0.2) or Color(1, 1, 1)
     --local sizeMult = familiar.Child ~= nil and 1 or 0.95
     familiar.Color = color
     familiar.SpriteScale = (hasBFFs and Vector(0.8, 0.8) or Vector(1, 1))-- * sizeMult
@@ -124,7 +124,7 @@ local function MoveAnyBodyPiecesRecursive(parent, familiar, newPos, isStuck)
 end
 
 local frameCountShit = 6
-local bodyLength = 5
+local bodyLength = 6
 local offset = Vector(9, 9)
 local function HeadUpdate(_, familiar)
     local player = familiar.Player
@@ -163,13 +163,13 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, famili
     Visuals(_, familiar, familiar.Player)
 end, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY)
 
-local damageoncollide = 20
+local damageoncollide = 4
 local function SnakeCollideWithEnemy(familiar, enemy, head)
     if familiar.FrameCount % 2 == 1 then
         return
     end
 
-    if enemy:IsNPC() and enemy:IsVulnerableEnemy() then        
+    if enemy:ToNPC() and enemy:IsVulnerableEnemy() then        
         local isHead = head == nil
         if isHead then
             head = familiar
@@ -210,7 +210,7 @@ local function getHead(child)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, CallbackPriority.LATE, function (_, familiar, other )
     SnakeCollideWithEnemy(familiar, other, getHead(familiar))
-end, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE)
+end, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY)
 
 local function HeadInit(_, familiar)
     local lastParent = familiar
@@ -223,8 +223,14 @@ local function HeadInit(_, familiar)
         lastParent.Child = newBod
         newBod.Player = player
 
+        
+        local sprite = newBod:GetSprite()
+        sprite:SetFrame(4 * i%4)
+        newBod:Update()
+
         lastParent = newBod
     end
+    Visuals(_, familiar, familiar.Player)
 end
 
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, HeadInit, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE)

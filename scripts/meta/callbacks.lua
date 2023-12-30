@@ -4,32 +4,26 @@ local game = Game()
 local ccabEnum = mod.CustomCallbacks
 mod.__callbacks = {
     [ccabEnum.SWCB_PICKUP_ITEM] = {
-        UniversalPickupCallbacks = {},
-        IDBasedPickupCallbacks = {}
+        [-1] = {},
     },
     [ccabEnum.SWCB_ON_ENEMY_HIT] = {},
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
-    [ccabEnum.SWCB_ON_LASER_FIRED] = {},
+    [ccabEnum.SWCB_ON_LASER_FIRED] = {}, 
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
+    [ccabEnum.SWCB_PRE_PURCHASE_PICKUP] = {},
     [ccabEnum.SWCB_POST_PURCHASE_PICKUP] = {},
     [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
     [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
     [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
     [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {}
 }
-FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 function mod:AddCustomCBack(type, funct, id)
     if type == ccabEnum.SWCB_PICKUP_ITEM then
         id = id or -1
     
-        if id == -1 then
-            table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].UniversalPickupCallbacks, funct)
-            return
-        end
-    
-        mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] = mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id] or {}
-        table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM].IDBasedPickupCallbacks[id], funct)
+        mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] = mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] or {}
+        table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id], funct)
         return
     end
 
@@ -37,9 +31,9 @@ function mod:AddCustomCBack(type, funct, id)
     table.insert(cBackTable, funct)
 end
 
-function mod:CallCustomCback(type, arg1, arg2, arg3, arg4, subtype)
-    local callbacks = mod.__callbacks[type]
-    if type == ccabEnum.SWCB_PICKUP_ITEM then
+function mod:CallCustomCback(t, arg1, arg2, arg3, arg4, subtype)
+    local callbacks = mod.__callbacks[t]
+    if t == ccabEnum.SWCB_PICKUP_ITEM then
         subtype = subtype or -1
         callbacks = callbacks[subtype]
         if subtype ~= -1 then
@@ -49,9 +43,18 @@ function mod:CallCustomCback(type, arg1, arg2, arg3, arg4, subtype)
     if callbacks == nil then
         return
     end
+    local returnValue = nil
     for _, v in pairs(callbacks) do
-        v(callbacks, arg1, arg2, arg3, arg4)
+        local val = v(callbacks, arg1, arg2, arg3, arg4)
+        if returnValue == nil then
+            returnValue = val
+        else
+            if type(val) == "boolean" then
+                returnValue = val or returnValue
+            end
+        end
     end
+    return returnValue
 end
 
 
@@ -219,7 +222,6 @@ local function PostFirePureEval(_, player)
             p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(player:GetFireDirection())
         end
     end
-    --print(player.FireDelay)
     if player.FireDelay < 0 then
         p_data.sw_lastNegativeFireDelay = player.FireDelay
     end
@@ -227,6 +229,7 @@ local function PostFirePureEval(_, player)
     local fireDelayFlag = math.ceil(player.FireDelay - p_data.sw_lastNegativeFireDelay) >= (player.MaxFireDelay) and not p_data.sw_processFireDelay
     if animflag or fireDelayFlag then
         if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
+            print("abywgere:()")
             p_data.somethingWicked_processedPureFire = true
             mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, player, p_data.somethingWicked_lastAimedDirection, 1, player)
             p_data.sw_lastNegativeFireDelay = 0
@@ -513,3 +516,92 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
 
 --purchase item
+
+--0 is free, 1 is red hearts, 2 is soul hearts
+local couldBuyItemTable = {
+    [PickupPrice.PRICE_ONE_HEART] = 1,
+    [PickupPrice.PRICE_TWO_HEARTS] = 1,
+    [PickupPrice.PRICE_THREE_SOULHEARTS] = 2,
+    [PickupPrice.PRICE_ONE_HEART_AND_TWO_SOULHEARTS] = 1,
+    [PickupPrice.PRICE_SPIKES] = 0,
+    [PickupPrice.PRICE_SOUL] = function (player)
+        return player:HasTrinket(TrinketType.TRINKET_YOUR_SOUL)
+    end,
+    [PickupPrice.PRICE_ONE_SOUL_HEART] = 2,
+    [PickupPrice.PRICE_TWO_SOUL_HEARTS] = 2,
+    [PickupPrice.PRICE_ONE_HEART_AND_ONE_SOUL_HEART] = 1,
+    [PickupPrice.PRICE_FREE] = 0,
+}
+
+local idToBuy = {
+    [0] = function ()
+        return true
+    end,
+    [1] = function (player)
+        return player:GetEffectiveMaxHearts() >= 1
+    end,
+    [2] = function (player)
+        return player:GetSoulHearts() >= 1
+    end
+}
+
+local PickupCollisionChecks = {
+    [PickupVariant.PICKUP_HEART] = {
+        [HeartSubType.HEART_HALF] = function(player) return player:CanPickRedHearts() end,
+        [HeartSubType.HEART_FULL] = function(player) return player:CanPickRedHearts() end,
+        [HeartSubType.HEART_SCARED] = function(player) return player:CanPickRedHearts() end,
+        [HeartSubType.HEART_DOUBLEPACK] = function(player) return player:CanPickRedHearts() end,
+        [HeartSubType.HEART_SOUL] = function(player) return player:CanPickSoulHearts() end,
+        [HeartSubType.HEART_HALF_SOUL] = function(player) return player:CanPickSoulHearts() end,
+        [HeartSubType.HEART_BLACK] = function(player) return player:CanPickBlackHearts() end,
+        [HeartSubType.HEART_GOLDEN] = function(player) return player:CanPickGoldenHearts() end,
+        [HeartSubType.HEART_BLENDED] = function(player) if not player:CanPickRedHearts() then return player:CanPickSoulHearts() end return true end,
+        [HeartSubType.HEART_BONE] = function(player) return player:CanPickBoneHearts() end,
+        [HeartSubType.HEART_ROTTEN] = function(player) return player:CanPickRottenHearts() end,
+    },
+    [PickupVariant.PICKUP_LIL_BATTERY] = function (player)
+        return player:NeedsCharge()
+    end 
+}
+
+local function PurchaseItem(_, pickup, player)
+    player = player:ToPlayer()
+    if not player or not player:CanPickupItem() or not player:IsExtraAnimationFinished() then
+        return
+    end
+    local price = pickup.Price
+    if price == 0 then
+        return
+    end
+    local pickupFunction = PickupCollisionChecks[pickup.Variant]
+    local flag
+    if pickupFunction ~= nil then
+        flag = ((type(pickupFunction) == "function" and pickupFunction(player) or pickupFunction[pickup.SubType](player)))
+    else flag = true end
+    if not flag then
+        return
+    end
+    
+    local canBuy, isDevil = function ()
+        return player:GetNumCoins() >= pickup.Price
+    end, false
+    if mod:UtilTableHasValue(couldBuyItemTable, pickup.Price) then
+        if price ~= PickupPrice.PRICE_FREE then
+            isDevil = true
+        end
+        
+        canBuy = couldBuyItemTable[pickup.Price]
+        if type(canBuy) == "number" then
+            canBuy = idToBuy[canBuy]
+        end
+    end
+
+    if canBuy(player) then
+        local skip = mod:CallCustomCback(ccabEnum.SWCB_PRE_PURCHASE_PICKUP, player, pickup, isDevil)
+        if skip ~= nil then
+            return skip
+        end
+        mod:CallCustomCback(ccabEnum.SWCB_POST_PURCHASE_PICKUP, player, pickup, isDevil)
+    end
+end 
+SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PurchaseItem)

@@ -1,4 +1,3 @@
-local this = {}
 FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
 
 function this:ShootTear(tear)

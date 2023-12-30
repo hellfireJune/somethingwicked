@@ -1,5 +1,4 @@
 local this = {}
-FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 
 this.RoomCount = 8
 this.BFFRoomCount = 6

@@ -1,103 +1,64 @@
 local mod = SomethingWicked
 local sfx = SFXManager()
 
-this.MovementSpeedCap = 30
+local damage = 1.5
 
-function this:FamiliarInit(familiar)
-    --print(familiar.SubType)
-    local sprite = familiar:GetSprite()
-
-    familiar:AddToOrbit(3)
-    familiar.OrbitDistance = Vector(110, 90)
-	familiar.OrbitSpeed = 0.01
-    
-    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
-    poof.Color = Color(0.1, 0.1, 0.1)
-    sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
-    familiar:GetSprite():Play("Float", true)
-
-    local spriteArray = this.HeadSprites[familiar.SubType]
-    local rng = familiar:GetDropRNG()
-    sprite:ReplaceSpritesheet(0, "gfx/familiars/"..SomethingWicked:GetRandomElement(spriteArray, rng)..".png")
-    sprite:LoadGraphics()
-
-    --[[familiar.MaxHitPoints = 2
-    familiar.HitPoints = familiar.MaxHitPoints]]
-end
-
-local virtueSpread = 20
-function this:FamiliarUpdate(familiar)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
     local player = familiar.Player
     local sprite = familiar:GetSprite()
-    familiar.OrbitDistance = Vector(75, 75) 
-	familiar.OrbitSpeed = 0.01 
+    local f_data = familiar:GetData()
 
-    SomethingWicked.EnemyHelpers:FluctuatingOrbitFunc(familiar, player)
-    if familiar.Velocity:Length() > this.MovementSpeedCap then
-        familiar.Velocity:Resize(this.MovementSpeedCap)
-    end
-
-    familiar:PickEnemyTarget(this.Distance, 13, 1)
-    if familiar.FireCooldown <= 0 then
-        
-        if familiar.Target and familiar.Target.Position:Distance(familiar.Position) < this.Distance then
-            --shoot
-            local direction = (familiar.Target.Position - familiar.Position):Normalized()
-            local anim = "ShootDown" local diff = 999
-            for key, value in pairs(this.AnimationEnum) do
-                local currentDiff = math.abs(direction:GetAngleDegrees() - key)
-                if currentDiff < diff then
-                    diff = currentDiff
-                    anim = value
-                end
-            end
-            this:PlayAnimation(sprite, anim)
-
-            for i = -virtueSpread, doVirtueFire and virtueSpread or -virtueSpread, virtueSpread do
-                if not doVirtueFire then
-                    i = 0
-                end
-                
-                local tear = familiar:FireProjectile(direction:Rotated(i))
-                tear = tear:ToTear()
-
-                tear.CollisionDamage = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and 2 or 1
-                tear:ChangeVariant(TearVariant.BLOOD)
-                tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
-
-                local coolDown = doVirtueFire and 30 or 12
-	        	familiar.FireCooldown = math.ceil(coolDown * (player:HasTrinket(TrinketType.TRINKET_FORGOTTEN_LULLABY) and 0.7 or 1))
-
-                tear:Update()
-            end
-        else
-            this:PlayAnimation(sprite, "Float")
-        end
+    local isFiring = player:GetFireDirection() ~= Direction.NO_DIRECTION
+    if not isFiring then
+        sprite:Play("Idle")
+        local speedMult = 7
+        local position = mod:DynamicOrbit(familiar, player, speedMult, Vector(60, 60))
+        familiar.Velocity = position - familiar.Position
     else
-        if familiar.FireCooldown < 3 then
-            for key, value in pairs(this.IdleEnum) do
-                if string.find(sprite:GetAnimation(), key) then
-                    this:PlayAnimation(sprite, value)
-                    break
-                end
+        familiar.Velocity = Vector.Zero
+        if sprite:GetFrame() == 9 then
+            sprite:Play("Attack", true)
+        elseif sprite:IsEventTriggered("Attack") then
+            f_data.sw_NightmareTick = (f_data.sw_NightmareTick or 0) + 36
+
+            for i = 120, 360, 120 do
+                local angle = f_data.sw_NightmareTick + i
+                local vec = Vector.FromAngle(angle)*7
+
+                local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, familiar.Position, vec, familiar):ToTear()
+                tear.Parent = familiar
+                tear:Update()
+
+                tear.CollisionDamage = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and damage*2 or damage
+                tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             end
         end
-
-        familiar.FireCooldown = familiar.FireCooldown - 1
+        sprite:Play("Attack")
+        print(sprite:GetFrame())
     end
+end, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
 
-    SomethingWicked.FamiliarHelpers:KillableFamiliarFunction(familiar, true, false, true)
-end
-
-SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
-SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, this.FamiliarInit, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
-
-mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (familiar)
-    if familiar.Variant ~= FamiliarVariant.SOMETHINGWICKED_NIGHTMARE then
+mod:AddPriorityCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, CallbackPriority.LATE, function (_, familiar, other)
+    if familiar.SubType > 1 then
         return
     end
+    local proj = other:ToProjectile()
+    if proj then
+        proj:Die()
+    else
+        if not other:ToNPC() then
+            return
+        end
+    end
+    familiar:TakeDamage(other.CollisionDamage, 0, EntityRef(other), 40)
+end, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
 
-    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
-    poof.Color = Color(0.1, 0.1, 0.1)
-    sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, function (_, ent)
+    
+    if ent.Variant ~= FamiliarVariant.SOMETHINGWICKED_NIGHTMARE then
+        return
+    end
+    if ent.SubType > 1 then
+        return true
+    end
 end, EntityType.ENTITY_FAMILIAR)

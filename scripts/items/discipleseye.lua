@@ -11,7 +11,6 @@ function  this:PlayerUpdate(player)
             and redRoom.DisplayFlags & 1 << 2 == 0 then
                 redRoom.DisplayFlags = (redRoom.DisplayFlags or 0) | 1 << 2
                 lvel:UpdateVisibility()
-                break
             end
         end
     end

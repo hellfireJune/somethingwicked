@@ -1,5 +1,3 @@
-local this = {}
-
 local baseAmount = 10 local moreAmountMax = 8
 function this:EnemyDeath(entity)
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SAINTS_HEAD)

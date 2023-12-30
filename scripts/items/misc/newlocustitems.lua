@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22

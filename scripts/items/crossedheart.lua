@@ -1,5 +1,3 @@
-local this = {}
-
 this.validSubtypes = {HeartSubType.HEART_FULL, HeartSubType.HEART_HALF, HeartSubType.HEART_SCARED, HeartSubType.HEART_DOUBLEPACK, HeartSubType.HEART_BLENDED}
 this.ProcChance = 0.5
 function this:PickupHeart(pickup, player)

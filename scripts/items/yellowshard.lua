@@ -1,4 +1,3 @@
-local this = {}
 this.ProcChance = 0.5
 
 function this:OnDamage(entity, amount, flag)

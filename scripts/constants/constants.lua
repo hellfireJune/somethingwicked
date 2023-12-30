@@ -8,7 +8,10 @@ EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Tr
 EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
 EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
 EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
+EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD = Isaac.GetEntityVariantByName("Dice Overhead VFX")
+EffectVariant.SOMETHINGWICKED_ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked Item Pop-up")
 
+TearVariant.SOMETHINGWICKED_REALLY_GOOD_PLACEHOLDER = Isaac.GetEntityVariantByName("Wicked Placeholder Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
 TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
 TearVariant.SOMETHINGWICKED_STICKERBOOK_STICKER = Isaac.GetEntityVariantByName("Sticker Tear")
@@ -25,6 +28,8 @@ mod.ElectroStunStatusColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 
 mod.ElectroStunTearColor = Color(1, 1, 1, 1, 0.4, 0.656, 0.8)
 mod.PlasmaGlobeBaseProc = 0.125
+
+mod.WickedFireSubtype = 23
 
 --FAMILIARS
 FamiliarVariant.SOMETHINGWICKED_FUZZY_FLY = Isaac.GetEntityVariantByName("Fuzzy Fly Familiar") -- unfinished
@@ -45,6 +50,12 @@ FamiliarVariant.SOMETHINGWICKED_YOYO = Isaac.GetEntityVariantByName("Wicked Yo-Y
 FamiliarVariant.SOMETHINGWICKED_NIGHTMARE = Isaac.GetEntityVariantByName("Nightmare") -- reworkin
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE = Isaac.GetEntityVariantByName("Retro Snake")
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("Retro Snake (body)")
+FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName("Teratoma Orbital")
+FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Familiar")
+FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
+FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
+
+FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 --[LAMP OIL, ROPE,] BOMBS
 BombVariant.SOMETHINGWICKED_VOID = 2761
@@ -62,6 +73,15 @@ mod.PlanchetteFamiliars = {
     FamiliarVariant.SOMETHINGWICKED_NIGHTMARE,
     FamiliarVariant.GHOST_BABY
 }
+mod.edensHeadthrowables = {
+    CollectibleType.COLLECTIBLE_BOBS_ROTTEN_HEAD,
+    CollectibleType.COLLECTIBLE_CANDLE,
+    CollectibleType.COLLECTIBLE_RED_CANDLE,
+    CollectibleType.COLLECTIBLE_BOOMERANG,
+    CollectibleType.COLLECTIBLE_GLASS_CANNON,
+    CollectibleType.COLLECTIBLE_DOCTORS_REMOTE,
+    CollectibleType.COLLECTIBLE_BLACK_HOLE
+}
 
 --enums
 mod.CustomCallbacks = {
@@ -70,7 +90,8 @@ mod.CustomCallbacks = {
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
     SWCB_ON_FIRE_PURE = 5,
-    SWCB_POST_PURCHASE_PICKUP = 6,
+    SWCB_PRE_PURCHASE_PICKUP = 6,
+    SWCB_POST_PURCHASE_PICKUP = 7,
     --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
     SWCB_NEW_WAVE_SPAWNED = 8,
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,
@@ -121,6 +142,7 @@ mod.CustomTearFlags = {
     FLAG_CAT_TEASER = 1 << 13,
     FLAG_UNRAVEL = 1 << 14,
     FLAG_DARKNESS = 1 << 15,
+    FLAG_CRITCHARGE = 1 << 16,
 }
 mod.CustomCardTypes = {
     CARDTYPE_THOTH = 1,
@@ -148,6 +170,7 @@ mod.CONST.InfinityBeggarMachinePool = {
 }
 mod.NightmareSubTypes = {
     NIGHTMARE_STANDARD = 0,
-    NIGHTMARE_PERMANENT = 1,
-    NIGHTMARE_HOLY = 2
+    NIGHTMARE_TRINKET = 1,
+    NIGHTMARE_FLOORONLY = 2,
+    NIGHTMARE_BIG = 3,
 }

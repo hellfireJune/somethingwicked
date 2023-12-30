@@ -1,5 +1,3 @@
-local this = {}
-
 function this:CacheFlag(player)    
     local n_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)
     local n_sourceItem = Isaac.GetItemConfig():GetTrinket(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)

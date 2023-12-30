@@ -82,7 +82,6 @@ local function PreventLightningDMG(_, entity, amount, flags, source, cooldown)
         return
     end
 
-    --print(e.Index, entity.Index)
     if e.Index == entity.Index then
         --l_data.sw_electroStunHost = entity
         if setOnceMore then

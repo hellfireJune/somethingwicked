@@ -1,8 +1,8 @@
-local this = {}
-this.effect = Isaac.GetEntityVariantByName("Dice Overhead VFX")
-this.BaseMaxCharge = 2
+local mod = SomethingWicked
+local game = Game()
+local baseMaxCharge = 2
 
-function this:OnUse(_, rngObj, player, flags)
+local function OnUse(_, _, rngObj, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 then
         return
     end
@@ -12,8 +12,8 @@ function this:OnUse(_, rngObj, player, flags)
         return { Discharge = false, ShowAnim = true }
     end
 
-    local pool = SomethingWicked.game:GetItemPool()
-    local room = SomethingWicked.game:GetRoom()
+    local pool = game:GetItemPool()
+    local room = game:GetRoom()
     local itemConfig = Isaac.GetItemConfig()
     
     local poolType = pool:GetPoolForRoom(room:GetType(), room:GetAwardSeed())
@@ -29,12 +29,12 @@ function this:OnUse(_, rngObj, player, flags)
     end
 
     --Thanks to the REP+ team. Thanks.
-    SomethingWicked.ItemHelpers:RemoveQueuedItem(player)
+    mod:RemoveQueuedItem(player)
 
     local conf = itemConfig:GetCollectible(collectible)
-    SomethingWicked.game:GetHUD():ShowItemText(player, conf)
+    game:GetHUD():ShowItemText(player, conf)
     pool:RemoveCollectible(collectible)
-    local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE)
+    local charge, slot = mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE)
 
     if conf.Type == ItemType.ITEM_ACTIVE
     --[[and slot <= 1]] then
@@ -47,7 +47,7 @@ function this:OnUse(_, rngObj, player, flags)
 
 end
 
-function this:OnFixedUpdate(player)
+local function OnFixedUpdate(_, player)
     local item = player.QueuedItem.Item
     if item == nil then
         return
@@ -59,16 +59,16 @@ function this:OnFixedUpdate(player)
     and player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == 0 then
         for _, v in ipairs(oldDices) do
             v = v:ToPickup()
-            if v.Charge >= this.BaseMaxCharge then
+            if v.Charge >= baseMaxCharge then
                 dice = v
                 break
             end
         end
     end
 
-    if ((SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) >= this.BaseMaxCharge)
+    if ((mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) >= baseMaxCharge)
     or dice ~= nil) then
-        local dEffects = Isaac.FindByType(EntityType.ENTITY_EFFECT, this.effect, -1, true)
+        local dEffects = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD, -1, true)
 
         local flag = true
         for index, dEffect in ipairs(dEffects) do
@@ -78,7 +78,7 @@ function this:OnFixedUpdate(player)
         end
 
         if flag then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, this.effect, 0, player.Position, Vector.Zero, player)
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD, 0, player.Position, Vector.Zero, player)
             effect.Parent = player
             effect.SpriteOffset = Vector(0, -40)
 
@@ -103,7 +103,7 @@ function this:OnFixedUpdate(player)
             if Input.IsActionPressed(buttonToPress, player.ControllerIndex)
             and (noDrop or not Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex)) then
                 player:UseActiveItem(CollectibleType.SOMETHINGWICKED_OLD_DICE, 0, -1)
-                player:AddCollectible(CollectibleType.SOMETHINGWICKED_OLD_DICE, dice.Charge - this.BaseMaxCharge, false)
+                player:AddCollectible(CollectibleType.SOMETHINGWICKED_OLD_DICE, dice.Charge - baseMaxCharge, false)
 
                 local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, dice.Position, Vector.Zero, dice)
                 poof.Color = Color(0.1, 0.1, 0.1)
@@ -113,38 +113,27 @@ function this:OnFixedUpdate(player)
     end
 end
 
-function this:OnEffectUpdate(effect)
+local function OnEffectUpdate(_, effect)
     local player = effect.Parent:ToPlayer()
     local sprite = effect:GetSprite()
-    
+
     if (player == nil or
     player.QueuedItem.Item == nil or
-    (SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) < this.BaseMaxCharge
+    (mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) < baseMaxCharge
     and player.QueuedItem.Item.Type ~= ItemType.ITEM_ACTIVE)) then
         sprite:Play("Dissapear")
     elseif sprite:IsPlaying("Appear") 
     and sprite:GetFrame() == 6 then
         sprite:Play("Idle")
-    elseif sprite:IsFinished("Disappear") then
+    end
+    if sprite:GetFrame() == 5  
+    and sprite:GetAnimation() == "Dissapear" then
         effect:Remove()
     end
 
     effect:FollowParent(effect.Parent)
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.OnFixedUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.OnEffectUpdate, this.effect)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.OnUse, CollectibleType.SOMETHINGWICKED_OLD_DICE)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_OLD_DICE] = {
-        desc = "Upon use, rerolls the current item being picked up into a random passive item# Does nothing if you are not picking up an item#If dropped to pick up another active, can be used while you are picking up the active",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Upon use, rerolls the current item being picked up into a random passive item", "Does nothing if you are not picking up an item","If dropped to pick up another active, can be used while you are picking up the active"}),
-    }
-}
-return this
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, OnFixedUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, OnEffectUpdate, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, OnUse, CollectibleType.SOMETHINGWICKED_OLD_DICE)

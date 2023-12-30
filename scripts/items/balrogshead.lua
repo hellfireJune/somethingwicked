@@ -1,4 +1,3 @@
-local this = {}
 this.head = Isaac.GetEntityVariantByName("Balrog Head")
 
 function this:ItemUse(_, _, player, flags)

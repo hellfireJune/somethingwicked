@@ -1,4 +1,3 @@
-local this = {}
 --SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.CacheFlag, CacheFlag.CACHE_FAMILIARS)
 
 

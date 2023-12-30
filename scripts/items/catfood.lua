@@ -1,5 +1,3 @@
-local this = {}
-
 --[[function this:OnKill(enemy)
     for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
         if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CAT_FOOD)

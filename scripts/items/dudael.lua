@@ -1,5 +1,3 @@
-local this = {}
-
 local frameCooldown = 15
 local maxGhosts = 7
 function this:OnEnemyDMGGeneric(tear, collider, player, proc)

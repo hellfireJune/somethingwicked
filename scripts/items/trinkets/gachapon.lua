@@ -60,7 +60,7 @@ function mod:GachaponDestroy(trinket, player, forceGold)
     end
     p_data.SomethingWickedPData.gachaponBonus = (p_data.SomethingWickedPData.gachaponBonus or 0) + mult
 
-    local pos = trinket and trinket.Position or player
+    local pos = trinket and trinket.Position or player.Position
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 1, pos, Vector.Zero, trinket or player)
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 2, pos, Vector.Zero, trinket or player)
 

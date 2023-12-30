@@ -7,7 +7,7 @@ local pickupTable = {PickupVariant.PICKUP_HEART, PickupVariant.PICKUP_COIN,
                     PickupVariant.PICKUP_BOMB, PickupVariant.PICKUP_KEY, PickupVariant.PICKUP_GRAB_BAG,
                     PickupVariant.PICKUP_PILL, PickupVariant.PICKUP_LIL_BATTERY, PickupVariant.PICKUP_TAROTCARD}
 
-local function UseCrusher(_, t_rng, player, flags)
+local function UseCrusher(_, _, t_rng, player, flags)
     local currTrinket = player:GetTrinket(0)
     if currTrinket ~= 0 then
         local freq = 1

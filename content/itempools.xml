@@ -2,7 +2,7 @@
 	<Pool Name="treasure">
 		<Item Name="Balrog's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cat Food" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -37,9 +37,10 @@
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lourdes Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
+		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -53,13 +54,14 @@
 		<Item Name="Lost Wallet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wooden Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Possum's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wickerman" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
 		<Item Name="Lantern Battery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Golden Watch" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="library">
@@ -71,13 +73,14 @@
 
 	<Pool Name="curse">
 		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/> -->
 		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wicked Soul" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Cursed Credit Card" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Devilsknife" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Wicked Ring" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="boss">
@@ -88,7 +91,7 @@
 	</Pool> 
 
 	<Pool Name="secret">
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Old Urn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Disciple's Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -113,13 +116,14 @@
 		<Item Name="Devil's Tail" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Hellfire" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Devilsknife" Weight="0.8" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Devilsknife" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
+		<Item Name="Wicked Ring" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	
 	<Pool Name="angel">
 		<Item Name="Biretta" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Star of the Bottomless Pit" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -136,7 +140,7 @@
 
 	<Pool Name="redChest">
 		<Item Name="Red Lockbox" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/> -->
 		<Item Name="Naga Viper" Weight="0.5" DecreaseBy="0.2" RemoveOn="0.05"/>
 	</Pool>
 	
@@ -178,7 +182,7 @@
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 	</Pool>
 	
 	<Pool Name="craneGame">
@@ -189,7 +193,7 @@
 		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cat Food" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name=" 3D Glasses " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Sacrificial Effigy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wickerman" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Crossed Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -205,7 +209,7 @@
 
 	<Pool Name="rottenBeggar">
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/> -->
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
@@ -238,7 +242,7 @@
 	<!--Greed/Greedier mode-->
 	<Pool Name="greedTreasure">
 		<Item Name="Balrog's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -251,7 +255,7 @@
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Superiority" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name=" 3D Glasses " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Nightshade" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chasm" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fetus in Fetu" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -266,9 +270,10 @@
 		<Item Name="Strange Apple" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Booster Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -282,13 +287,14 @@
 		<Item Name="Old Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wooden Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Head" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/> -->
 		<Item Name="Trinket Smasher" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Abandoned Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
 		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lantern Battery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Golden Watch" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool name="greedBoss">
@@ -312,6 +318,7 @@
 		<Item Name="Hellfire" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="0.8" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Wicked Ring" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
@@ -321,7 +328,7 @@
 	</Pool>
 
 	<Pool Name="greedAngel">
-		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+<!-- 		<Item Name="White Robe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Star of the Bottomless Pit" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -329,7 +336,7 @@
 	</Pool>
 
 	<Pool Name="greedSecret">
-		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+<!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/> -->
 		<Item Name="Old Urn" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>

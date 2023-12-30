@@ -1,5 +1,3 @@
-local this = {}
-
 function this:OnDamage(player)
     player = player:ToPlayer()
 

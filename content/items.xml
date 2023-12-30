@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print
+  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch
 
   Changes:
   - Lourdes Water
@@ -27,6 +27,14 @@
     - Increased chance to spawn a library from a 20% chance to a 33% chance
     - For some reason, if you have multiple encyclopedias in your inventory, they'll all be charged if a library's present
     - Also added BoV and BoB synergies
+
+  - Sacrificial Effigy
+    - Now called "Wickerman", and resprited
+    - Always spawns just two red hearts now
+
+  - Red
+    - Resprited
+    - Now spawns 1-3 cracked keys on pickup (i think thats new?)
 
   - D-Stock:
     - Now also restocks devil deals and angel shops
@@ -73,11 +81,11 @@
     - Now doubles the collision damage from wisps also
 
   - Misc: 
-    - Resprited Red
-    - Removed Possum's Ear, Possum's Head, and White Robe
+    - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
       - Possum's ear filled a niche that on it's own was very interesting but the base effect itself is done to death in other mods and honestly it wasnt all that great.
       - Possum's head just sucked, and the "Possum -> bones" thing was generally just a weird piece of theming i dont think was really that good at all
       - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
+      - Band of Regeneration was a near identical to another item from retribution and also i sort of want to redo the thing a bit so for now its out.
     - Added status effect icons for curse
     - Electro-stun and curse will no longer apply to enemies immune to status effects
     - Minor eid / description changes
@@ -89,8 +97,10 @@
   - Finger will no longer do funny things with 3D glasses
   - FiendFolio electrum synergies and stackable item compat now actually works
   - Electro-Stun is now a lot better coded; no longer deals double the damage its meant to do, and will no longer sometimes damage it's host
+  - Old dice's overhead vfx no longer lingers on forevermore
   - Void Bombs no longer crashes the game instantly with hot bombs, excelsior or glitter bombs
   - Lourdes Water is no longer hidden from Encyclopedia
+  - I'm not sure if Red was broken before this update but if so i fixed it. it was definitely broken when i tested it
 
   -->
 
@@ -105,7 +115,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 10, 11, 12, 14, 30, 32, 35, 37, 39, 40, 74, 82, 83, 100, 103, 110, 119, 133, 144 and 141
+  <!--also make item id 10, 11, 12, 14, 30, 32, 35, 37, 39, 40, 74, 82, 83, 100, 103, 110, 119, 133 and 141
   and trinket id 15 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -152,7 +162,7 @@
   <passive id="52" name=" 3D Glasses " gfx="sw_3dglasses.png" description="Cellophane shot" quality="3" tags="offensive summonable"/>
   <familiar id="53" name="Legion" gfx="schlagenheim.png" hidden="true"/>
   <passive id="54" name="Teratoma Chunk" gfx="teratomachunk.png" maxhearts="2" quality="1" description="HP up + tumor friends" tags="nocantrip"/> <!--costume-->
-  <passive id="55" name="Sacrificial Effigy" gfx="meateffigy.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed nocantrip"/> <!--costume-->
+  <passive id="55" name="Wickerman" gfx="skibididoll.png" description="Extra sacrifice rooms" quality="1" tags="nolostbr nogreed nocantrip"/> <!--costume-->
   <active id="56" name="Encyclopedia" gfx="encyclopedia2.png" description="Re-useable library warp" maxcharges="1" chargetype="special" initcharge="0" tags="offensive book nogreed" quality="3"/>
   <active id="57" name="Trinket Smasher" gfx="crushers.png" description="Recycle your trinkets!" shopprice="10" quality="1" tags="offensive"/>
   <active id="58" name="Chasm" gfx="chasm3.png" description="Devour" maxcharges="6" tags="offensive" quality="3"/>
@@ -185,7 +195,7 @@
   <familiar id="112" name="Swords of Light" description="Justice comes forth" gfx="swordoflight.png" quality="2" tags="offensive summonable"/>
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
   <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
-  <passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>
+  <!--<passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>-->
   <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
@@ -206,7 +216,7 @@
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true"/>
   <familiar id="94" name="Little Attractor" hidden="true"/> 
-  <passive id="95" name="Fruit Milk" description="DMG down + rainbow tears" cache="damage tearflag"/>  
+  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive"/>
   <active id="98" name="Magic Clay" hidden="true"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true"/>
@@ -238,12 +248,13 @@
 
   <passive id="142" name="Pendulum" description="" gfx="goldenwatch.png" hidden="true"/>
   <passive id="143" name="The Yo-Yo!" hidden="true" gfx="sw_yoyo.png"/>
-  <passive id="145" name="Air Freshener" hidden="true"/>
+  <passive id="145" name="Air Freshener" gfx="airfreshener.png" quality="2" tags="offensive summonable"/>
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true"/>
   <passive id="147" name="Piece of Silver" hidden="true"/>
 
-  <passive id="148" name=" Ganymede " hidden="true"/>
-  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly"/>
+  <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
+  <passive id="148" name=" Ganymede " description="Titan's pull" gfx="ganymede.png" quality="3" tags="offensive summonable" cache="shotspeed"/>
+  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
 
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true"/> <!--slot-->
   <active name="  Magic Clay  " gfx="hellfire.png" hidden="true"/> <!--fortune-->
@@ -277,6 +288,7 @@
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
   <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
+  <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->

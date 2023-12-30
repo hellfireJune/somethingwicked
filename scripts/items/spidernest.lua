@@ -1,4 +1,3 @@
-local this = {}
 EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
 this.framesToSpawnEggs = 165
 this.SpiderCap = 7
