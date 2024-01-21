@@ -1,26 +1,40 @@
 local mod = SomethingWicked
 --tear color 0, 221, 100
 local color = Color(0, 0.62, 0.24, 0.5)
-local dis = 80
-
+local dis = 60
 
 local maxSpeed = 6
 local visWait = 12
+local radius = 180
 local function AirFreshUpdate(_, tear)
     local t_data = tear:GetData()
         local activeLerp = tear.FrameCount/visWait
         activeLerp = mod:Clamp(activeLerp, 0, 1)
         tear.Color = Color.Lerp(Color(0, 0, 0, 0), color, activeLerp*(t_data.sw_randomColorMult or 0))
 
-        local nearestFoe = mod:FindNearestVulnerableEnemy(tear.Position, 120)
+        local nearestFoe = mod:FindNearestVulnerableEnemy(tear.Position, radius)
         local targetVel = tear.Velocity:Normalized()/4
         local dontFall = true
-        if nearestFoe then
-            local trgtdis = nearestFoe.Position:Distance(tear.Position)
-            if trgtdis < 120 then
-                local spd = (1-(trgtdis/120))*maxSpeed
-                targetVel = (nearestFoe.Position-tear.Position):Resized(spd)
+
+        if t_data.sw_airFreshTarget ~= nil and t_data.sw_airFreshTarget:Exists()
+         and nearestFoe and GetPtrHash(t_data.sw_airFreshTarget) ~= GetPtrHash(nearestFoe.InitSeed) then
+            local newDis = nearestFoe.Position:Distance(tear.Position)
+            local oldDis = t_data.sw_airFreshTarget.Position:Distance(tear.Position)
+            if newDis < oldDis then
+                t_data.sw_airFreshTarget = nearestFoe
             end
+        else
+            if t_data.sw_airFreshTarget == nil then
+                t_data.sw_airFreshTarget = nearestFoe
+            end
+        end
+
+        local target = t_data.sw_airFreshTarget
+        if target and activeLerp > 0.5 then
+            local trgtdis = target.Position:Distance(tear.Position)
+                local d = (1-(math.min(radius-30, trgtdis)/radius))
+                local spd = d*maxSpeed
+                targetVel = (target.Position-tear.Position):Resized(spd)
         elseif tear.FrameCount > 12*30 then
             dontFall = false
         end
@@ -32,9 +46,14 @@ local function AirFreshUpdate(_, tear)
 end
 
 local dps = 8
-local damagePerTear = 20.5
+local damagePerTear = 15.5
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_AIR_FRESHENER) then
+        return
+    end
+
+    local r = Game():GetRoom()
+    if r:GetAliveEnemiesCount() == 0 then
         return
     end
 

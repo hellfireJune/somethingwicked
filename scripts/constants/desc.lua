@@ -209,8 +209,11 @@ local collectibles = {
         }
     },
     [CollectibleType.SOMETHINGWICKED_AIR_FRESHENER] = {
-        Hide = true,
-        desc = "freshens air"
+        desc = "While in combat, spawns tears around you which home onto nearby enemies",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        }
     },
         [CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA] = {
             desc = "↑ Bonus 33% chance to spawn a {{Library}} Library on new floor entry while held#{{Library}} Teleports the player to the Library on use# !!! Only charged if there is a library on the floor",
@@ -368,6 +371,76 @@ local collectibles = {
             encyclopediaLootPools.POOL_CURSE,
             encyclopediaLootPools.POOL_GREED_DEVIL
         }
+    },
+    [CollectibleType.SOMETHINGWICKED_WRATH] = {
+        desc = "↑ Damaging an enemy will send out a tear that homes onto that enemy and deals 1/3 of your damage#{{BrokenHeart}} +3 Broken Hearts",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_GREED_CURSE,
+            encyclopediaLootPools.POOL_ULTRA_SECRET,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY] = {
+        desc = "\1 Grants the effect of a random familiar item for the current room",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME }
+    },
+    [CollectibleType.SOMETHINGWICKED_NIGHTSHADE] = {
+        desc = "Spawns wisps with homing tears upon killing an enemy#These wisps are removed upon entering a new room, or after 4 seconds",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_LOVERS_MASK] = {
+        desc = "{{Heart}} 30% chance to block any red heart damage#↑ Prevents the devil deal chance damage penalty",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE }
+    },
+    [CollectibleType.SOMETHINGWICKED_3D_GLASSES] = {
+        desc = "↑ 25% chance to shoot 2 additional tears that deal half of your damage",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT] = {
+        desc =  "↑ Converts all blue flies into locusts#↑ Chance to spawn a blue fly upon killing enemies",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_ANGEL,
+            encyclopediaLootPools.POOL_GREED_ANGEL
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_CHRISMATORY] = {
+        desc = "Firing a tear has a chance to shoot out nine ghost tears that home in on enemies#Applies knockback and a greater tear cooldown after firing#Isaac will glow white if the next shot will shoot ghosts",
+        pools = { encyclopediaLootPools.POOL_ANGEL, encyclopediaLootPools.POOL_GREED_ANGEL }
+    },
+    [CollectibleType.SOMETHINGWICKED_FITUS_FORTUNUS] = {
+        desc = "↑ 33% chance to spawn a random pickup upon killing a champion",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_CROSSED_HEART] = {
+        desc = "↑ {{Damage}} +0.7 Damage up#{{Heart}} Picking up a red heart has a 50% chance to heal for a bonus half red heart",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_SUPERIORITY] = {
+        desc = "↑ +0.7 damage for every enemy alive in the room, minus one#Caps at 7 enemies.",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+        },
     }
 }
 
@@ -451,6 +524,19 @@ local trinkets = {
     },
     [TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY] = {
         desc = "{{Battery}} 25% chance to gain an extra item charge on clearing a room#!!! All batteries are turned into bombs",
+    },
+    [TrinketType.SOMETHINGWICKED_SCORCHED_WOOD] = {
+        desc =  "Enemies have a 33% chance to spawn a {{Collectible289}} Red Candle fire upon kill",
+        metadataFunction = function (item)
+            EID:addGoldenTrinketMetadata(item, nil, 33)
+        end
+    },
+    [TrinketType.SOMETHINGWICKED_DEMONIUM_PAGE] = {
+        desc = "!!! {{Damage}} While held, the only {{BossRoom}} Boss Room items that can appear are ones that modify damage",
+    },
+    [TrinketType.SOMETHINGWICKED_OWL_FEATHER] = {
+        desc = "{{Trinket113}} 25% chance for a blue fly to turn into a Locust of War",
+        isTrinket = true,
     }
 }
 

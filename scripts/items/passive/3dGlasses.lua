@@ -1,16 +1,18 @@
-this.procChance = 0.25
-this.damageMult = 0.5
-this.angle = 10
-this.Colors = {
-    [-this.angle] = Color(0.5, 0, 0, 0.75),
-    [this.angle] = Color(0, 0, 0.5, 0.75)
+local mod = SomethingWicked
+
+local procChance = 0.25
+local damageMult = 0.5
+local angle = 10
+local Colors = {
+    [-angle] = Color(0.5, 0, 0, 0.75),
+    [angle] = Color(0, 0, 0.5, 0.75)
 }
-this.LaserColors = {
-    [-this.angle] = Color(1, 1, 1, 0.75, 0.5),
-    [this.angle] = Color(1, 1, 1, 0.75, 0, 0, 0.5)
+local LaserColors = {
+    [-angle] = Color(1, 1, 1, 0.75, 0.5),
+    [angle] = Color(1, 1, 1, 0.75, 0, 0, 0.5)
 }
 
-function this:SplitTearsSometimes(tear)
+local function SplitTearsSometimes(tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player
     and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
@@ -25,12 +27,12 @@ function this:SplitTearsSometimes(tear)
             end
             local rng = tear:GetDropRNG()
             local proc = rng:RandomFloat()
-            if proc < this.procChance then
-                for i = -this.angle, this.angle, this.angle * 2 do
+            if proc < procChance then
+                for i = -angle, angle, angle * 2 do
                     local newAngle = tear.Velocity:Rotated(i)
-                    local damagemult = this.damageMult * math.min(0.1, (tear.CollisionDamage / player.Damage)) 
+                    local damagemult = damageMult * math.min(0.1, (tear.CollisionDamage / player.Damage)) 
                     local new = player:FireTear(tear.Position - tear.Velocity, newAngle, false, false, false, nil, damagemult)
-                    new.Color = this.LaserColors[i]
+                    new.Color = LaserColors[i]
 
                     local n_data = new:GetData()
                     n_data.somethingwicked_3DglassesChecked = true
@@ -47,30 +49,30 @@ function this:SplitTearsSometimes(tear)
     end
 end
 
-this.isFiringMoreLasers = false
-function this:SplitLasersToo(laser, player, pure)
-    if this.isFiringMoreLasers or not pure then
+local isFiringMoreLasers = false
+local function SplitLasersToo(laser, player, pure)
+    if isFiringMoreLasers or not pure then
         return
     end
     if player 
     and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES) then
         local rng = laser:GetDropRNG()
         local proc = rng:RandomFloat()
-        if proc < this.procChance then
-            this.isFiringMoreLasers = true
-            for i = -this.angle, this.angle, this.angle * 2 do
+        if proc < procChance then
+            isFiringMoreLasers = true
+            for i = -angle, angle, angle * 2 do
                 local newAngle = Vector.FromAngle(laser.Angle + i)
                 local new
                 if laser.Variant == LaserVariant.THIN_RED then
-                    new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, this.damageMult)
+                    new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, damageMult)
                 else
-                    new = player:FireBrimstone(newAngle, laser, this.damageMult)
+                    new = player:FireBrimstone(newAngle, laser, damageMult)
                 end
-                new.Color = this.LaserColors[i]
+                new.Color = LaserColors[i]
                 new:GetData().sw_laserParent = laser
                 new:GetData().sw_angleOffset = i
             end
-            this.isFiringMoreLasers = false
+            isFiringMoreLasers = false
         end
     end
 end
@@ -106,31 +108,18 @@ local function SplitBombsAswell(_, bomb)
     if (bomb.Parent and bomb.Parent.Type == EntityType.ENTITY_PLAYER) then
         local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
 
-        if c_rng:RandomFloat() < this.procChance then
+        if c_rng:RandomFloat() < procChance then
             local vel = bomb.Velocity
-            for i = -this.angle, this.angle, this.angle * 2 do
+            for i = -angle, angle, angle * 2 do
                 local newAngle = vel:Rotated(i)
                 local new = player:FireBomb(bomb.Position - vel, newAngle, nil)
-                new.Color = this.Colors[i]
+                new.Color = Colors[i]
                 new.Parent = nil
             end
         end
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.SplitTearsSometimes)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, this.SplitLasersToo)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, SplitTearsSometimes)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, SplitLasersToo)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, SplitBombsAswell)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_3D_GLASSES] = {
-        desc = "↑ 25% chance to shoot 2 additional tears that deal half of your damage",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"25% chance to shoot out 2 more tears that deal "..this.damageMult.." of your damage upon tear fire"}),
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
-            SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE,
-        }
-    }
-}
-return this

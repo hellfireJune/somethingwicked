@@ -3,29 +3,30 @@ local game = Game()
 
 local ccabEnum = mod.CustomCallbacks
 mod.__callbacks = {
-    [ccabEnum.SWCB_PICKUP_ITEM] = {
-        [-1] = {},
-    },
     [ccabEnum.SWCB_ON_ENEMY_HIT] = {},
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
-    [ccabEnum.SWCB_ON_LASER_FIRED] = {}, 
-    [ccabEnum.SWCB_ON_FIRE_PURE] = {},
+    [ccabEnum.SWCB_ON_LASER_FIRED] = {},
     [ccabEnum.SWCB_PRE_PURCHASE_PICKUP] = {},
-    [ccabEnum.SWCB_POST_PURCHASE_PICKUP] = {},
     [ccabEnum.SWCB_NEW_WAVE_SPAWNED] = {},
     [ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE] = {},
     [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
-    [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {}
+    [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {},
+    [ccabEnum.SWCB_ON_FIRE_PURE] = {},
 }
 
 function mod:AddCustomCBack(type, funct, id)
-    if type == ccabEnum.SWCB_PICKUP_ITEM then
+    if type == ccabEnum.SWCB_PICKUP_ITEM or type == ccabEnum.SWCB_POST_PURCHASE_PICKUP then
+        print("Something is trying to add a callback obsolete with repentogon. Callback Type:", type)
+        return
+    end
+
+    --[[if type == ccabEnum.SWCB_PICKUP_ITEM then
         id = id or -1
     
         mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] = mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] or {}
         table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id], funct)
         return
-    end
+    end]]
 
     local cBackTable = mod.__callbacks[type]
     table.insert(cBackTable, funct)
@@ -195,7 +196,26 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, LaserUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, laserInit)
     
-local function PostFirePureEval(_, player)
+
+
+mod:AddCallback(ModCallbacks.MC_POST_TRIGGER_WEAPON_FIRED, function (_, vector, amount, owner)
+    local p = owner:ToPlayer()
+    local scalar = 1
+    if p == nil then
+        local f = owner:ToFamiliar()
+        if f and f.Player then
+            p = f.Player
+        end
+
+        if p then
+            scalar = mod:GetFamiliarPureFireScalar(f, p:GetPlayerType())
+        end
+    end
+
+    mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, owner, vector, scalar, p)
+end)
+--my favourite part of repentogon is having to comment out a hard day's of work plus more because its now obsolete :haha:
+--[[local function PostFirePureEval(_, player)
     local p_data = player:GetData()
     p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
     p_data.sw_processFireDelay = p_data.sw_processFireDelay or false
@@ -231,7 +251,7 @@ local function PostFirePureEval(_, player)
         if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
             print("abywgere:()")
             p_data.somethingWicked_processedPureFire = true
-            mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, player, p_data.somethingWicked_lastAimedDirection, 1, player)
+            mod:CallCustomCback(ccabEnum., player, p_data.somethingWicked_lastAimedDirection, 1, player)
             p_data.sw_lastNegativeFireDelay = 0
 
             for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
@@ -240,7 +260,7 @@ local function PostFirePureEval(_, player)
                     if mod:DoesFamiliarShootPlayerTears(familiar)
                     and not (familiar.Variant == FamiliarVariant.INCUBUS and playerType == PlayerType.PLAYER_LILITH) then
                         local scalar = mod:GetFamiliarPureFireScalar(familiar, playerType)
-                        mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
+                        mod:CallCustomCback(ccabEnum., familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
                     end
                 end
             end
@@ -262,8 +282,8 @@ end
 function mod:DebugPostPureFireCallback()
     local player = Isaac.GetPlayer(1)
     local p_data = player:GetData()
-    mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, player, p_data.somethingWicked_lastAimedDirection, 1, player)
-end
+    mod:CallCustomCback(ccabEnum., player, p_data.somethingWicked_lastAimedDirection, 1, player)
+end]]
 
 function mod:GetFamiliarPureFireScalar(familiar, playertype)
     local variant = familiar.Variant
@@ -277,7 +297,7 @@ function mod:GetFamiliarPureFireScalar(familiar, playertype)
     return 0.35
 end
 
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CallbackPriority.IMPORTANT, PostFirePureEval)
+--[[SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CallbackPriority.IMPORTANT, PostFirePureEval)]]
 
 --new wave/on item charge
 local queueNewWaveCheck = false

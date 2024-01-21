@@ -41,6 +41,8 @@
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -91,6 +93,7 @@
 	</Pool> 
 
 	<Pool Name="secret">
+		<Item Name="D-Stock" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 <!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/> -->
 		<Item Name="Old Urn" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tiamat's Dice" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -201,6 +204,7 @@
 		<Item Name="Plasma Globe" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shellGame">
@@ -274,6 +278,8 @@
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

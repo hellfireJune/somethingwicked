@@ -1,6 +1,10 @@
 local mod = RegisterMod("Something Wicked", 1)
 SomethingWicked = mod
 
+if not REPENTOGON then
+  print("DOWNLOAD REPENTOGON FOR SOMETHING WICKED")
+end
+
 local game = Game()
 local sfx = SFXManager()
 
@@ -109,25 +113,6 @@ function SomethingWicked:UtilGetPlayerFromTear(tear, onlyIncubus)
       end
   end
 end
-
-function SomethingWicked:UtilWeightedGetThing(pool, myRNG)
-  if #pool > 0 then
-    local totalWeights = 0
-    for _, v in ipairs(pool) do
-      totalWeights = totalWeights + v[2]
-    end
-
-    local unprocessedItemToGet = myRNG:RandomFloat() * totalWeights
-    local allValues = {}
-    for _, value in ipairs(pool) do
-        unprocessedItemToGet = unprocessedItemToGet - value[2]
-        table.insert(allValues, value[1])
-        if unprocessedItemToGet <= 0 then
-          return value[1]
-        end
-    end
-  end
-end
 function mod:utilMerge(t1, t2)
   for k,v in ipairs(t2) do
      table.insert(t1, v)
@@ -172,11 +157,22 @@ local bothModePools = {
   { ItemPoolType.POOL_MOMS_CHEST, 20 },
   { ItemPoolType.POOL_BABY_SHOP, 84 },
 }
+local poolPickerNormal = WeightedOutcomePicker()
+local poolPickerGreed = WeightedOutcomePicker()
+for key, value in pairs(bothModePools) do
+  poolPickerGreed:AddOutcomeFloat(value[1], value[2])
+  poolPickerNormal:AddOutcomeFloat(value[1], value[2])
+end
+for key, value in pairs(weightedPools) do
+  poolPickerNormal:AddOutcomeFloat(value[1], value[2])
+end
+for key, value in pairs(weightedGreedPools) do
+  poolPickerGreed:AddOutcomeFloat(value[1], value[2])
+end
 function mod:GetRandomPool(myRNG)
   local greed = game.Difficulty > Difficulty.DIFFICULTY_HARD
-  local pool = greed and weightedGreedPools or weightedPools
-  pool = mod:utilMerge(pool, bothModePools)
-  return mod:UtilWeightedGetThing(pool, myRNG)
+  local pool = greed and poolPickerGreed or poolPickerNormal
+  return pool:PickOutcome(myRNG)
 end
 
 function mod:GetRandomElement(table, rng)
@@ -270,6 +266,16 @@ local midLoad = {
   p_.."darkness",
   p_.."ganymede",
   p_.."airFreshener",
+  p_.."wrath",
+  p_.."nightshade",
+  p_.."loversMask",
+  p_.."carolinaReaperNagaViper",
+  m_.."newLocustItems",
+  p_.."chrismatory",
+  p_.."fitusFortunus",
+  p_.."crossedHeart",
+  p_.."superiority",
+  p_.."3dGlasses",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -278,6 +284,8 @@ local midLoad = {
   t_.."diceRoller",
   t_.."gachapon",
   t_.."powerInverter",
+  t_.."scorchedWood",
+  t_.."demoniumPage",
 }
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
   ApplyLogic = function (_, p, tear)
@@ -320,9 +328,13 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
     player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING))
     player.Damage = mod:DamageUp(player, p_data.SomethingWickedPData.EncycloBelialBuff or 0)
+    player.Damage = mod:DamageUp(player, (0.7 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)))
     
     if p_data.SomethingWickedPData.inverterdmgToAdd then
         player.Damage = mod:DamageUp(player, 0, p_data.SomethingWickedPData.inverterdmgToAdd)
+    end
+    if p_data.sw_supCount ~= nil then
+        player.Damage = mod:DamageUp(player, 0, 0.7*math.min(p_data.sw_supCount, 7))
     end
   end
   if flags == CacheFlag.CACHE_FIREDELAY then
@@ -721,29 +733,20 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   !-"ramshead",
 
   !-"discipleseye",
-  !-"newlocustitems",
   !-"catfood",
-  !-"nightshade",
   !-"fitusfortunus",
   !-"biretta",
-  !-"wrath",
-  !-"superiority",
   !-"spidernest",
-  !-"3dglasses",
   "legion",
   !-"teratomashield",
-  !-"sacrificialheart",
   !-"glitchcity",
-  !-"crossedheart",
   !!-"devilstail",
   "shotgrub",
   "minotaur",
   "balrogsheart",
-  !-"carolinareapernagaviper",
   "cursemask",
   "bananamilk",
   "safetymasktemperance",
-  !-"loversmask",
   "redqueen",
   "brokenbell",
   "saintshead",
@@ -756,7 +759,6 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "pressurevalve",
   "lightsharddarkshard",
   "pendulum",
-  !-"chrismatory",
   "yoyo",
   "pieceofsilver",
   "darkness",
@@ -794,11 +796,9 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
   "magicclay",
   "lastprism",
   
-  !-"scorchedwood",
   !-"bobsheart",
   !-"damnedsoulvirtuoussoul",
   !-"demoncore",
-  !-"demoniumpage",
   !-"voidheart",
   "mrskits",
   !-"giftcard",

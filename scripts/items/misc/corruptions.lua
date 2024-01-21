@@ -1,4 +1,6 @@
-local this = {}
+local mod = SomethingWicked
+local game = Game()
+local sfx = SFXManager()
 
 this.PossibleCorruptions = {
     [0] = {
@@ -6,7 +8,7 @@ this.PossibleCorruptions = {
     [-1] = {
 
         function ()
-            SomethingWicked.game:ShowFortune()
+            game:ShowFortune()
         end,
         function ()
             Isaac.GetPlayer(0):UseActiveItem(CollectibleType.COLLECTIBLE_MEAT_CLEAVER, false)
@@ -15,12 +17,12 @@ this.PossibleCorruptions = {
             local enemiesInRadius = Isaac.FindInRadius(pos, 40, EntityPartition.ENEMY)
             for key, value in pairs(enemiesInRadius) do
                 if value:ToNPC() and value:ToNPC():CanReroll() then
-                    SomethingWicked.game:RerollEnemy(value)
+                    game:RerollEnemy(value)
                 end
             end
         end,
         function ()
-            SomethingWicked.game:ShowRule()
+            game:ShowRule()
         end
     },
     [-2] = {
@@ -33,7 +35,7 @@ this.PossibleCorruptions = {
             local enemiesInRadius = Isaac.FindInRadius(pos, 80000, EntityPartition.ENEMY)
             for key, value in pairs(enemiesInRadius) do
                 if value:ToNPC() and value:ToNPC():CanReroll() then
-                    SomethingWicked.game:RerollEnemy(value)
+                    game:RerollEnemy(value)
                 end
             end
         end,
@@ -66,7 +68,7 @@ this.PossibleCorruptions = {
             Isaac.GetPlayer(0):UseCard(Card.CARD_REVERSE_HIGH_PRIESTESS)
         end,
         function ()
-            for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
+            for index, value in ipairs(mod:UtilGetAllPlayers()) do
                 Isaac.GetPlayer(0):UseActiveItem(CollectibleType.COLLECTIBLE_CURSED_EYE)
             end
         end,
@@ -75,11 +77,39 @@ this.PossibleCorruptions = {
         end
     },
     [-5] = {
+        function ()
+            Isaac.DebugString("Fall")
+            while true do
+                for i = 1, 10, 1 do
+                    
+                end
+            end
+        end
     }
 }
 
+function SomethingWicked:UtilDoCorruption(pos, strength)
+    strength = strength or 0
+    local rng = RNG()
+    rng:SetSeed(Random() + 1, 1)
+
+    strength = strength + (strength * ((rng:RandomFloat() * 2) - 1))
+
+    if strength % 1 < 0.5 then
+        strength = math.floor(strength)
+    else
+        strength = math.ceil(strength)
+    end
+    strength = mod:Clamp(strength, -5, 0)
+    local func = mod:GetRandomElement(this.PossibleCorruptions[strength], rng)
+    func(pos)
+
+    sfx:Play(SoundEffect.SOUND_EDEN_GLITCH)
+    game:ShakeScreen(1)
+end
+
 local function SpawnLocusts(trinket, locust)
-    local allPlayers = SomethingWicked.ItemHelpers:AllPlayersWithTrinket(trinket)
+    local allPlayers = mod:AllPlayersWithTrinket(trinket)
     for _, player in ipairs(allPlayers) do
         for i = 1, player:GetTrinketMultiplier(trinket), 1 do
             local wf = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD, player.Position, Vector.Zero, player)
@@ -87,16 +117,6 @@ local function SpawnLocusts(trinket, locust)
         end
     end
 end
-function this:NewRoom()
-    local room = SomethingWicked.game:GetRoom()
-    if room:IsClear() and not room:IsAmbushActive() then
-        return
-    end
-    SpawnLocusts(TrinketType.SOMETHINGWICKED_BAG_OF_MUGWORTS, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD)
-    SpawnLocusts(TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG, LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST)
-end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoom)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_NEW_WAVE_SPAWNED, this.NewRoom)
 
 
 this.EIDEntries = {

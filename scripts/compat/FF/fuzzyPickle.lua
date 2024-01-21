@@ -12,7 +12,7 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM, Reference = "Thee Oh Sees"},
         {ID = CollectibleType.SOMETHINGWICKED_SUPERIORITY, Reference = "the assassination of John Lennon"},
         {ID = CollectibleType.SOMETHINGWICKED_HELLFIRE, Reference = "black midi"},
-        {ID = CollectibleType.SOMETHINGWICKED_LOVERS_MASK, Reference = "The Legend of Zelda: Majora's Mask"},
+        {ID = CollectibleType.SOMETHINGWICKED_LOVERS_MASK, Reference = "The Legend of Zelda"},
         {ID = CollectibleType.SOMETHINGWICKED_STAR_SPAWN, Reference = "Dungeons and Dragons"},
         {ID = CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM, Reference = "Super Mario Maker"},
         {ID = CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR, Reference = "ULTRAKILL"},
@@ -22,6 +22,7 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_BOOSTER_BOX, Reference = "Pokemon", Partial=true,},
         {ID = CollectibleType.SOMETHINGWICKED_TECH_MODULO, Reference = "Some Bunny's The Modular"},
         {ID = CollectibleType.SOMETHINGWICKED_REGEN_RING, Reference = "Terraria"},
+        {ID = CollectibleType.SOMETHINGWICKED_AIR_FRESHENER, Reference = "Terraria", Partial=true},
     },
     Trinkets = {
         {ID = TrinketType.SOMETHINGWICKED_CATS_EYE, Reference = "The Cat Empire"},

@@ -1,11 +1,12 @@
-local shouldntBlock = false
-local procChance = 0.33
-function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
+local mod = SomethingWicked
+local game = Game()
+
+local procChance = 0.30
+local function BlockDMG(_, ent, amount, flags, source, dmgCooldown)
     ent = ent:ToPlayer()
     --print("troller")
     
     if flags & DamageFlag.DAMAGE_FAKE ~= 0
-    or shouldntBlock
     or ent == nil or not ent:HasCollectible(CollectibleType.SOMETHINGWICKED_LOVERS_MASK) then
         return 
     end
@@ -33,20 +34,20 @@ function this:BlockDMG(ent, amount, flags, source, dmgCooldown)
         return
     end
 
+    local level = game:GetLevel()
+    if level:GetStateFlag(LevelStateFlag.STATE_REDHEART_DAMAGED) == false then
+        mod:UtilScheduleForUpdate(function ()
+            level:SetStateFlag(LevelStateFlag.STATE_REDHEART_DAMAGED, false)
+        end, 0, ModCallbacks.MC_INPUT_ACTION)
+    end
+
     local c_rng = ent:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOVERS_MASK)
     if c_rng:RandomFloat() < procChance then
-        flags = flags | DamageFlag.DAMAGE_FAKE
+        local color = Color(1, 1, 1, 1, 0.5)
+        ent:SetColor(color, 8, 3, true, false)
+        ent:SetMinDamageCooldown(40)
+        return false
     end
-    shouldntBlock = true
-    ent:TakeDamage(amount, flags, source, 0)
-    shouldntBlock = false
-    return false
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.BlockDMG, EntityType.ENTITY_PLAYER)
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LOVERS_MASK] = {
-        desc = "{{Heart}} 30% chance to block any red heart damage#↑ Prevents the damage penalty devil deal chance"
-    }
-}
-return this
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, BlockDMG, EntityType.ENTITY_PLAYER)

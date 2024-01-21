@@ -1,4 +1,5 @@
 local mod = SomethingWicked
+local sfx = SFXManager()
 
 local durationTillSpeedUp=18
 local lerpToZero = 0.2
@@ -6,18 +7,19 @@ local lerpToMaxSpeed = 0.1
 local framesToSustainWithoutEnemy = 18
 local trailLength = 2
 local forceTrailDistanceMult = 1
-function this:TearFire(tear)
+
+local function TearFire(_, tear)
     local t_data = tear:GetData()
     if t_data.somethingWicked_trueHoming ~= nil then
         local speed = t_data.sw_homingSpeed or 20
         local isSpedUp = tear.FrameCount > durationTillSpeedUp
         if tear.FrameCount == durationTillSpeedUp then
-            mod.sfx:Play(SoundEffect.SOUND_BEAST_GHOST_DASH, 0.8, 0)
+            sfx:Play(SoundEffect.SOUND_BEAST_GHOST_DASH, 0.8, 0)
         end
         if isSpedUp then
-            t_data.sw_homingSpeed = mod.EnemyHelpers:Lerp(speed, 30, lerpToMaxSpeed)
+            t_data.sw_homingSpeed = mod:Lerp(speed, 30, lerpToMaxSpeed)
         else
-            t_data.sw_homingSpeed = mod.EnemyHelpers:Lerp(speed, 0, lerpToZero)
+            t_data.sw_homingSpeed = mod:Lerp(speed, 0, lerpToZero)
         end
         if t_data.WallStickerData  then
             if t_data.WallStickerData.WallStickerInit then
@@ -40,11 +42,16 @@ function this:TearFire(tear)
                 if framesToSustainWithoutEnemy < t_data.sw_framesWithoutEnemy then
                     tear:Die()
                 end
+            else
+                if t_data.sw_collideMap and t_data.sw_collideMap[""..t_data.somethingWicked_trueHoming.target] then
+                    t_data.somethingWicked_trueHoming.backupPos = t_data.somethingWicked_trueHoming.target.Position
+                    t_data.somethingWicked_trueHoming.target = nil
+                end
             end
         end
 
         local rng = tear:GetDropRNG()
-        SomethingWicked.EnemyHelpers:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target or t_data.somethingWicked_trueHoming.backupPos, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
+        mod:AngularMovementFunction(tear, t_data.somethingWicked_trueHoming.target or t_data.somethingWicked_trueHoming.backupPos, speed, variance * (1+rng:RandomFloat()*0.5), 0.4)
 
     end
 end
@@ -75,7 +82,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
             trail.SpriteOffset = tear.PositionOffset*0.655
             local lastPos = t_data.sw_trailFramesTable[tear.FrameCount-1]
             if lastPos then
-                local pos = mod.EnemyHelpers:Lerp(lastPos, (tear.Position), ((trailLength-i)/trailLength*forceTrailDistanceMult)+0.66)
+                local pos = mod:Lerp(lastPos, (tear.Position), ((trailLength-i)/trailLength*forceTrailDistanceMult)+0.66)
                 trail.Velocity = pos - trail.Position
             end
 
@@ -113,17 +120,15 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
 
 end)
 
-function this:TearOnHit(tear, collider, player, procChance)
+local function TearOnHit(_, tear, collider, player, procChance)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil
     and ((tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER) or tear.Type == EntityType.ENTITY_PLAYER) then
-        local borkdHearts = player:GetBrokenHearts()
         local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WRATH)
 
-        if borkdHearts > 0
-        and rng:RandomFloat() <= procChance then
+        if rng:RandomFloat() <= procChance then
             local bonusAng = rng:RandomInt(60)
-            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.13 * borkdHearts)
+            local wisp = player:FireTear(player.Position, Vector.FromAngle(tear.Velocity:GetAngleDegrees() + 180 + bonusAng - 30):Resized(15), false, true, false, nil, 0.3333)
             wisp:ChangeVariant(TearVariant.SOMETHINGWICKED_WISP)
             wisp:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             wisp.Height = wisp.Height * 3
@@ -139,7 +144,8 @@ function this:TearOnHit(tear, collider, player, procChance)
     end
 end
 
-function this:PEffectUpdate(player)
+--this is only done because D4'ing into heartbreak gives 3 broken hearts
+local function PEffectUpdate(_, player)
     local p_data = player:GetData()
     p_data.SomethingWickedPData.wrathOwned = p_data.SomethingWickedPData.wrathOwned or player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WRATH) 
 
@@ -149,16 +155,16 @@ function this:PEffectUpdate(player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, this.TearFire)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, this.TearOnHit)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, TearFire)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, TearOnHit)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
         local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
         explode.DepthOffset = 20
-        mod.sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
-        mod.sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
+        sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
+        sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, tear.Position+tear.PositionOffset, Vector.Zero, tear)
         poof.Color = Color(0.2, 0.2, 0.2) * tear.Color
         poof.SpriteScale = Vector(0.5, 0.5)
@@ -167,8 +173,6 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tea
         local blood = Isaac.Spawn(EntityType.ENTITY_EFFECT, 2, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
         if t_data.sw_isChrisWisp then
             blood.Color = Color(1, 1, 1, 0.5, 2, 2, 2)
-        else
-            blood.Color = tear.Color
         end
     end
 end, EntityType.ENTITY_TEAR)
@@ -185,29 +189,14 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
     end
 end, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE)
 
-this.RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT
+local RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT
 | TearFlags.TEAR_SPLIT | TearFlags.TEAR_QUADSPLIT | TearFlags.TEAR_BONE | TearFlags.TEAR_BURSTSPLIT | TearFlags.TEAR_LASERSHOT
 
 function SomethingWicked:UtilAddTrueHoming(tear, target, angleVariance, usesShotspeed)
-    tear:ClearTearFlags(this.RemoveTheseFlags)
+    tear:ClearTearFlags(RemoveTheseFlags)
     local t_data = tear:GetData()
     t_data.somethingWicked_trueHoming = {}
     t_data.somethingWicked_trueHoming.target = target
     t_data.somethingWicked_trueHoming.angleVariance = angleVariance
     t_data.somethingWicked_trueHoming.usesShotspeed = usesShotspeed
 end
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_WRATH] = {
-        desc = "↑ 3 broken hearts#Damaging an enemy will send out a tear that homes onto that enemy#The tear deals damage equal to 10% of your number of broken hearts",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Grants three broken hearts", "Damaging an enemy will send out a tear that homes onto that enemy","The tear deals damage equal to 10% of your number of broken hearts"})
-    }
-}
-return this

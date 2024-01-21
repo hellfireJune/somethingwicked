@@ -66,11 +66,3 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         player:SetColor(color, 2, 3, false, false)
     end
 end)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CHRISMATORY] = {
-        desc = "Firing a tear has a chance to shoot out nine ghost tears that home in on enemies#Applies knockback and a greater tear cooldown after firing#Isaac will glow white if the next shot will shoot ghosts",
-        pools = { mod.encyclopediaLootPools.POOL_ANGEL, mod.encyclopediaLootPools.POOL_GREED_ANGEL }
-    }
-}
-return this

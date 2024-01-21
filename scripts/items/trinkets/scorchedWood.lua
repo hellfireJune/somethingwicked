@@ -1,4 +1,4 @@
-function this:OnKill(enemy)
+local function OnKill(_, enemy)
     local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_WOOD)
     if flag and player then
         local myRNG = RNG()
@@ -12,15 +12,4 @@ function this:OnKill(enemy)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnKill)
-
-this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_SCORCHED_WOOD] = {
-        isTrinket = true,
-        desc =  "↑ Enemies have a 33% chance to spawn a Red Candle fire upon kill",
-        metadataFunction = function (item)
-            EID:addGoldenTrinketMetadata(item, nil, 33)
-        end
-    }
-}
-return this
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, OnKill)

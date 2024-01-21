@@ -55,6 +55,9 @@ FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Fa
 FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 
+LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
+LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
+
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 --[LAMP OIL, ROPE,] BOMBS
@@ -85,13 +88,13 @@ mod.edensHeadthrowables = {
 
 --enums
 mod.CustomCallbacks = {
-    SWCB_PICKUP_ITEM = 1,
+    SWCB_PICKUP_ITEM = 1, -- obsolete with repentogon
     SWCB_ON_ENEMY_HIT = 2,
     SWCB_ON_BOSS_ROOM_CLEARED = 3,
     SWCB_ON_LASER_FIRED = 4,
-    SWCB_ON_FIRE_PURE = 5,
+    SWCB_ON_FIRE_PURE = 5, -- obsolete with repentogon
     SWCB_PRE_PURCHASE_PICKUP = 6,
-    SWCB_POST_PURCHASE_PICKUP = 7,
+    SWCB_POST_PURCHASE_PICKUP = 7, -- obsolete with repentogon
     --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
     SWCB_NEW_WAVE_SPAWNED = 8,
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,

@@ -13,6 +13,11 @@ for i = 1, 86, 1 do
     table.insert(PricePool, {i + 7, 0.4})
 end
 
+local priceSelector = WeightedOutcomePicker()
+for key, value in pairs(PricePool) do
+    priceSelector:AddOutcomeFloat(value[1], value[2])
+end
+
 local function UseItem(_, _, rngObj)
     local itemsInRoom = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 
@@ -23,7 +28,8 @@ local function UseItem(_, _, rngObj)
             local collectible = game:GetItemPool():GetCollectible(itempool, true)
     
             item:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, collectible, false)
-            local price = mod:UtilWeightedGetThing(PricePool, rngObj)
+
+            local price = priceSelector:PickOutcome(rngObj)
             if price ~= nil then
                 item.Price = price
                 item.AutoUpdatePrice = false

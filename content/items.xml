@@ -1,9 +1,18 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch
+  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener
 
   Changes:
+  - Major general changes
+    - Now uses Repentogon
+    - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
+      - Possum's ear filled a niche that on it's own was very interesting but the base effect itself is done to death in other mods and honestly it wasnt all that great.
+      - Possum's head just sucked, and the "Possum -> bones" thing was generally just a weird piece of theming i dont think was really that good at all
+      - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
+      - Band of Regeneration was a near identical to another item from retribution and also i sort of want to redo the thing a bit so for now its out.
+    - General entire code rework, a lot of stuff probably changed now
+
   - Lourdes Water
     - No longer repels bombs
 
@@ -47,6 +56,10 @@
     - Now actually properly refunds bombs from opening secret rooms
     - Scales with trinket multipliers
 
+  - Wrath
+    - Ghosts no longer linger around for way too long if they have piercing
+    - Damage no longer scales with broken hearts given, now ghosts just have a flat 0.33x damage multiplier. I'm keeping the item giving broken hearts for now though
+
   - 3D Glasses:
     - Brimstone lasers will now be aptly interrupted if the main laser is interrupted, and soy milk lasers will keep firing for the duration of the main laser
 
@@ -74,21 +87,20 @@
   - Boline
     - Increased the thickness of maw of the void ring
 
+  - Lover's Mask
+    - No longer triggers fake damage when damage is blocked, for visual clarity
+
   - Void Bombs
     - Ring radius and thickness now scales with bomb explosion size
     
   - Planchette
     - Now doubles the collision damage from wisps also
 
-  - Misc: 
-    - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
-      - Possum's ear filled a niche that on it's own was very interesting but the base effect itself is done to death in other mods and honestly it wasnt all that great.
-      - Possum's head just sucked, and the "Possum -> bones" thing was generally just a weird piece of theming i dont think was really that good at all
-      - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
-      - Band of Regeneration was a near identical to another item from retribution and also i sort of want to redo the thing a bit so for now its out.
+  - Minor Misc. 
     - Added status effect icons for curse
     - Electro-stun and curse will no longer apply to enemies immune to status effects
     - Minor eid / description changes
+    - Some itempools definitely got changed
     - Animation and sound changes for a bunch of items
 
   Fixes:
