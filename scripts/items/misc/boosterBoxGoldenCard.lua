@@ -1,6 +1,8 @@
 local mod = SomethingWicked
+local game = Game()
+local sfx = SFXManager()
 
-function this:UseItem(_, rng, player)
+local function UseItem(_, _, rng, player)
     local p_data = player:GetData()
     local stacks = 1 + rng:RandomInt(2)
     p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0) + stacks
@@ -14,11 +16,11 @@ local blacklist = {
 }
 local tpCards = { Card.CARD_FOOL, Card.CARD_HERMIT, Card.CARD_EMPEROR, Card.CARD_MOON, Card.CARD_STARS, Card.CARD_REVERSE_MOON }
 local function randomCard(rng)
-    local itempool = mod.game:GetItemPool()
+    local itempool = game:GetItemPool()
     local card = -1
 
     local telechance = rng:RandomFloat()
-    local room = mod.game:GetRoom() local type = room:GetType()
+    local room = game:GetRoom() local type = room:GetType()
     local isValid = telechance < 0.2 and type ~= RoomType.ROOM_BOSS and type ~= RoomType.ROOM_BOSSRUSH
 
     local conf
@@ -27,20 +29,19 @@ local function randomCard(rng)
         card = itempool:GetCard(Random() + 1, false, false, false)
         conf = Isaac.GetItemConfig():GetCard(card)
     end
-    local name = mod.ItemHelpers.CardNamesProper[card] ~= nil
-    and mod.ItemHelpers.CardNamesProper[card] or conf.Name
-    local desc = mod.ItemHelpers.CardDescsProper[card] ~= nil
-    and mod.ItemHelpers.CardDescsProper[card] or conf.Description
-    mod.game:GetHUD():ShowItemText(name, desc)
+    local name = mod.CardNamesProper[card] ~= nil
+    and mod.CardNamesProper[card] or conf.Name
+    local desc = mod.CardDescsProper[card] ~= nil
+    and mod.CardDescsProper[card] or conf.Description
+    game:GetHUD():ShowItemText(name, desc)
     return card, desc
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_GOLDEN_CARD)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_GOLDEN_CARD)
 
 local debt = 5
 local function procChance(player)
     local roomDebt = player:GetData().SomethingWickedPData.bBoxRoomDebt or 0
-    --print(roomDebt)
     return (0.66*player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)) - (roomDebt*0.064)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
@@ -56,7 +57,7 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
     end
 
     if ent:IsEnemy() then
-        for _, player in ipairs(mod.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)) do
+        for _, player in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)) do
             local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)
             --print(procChance(player))
             if c_rng:RandomFloat() < procChance(player) then
@@ -70,7 +71,7 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
     end
 end)
 
-function this:PEffectUpdate(player)
+local function PEffectUpdate(_, player)
     local p_data = player:GetData()
 
     if not player:IsExtraAnimationFinished() then
@@ -82,7 +83,7 @@ function this:PEffectUpdate(player)
         local rng = player:GetDropRNG()
         local card = randomCard(rng)
         player:AnimateCard(card, "UseItem")
-        mod.sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
+        sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
         p_data.SomethingWickedPData.FortuneR_Card = card
         p_data.SomethingWickedPData.FortuneR_Stacks = p_data.SomethingWickedPData.FortuneR_Stacks - 1
     elseif p_data.SomethingWickedPData.FortuneR_Card then
@@ -90,9 +91,9 @@ function this:PEffectUpdate(player)
         p_data.SomethingWickedPData.FortuneR_Card = nil
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
 
-function this:OnDMG(ent)
+local function OnDMG(_, ent)
     ent = ent:ToPlayer()
     if not ent or not ent:HasTrinket(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD) then
         return
@@ -104,7 +105,7 @@ function this:OnDMG(ent)
         p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0)+1
     end
 end
-mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnDMG)
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnDMG)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, function ()
     for index, player in ipairs(mod:UtilGetAllPlayers()) do
@@ -113,20 +114,3 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, function ()
         end
     end
 end)
-
-local string = "Cannot use The Fool? The Lovers?, The Stars? or Wheel of Fortune?#Teleport cards will only be rarely used, and cannot be drawn during boss fights"
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_GOLDEN_CARD] = {
-        desc = "Uses 1-2 random tarot cards#"..string,
-        encycloDesc = mod:UtilGenerateWikiDesc({"Uses 1-2 random tarot cards", 
-        string}),
-        pools = { mod.encyclopediaLootPools.POOL_SHOP, mod.encyclopediaLootPools.POOL_SECRET, 
-        mod.encyclopediaLootPools.POOL_GREED_SHOP}
-    },
-    [CollectibleType.SOMETHINGWICKED_BOOSTER_BOX] = {
-        desc = "Killing an enemy has a chance to use a random tarot cards effect#Reduces the chance to use a card for the next 5 rooms on activation#"..string,
-        pools = {mod.encyclopediaLootPools.POOL_TREASURE, mod.encyclopediaLootPools.POOL_SECRET,
-        mod.encyclopediaLootPools.POOL_GREED_TREASURE}
-    }
-}
-return this

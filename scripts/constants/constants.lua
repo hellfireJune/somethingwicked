@@ -10,6 +10,7 @@ EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("
 EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
 EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD = Isaac.GetEntityVariantByName("Dice Overhead VFX")
 EffectVariant.SOMETHINGWICKED_ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked Item Pop-up")
+EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
 
 TearVariant.SOMETHINGWICKED_REALLY_GOOD_PLACEHOLDER = Isaac.GetEntityVariantByName("Wicked Placeholder Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
@@ -54,6 +55,7 @@ FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName(
 FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Familiar")
 FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
+FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
 
 LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
 LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22

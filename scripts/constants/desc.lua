@@ -64,7 +64,12 @@ mod.GENERIC_DESCRIPTIONS = {
     TERATOMAS = "",
 
     CARDDRAW = "Cannot use The Fool? The Lovers?, The Stars? or Wheel of Fortune?#Teleport cards will only be rarely used, and cannot be drawn during boss fights",
+    SOULTRINKETSTATS = "#↑{{Damage}} +0.3 Damage up#↑{{FireDelay}} +0.5 Tears up#↑{{Luck}} +1 Luck up"..
+    "#↑{{Speed}} +0.15 Speed up#↑{{ShotSpeed}} +0.1 Shot Speed#↑{{Range}} +0.75 Range up"
 }
+local soulMetadataFunc = function (item)
+    EID:addGoldenTrinketMetadata(item, nil, { 0.3, 0.5, 1, 0.15, 0.1, 0.75 } )
+end
 local collectibles = {
     [CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM] = {
         desc = "↑ {{Damage}} +1 Damage up",
@@ -339,7 +344,7 @@ local collectibles = {
         pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
     },
     [CollectibleType.SOMETHINGWICKED_CURSED_CANDLE] = {
-        desc = "Throws a curse flame on use#This cursed flame curses enemies for 6 seconds on contact#Cursed enemies will take 1.5x damage, and the curse effect will last for 6 seconds",
+        desc = "Throws a flame on use which curses enemies for 6 seconds on contact"..mod.GENERIC_DESCRIPTIONS.CURSE,
         pools = {
             encyclopediaLootPools.POOL_SHOP,
             encyclopediaLootPools.POOL_GREED_SHOP,
@@ -435,12 +440,157 @@ local collectibles = {
         }
     },
     [CollectibleType.SOMETHINGWICKED_SUPERIORITY] = {
-        desc = "↑ +0.7 damage for every enemy alive in the room, minus one#Caps at 7 enemies.",
+        desc = "↑ {{Damage}} +0.7 Damage for every enemy alive in the room, minus one#Caps at 7 enemies.",
         pools = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_GREED_TREASURE,
             encyclopediaLootPools.POOL_CRANE_GAME,
         },
+    },
+    [CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER] = {
+        desc = "↑ {{Damage}} +0.6 Damage for the current floor#↑ A bonus sin miniboss will appear on every floor outside of greed mode",
+        
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_LIBRARY,
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_CHASM] = {
+        desc = "↑ Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire# !!! No bonus for destroying over 10 items",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_CAT_FOOD] = {
+        desc = "↑ {{Heart}} +1 Health#{{Heart}} Heals 1 heart#Boss rooms drop 5 half red hearts upon defeating the boss",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_BEGGAR,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_CHAOS_HEART] = {
+        desc = "{{Heart}} Heal 1 red heart#!!! After 5 uses, has a chance to do a {{Collectible483}} Mama Mega explosion for the current room, and remove the item#Guaranteed to explode at 9 uses",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_ULTRA_SECRET,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_GOLDEN_CARD] = {
+        desc = "Uses 1-2 random tarot cards#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW,
+        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_SECRET, 
+        encyclopediaLootPools.POOL_GREED_SHOP}
+    },
+    [CollectibleType.SOMETHINGWICKED_BOOSTER_BOX] = {
+        desc = "Killing an enemy has a chance to use a random tarot cards effect#Reduces the chance to use a card for the next 5 rooms on activation#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW,
+        pools = {encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET,
+        encyclopediaLootPools.POOL_GREED_TREASURE}
+    },
+    [CollectibleType.SOMETHINGWICKED_BIRETTA] = {
+        desc = "A confessional spawns upon entering a new floor",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_ANGEL,
+            encyclopediaLootPools.POOL_ULTRA_SECRET
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_RAMS_HEAD] = {
+        desc = "↑  {{Tears}} +0.5 Tears up#↑ {{Damage}} +0.7 Damage up",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_CRANE_GAME,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+            encyclopediaLootPools.POOL_GREED_BOSS,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_TOYBOX] = {
+        desc = "{{Warning}} SINGLE USE {{Warning}}#{{Trinket}} Smelts four random trinkets onto you",
+        pools = {
+            encyclopediaLootPools.POOL_SHOP,
+            encyclopediaLootPools.POOL_GOLDEN_CHEST,
+            encyclopediaLootPools.POOL_KEY_MASTER,
+            encyclopediaLootPools.POOL_GREED_SHOP,
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_BALROGS_HEAD] = {
+        desc = "Throwable fire bomb#Spawns 4 fires which do 23 damage, and 1 fire which does 50 damage",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_MINOS_ITEM] = {
+        desc = "Spawns a snake familiar which charges at enemies you fire in the direction of",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_BABY_SHOP,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_ULTRA_SECRET
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_HYDRUS] = {
+        desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+    },
+    [CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM] = {
+        desc = "Spawns an orbiting knife familiar which will deal heavy contact damage and will oscillate in distance from the player",
+        pools = {encyclopediaLootPools.POOL_DEVIL, encyclopediaLootPools.POOL_GREED_DEVIL, 
+        encyclopediaLootPools.POOL_CURSE, encyclopediaLootPools.POOL_ULTRA_SECRET, 
+        encyclopediaLootPools.POOL_BABY_SHOP},
+    },
+    [CollectibleType.SOMETHINGWICKED_VOID_EGG] = {
+        desc = "Spawns 1-3 locusts on use# !!! Picking up a red heart while this item is uncharged will instead charge this item",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
+            encyclopediaLootPools.POOL_DEMON_BEGGAR,
+            encyclopediaLootPools.POOL_GREED_CURSE,
+            encyclopediaLootPools.POOL_CRANE_GAME
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM] = {
+        desc = "{{Collectible712}} Spawns 1 Lemegeton wisp every 8 rooms",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_BABY_SHOP,
+            encyclopediaLootPools.POOL_GREED_DEVIL
+        },
+    },
+    [CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR] = {
+        desc = "↑ Every 3 seconds, spawns 2 sword familiars that orbit the player that deal 45 contact damage per second#The swords will remain for 4 seconds after spawn#"..
+        "The swords will stay permanently if Isaac has no damaged red heart containers, but will move slower when they would be gone",
+        pools = { mod.encyclopediaLootPools.POOL_ANGEL, mod.encyclopediaLootPools.POOL_BABY_SHOP, mod.encyclopediaLootPools.POOL_GREED_ANGEL}
+    },
+    [CollectibleType.SOMETHINGWICKED_GLITCHCITY] = {
+        desc = "Periodically spawns \"Glitched Tiles\" while held, which destroy rocks, block projectiles and damage enemies"..
+        "#!!! While held, every minute and a half, another random item held will turn into GLITCHCITY",
+        pools = {
+            encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_GREED_SECRET
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_SPIDER_EGG] = {
+        desc = "↑ Will spawn a spider egg every 5 seconds while Isaac is firing, which spawns a blue spider on landing",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_ROTTEN_BEGGAR,
+            encyclopediaLootPools.POOL_KEY_MASTER,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM] = {
+        desc = "↑ {{Range}} +13 Range up#Spawns a planetoid orbital that your tears will orbit",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_BABY_SHOP,
+            encyclopediaLootPools.POOL_GREED_TREASURE
+        }
     }
 }
 
@@ -536,7 +686,27 @@ local trinkets = {
     },
     [TrinketType.SOMETHINGWICKED_OWL_FEATHER] = {
         desc = "{{Trinket113}} 25% chance for a blue fly to turn into a Locust of War",
-        isTrinket = true,
+    },
+    [TrinketType.SOMETHINGWICKED_GIFT_CARD] = {
+        desc = "While held, your coins can never fall below 6 coins"..
+        "#!!! 5% chance for the trinket to break upon refilling coins",
+    },
+    [TrinketType.SOMETHINGWICKED_BOBS_HEART] = {
+        desc = "{{RottenHeart}} Turns all red hearts into rotten hearts.",
+    },
+    [TrinketType.SOMETHINGWICKED_TICKET_ROLL] = {
+        desc = "A slot machine spawns upon clearing a boss room",
+    },
+    [TrinketType.SOMETHINGWICKED_DEMON_CORE] = {
+        desc = "{{Collectible483}} Taking damage will spawn a Mama Mega explosion for the current room#Works only once per floor",
+    },
+    [TrinketType.SOMETHINGWICKED_DAMNED_SOUL] = {
+        desc = "!!! When there is a curse on the current floor:"..mod.GENERIC_DESCRIPTIONS.SOULTRINKETSTATS,
+        metadataFunction = soulMetadataFunc,
+    },
+    [TrinketType.SOMETHINGWICKED_VIRTUOUS_SOUL] = {
+        desc = "!!! When there is no curse on the current floor:"..mod.GENERIC_DESCRIPTIONS.SOULTRINKETSTATS,
+        metadataFunction = soulMetadataFunc,
     }
 }
 

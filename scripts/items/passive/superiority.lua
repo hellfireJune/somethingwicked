@@ -1,6 +1,6 @@
 local mod = SomethingWicked
 
-local function Update(player)
+local function Update(_, player)
     if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_SUPERIORITY) then
         return
     end

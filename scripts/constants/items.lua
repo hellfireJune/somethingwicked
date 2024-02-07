@@ -1,4 +1,5 @@
 local mod = SomethingWicked
+mod.ITEMS = {}
 
 CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM = Isaac.GetItemIdByName("Avenger Emblem")
 CollectibleType.SOMETHINGWICKED_BOLINE = Isaac.GetItemIdByName("Boline")

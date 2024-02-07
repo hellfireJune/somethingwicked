@@ -1,5 +1,7 @@
+local mod = SomethingWicked
+
 local function OnKill(_, enemy)
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_WOOD)
+    local flag, player = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_SCORCHED_WOOD)
     if flag and player then
         local myRNG = RNG()
         myRNG:SetSeed(Random() + 1, 1)

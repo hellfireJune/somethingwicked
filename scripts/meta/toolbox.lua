@@ -915,6 +915,20 @@ function mod:DynamicOrbit(familiar, parent, speed, distance)
     return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
 end
 
+function mod:FluctuatingOrbitFunc(familiar, player, lerp)
+    lerp = lerp or 0.25
+    local position = (familiar:GetOrbitPosition(player.Position + player.Velocity))
+    position = player.Position + player.Velocity + ((player.Position + player.Velocity) - position) * math.sin(0.1 * familiar.FrameCount)
+    if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
+        familiar.Velocity = Vector.Zero
+        familiar.Position = position
+        --we stan a weird ass fuckin visual glitch
+    else
+        local velocity = (position) - familiar.Position
+        familiar.Velocity = mod:Lerp(familiar.Velocity, velocity, lerp)
+    end
+end
+
 --Modified retribution function, thank you Xalum
 function mod:GridAlignPosition(pos, scalar)
     local x = pos.X

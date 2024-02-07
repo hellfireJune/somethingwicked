@@ -1,4 +1,10 @@
-function this:UseItem(_, _, player)
+local mod = SomethingWicked
+local sfx = SFXManager()
+
+local tearColor = Color(0.25, 0.25, 0.25, 1, 0.1, 0.1, 0.5)
+local smokeColors = {Color(0, 0, 0), Color(0, 0, 0, 1, 0.25, 0.25, 1)}
+
+local function UseItem(_, _, _, player)
     local stacksToAdd = 0
     local itemsInRoom = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 
@@ -8,8 +14,8 @@ function this:UseItem(_, _, player)
         and (not item:IsShopItem() or item.Price == PickupPrice.PRICE_FREE) then
             item:Remove()
             local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, item.Position, Vector.Zero, item)
-            poof.Color = this.tearColor
-            SomethingWicked.sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
+            poof.Color = tearColor
+            sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
             if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) then
                 player:AddWisp(CollectibleType.SOMETHINGWICKED_CHASM, player.Position)
             end
@@ -21,7 +27,7 @@ function this:UseItem(_, _, player)
     local qItem = player.QueuedItem.Item
     if qItem
     and qItem:IsCollectible() then
-        SomethingWicked.ItemHelpers:RemoveQueuedItem(player)
+        mod:RemoveQueuedItem(player)
         stacksToAdd = stacksToAdd + 1
     end
 
@@ -30,7 +36,7 @@ function this:UseItem(_, _, player)
     return true
 end
 
-function this:FireTear(tear)
+local function FireTear(_, tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player then
         local p_data = player:GetData()
@@ -41,15 +47,12 @@ function this:FireTear(tear)
             if rndmFloat < p_data.SomethingWickedPData.chasmStacks*(10^-1) then
                 --tear:ChangeVariant(TearVariant.SOMETHINGWICKED_LOCUST_CLUSTER_TEAR)
                 tear.CollisionDamage = tear.CollisionDamage * 2.6
-                tear.Color = this.tearColor
+                tear.Color = tearColor
             end
         end
     end
 end
-
-this.tearColor = Color(0.25, 0.25, 0.25, 1, 0.1, 0.1, 0.5)
-this.smokeColors = {Color(0, 0, 0), Color(0, 0, 0, 1, 0.25, 0.25, 1)}
-function this:PlayerUpdate(player)
+local function PlayerUpdate(_, player)
     local p_data = player:GetData()
     if p_data.SomethingWickedPData.chasmStacks
     and p_data.SomethingWickedPData.chasmStacks > 0 then
@@ -61,23 +64,11 @@ function this:PlayerUpdate(player)
             local trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HAEMO_TRAIL, 0, player.Position + Vector(0, -30), RandomVector() * 6, player)
             local rng = trail:GetDropRNG()
             --trail.Position = trail.Position + Vector(-10 + rng:RandomInt(21), -10 + rng:RandomInt(21))
-            trail.Color = SomethingWicked:GetRandomElement(this.smokeColors, rng)
+            trail.Color = SomethingWicked:GetRandomElement(smokeColors, rng)
         end
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, this.FireTear)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_CHASM)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CHASM] = {
-        desc = "↑ Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire# !!! No bonus for destroying over 10 items",
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire","No bonus for destroying over 10 items"}),
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE
-        }
-    }
-}
-return this
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, FireTear)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_CHASM)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)

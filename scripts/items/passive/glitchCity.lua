@@ -5,7 +5,7 @@ local game = Game()
 
 local chanceToTurn = 1
 local blacklist = {CollectibleType.SOMETHINGWICKED_GLITCHCITY, CollectibleType.COLLECTIBLE_MISSINGNO}
-function this:PlayerUpdate(player)
+local function PlayerUpdate(_, player)
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY) then
         local stacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
         local p_data = player:GetData()
@@ -80,10 +80,10 @@ function this:PlayerUpdate(player)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
 
 local damage = 60
-function this:EffectUpdate(effect)
+local function EffectUpdate(_, effect)
     local room = game:GetRoom()
     local pos = room:GetClampedGridIndex(effect.Position)
     pos = room:GetGridPosition(pos)
@@ -144,8 +144,8 @@ local spritePaths = {
     "theanswer",
     "grassy",
     "monolith",
-}
-function this:EffectInit(effect)
+} -- i want to redo this entirely
+local function EffectInit(_, effect)
     local directory = "gfx/effects/glitchcity/"
     local e_rng = effect:GetDropRNG()
     local sprite = effect:GetSprite()
@@ -166,18 +166,6 @@ function this:EffectInit(effect)
         grid:Destroy()
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, this.EffectInit, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)
 
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.EffectUpdate, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_GLITCHCITY] = {
-        desc = "Periodically spawns \"Glitched Tiles\" while held, which destroy rocks, block projectiles and damage enemies"..
-        "#!!! While held, every minute and a half, another random item held will turn into GLITCHCITY",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SECRET,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SECRET
-        }
-    }
-}
-return this
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, EffectInit, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)

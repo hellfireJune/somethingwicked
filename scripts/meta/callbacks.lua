@@ -83,7 +83,7 @@ local function CheckForPickup(_, player)
         p_data.SomethingWickedPData.heldItem = targetItem.ID
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CheckForPickup)
+--mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CheckForPickup)
 
 local forgottenEsqueBones = {1, 2, 3, 4, 9}
 

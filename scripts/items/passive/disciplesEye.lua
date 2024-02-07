@@ -1,7 +1,8 @@
-local this = {}
+local mod = SomethingWicked
+local game = Game()
 
-function  this:PlayerUpdate(player)
-    local lvel = SomethingWicked.game:GetLevel()
+local function PlayerUpdate(_, player)
+    local lvel = game:GetLevel()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
         for i = 1, 169 do
             local redRoom = lvel:GetRoomByIdx(i)
@@ -16,12 +17,12 @@ function  this:PlayerUpdate(player)
     end
 end
 
-function this:OnPickup(player, room)
+local function OnPickup(_, player, room)
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, Card.CARD_CRACKED_KEY, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
 end
 
-function this:OnTakeDamage(player, _, flags, ref)
-    local room = SomethingWicked.game:GetRoom()
+local function OnTakeDamage(_, player, _, flags, ref)
+    local room = game:GetRoom()
     if player:ToPlayer():HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
     and flags & DamageFlag.DAMAGE_SPIKES ~= 0
     and room:GetType() == RoomType.ROOM_SACRIFICE
@@ -30,14 +31,14 @@ function this:OnTakeDamage(player, _, flags, ref)
     end
 end
 
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnTakeDamage, EntityType.ENTITY_PLAYER)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, this.PlayerUpdate)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnTakeDamage, EntityType.ENTITY_PLAYER)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, PlayerUpdate)
 --SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, this.OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
 
 
 if MinimapAPI then
-    function this.MinimapAPICompatibility(_, room, dflags)
+    local function MinimapAPICompatibility(_, _, room, dflags)
         if room.Descriptor and room.Descriptor.Data.Type == RoomType.ROOM_ULTRASECRET then
             if SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
                 return dflags |  1 << 2
@@ -46,18 +47,5 @@ if MinimapAPI then
         return dflags
     end
 
-    MinimapAPI:AddDisplayFlagsCallback(SomethingWicked, this.MinimapAPICompatibility)
+    MinimapAPI:AddDisplayFlagsCallback(SomethingWicked, MinimapAPICompatibility)
 end
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE] = {
-        desc = "Reveals the ultra secret room#33% chance to spawn a cracked key upon using sacrifice rooms#Spawns a cracked key on pickup",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_SECRET,
-            SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Reveals the ultra secret room","33% chance to spawn a cracked key upon using sacrifice rooms","Spawns a cracked key on pickup"})
-    }
-}
-return this

@@ -1,4 +1,7 @@
-this.HeartValues = {
+local mod = SomethingWicked
+local sfx = SFXManager()
+
+local HeartValues = {
     [HeartSubType.HEART_FULL] = 3,
     [HeartSubType.HEART_SCARED] = 3,
     [HeartSubType.HEART_HALF] = 1,
@@ -6,13 +9,7 @@ this.HeartValues = {
     [HeartSubType.HEART_BLENDED] = 3,
 }
 
-function this:UseItem(_, rng, player)
-    SomethingWicked.FamiliarHelpers:AddLocusts(player, rng:RandomInt(2) + 1, rng)
-
-    return true
-end
-
-function this:PickupCollision(entity, player)
+local function PickupCollision(_, entity, player)
     if entity.SubType ~= HeartSubType.HEART_FULL 
     and entity.SubType ~= HeartSubType.HEART_HALF 
     and entity.SubType ~= HeartSubType.HEART_SCARED
@@ -23,12 +20,11 @@ function this:PickupCollision(entity, player)
 
     player = player:ToPlayer()
     if player then
-        local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_VOID_EGG)
+        local charge, slot = mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_VOID_EGG)
         if slot ~= -1 and charge < (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 6 or 3) then
-            player:SetActiveCharge(charge + this.HeartValues[entity.SubType], slot)
+            player:SetActiveCharge(charge + HeartValues[entity.SubType], slot)
             entity:Remove()
             
-            local sfx = SomethingWicked.sfx
             local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, entity.Position, Vector.Zero, entity)
             poof.Color = Color(0.1, 0.1, 0.1)
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, entity.Position - Vector(0, 60), Vector.Zero, entity)
@@ -40,10 +36,9 @@ function this:PickupCollision(entity, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_VOID_EGG)
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, this.PickupCollision, PickupVariant.PICKUP_HEART)
+SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PickupCollision, PickupVariant.PICKUP_HEART)
 
-function this:WispTearUpdate(tear)
+function WispTearUpdate(_, tear)
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR
     or tear.SpawnerVariant ~= FamiliarVariant.WISP
     or tear.SpawnerEntity.SubType ~= CollectibleType.SOMETHINGWICKED_VOID_EGG then
@@ -60,20 +55,4 @@ function this:WispTearUpdate(tear)
     tear:Remove()
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_INIT, this.WispTearUpdate)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_VOID_EGG] = {
-        desc = "Spawns 1-3 locusts on use# !!! Picking up a red heart while this item is uncharged will instead charge this item",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_DEVIL,
-            SomethingWicked.encyclopediaLootPools.POOL_DEMON_BEGGAR,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_CURSE,
-            SomethingWicked.encyclopediaLootPools.POOL_CRANE_GAME
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1-3 locust companions on use", "Picking up a red heart while this item is uncharged will consume the heart and instead charge this item"}, "INFINITY, YES!")
-    }
-}
-return this
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_INIT, WispTearUpdate)

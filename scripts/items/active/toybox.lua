@@ -1,4 +1,6 @@
-function this:UseItem(_, _, player)
+local mod = SomethingWicked
+
+local function UseItem(_, _, _, player)
     --[[for i = 1, 4, 1 do
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
         AMostWickedCollectionPt1:UtilAddSmeltedTrinket(trinket, player)
@@ -10,7 +12,7 @@ function this:UseItem(_, _, player)
     return { Remove = true}
 end
 
-function this:PEffectUpdate(player)
+local function PEffectUpdate(_, player)
     if not player:IsExtraAnimationFinished() then
         return
     end
@@ -34,19 +36,5 @@ function this:PEffectUpdate(player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_TOYBOX)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_TOYBOX] = {
-        desc = "{{Warning}} SINGLE USE {{Warning}}# Smelts four random trinkets onto you",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_SHOP,
-            SomethingWicked.encyclopediaLootPools.POOL_GOLDEN_CHEST,
-            SomethingWicked.encyclopediaLootPools.POOL_KEY_MASTER,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_SHOP,
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Smelts four random trinkets onto you on use"})
-    }
-}
-return this
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_TOYBOX)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)

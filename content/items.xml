@@ -5,13 +5,11 @@
 
   Changes:
   - Major general changes
-    - Now uses Repentogon
+    - Now uses Repentogon for some stuff, you need the mod now
     - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
-      - Possum's ear filled a niche that on it's own was very interesting but the base effect itself is done to death in other mods and honestly it wasnt all that great.
-      - Possum's head just sucked, and the "Possum -> bones" thing was generally just a weird piece of theming i dont think was really that good at all
       - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
-      - Band of Regeneration was a near identical to another item from retribution and also i sort of want to redo the thing a bit so for now its out.
-    - General entire code rework, a lot of stuff probably changed now
+      - Band of Regeneration might also come back but as it is now it's nigh identical to a retribution item and it's not good compared to it either
+    - General nearly entire code rework, a lot of stuff probably changed now
 
   - Lourdes Water
     - No longer repels bombs
@@ -268,6 +266,8 @@
   <passive id="148" name=" Ganymede " description="Titan's pull" gfx="ganymede.png" quality="3" tags="offensive summonable" cache="shotspeed"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
 
+  <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + star up" quality="2" tags="nolostbr" maxhearts="2" hearts="4"/>
+
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true"/> <!--slot-->
   <active name="  Magic Clay  " gfx="hellfire.png" hidden="true"/> <!--fortune-->
   <active name="   Magic Clay   " gfx="lilmandrake.png" hidden="true"/> <!--blood-->
@@ -300,7 +300,7 @@
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
   <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
-  <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png"/>
+  <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png" hidden="true"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->

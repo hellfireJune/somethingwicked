@@ -1,8 +1,9 @@
-this.MinFailUse = 5
-this.MaxSucceedUse = 9
-this.framesAfter = 12
+local mod = SomethingWicked
+local game = Game()
+local sfx = SFXManager()
 
-function this:UseItem(_, rng, player, flags)
+local MinFailUse, MaxSucceedUse, framesAfter = 5, 9, 12 -- i learnt this trick from ~~fiendfolio~~ erfly
+local function UseItem(_, _, rng, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 then
         player:AddHearts(1)
         return
@@ -15,11 +16,11 @@ function this:UseItem(_, rng, player, flags)
 
     p_data.SomethingWickedPData.chaosHeart_TimesUsed = (p_data.SomethingWickedPData.chaosHeart_TimesUsed or 0) + 1
 
-    local fail = rng:RandomInt(this.MaxSucceedUse - this.MinFailUse) + this.MinFailUse
+    local fail = rng:RandomInt(MaxSucceedUse - MinFailUse) + MinFailUse
     if p_data.SomethingWickedPData.chaosHeart_TimesUsed < fail then
         --succeed
         player:AddHearts(2)
-        SomethingWicked.sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
+        sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
         return true
     end
     p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate = player.FrameCount
@@ -27,7 +28,7 @@ function this:UseItem(_, rng, player, flags)
     --fail
 end
 
-function this:PlayerUpdate(player)
+local function PlayerUpdate(_, player)
     local p_data = player:GetData()
 
     if p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate == nil then
@@ -36,8 +37,8 @@ function this:PlayerUpdate(player)
 
     local frameDifference = player.FrameCount - p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate
     --print(frameDifference) 
-    if frameDifference >= this.framesAfter then
-        local room = SomethingWicked.game:GetRoom()
+    if frameDifference >= framesAfter then
+        local room = game:GetRoom()
         player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
         room:MamaMegaExplosion(player.Position)
         
@@ -57,18 +58,5 @@ function this:PlayerUpdate(player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpdate)
-
-this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CHAOS_HEART] = {
-        desc = "Heal 1 red heart#After "..this.MinFailUse.." uses, has a chance to do a Mama Mega explosion, and remove the item#Guaranteed to explode at "..this.MaxSucceedUse.." uses",
-        pools = {
-            SomethingWicked.encyclopediaLootPools.POOL_TREASURE,
-            SomethingWicked.encyclopediaLootPools.POOL_ULTRA_SECRET,
-            SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE,
-        },
-        encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Heals 1 red heart on use","After "..this.MinFailUse.." uses, has a chance to do a Mama Mega explosion, and remove the item","Guaranteed to explode at "..this.MaxSucceedUse.." uses"})
-    }
-}
-return this
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
