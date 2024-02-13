@@ -12,7 +12,7 @@ local LaserColors = {
     [angle] = Color(1, 1, 1, 0.75, 0, 0, 0.5)
 }
 
-local function SplitTearsSometimes(tear)
+local function SplitTearsSometimes(_, tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player
     and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
@@ -50,7 +50,7 @@ local function SplitTearsSometimes(tear)
 end
 
 local isFiringMoreLasers = false
-local function SplitLasersToo(laser, player, pure)
+local function SplitLasersToo(_, laser, player, pure)
     if isFiringMoreLasers or not pure then
         return
     end

@@ -891,12 +891,11 @@ function mod:GetOrbitalPositionInLayer(fcheck, player)
     for _, familiar in ipairs(Isaac.FindByType(3)) do
         familiar = familiar:ToFamiliar()
         if ((familiar.Parent and GetPtrHash(familiar.Parent) == GetPtrHash(player)) or GetPtrHash(familiar.Player) == GetPtrHash(player)) and familiar.OrbitLayer == fcheck.OrbitLayer then
-            print("incrementing", familiar.Variant, familiar.OrbitLayer, fcheck.OrbitLayer)
             totalLayerSize = totalLayerSize + 1
             if GetPtrHash(familiar) == GetPtrHash(fcheck) then
                 posInLayer = totalLayerSize
             end
-            if familiar.FrameCount == 0 and fcheck.FrameCount > 0 then
+            if familiar.FrameCount <= 1 or (familiar:HasEntityFlags(EntityFlag.FLAG_APPEAR) and familiar.FrameCount <= 6) then
                 shouldReset = true
             end
         end
@@ -913,7 +912,7 @@ function mod:DynamicOrbit(familiar, parent, speed, distance)
     else
         f_data.somethingWicked__dynamicOrbitPos = (f_data.somethingWicked__dynamicOrbitPos or 0) + speed
     end
-    return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360))
+    return parent.Position + distance * Vector.FromAngle(f_data.somethingWicked__dynamicOrbitPos + ((layerPos / size) * 360)), shouldReset
 end
 
 function mod:FluctuatingOrbitFunc(familiar, player, lerp)
