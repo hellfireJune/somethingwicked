@@ -11,6 +11,9 @@ EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy To
 EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD = Isaac.GetEntityVariantByName("Dice Overhead VFX")
 EffectVariant.SOMETHINGWICKED_ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked Item Pop-up")
 EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
+EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
+EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
+
 
 TearVariant.SOMETHINGWICKED_REALLY_GOOD_PLACEHOLDER = Isaac.GetEntityVariantByName("Wicked Placeholder Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
@@ -87,23 +90,7 @@ mod.edensHeadthrowables = {
     CollectibleType.COLLECTIBLE_DOCTORS_REMOTE,
     CollectibleType.COLLECTIBLE_BLACK_HOLE
 }
-
---enums
-mod.CustomCallbacks = {
-    SWCB_PICKUP_ITEM = 1, -- obsolete with repentogon
-    SWCB_ON_ENEMY_HIT = 2,
-    SWCB_ON_BOSS_ROOM_CLEARED = 3,
-    SWCB_ON_LASER_FIRED = 4,
-    SWCB_ON_FIRE_PURE = 5, -- obsolete with repentogon
-    SWCB_PRE_PURCHASE_PICKUP = 6,
-    SWCB_POST_PURCHASE_PICKUP = 7, -- obsolete with repentogon
-    --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
-    SWCB_NEW_WAVE_SPAWNED = 8,
-    SWCB_ON_ITEM_SHOULD_CHARGE = 9,
-    SWCB_EVALUATE_TEMP_WISPS = 10,
-    SWCB_ON_NPC_EFFECT_TICK = 11,
-}
-mod.MachineVariant = {
+SomethingWicked.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
     MACHINE_FORTUNE = 3,
@@ -128,32 +115,6 @@ mod.MachineVariant = {
     MACHINE_VOID_BEGGAR = Isaac.GetEntityVariantByName("Void Beggar"),
     MACHINE_INFINITEBEGGAR = Isaac.GetEntityVariantByName("Infinite Beggar")
 }
-mod.ItemPools = {
-    TERATOMA_BEGGAR = 1
-}
-mod.CustomTearFlags = {
-    FLAG_SHOTGRUB = 1 << 0,
-    FLAG_KNAVE_OF_HEARTS = 1 << 1,
-    FLAG_DREAD = 1 << 2,
-    FLAG_BALROG_HEART = 1 << 3,
-    FLAG_BITTER = 1 << 4,
-    FLAG_ELECTROSTUN = 1 << 5,
-    FLAG_COINSHOT = 1 << 6,
-    FLAG_PROVIDENCE = 1 << 8,
-    FLAG_BLACK_SALT = 1 << 9,
-    FLAG_RAIN_HELLFIRE = 1 << 10,
-    FLAG_STICKER_BOOK = 1 << 11,
-    FLAG_SCREW_ATTACK = 1 << 12,
-    FLAG_CAT_TEASER = 1 << 13,
-    FLAG_UNRAVEL = 1 << 14,
-    FLAG_DARKNESS = 1 << 15,
-    FLAG_CRITCHARGE = 1 << 16,
-}
-mod.CustomCardTypes = {
-    CARDTYPE_THOTH = 1,
-    CARDTYPE_THOTH_REVERSED = 2,
-    CARDTYPE_FRENCH_PLAYING = 3,
-}
 mod.CONST.InfinityBeggarMachinePool = {
     mod.MachineVariant.MACHINE_SLOT,
     mod.MachineVariant.MACHINE_BLOOD,
@@ -173,9 +134,57 @@ mod.CONST.InfinityBeggarMachinePool = {
     mod.MachineVariant.MACHINE_BEGGAR_ROTTEN,
     mod.MachineVariant.MACHINE_CONFESSIONAL,
 }
-mod.NightmareSubTypes = {
+
+--enums
+SomethingWicked.CustomCallbacks = {
+    SWCB_PICKUP_ITEM = 1, -- obsolete with repentogon
+    SWCB_ON_ENEMY_HIT = 2,
+    SWCB_ON_BOSS_ROOM_CLEARED = 3,
+    SWCB_ON_LASER_FIRED = 4,
+    SWCB_ON_FIRE_PURE = 5, -- obsolete with repentogon
+    SWCB_PRE_PURCHASE_PICKUP = 6,
+    SWCB_POST_PURCHASE_PICKUP = 7, -- obsolete with repentogon
+    --SWCB_ON_MINIBOSS_ROOM_CLEARED = 7,
+    SWCB_NEW_WAVE_SPAWNED = 8,
+    SWCB_ON_ITEM_SHOULD_CHARGE = 9,
+    SWCB_EVALUATE_TEMP_WISPS = 10,
+    SWCB_ON_NPC_EFFECT_TICK = 11,
+}
+SomethingWicked.ItemPools = {
+    TERATOMA_BEGGAR = 1
+}
+SomethingWicked.CustomTearFlags = {
+    FLAG_SHOTGRUB = 1 << 0,
+    FLAG_KNAVE_OF_HEARTS = 1 << 1,
+    FLAG_DREAD = 1 << 2,
+    FLAG_BALROG_HEART = 1 << 3,
+    FLAG_BITTER = 1 << 4,
+    FLAG_ELECTROSTUN = 1 << 5,
+    FLAG_COINSHOT = 1 << 6,
+    FLAG_PROVIDENCE = 1 << 8,
+    FLAG_BLACK_SALT = 1 << 9,
+    FLAG_RAIN_HELLFIRE = 1 << 10,
+    FLAG_STICKER_BOOK = 1 << 11,
+    FLAG_SCREW_ATTACK = 1 << 12,
+    FLAG_CAT_TEASER = 1 << 13,
+    FLAG_UNRAVEL = 1 << 14,
+    FLAG_DARKNESS = 1 << 15,
+    FLAG_CRITCHARGE = 1 << 16,
+}
+SomethingWicked.CustomCardTypes = {
+    CARDTYPE_THOTH = 1,
+    CARDTYPE_THOTH_REVERSED = 2,
+    CARDTYPE_FRENCH_PLAYING = 3,
+}
+SomethingWicked.NightmareSubTypes = {
     NIGHTMARE_STANDARD = 0,
     NIGHTMARE_TRINKET = 1,
     NIGHTMARE_FLOORONLY = 2,
     NIGHTMARE_BIG = 3,
+}
+SomethingWicked.ItemPopupSubtypes = {
+    STANDARD = 1,
+    
+    MOVE_TO_PLAYER = 11,
+    DIS_FUNNY_MOMENTS = 12,
 }

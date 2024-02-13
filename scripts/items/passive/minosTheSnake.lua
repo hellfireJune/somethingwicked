@@ -194,18 +194,11 @@ local function BodyUpdate(familiar)
     end
 end
 
-local function OnCache(player)
-    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, (player:HasCollectible(CollectibleType.SOMETHINGWICKED_MINOS_ITEM) and 1 or 0), rng, sourceItem)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, sourceItem)
-end
-
 local function BodyInit(familiar)
     familiar.Visible = false
     familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, OnCache, CacheFlag.CACHE_FAMILIARS)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, HeadUpdate, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, HeadInit, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BodyInit, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
@@ -299,7 +292,7 @@ local function MakeTearSnake(player, p_data, type, dmgMult, length, lastTear)
         end, 3, ModCallbacks.MC_POST_UPDATE)
     end
 end
-local function HydrusTearUpdate(tear)
+local function HydrusTearUpdate(_, tear)
     local t_data = tear:GetData()
     if t_data.snakeTearData == nil then
         return
@@ -369,7 +362,7 @@ local function HydrusTearUpdate(tear)
     tear.Height = -20
 end
 
-local function HydrusPlayerUpdate(player)
+local function HydrusPlayerUpdate(_, player)
     local p_data = player:GetData()
     if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRUS) then
         p_data.somethingwicked_HydrusTearRespawnTime = p_data.somethingwicked_HydrusTearRespawnTime or 0
@@ -386,7 +379,7 @@ local function HydrusPlayerUpdate(player)
         end
     end
 
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRA) then
+    --[[if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRA) then
         p_data.somethingwicked_HydraTearRespawnTime = p_data.somethingwicked_HydraTearRespawnTime or 0
         p_data.somethingwicked_HydraTears = p_data.somethingwicked_HydraTears or {}
 
@@ -407,14 +400,10 @@ local function HydrusPlayerUpdate(player)
         if p_data.somethingwicked_HydraTearRespawnTime > 0 then
             p_data.somethingwicked_HydraTearRespawnTime = p_data.somethingwicked_HydraTearRespawnTime - 1
          end
-    end
-end
---Hydrus: dmg 1.1, length 6
-local function GenerateVisFrame(oldVisFrame)
-    return (oldVisFrame) + (FrameDifferences * 2)
+    end]]
 end
 
-local function HydrusTearRemove(tear)
+local function HydrusTearRemove(_, tear)
     local t_data = tear:GetData()
     if t_data.snakeTearData == nil then
         return
@@ -426,53 +415,6 @@ local function HydrusTearRemove(tear)
     local s_data = spwnr:GetData()
     if tear.Child then
         if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
-            --[[if Retribution and Retribution.HasRetributionTearFlags(tear, Retribution.TEARFLAG.MILK_TOOTH) then
-                local player = spwnr:ToPlayer()
-                local fireVector = (player and player:HasTrinket(Retribution.TRINKETS.HEART_WORM)) and tear.Velocity:Resized(player.ShotSpeed * 10) or tear.Velocity
-				local amount = math.max(1, player and player:GetCollectibleNum(Retribution.ITEMS.MILK_TEETH) or 0)
-				local anglePer = 90 / (5 * amount + 1)
-
-                local tears = {}
-				for i = 1, 5 * amount do
-					local angleModifier = i * anglePer - 45
-                    local positionToCheckForChild = tear.Position + fireVector:Rotated(angleModifier)
-					if amount >= 3 and i % 2 == 1 then
-						positionToCheckForChild = positionToCheckForChild - fireVector:Resized(15)
-					end
-
-                    for index, value in ipairs(Isaac.FindInRadius(positionToCheckForChild, 3, EntityPartition.TEAR)) do
-                        if not Retribution.HasRetributionTearFlags(value, Retribution.TEARFLAG.MILK_TOOTH)
-                        and value.FrameCount <= 1 then
-                            table.insert(tears, value)
-                        end
-                    end
-                end
-
-                s_data.somethingWicked_hydraMilkSplits = tears
-
-                local parent = tear.Parent
-                local n_parents = nil
-                if parent then
-                    local p_data = parent:GetData()
-                    if p_data.somethingWicked_hydraMilkSplits then
-                        n_parents = p_data.somethingWicked_hydraMilkSplits
-                    end
-                end
-
-                for idx, nt in pairs(tears) do
-                    local ntd = nt:GetData()
-                    ntd.snakeTearData = {}
-                    ntd.type = SomethingWicked.SnakeTearType.SNAKE_HYDRUS
-                    if n_parents and n_parents[idx] then
-                        nt.Parent = n_parents[idx]
-                    else
-                        nt.Parent = nil
-                        ntd.snakeTearData.isHead = true
-                        table.insert(s_data.somethingwicked_HydraTears, tear)
-                    end
-                end
-            end
-        else]]
             s_data.somethingwicked_HydrusTear = tear.Child
         end
         return
@@ -499,12 +441,6 @@ local function NewRoom()
     for _, p in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_HYDRUS)) do
         local p_data = p:GetData()
         p_data.somethingwicked_HydrusTearRespawnTime = 0
-    end
-    
-    for _, p in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_HYDRA)) do
-        local p_data = p:GetData()
-        p_data.somethingwicked_HydraTearRespawnTime = 0
-        p_data.somethingwicked_HydraTears = {}
     end
 end
 

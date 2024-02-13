@@ -40,7 +40,7 @@ local function GabeSwordUpdate(_, familiar)
     local multer = mod:Clamp(p_data.SomethingWickedPData.splendorTimer / 7 , 0, 1)* (p_data.SomethingWickedPData.isSplendorful and 1 or -1) + (p_data.SomethingWickedPData.isSplendorful and 0 or 1)
     local speedMult = mod:Lerp(3, 18, multer)
     local position = mod:DynamicOrbit(familiar, player, speedMult, Vector(45, 45))
-    familiar.Velocity = position - familiar.Position
+    mod:SetFamiliarOrbitPosWOVisualBugs(familiar, position, position - familiar.Position)
 
     local rotate = mod:GetAngleDegreesButGood((player.Position - position):Rotated(-90))
     local sprite = familiar:GetSprite()
@@ -50,3 +50,9 @@ local function GabeSwordUpdate(_, familiar)
     sprite.Color = Color(1, 1, 1, player:GetHearts() < player:GetEffectiveMaxHearts() and alpha or 1)
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, GabeSwordUpdate, FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR)
+
+mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, function (_, knife, proj)
+    if proj:ToProjectile() then
+        proj:Die()
+    end
+end, FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR)

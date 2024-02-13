@@ -90,7 +90,7 @@ function mod:AlterCardSpawnRates(rng, card, getPlayingCards, getRunes, onlyRunes
 
     local type = getCardType(card)
     if type then
-        local weight = cardSpawnRules[type] * (mod.addedCards[type][card] or 1)
+        local weight = 0-- cardSpawnRules[type] * (mod.addedCards[type][card] or 1)
         local flaot = rng:RandomFloat()
         if flaot > weight then
             return game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
@@ -143,8 +143,6 @@ local function BoonOverrideHold(_, player)
         p_data.somethingWicked_DropButtonHoldcount = 0
     end
 end
-
-
 
 local function PreventCardPickup(_, _, collider)
     collider = collider:ToPlayer()

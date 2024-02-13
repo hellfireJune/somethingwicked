@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 local sfx = SFXManager()
 
-local damage = 1.5
+local damage, inc = 2, 24
 
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
     local player = familiar.Player
@@ -14,12 +14,14 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
         local speedMult = 7
         local position = mod:DynamicOrbit(familiar, player, speedMult, Vector(60, 60))
         familiar.Velocity = position - familiar.Position
+        familiar.State = 0
     else
+        familiar.State = 1
         familiar.Velocity = Vector.Zero
         if sprite:GetFrame() == 9 then
             sprite:Play("Attack", true)
         elseif sprite:IsEventTriggered("Attack") then
-            f_data.sw_NightmareTick = (f_data.sw_NightmareTick or 0) + 36
+            f_data.sw_NightmareTick = (f_data.sw_NightmareTick or 0) + inc
 
             for i = 120, 360, 120 do
                 local angle = f_data.sw_NightmareTick + i
@@ -34,12 +36,11 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
             end
         end
         sprite:Play("Attack")
-        print(sprite:GetFrame())
     end
 end, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
 
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, CallbackPriority.LATE, function (_, familiar, other)
-    if familiar.SubType > 1 then
+    if familiar.SubType > 1 or familiar.State == 0 then
         return
     end
     local proj = other:ToProjectile()

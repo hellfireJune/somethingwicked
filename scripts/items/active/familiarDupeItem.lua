@@ -1,0 +1,58 @@
+local mod = SomethingWicked
+
+local copiesToAdd = 2
+local function UseItem(_, id, rng, player, flags)
+    local iConf = Isaac.GetItemConfig()
+    local allItemIds = iConf:GetCollectibles().Size - 1
+
+    local allFamiliars = {}
+    for i = 1, allItemIds, 1 do
+        local item = iConf:GetCollectible(i)
+        if item ~= nil and not item.Hidden and not item:HasTags(ItemConfig.TAG_QUEST) and item.Type == ItemType.ITEM_FAMILIAR then
+            for ii = 1, player:GetCollectibleNum(i), 1 do
+                table.insert(allFamiliars, i)
+            end
+        end
+    end
+
+    local pType = player:GetPlayerType()
+    if pType == PlayerType.PLAYER_LILITH then
+        table.insert(allFamiliars, CollectibleType.COLLECTIBLE_INCUBUS)
+    end
+
+    if #allFamiliars > 0 then
+        local p_data = player:GetData()
+
+        local items = {}
+        for i = 1, copiesToAdd, 1 do
+            local item = mod:GetRandomElement(allFamiliars, rng)
+            table.insert(items, item)
+        end
+
+        p_data.SomethingWickedPData.dupedFamiliars = p_data.SomethingWickedPData.dupedFamiliars or {}
+        table.insert(p_data.SomethingWickedPData.dupedFamiliars, items)
+        player:AddCollectible(CollectibleType.SOMETHINGWICKED_SEED_OF_EDEN_PASSIVE)
+    else
+        return { Discharge = false, ShowAnim = true }
+    end
+end
+
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_SEED_OF_EDEN)
+
+mod:AddCallback(ModCallbacks.MC_POST_TRIGGER_COLLECTIBLE_REMOVED, function (_, player)
+    local p_data = player:GetData()
+    if p_data.SomethingWickedPData.dupedFamiliars then
+        table.remove(p_data.SomethingWickedPData.dupedFamiliars, 1)
+    end
+end, CollectibleType.SOMETHINGWICKED_SEED_OF_EDEN_PASSIVE)
+
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
+    if data.SomethingWickedPData.dupedFamiliars then
+        for _, pair in ipairs(data.SomethingWickedPData.dupedFamiliars) do
+            
+            for _, value in pairs(pair) do
+                mod:AddItemWispForEval(player, value)
+            end
+        end
+    end
+end)

@@ -135,6 +135,11 @@ CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL = Isaac.GetItemIdByName("Yellow Sig
 CollectibleType.SOMETHINGWICKED_THE_YOYO = Isaac.GetItemIdByName("The Yo-Yo!") -- unfinished
 CollectibleType.SOMETHINGWICKED_HYDRUS = Isaac.GetItemIdByName("Snake")
 CollectibleType.SOMETHINGWICKED_WICKED_RING = Isaac.GetItemIdByName("Wicked Ring")
+CollectibleType.SOMETHINGWICKED_STAR_TREAT = Isaac.GetItemIdByName("Star Treat")
+CollectibleType.SOMETHINGWICKED_SEED_OF_EDEN = Isaac.GetItemIdByName("Seed of Eden")
+CollectibleType.SOMETHINGWICKED_SEED_OF_EDEN_PASSIVE = Isaac.GetItemIdByName(" Seed of Eden ")
+CollectibleType.SOMETHINGWICKED_DIS = Isaac.GetItemIdByName("Dis")
+CollectibleType.SOMETHINGWICKED_ACHERON = Isaac.GetItemIdByName("Acheron")
 
 TrinketType.SOMETHINGWICKED_TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll") -- retouch
 TrinketType.SOMETHINGWICKED_BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Battery") --unfinished

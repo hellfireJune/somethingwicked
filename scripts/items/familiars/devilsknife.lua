@@ -2,13 +2,13 @@ local mod = SomethingWicked
 
 local function FamiliarInit(_, familiar)
     familiar:AddToOrbit(60)
-    familiar.OrbitDistance = Vector(60, 60)
-	familiar.OrbitSpeed = 0.02
+    familiar.OrbitDistance = Vector(80, 80)
+	familiar.OrbitSpeed = 0.03
 end
 local function UpdateFamiliar(_, familiar)
     local player = familiar.Player
-    familiar.OrbitDistance = Vector(60, 60)
-	familiar.OrbitSpeed = 0.02
+    familiar.OrbitDistance = Vector(80, 80)
+	familiar.OrbitSpeed = 0.03
 
     mod:FluctuatingOrbitFunc(familiar, player, 1)
 end

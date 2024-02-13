@@ -1,7 +1,6 @@
-EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
-EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 local mod = SomethingWicked
 local game = Game()
+local sfx = SFXManager()
 
 local chanceToTurn = 1
 local blacklist = {CollectibleType.SOMETHINGWICKED_GLITCHCITY, CollectibleType.COLLECTIBLE_MISSINGNO}
@@ -70,7 +69,7 @@ local function PlayerUpdate(_, player)
                     player:AnimateCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY, "Pickup", "PlayerPickupSparkle")
                     player:QueueItem(conf, conf.InitCharge)
                     game:GetHUD():ShowItemText(player, conf)
-                    mod.sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK)
+                    sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK)
 
                     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 1, player.Position, Vector.Zero, player)
                     local poof2 = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 2, player.Position, Vector.Zero, player)
@@ -93,7 +92,7 @@ local function EffectUpdate(_, effect)
         local nearbyEnemies = Isaac.FindInRadius(pos, 17, EntityPartition.ENEMY)
         if #nearbyEnemies > 0 then
             sprite:Play("Disappear")
-            mod.sfx:Play(SoundEffect.SOUND_REDLIGHTNING_ZAP_BURST, 0.5)
+            sfx:Play(SoundEffect.SOUND_REDLIGHTNING_ZAP_BURST, 0.5)
         end
         for index, ent in ipairs(nearbyEnemies) do
             ent:TakeDamage(damage, DamageFlag.DAMAGE_IGNORE_ARMOR, EntityRef(effect), 1)
@@ -127,7 +126,7 @@ local function EffectUpdate(_, effect)
     end
     if effect.FrameCount == 150 then
         sprite:Play("Disappear")
-        mod.sfx:Play(SoundEffect.SOUND_BUTTON_PRESS, 1)
+        sfx:Play(SoundEffect.SOUND_BUTTON_PRESS, 1)
     end
     if sprite:IsFinished("Disappear") then
         effect:Remove()
@@ -149,7 +148,7 @@ local function EffectInit(_, effect)
     local directory = "gfx/effects/glitchcity/"
     local e_rng = effect:GetDropRNG()
     local sprite = effect:GetSprite()
-    mod.sfx:Play(SoundEffect.SOUND_LASERRING_WEAK, 0.5)
+    sfx:Play(SoundEffect.SOUND_LASERRING_WEAK, 0.5)
     --effect.DepthOffset = 1000
 
     for i = 0, 3, 1 do

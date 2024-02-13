@@ -105,7 +105,7 @@ local collectibles = {
     },
     [CollectibleType.SOMETHINGWICKED_WICKED_SOUL] = {
         desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up
-        #↑ {{ShotSpeed}} +0.1 Shot Speed up #↑{{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
+        #↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
         pools = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_CURSE,
@@ -565,7 +565,7 @@ local collectibles = {
     [CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR] = {
         desc = "↑ Every 3 seconds, spawns 2 sword familiars that orbit the player that deal 45 contact damage per second#The swords will remain for 4 seconds after spawn#"..
         "The swords will stay permanently if Isaac has no damaged red heart containers, but will move slower when they would be gone",
-        pools = { mod.encyclopediaLootPools.POOL_ANGEL, mod.encyclopediaLootPools.POOL_BABY_SHOP, mod.encyclopediaLootPools.POOL_GREED_ANGEL}
+        pools = { encyclopediaLootPools.POOL_ANGEL, encyclopediaLootPools.POOL_BABY_SHOP, encyclopediaLootPools.POOL_GREED_ANGEL}
     },
     [CollectibleType.SOMETHINGWICKED_GLITCHCITY] = {
         desc = "Periodically spawns \"Glitched Tiles\" while held, which destroy rocks, block projectiles and damage enemies"..
@@ -590,6 +590,13 @@ local collectibles = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_BABY_SHOP,
             encyclopediaLootPools.POOL_GREED_TREASURE
+        }
+    },
+    [CollectibleType.SOMETHINGWICKED_STAR_TREAT] = {
+        desc = "↑ {{Heart}} +1 Health#{{Heart}} Heals 1 heart#↑ {{ShotSpeed}} +0.14 Shot Speed up",
+        pools = {
+            encyclopediaLootPools.POOL_BOSS,
+            encyclopediaLootPools.POOL_GREED_BOSS,
         }
     }
 }

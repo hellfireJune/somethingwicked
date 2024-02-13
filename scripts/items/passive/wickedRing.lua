@@ -9,10 +9,6 @@ sprite:SetAnimation("Idle")
 local function procChance(player)
     return 0.17 + player.Luck/20
 end
-local function getDamageNeeded()
-    local level = game:GetLevel()
-    return 40 + 20*level:GetAbsoluteStage()
-end
 
 local function getFrameLerp(frame)
     return math.max(0, mod:Lerp(1, 0, (frame/12)^2))
@@ -22,7 +18,7 @@ local function updatePlayersProgress(player)
     p_data.SomethingWickedPData.WickedRingCharge = p_data.SomethingWickedPData.WickedRingCharge or 0
 
     local render = {}
-    local progress = (p_data.SomethingWickedPData.WickedRingCharge/getDamageNeeded())
+    local progress = (p_data.SomethingWickedPData.WickedRingCharge/mod:Current45VoltCharge())
     progress = math.floor(progress*22)
     render.progress = progress
 
@@ -49,7 +45,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_CRITCHARGE, {
         local p_data = p:GetData()
         p_data.SomethingWickedPData.WickedRingCharge = (p_data.SomethingWickedPData.WickedRingCharge or 0) + dmg
         
-        local dmgNeeded = getDamageNeeded()
+        local dmgNeeded = mod:Current45VoltCharge()
         while p_data.SomethingWickedPData.WickedRingCharge >= dmgNeeded do
             p_data.SomethingWickedPData.WickedRingCharge = p_data.SomethingWickedPData.WickedRingCharge - dmgNeeded
 

@@ -1,4 +1,6 @@
 local mod = SomethingWicked
+local sfx = SFXManager()
+local game = Game()
 
 local function UseItem(_, _, _, player)
     --[[for i = 1, 4, 1 do
@@ -6,7 +8,7 @@ local function UseItem(_, _, _, player)
         AMostWickedCollectionPt1:UtilAddSmeltedTrinket(trinket, player)
     end]]
 
-    SomethingWicked.sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
+    sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
     local tempEffects = player:GetEffects()
     tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX, true, 3)
     return { Remove = true}
@@ -27,11 +29,11 @@ local function PEffectUpdate(_, player)
         player:AnimateTrinket(trinket, "UseItem")
         tempEffects:RemoveCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX)
         
-        SomethingWicked.sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
-        SomethingWicked.game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
+        sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
+        game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
     end
     if p_data.SomethingWickedPData.toyboxTrinket ~= nil then
-        SomethingWicked:UtilAddSmeltedTrinket(p_data.SomethingWickedPData.toyboxTrinket, player)
+        mod:UtilAddSmeltedTrinket(p_data.SomethingWickedPData.toyboxTrinket, player)
         p_data.SomethingWickedPData.toyboxTrinket = nil
     end
 end

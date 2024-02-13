@@ -12,24 +12,15 @@ local function OnUse(_, _, rngObj, player, flags)
         return { Discharge = false, ShowAnim = true }
     end
 
+    local itemConfig = Isaac.GetItemConfig()
     local pool = game:GetItemPool()
     local room = game:GetRoom()
-    local itemConfig = Isaac.GetItemConfig()
-    
-    local poolType = pool:GetPoolForRoom(room:GetType(), room:GetAwardSeed())
-    if poolType == -1 then poolType = ItemPoolType.POOL_TREASURE end
-
-    local collectible = -1
-    while collectible == -1 do
-        local newCollectible = pool:GetCollectible(poolType, false)
-        local conf = itemConfig:GetCollectible(newCollectible)
-        if conf.Type ~= ItemType.ITEM_ACTIVE then
-            collectible = newCollectible
-        end
-    end
-
+    local collectible = mod:GetCollectibleWithArgs(function (conf)
+        return conf.Type ~= ItemType.ITEM_ACTIVE
+    end)
     --Thanks to the REP+ team. Thanks.
-    mod:RemoveQueuedItem(player)
+    --mod:RemoveQueuedItem(player)
+    player:ClearQueueItem()
 
     local conf = itemConfig:GetCollectible(collectible)
     game:GetHUD():ShowItemText(player, conf)

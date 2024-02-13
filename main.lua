@@ -292,6 +292,8 @@ local midLoad = {
   p_.."glitchCity",
   p_.."spiderNest",
   f_.."roguePlanet",
+  a_.."familiarDupeItem",
+  p_.."disAcheron",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -390,6 +392,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
       player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_GANYMEDE)))
+      player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_STAR_TREAT))
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
@@ -448,6 +451,10 @@ function mod:EvaluateGenericStatItems(player, flags)
     
     _, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
+    
+    stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_MINOS_ITEM)), rng, source)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
   end
 
   if flags == CacheFlag.CACHE_SIZE then

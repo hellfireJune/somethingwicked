@@ -890,7 +890,8 @@ function mod:GetOrbitalPositionInLayer(fcheck, player)
     local posInLayer local totalLayerSize = 0 local shouldReset = false
     for _, familiar in ipairs(Isaac.FindByType(3)) do
         familiar = familiar:ToFamiliar()
-        if (familiar.Parent and GetPtrHash(familiar.Parent) == GetPtrHash(player)) or GetPtrHash(familiar.Player) == GetPtrHash(player) and familiar.OrbitLayer == fcheck.OrbitLayer then
+        if ((familiar.Parent and GetPtrHash(familiar.Parent) == GetPtrHash(player)) or GetPtrHash(familiar.Player) == GetPtrHash(player)) and familiar.OrbitLayer == fcheck.OrbitLayer then
+            print("incrementing", familiar.Variant, familiar.OrbitLayer, fcheck.OrbitLayer)
             totalLayerSize = totalLayerSize + 1
             if GetPtrHash(familiar) == GetPtrHash(fcheck) then
                 posInLayer = totalLayerSize
@@ -919,13 +920,22 @@ function mod:FluctuatingOrbitFunc(familiar, player, lerp)
     lerp = lerp or 0.25
     local position = (familiar:GetOrbitPosition(player.Position + player.Velocity))
     position = player.Position + player.Velocity + ((player.Position + player.Velocity) - position) * math.sin(0.1 * familiar.FrameCount)
-    if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
+    if game:GetRoom():GetFrameCount() == 0 then
         familiar.Velocity = Vector.Zero
         familiar.Position = position
         --we stan a weird ass fuckin visual glitch
     else
         local velocity = (position) - familiar.Position
         familiar.Velocity = mod:Lerp(familiar.Velocity, velocity, lerp)
+    end
+end
+
+function mod:SetFamiliarOrbitPosWOVisualBugs(familiar, pos, vel)
+    if game:GetRoom():GetFrameCount() == 0 then
+        familiar.Velocity = Vector.Zero
+        familiar.Position = pos
+    else
+        familiar.Velocity = vel
     end
 end
 
@@ -1309,4 +1319,32 @@ function SomethingWicked:GetAllMultipliedTearVelocity(tear)
         end
     end
     return mult
+end
+
+function SomethingWicked:GetCollectibleWithArgs(args, poolType, removeFromPool)
+    local pool = game:GetItemPool()
+    local itemConfig = Isaac.GetItemConfig()
+    if removeFromPool == nil then
+        removeFromPool = false
+    end
+    if poolType == nil then
+        local room = game:GetRoom()
+        poolType = pool:GetPoolForRoom(room:GetType(), room:GetAwardSeed())
+        if poolType == -1 then poolType = ItemPoolType.POOL_TREASURE end
+    end
+    
+
+    for i = 1, 1000, 1 do
+        local newCollectible = pool:GetCollectible(poolType, removeFromPool)
+        local conf = itemConfig:GetCollectible(newCollectible)
+        if args(conf, newCollectible) then
+            return newCollectible
+        end
+    end
+    return 1
+end
+
+function SomethingWicked:Current45VoltCharge()
+    local level = game:GetLevel()
+    return 40 + 20*level:GetAbsoluteStage()
 end

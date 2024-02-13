@@ -1,5 +1,6 @@
 local mod = SomethingWicked
 local game = Game()
+local sfx = SFXManager()
 
 local ccabEnum = mod.CustomCallbacks
 mod.__callbacks = {
@@ -430,7 +431,7 @@ function mod:SetItemWisps(player, amount, type)
 end
 
 local suppressWispDeathEffects = false
-local function discEffectInit(eff)
+local function discEffectInit(_, eff)
 	if suppressWispDeathEffects then
 		eff:Remove()
 	end
@@ -461,7 +462,7 @@ function mod:__devilWispUpdate(wisp)
 		suppressWispDeathEffects = true
 		wisp:Kill()
 		suppressWispDeathEffects = false
-		mod.sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
+		sfx:Stop(SoundEffect.SOUND_STEAM_HALFSEC)
 	end
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, mod.__devilWispUpdate)
