@@ -63,11 +63,16 @@ local function SplitLasersToo(_, laser, player, pure)
             for i = -angle, angle, angle * 2 do
                 local newAngle = Vector.FromAngle(laser.Angle + i)
                 local new
-                if laser.Variant == LaserVariant.THIN_RED then
-                    new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, damageMult)
+                if laser.SubType == 0 or laser.SubType == 4 then                    
+                    if laser.Variant == LaserVariant.THIN_RED then
+                        new = player:FireTechLaser(player.Position, LaserOffset.LASER_TECH1_OFFSET, newAngle, true, false, nil, damageMult)
+                    else
+                        new = player:FireBrimstone(newAngle, laser, damageMult)
+                    end
                 else
-                    new = player:FireBrimstone(newAngle, laser, damageMult)
+                    new = player:FireTechXLaser(player.Position, laser.Velocity:Rotated(i), laser.Radius/10, nil, damageMult)
                 end
+                --new.Velocity = laser.Velocity
                 new.Color = LaserColors[i]
                 new:GetData().sw_laserParent = laser
                 new:GetData().sw_angleOffset = i
@@ -83,6 +88,14 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, function (_, lase
         return
     end
 
+    if laser.SubType ~= 0 and laser.SubType ~= 4 then
+        if pl:Exists() then
+            laser.Radius = pl.Radius
+            laser:GetData().sw_laserParent = nil
+        end
+        return
+    end
+    
     if not pl:Exists() then
         laser:Remove()
     else

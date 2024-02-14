@@ -38,7 +38,7 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM,
 
 
 if MinimapAPI then
-    local function MinimapAPICompatibility(_, _, room, dflags)
+    local function MinimapAPICompatibility(_, room, dflags)
         if room.Descriptor and room.Descriptor.Data.Type == RoomType.ROOM_ULTRASECRET then
             if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
                 return dflags |  1 << 2
