@@ -77,7 +77,7 @@ local function PreEntityTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     end
 
     preDmgFlag = true
-    ent:TakeDamage(amount*2, flags, s, dmgCooldown)
+    ent:TakeDamage(amount*2, flags, EntityRef(s), dmgCooldown)
     preDmgFlag = false
     return false
 end

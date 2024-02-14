@@ -2,7 +2,8 @@ local mod = SomethingWicked
 local wispsCap = 6
 
 local function OnEnemyKill(_, entity)
-    if entity == nil or entity:IsEnemy() then
+    print("save me")
+    if entity == nil or not entity:IsEnemy() then
         return
     end
     
@@ -38,7 +39,7 @@ local function RemoveWisps()
     end
 end
 
-local timeToDie = 240
+local timeToDie = 180
 local function WispUpdate(_, wisp)
     if wisp.SubType ~= CollectibleType.SOMETHINGWICKED_NIGHTSHADE then
         return
@@ -50,7 +51,7 @@ local function WispUpdate(_, wisp)
         return
     end
     
-    local colour = Color(1, 1, 1, a)
+    local colour = Color(1, 1, 1, 1-a)
     wisp.Color = colour
 end
 

@@ -4,6 +4,9 @@ local sfx = SFXManager()
 
 local ccabEnum = mod.CustomCallbacks
 mod.__callbacks = {
+    [ccabEnum.SWCB_PICKUP_ITEM] = {
+        [-1] = {}
+    },
     [ccabEnum.SWCB_ON_ENEMY_HIT] = {},
     [ccabEnum.SWCB_ON_BOSS_ROOM_CLEARED] = {},
     [ccabEnum.SWCB_ON_LASER_FIRED] = {},
@@ -13,21 +16,22 @@ mod.__callbacks = {
     [ccabEnum.SWCB_EVALUATE_TEMP_WISPS] = {},
     [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {},
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
+    [ccabEnum.SWCB_POST_PURCHASE_PICKUP] = {},
 }
 
 function mod:AddCustomCBack(type, funct, id)
-    if type == ccabEnum.SWCB_PICKUP_ITEM or type == ccabEnum.SWCB_POST_PURCHASE_PICKUP then
+    --[[if type == ccabEnum.SWCB_PICKUP_ITEM then
         print("Something is trying to add a callback obsolete with repentogon. Callback Type:", type)
         return
-    end
+    end]]
 
-    --[[if type == ccabEnum.SWCB_PICKUP_ITEM then
+    if type == ccabEnum.SWCB_PICKUP_ITEM then
         id = id or -1
     
         mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] = mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id] or {}
         table.insert(mod.__callbacks[ccabEnum.SWCB_PICKUP_ITEM][id], funct)
         return
-    end]]
+    end
 
     local cBackTable = mod.__callbacks[type]
     table.insert(cBackTable, funct)
@@ -59,32 +63,13 @@ function mod:CallCustomCback(t, arg1, arg2, arg3, arg4, subtype)
     return returnValue
 end
 
-
---This is a **heavily** modified version of some of AgentCucco's code, shoutouts to her
-local function CheckForPickup(_, player)
-    local p_data = player:GetData()
-    if p_data.SomethingWickedPData.heldItem then
-        if player:IsExtraAnimationFinished() then
-            local id = p_data.SomethingWickedPData.heldItem
-            if player:HasCollectible(id) then
-                local room = game:GetRoom()
-                mod:CallCustomCback(ccabEnum.SWCB_PICKUP_ITEM, player, room, id, nil, id)
-            end
-            p_data.SomethingWickedPData.heldItem = nil 
-        end
-    else
-        local targetItem = player.QueuedItem.Item
-        if (not targetItem)
-        or targetItem:IsCollectible() ~= true
-        or player.QueuedItem.Touched == true
-        then
-            return
-        end
-        
-        p_data.SomethingWickedPData.heldItem = targetItem.ID
+local function PickupItem(_, type, _, firstTime, _, _, player)
+    if firstTime then
+        local room = game:GetRoom()
+        mod:CallCustomCback(ccabEnum.SWCB_PICKUP_ITEM, player, room, type, _, type)
     end
 end
---mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, CheckForPickup)
+mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, PickupItem)
 
 local forgottenEsqueBones = {1, 2, 3, 4, 9}
 

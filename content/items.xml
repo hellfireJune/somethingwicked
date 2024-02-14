@@ -52,6 +52,9 @@
     - Now does appropriate VFX on heart pickup
     - Scales with heart worth and trinket multipliers
 
+  - Nightshade
+    - The wisps spawned now also dissapear after a couple seconds
+
   - Stone Key:
     - Now actually properly refunds bombs from opening secret rooms
     - Scales with trinket multipliers

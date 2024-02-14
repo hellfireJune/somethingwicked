@@ -52,7 +52,7 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
             familiar.Position = position familiar.Velocity = Vector.Zero
         else
             if f_data.sw_nightmareLerpFrames then
-                position = mod:Lerp(position, familiar.Position, 0.66)
+                position = mod:Lerp(position, familiar.Position, math.min(1, 0.58 + (lerpframes-f_data.sw_nightmareLerpFrames*0.06)))
 
                 f_data.sw_nightmareLerpFrames = f_data.sw_nightmareLerpFrames - 1
                 if f_data.sw_nightmareLerpFrames == 0 then
@@ -161,3 +161,9 @@ mod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, function (_, familiar)
         easyBottomSprite:Render(Isaac.WorldToScreen(familiar.Position - f_data.sw_nightmareTailOffset))
     end
 end, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
+
+mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, familiar)
+    if familiar.Variant == FamiliarVariant.SOMETHINGWICKED_NIGHTMARE then
+        
+    end
+end, EntityType.ENTITY_FAMILIAR)
