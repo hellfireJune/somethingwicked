@@ -629,7 +629,7 @@ end
 
 --Taken from encyclopedia, absolute lifesaver
 --only needed for vanilla stuffs
-mod.CONST.CardNamesProper = {
+mod.CardNamesProper = {
 	[Card.CARD_FOOL] = "0 - The Fool",
 	[Card.CARD_MAGICIAN] = "I - The Magician",
 	[Card.CARD_HIGH_PRIESTESS] = "II - The High Priestess",
@@ -728,7 +728,7 @@ mod.CONST.CardNamesProper = {
 	[Card.CARD_SOUL_BETHANY] = "Soul of Bethany",
 	[Card.CARD_SOUL_JACOB] = "Soul of Jacob and Esau",
 }
-mod.CONST.CardDescsProper = {
+mod.CardDescsProper = {
 	[Card.CARD_FOOL] = "Where journey begins",
 	[Card.CARD_MAGICIAN] = "May you never miss your goal",
 	[Card.CARD_HIGH_PRIESTESS] = "Mother is watching you",

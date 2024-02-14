@@ -2,7 +2,6 @@ local mod = SomethingWicked
 local wispsCap = 6
 
 local function OnEnemyKill(_, entity)
-    print("save me")
     if entity == nil or not entity:IsEnemy() then
         return
     end
