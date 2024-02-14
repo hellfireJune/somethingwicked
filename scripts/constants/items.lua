@@ -97,7 +97,6 @@ CollectibleType.SOMETHINGWICKED_NIGHTSHADE = Isaac.GetItemIdByName("Nightshade")
 CollectibleType.SOMETHINGWICKED_OLD_DICE = Isaac.GetItemIdByName("Old Dice") -- check bug tet mentioned
 CollectibleType.SOMETHINGWICKED_OLD_URN = Isaac.GetItemIdByName("Old Urn") -- retouch
 CollectibleType.SOMETHINGWICKED_PENDULUM = Isaac.GetItemIdByName("Pendulum") -- so close to finished
-CollectibleType.SOMETHINGWICKED_PHOBOS_AND_DEIMOS = Isaac.GetItemIdByName("Phobos and Deimos") -- unfinished but weeird
 CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER = Isaac.GetItemIdByName("Piece of Silver") -- so close to finished
 CollectibleType.SOMETHINGWICKED_PLANCHETTE = Isaac.GetItemIdByName("Planchette") -- maybe retouch
 CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE = Isaac.GetItemIdByName("Plasma Globe")

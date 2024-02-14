@@ -55,8 +55,6 @@ FamiliarVariant.SOMETHINGWICKED_NIGHTMARE = Isaac.GetEntityVariantByName("Nightm
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE = Isaac.GetEntityVariantByName("Retro Snake")
 FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("Retro Snake (body)")
 FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName("Teratoma Orbital")
-FamiliarVariant.SOMETHINGWICKED_PHOBOS = Isaac.GetEntityVariantByName("Phobos Familiar")
-FamiliarVariant.SOMETHINGWICKED_DEIMOS = Isaac.GetEntityVariantByName("Deimos Familiar")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
 

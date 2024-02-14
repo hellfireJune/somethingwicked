@@ -1,10 +1,11 @@
 local references = {
     Actives = {
         {ID = CollectibleType.SOMETHINGWICKED_BALROGS_HEAD, Reference = "King Gizzard and the Lizard Wizard", Partial = true},
-        {ID = CollectibleType.SOMETHINGWICKED_CHAOS_HEART, Reference = "Ring of Pain"},
-        {ID = CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM, Reference = "Super Mario Bros"},
+        {ID = CollectibleType.SOMETHINGWICKED_CHAOS_HEART, Reference = "Ring of Pain", Partial=true},
+        {ID = CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM, Reference = "Super Mario Bros: The Lost Levels"},
         {ID = CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY, Reference = "Super Smash Bros"},
-        {ID = CollectibleType.SOMETHINGWICKED_ITEM_BOX, Reference = "Mario Kart"}
+        {ID = CollectibleType.SOMETHINGWICKED_ITEM_BOX, Reference = "Mario Kart"},
+        {ID = CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY, Reference = "The King in Yellow"}
     },
     Passives = {
         {ID = CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM, Reference = "Terraria"},
@@ -21,8 +22,12 @@ local references = {
         {ID = CollectibleType.SOMETHINGWICKED_GLITCHCITY, Reference = "Pokemon"},
         {ID = CollectibleType.SOMETHINGWICKED_BOOSTER_BOX, Reference = "Pokemon", Partial=true,},
         {ID = CollectibleType.SOMETHINGWICKED_TECH_MODULO, Reference = "Some Bunny's The Modular"},
-        {ID = CollectibleType.SOMETHINGWICKED_REGEN_RING, Reference = "Terraria"},
+        --{ID = CollectibleType.SOMETHINGWICKED_REGEN_RING, Reference = "Terraria"},
         {ID = CollectibleType.SOMETHINGWICKED_AIR_FRESHENER, Reference = "Terraria", Partial=true},
+        {ID = CollectibleType.SOMETHINGWICKED_WICKED_RING, Reference = "Risk of Rain"},
+        {ID = CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH, Reference = "Enter the Gungeon", Partial=true},
+        {ID = CollectibleType.SOMETHINGWICKED_YELLOW_SIGIL, Reference = "The King in Yellow"},
+        {ID = CollectibleType.SOMETHINGWICKED_GANYMEDE, Reference = "Planetside of Gunymede" },
     },
     Trinkets = {
         {ID = TrinketType.SOMETHINGWICKED_CATS_EYE, Reference = "The Cat Empire"},
@@ -30,6 +35,7 @@ local references = {
         {ID = TrinketType.SOMETHINGWICKED_OWL_FEATHER, Reference = "Chainsaw Man"},
         {ID = TrinketType.SOMETHINGWICKED_TREASURERS_KEY, Reference = "Super Mario Maker"},
         {ID = TrinketType.SOMETHINGWICKED_CURSED_KEY, Reference = "Super Mario Maker"},
+        {ID = TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL, Reference = "Don't Starve"},
     },
 }
 return references

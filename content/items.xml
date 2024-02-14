@@ -102,6 +102,8 @@
   - Minor Misc. 
     - Added status effect icons for curse
     - Electro-stun and curse will no longer apply to enemies immune to status effects
+    - Performance hopefully generally improved with tear update effects
+    - Item pickup effects now use the repentogon callback - giving yourself the item through the console will do the pickup effect
     - Some itempools definitely got changed
     - Animation and sound changes for a bunch of items
     - Fixed a bunch of inconsistent stuff with orbitals (Devilsknife moves faster, swords of light blocks projectiles)
@@ -134,7 +136,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 74, 82, 83, 100, 103, 110, 119, 133, 141
+  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 74, 82, 83, 100, 103, 110, 119, 133, 141, 142
   and trinket id 15 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -196,7 +198,6 @@
   <passive id="68" name="Crying Minotaur"  hidden="true" tags="noeden"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1" gfx="edenshead.png"/>
-  <familiar id="71" name="Phobos and Deimos" description="Impending" hidden="true" tags="noeden"/>
   <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable"/>
   <active id="73" name="Prismatic Mushroom" description="Rainbow room effects" hidden="true" tags="noeden"/> <!--code done-->
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true" tags="noeden"/>
@@ -220,7 +221,11 @@
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
+  <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
   <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
+  <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
+  <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="SNffffff..." quality="2" tags="offensive summonable"/>
+  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="" tags="offensive"/>
   
@@ -270,16 +275,11 @@
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
-  <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
-  <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
-  <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="SNffffff..." quality="2" tags="offensive summonable"/>
   <passive id="148" name=" Ganymede " description="Titan's pull" gfx="ganymede.png" quality="3" tags="offensive summonable" cache="shotspeed"/>
-  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
-
-  <active id="152" name = "Seed of Eden" hidden="true" tags="noeden" gfx="lilmandrake.png"/>
+  <active id="152" name = "Seed of Eden"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="153" name=" Seed of Eden " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
-  <passive id="154" name="Dis" devilprice="2" gfx="dis.png" tags="offensive" quality="4"/>
-  <passive id="155" name="Acheron" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
+  <passive id="154" name="Dis" devilprice="2" gfx="dis.png" tags="offensive" quality="3"/>
+  <passive id="155" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
 
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true" tags="noeden"/> <!--slot-->
   <active name="  Magic Clay  " gfx="hellfire.png" hidden="true" tags="noeden"/> <!--fortune-->

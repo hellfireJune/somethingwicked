@@ -1,7 +1,6 @@
 local mod = SomethingWicked
 mod.compat = {}
-local callbacksAdded = false
-local directory = "scripts/misc/compat/"
+local directory = "scripts/compat/"
 local game = Game()
 
 include(directory.."__fiendfolio")
@@ -21,8 +20,6 @@ local moddedThrowables = {
     "Grappling Hook",
 }
 function mod.compat:Init()
-    if not callbacksAdded then
-        callbacksAdded = true
 
         mod.compat:FFInit()
 
@@ -33,12 +30,7 @@ function mod.compat:Init()
                 table.insert(mod.edensHeadthrowables, card)
             end
         end
-    end
 end
 
-
-if game:GetFrameCount() ~= 0 then
-    mod.compat:Init()
-end
-mod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, mod.compat.Init)
+mod:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, mod.compat.Init)
 

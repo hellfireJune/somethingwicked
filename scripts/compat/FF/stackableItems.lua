@@ -11,7 +11,9 @@ local stackableItems = {
     CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM,
     CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY,
     CollectibleType.SOMETHINGWICKED_LOURDES_WATER, -- make this good pls :3
-    CollectibleType.SOMETHINGWICKED_TECH_MODULO
+    CollectibleType.SOMETHINGWICKED_TECH_MODULO,
+    CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR,
+    CollectibleType.SOMETHINGWICKED_STRANGE_APPLE,
 }
 
 return stackableItems

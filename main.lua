@@ -939,10 +939,10 @@ Playtesting, feedback, and reporting bugs:
   lwrachnya
   Aeronaut
   Some Bunny
+  Ninji
 Special thanks: 
   lambchop_is_ok
   PattieMurr (music, unused)
-  DungeonPenguin
   Onehand and Unobtained (the turtlemelon tattoo)
   The Fiend Folio team
   The Gungeon Modding Crew
