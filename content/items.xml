@@ -10,7 +10,7 @@
       - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
       - Band of Regeneration might also come back but as it is now it's nigh identical to a retribution item and it's not good compared to it either
     - (Cards, teratoma orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back)
-    - General nearly entire code rework, a lot of stuff probably changed now
+    - General nearly entire code rework, a lot of stuff probably changed without me realising
     - Large EID do-over
 
   - Lourdes Water
@@ -129,7 +129,7 @@
   - I'm not sure if Red was broken before this update but if so i fixed it. it was definitely broken when i tested it
   - Fixed weird interactions with Old Dice not stopping some certain on pickup effects
   - Devilsknife is no longer unavailable from death certificate
-  - Eden can no longer star with any of the littany of currently unfinished items
+  - Eden can no longer start with any of the littany of currently unfinished items
 
   -->
 

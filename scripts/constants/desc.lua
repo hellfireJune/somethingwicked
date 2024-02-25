@@ -753,6 +753,17 @@ for key, value in pairs(trinkets) do
     end
 end
 
+local cards = {
+    [mod.CARDS.STONE_OF_THE_PIT] = {
+        desc = "{{Trinket}} Smelts one random trinket onto you."
+    }
+}
+for index, value in pairs(cards) do
+    if EID ~= nil then
+        EID:addCard(index, value.desc)
+    end
+end
+
 if EID then
     --abyss
     EID.descriptions["en_us"].abyssSynergies[mod.ITEMS.CURSED_MUSHROOM] = "Purple cursing locust"
