@@ -10,20 +10,20 @@ local function UseItem(_, _, rng, player, flags)
     end
     local p_data = player:GetData()
 
-    if p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate then
+    if p_data.WickedPData.chaosHeart_MarkedForDetonate then
         return
     end
 
-    p_data.SomethingWickedPData.chaosHeart_TimesUsed = (p_data.SomethingWickedPData.chaosHeart_TimesUsed or 0) + 1
+    p_data.WickedPData.chaosHeart_TimesUsed = (p_data.WickedPData.chaosHeart_TimesUsed or 0) + 1
 
     local fail = rng:RandomInt(MaxSucceedUse - MinFailUse) + MinFailUse
-    if p_data.SomethingWickedPData.chaosHeart_TimesUsed < fail then
+    if p_data.WickedPData.chaosHeart_TimesUsed < fail then
         --succeed
         player:AddHearts(2)
         sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
         return true
     end
-    p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate = player.FrameCount
+    p_data.WickedPData.chaosHeart_MarkedForDetonate = player.FrameCount
     player:AnimateCollectible(mod.ITEMS.CHAOS_HEART , "LiftItem", "PlayerPickupSparkle")
     --fail
 end
@@ -31,11 +31,11 @@ end
 local function PlayerUpdate(_, player)
     local p_data = player:GetData()
 
-    if p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate == nil then
+    if p_data.WickedPData.chaosHeart_MarkedForDetonate == nil then
         return
     end
 
-    local frameDifference = player.FrameCount - p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate
+    local frameDifference = player.FrameCount - p_data.WickedPData.chaosHeart_MarkedForDetonate
     --print(frameDifference) 
     if frameDifference >= framesAfter then
         local room = game:GetRoom()
@@ -53,8 +53,8 @@ local function PlayerUpdate(_, player)
             player:PlayExtraAnimation("HideItem")
         end
 
-        p_data.SomethingWickedPData.chaosHeart_TimesUsed = 0
-        p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate = nil
+        p_data.WickedPData.chaosHeart_TimesUsed = 0
+        p_data.WickedPData.chaosHeart_MarkedForDetonate = nil
     end
 end
 

@@ -15,10 +15,10 @@ local function getFrameLerp(frame)
 end
 local function updatePlayersProgress(player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.WickedRingCharge = p_data.SomethingWickedPData.WickedRingCharge or 0
+    p_data.WickedPData.WickedRingCharge = p_data.WickedPData.WickedRingCharge or 0
 
     local render = {}
-    local progress = (p_data.SomethingWickedPData.WickedRingCharge/mod:Current45VoltCharge())
+    local progress = (p_data.WickedPData.WickedRingCharge/mod:Current45VoltCharge())
     progress = math.floor(progress*22)
     render.progress = progress
 
@@ -43,11 +43,11 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_CRITCHARGE, {
         local dmg = math.min(tear.CollisionDamage, enemy.HitPoints)
 
         local p_data = p:GetData()
-        p_data.SomethingWickedPData.WickedRingCharge = (p_data.SomethingWickedPData.WickedRingCharge or 0) + dmg
+        p_data.WickedPData.WickedRingCharge = (p_data.WickedPData.WickedRingCharge or 0) + dmg
         
         local dmgNeeded = mod:Current45VoltCharge()
-        while p_data.SomethingWickedPData.WickedRingCharge >= dmgNeeded do
-            p_data.SomethingWickedPData.WickedRingCharge = p_data.SomethingWickedPData.WickedRingCharge - dmgNeeded
+        while p_data.WickedPData.WickedRingCharge >= dmgNeeded do
+            p_data.WickedPData.WickedRingCharge = p_data.WickedPData.WickedRingCharge - dmgNeeded
 
             mod:ChargeFirstActive(p)
         end

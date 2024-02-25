@@ -10,9 +10,9 @@ function this:RemoveHeartContainerThing(player)
         local locust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, mod.ITEMS.DEVILSTAIL, player.Position, Vector.Zero, player)
         locust.Parent = player
 
-        p_data.SomethingWickedPData.framestoremovemoreheartcontainers = 6
+        p_data.WickedPData.framestoremovemoreheartcontainers = 6
     else
-        p_data.SomethingWickedPData.framestoremovemoreheartcontainers = nil
+        p_data.WickedPData.framestoremovemoreheartcontainers = nil
     end
 end
 
@@ -21,15 +21,15 @@ function this:OnDMG(player, amount, flag)
     if player:HasCollectible(mod.ITEMS.DEVILSTAIL) then
         local p_data = player:GetData()
         --this:RemoveHeartContainerThing(player)
-        p_data.SomethingWickedPData.framestoremovemoreheartcontainers = 2
+        p_data.WickedPData.framestoremovemoreheartcontainers = 2
     end
 end
 
 function this:PlayerUpdate(player)
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.framestoremovemoreheartcontainers ~= nil then
-        p_data.SomethingWickedPData.framestoremovemoreheartcontainers = p_data.SomethingWickedPData.framestoremovemoreheartcontainers - 1
-        if p_data.SomethingWickedPData.framestoremovemoreheartcontainers <= 0 then
+    if p_data.WickedPData.framestoremovemoreheartcontainers ~= nil then
+        p_data.WickedPData.framestoremovemoreheartcontainers = p_data.WickedPData.framestoremovemoreheartcontainers - 1
+        if p_data.WickedPData.framestoremovemoreheartcontainers <= 0 then
             this:RemoveHeartContainerThing(player)
         end
     end

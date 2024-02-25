@@ -20,7 +20,7 @@ function mod:DestroyCrownLocustsWithInitSeeds(seeds, flies, player)
     if seeds == nil and player then
         local p_data = player:GetData()
         seeds = {}
-        for index, value in ipairs(p_data.SomethingWickedPData.crownLocusts) do
+        for index, value in ipairs(p_data.WickedPData.crownLocusts) do
             seeds = mod:utilMerge(seeds, value)
         end
     end
@@ -33,8 +33,8 @@ function mod:DestroyCrownLocustsWithInitSeeds(seeds, flies, player)
 
     if player then
         local p_data = player:GetData()
-        p_data.SomethingWickedPData.crownLocusts = {}
-        p_data.SomethingWickedPData.crownMult = nil
+        p_data.WickedPData.crownLocusts = {}
+        p_data.WickedPData.crownMult = nil
         player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
         preventPoof = true
         player:EvaluateItems()
@@ -48,15 +48,15 @@ local function FamiliarCache(_, player)
     --player:CheckFamiliar(FamiliarVariant.ABYSS_LOCUST, stacks*2, rng, sourceItem, this.dummyItem)
 
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.crownLocusts = p_data.SomethingWickedPData.crownLocusts or {}
-    if not p_data.SomethingWickedPData.crownMult then
-        p_data.SomethingWickedPData.crownMult = math.max(rng:RandomInt(4)+1,2)
+    p_data.WickedPData.crownLocusts = p_data.WickedPData.crownLocusts or {}
+    if not p_data.WickedPData.crownMult then
+        p_data.WickedPData.crownMult = math.max(rng:RandomInt(4)+1,2)
     end
-    stacks = stacks*p_data.SomethingWickedPData.crownMult
-    local numToCheck = math.max(stacks, #p_data.SomethingWickedPData.crownLocusts)
+    stacks = stacks*p_data.WickedPData.crownMult
+    local numToCheck = math.max(stacks, #p_data.WickedPData.crownLocusts)
     
     for i = 1, numToCheck, 1 do
-        local fly = p_data.SomethingWickedPData.crownLocusts[i]
+        local fly = p_data.WickedPData.crownLocusts[i]
         
         if fly then
             local seeds = {}
@@ -92,7 +92,7 @@ local function FamiliarCache(_, player)
             end
         end
 
-        p_data.SomethingWickedPData.crownLocusts[i] = fly
+        p_data.WickedPData.crownLocusts[i] = fly
     end
 end
 

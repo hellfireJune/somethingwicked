@@ -107,6 +107,7 @@ end
 mod:AddCallback(ModCallbacks.MC_GET_CARD, mod.AlterCardSpawnRates)
 
 -- Boons
+mod.BoonIDs = {}
 local function BoonCheckForHold(_, entity, input, action)
     if action == ButtonAction.ACTION_DROP and entity and entity:ToPlayer() then
         local player = entity:ToPlayer()

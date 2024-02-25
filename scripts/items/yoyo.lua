@@ -13,7 +13,7 @@ function this:YoYoCheck(player)
 
         local est = this:getEstimatedyoyos(player)
         local tab, cur = this:checkFamiliars(p_data)
-        p_data.SomethingWickedPData.YoYos = tab
+        p_data.WickedPData.YoYos = tab
 
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.THE_YOYO)
         while cur < est do
@@ -22,7 +22,7 @@ function this:YoYoCheck(player)
             local vel = (aim):Rotated(angVariance*math.tan(c_rng:RandomFloat()*5))
             local yo = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_YOYO, 0, player.Position, vel, player)
             yo:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
-            table.insert(p_data.SomethingWickedPData.YoYos, yo)
+            table.insert(p_data.WickedPData.YoYos, yo)
         end
     else
         p_data.sw_yoyoDirection = nil
@@ -91,7 +91,7 @@ end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.YoYoUpdate, FamiliarVariant.SOMETHINGWICKED_YOYO)
 
 function this:checkFamiliars(p_data)
-    local tab = p_data.SomethingWickedPData.YoYos
+    local tab = p_data.WickedPData.YoYos
     local newTab = {}
     if tab then
         for key, value in pairs(tab) do

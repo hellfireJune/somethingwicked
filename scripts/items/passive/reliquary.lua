@@ -15,6 +15,6 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, ro
             player:AddSoulHearts(hearts)
 
             local p_data = player:GetData()
-            p_data.SomethingWickedPData.reliqBuff = (p_data.SomethingWickedPData.reliqBuff or 0) + hearts
+            p_data.WickedPData.reliqBuff = (p_data.WickedPData.reliqBuff or 0) + hearts
     end
 end)

@@ -51,7 +51,7 @@ function this:FamiliarUpdate(familiar)
     local p_data = player:GetData()
     local direction = player:GetFireDirection()
 
-    p_data.SomethingWickedPData.jokerBabyStyle = p_data.SomethingWickedPData.jokerBabyStyle or "NONE"
+    p_data.WickedPData.jokerBabyStyle = p_data.WickedPData.jokerBabyStyle or "NONE"
 
     familiar.FireCooldown = math.max(familiar.FireCooldown - 1, 0)
 
@@ -65,7 +65,7 @@ function this:FamiliarUpdate(familiar)
         local style = GetRandomStyle(f_rng)
         tear:ChangeVariant(styleVariant[style])
 
-        if style == p_data.SomethingWickedPData.jokerBabyStyle  then
+        if style == p_data.WickedPData.jokerBabyStyle  then
             StyleAdders[style](tear)
 
             local t_data = tear:GetData()

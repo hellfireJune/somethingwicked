@@ -729,6 +729,9 @@ local trinkets = {
     [mod.TRINKETS.VIRTUOUS_SOUL] = {
         desc = "!!! When there is no curse on the current floor:"..mod.GENERIC_DESCRIPTIONS.SOULTRINKETSTATS,
         metadataFunction = soulMetadataFunc,
+    },
+    [mod.TRINKETS.SAMPLE_BOX] = {
+        desc = "{{Shop}} All items in the shop are free, but buying an item will remove any previous items bought with this item"
     }
 }
 

@@ -16,8 +16,8 @@ function mod:AddDisItem(player, isActuallyDis, pool, pos)
     local collectible = mod:GetCollectibleWithArgs(function (conf, id)
         return conf.Type ~= ItemType.ITEM_ACTIVE and conf:HasTags(ItemConfig.TAG_SUMMONABLE) and (isActuallyDis or id ~= mod.ITEMS.ACHERON)
     end, pool)
-    p_data.SomethingWickedPData.disItems = p_data.SomethingWickedPData.disItems or {}
-    table.insert(p_data.SomethingWickedPData.disItems, {
+    p_data.WickedPData.disItems = p_data.WickedPData.disItems or {}
+    table.insert(p_data.WickedPData.disItems, {
         id = collectible,
         time = 0,
         dis = isActuallyDis,
@@ -45,14 +45,14 @@ local disYellow = Color(1, 1, 0) local disRed = Color(1, 0, 0)
 local disOffsetYellow = Color(1, 1, 1, 0.635, 0.5, 0.5) local disOffsetRed = Color(1, 1, 1, 0.635, 0.5)
 local function PlayerUpdate(_, player)
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.disItems then
-        p_data.SomethingWickedPData.disRenderData = p_data.SomethingWickedPData.disRenderData or {}
+    if p_data.WickedPData.disItems then
+        p_data.WickedPData.disRenderData = p_data.WickedPData.disRenderData or {}
         local madeFunnySoundThisFrame = false
         local iConfig = Isaac.GetItemConfig()
         local rng = player:GetCollectibleRNG(mod.ITEMS.DIS)
 
-        for i = 1, #p_data.SomethingWickedPData.disItems, 1 do
-            local tab = p_data.SomethingWickedPData.disItems[i]
+        for i = 1, #p_data.WickedPData.disItems, 1 do
+            local tab = p_data.WickedPData.disItems[i]
             if tab ~= nil then
                 if tab.readyToProcess then
                     tab.time = tab.time + 1
@@ -61,7 +61,7 @@ local function PlayerUpdate(_, player)
                     if tab.dis then
                         if not effect then
                             for j = 1, maxDisOrbitals, 1 do
-                                if p_data.SomethingWickedPData.disRenderData[j] == nil then
+                                if p_data.WickedPData.disRenderData[j] == nil then
                                     tab.renderIdx = j
 
                                     effect = mod:SpawnStandaloneItemPopup(tab.id, mod.ItemPopupSubtypes.DIS_FUNNY_MOMENTS, player.Position, player)
@@ -76,7 +76,7 @@ local function PlayerUpdate(_, player)
                                         orbitOffset = 36 * (j-1),
                                         shouldRender = false
                                     }
-                                    p_data.SomethingWickedPData.disRenderData[j] = renderTab
+                                    p_data.WickedPData.disRenderData[j] = renderTab
                                     effect:GetData().sw_disTargetPos = (Vector.FromAngle(renderTab.orbitOffset + (p_data.sw_disRenderOrbit or 0)):Resized(orbitDistance) + player.Position)
 
                                     tab.gainEffect = effect
@@ -109,7 +109,7 @@ local function PlayerUpdate(_, player)
                 ::finishedUnProcess::
 
                 if tab.time > time then
-                    table.remove(p_data.SomethingWickedPData.disItems, i)
+                    table.remove(p_data.WickedPData.disItems, i)
                     i = i - 1
 
                     if not tab.dis then
@@ -120,17 +120,17 @@ local function PlayerUpdate(_, player)
                         end
                     else
                         if tab.renderIdx then
-                            p_data.SomethingWickedPData.disRenderData[tab.renderIdx] = nil
+                            p_data.WickedPData.disRenderData[tab.renderIdx] = nil
                         end
                     end
                 else
-                    p_data.SomethingWickedPData.disItems[i] = tab
+                    p_data.WickedPData.disItems[i] = tab
                 end
             end
         end
 
         p_data.sw_disRenderOrbit = (p_data.sw_disRenderOrbit or 0) + disOrbitSpeed
-        for key, renderTab in pairs(p_data.SomethingWickedPData.disRenderData) do
+        for key, renderTab in pairs(p_data.WickedPData.disRenderData) do
             if not renderTab.orbitVector then
                 renderTab.orbitVector = Vector.FromAngle(renderTab.orbitOffset + p_data.sw_disRenderOrbit):Resized(orbitDistance)
             else
@@ -147,7 +147,7 @@ local function PlayerUpdate(_, player)
                 end
                 renderTab.shouldRender = true
             end
-            p_data.SomethingWickedPData.disRenderData[key] = renderTab
+            p_data.WickedPData.disRenderData[key] = renderTab
         end
     end
 end
@@ -158,10 +158,10 @@ local function EnemyDies(_, enemy)
         local dmg = enemy.MaxHitPoints
         local p_data = player:GetData()
 
-        p_data.SomethingWickedPData.acheronCharge = (p_data.SomethingWickedPData.acheronCharge or 0) + dmg
+        p_data.WickedPData.acheronCharge = (p_data.WickedPData.acheronCharge or 0) + dmg
         local neededCharge = mod:Current45VoltCharge()*6
-        while p_data.SomethingWickedPData.acheronCharge > neededCharge do
-            p_data.SomethingWickedPData.acheronCharge = p_data.SomethingWickedPData.acheronCharge - neededCharge
+        while p_data.WickedPData.acheronCharge > neededCharge do
+            p_data.WickedPData.acheronCharge = p_data.WickedPData.acheronCharge - neededCharge
             mod:AddDisItem(player, false, ItemPoolType.POOL_DEVIL, enemy.Position)
         end
     end
@@ -173,8 +173,8 @@ mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, EnemyDies)
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, function (_, player)
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.disRenderData then
-        for key, renderTab in pairs(p_data.SomethingWickedPData.disRenderData) do
+    if p_data.WickedPData.disRenderData then
+        for key, renderTab in pairs(p_data.WickedPData.disRenderData) do
             renderTab.renderPos = player.Position + renderTab.orbitVector + groundOffset
 
             if renderTab.shouldRender then
@@ -186,8 +186,8 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, function (_, player)
 end)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
-    if data.SomethingWickedPData.disItems then
-        for _, value in ipairs(data.SomethingWickedPData.disItems) do
+    if data.WickedPData.disItems then
+        for _, value in ipairs(data.WickedPData.disItems) do
             if value.readyToProcess then
                 mod:AddItemWispForEval(player, value.id)
             end

@@ -1,3 +1,5 @@
+local mod = SomethingWicked
+
 local procChance = 0.5
 local couldBuyItemTable = {
     [PickupPrice.PRICE_ONE_HEART] = function (player)

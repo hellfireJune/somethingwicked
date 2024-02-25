@@ -32,7 +32,7 @@ end
         and player:HasTrinket(value)
         and ((isGolden and player:GetTrinketMultiplier(value) > 1 + momsBoxStacks)
         or (not isGolden and player:GetTrinketMultiplier(value) == 1 + momsBoxStacks)) then
-            table.insert(p_data.SomethingWickedPData.TrinketInventory, value)
+            table.insert(p_data.WickedPData.TrinketInventory, value)
         end
     end
     p_data.somethingwicked_LastHeldTrinkets = { player:GetTrinket(0), player:GetTrinket(1) }
@@ -40,7 +40,7 @@ end
 function SomethingWicked:UtilRefreshTrinketInventory(player)
     local p_data = player:GetData()
     local newTable = {} 
-    for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
+    for key, value in pairs(p_data.WickedPData.TrinketInventory) do
         if player:HasTrinket(value)
         and (player:GetTrinket(0) ~= value)
         and (player:GetTrinket(1) ~= value) then
@@ -48,7 +48,7 @@ function SomethingWicked:UtilRefreshTrinketInventory(player)
         end
     end 
 
-    p_data.SomethingWickedPData.TrinketInventory = newTable
+    p_data.WickedPData.TrinketInventory = newTable
 end]]
 
 function mod:GetSmeltedTrinkets(player)
@@ -168,9 +168,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseDice, mod.ITEMS.WOODEN_
 
 --[[SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, function (_, rngObj, player, flags)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
+    p_data.WickedPData.TrinketInventory = p_data.WickedPData.TrinketInventory or {}
     if player:GetTrinket(0) ~= 0 then
-        table.insert(p_data.SomethingWickedPData.TrinketInventory, player:GetTrinket(0))
+        table.insert(p_data.WickedPData.TrinketInventory, player:GetTrinket(0))
     end
 end, CollectibleType.COLLECTIBLE_SMELTER)]]
 --SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, ShittyWorkaroundMarblesCheck) --i loooove marbles

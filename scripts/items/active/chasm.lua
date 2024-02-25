@@ -32,7 +32,7 @@ local function UseItem(_, _, _, player)
     end
 
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.chasmStacks = (p_data.SomethingWickedPData.chasmStacks or 0) + stacksToAdd
+    p_data.WickedPData.chasmStacks = (p_data.WickedPData.chasmStacks or 0) + stacksToAdd
     return true
 end
 
@@ -40,11 +40,11 @@ local function FireTear(_, tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player then
         local p_data = player:GetData()
-        if p_data.SomethingWickedPData.chasmStacks then
+        if p_data.WickedPData.chasmStacks then
             local rng = player:GetCollectibleRNG(mod.ITEMS.CHASM)
             local rndmFloat = rng:RandomFloat()
             --the scientfic notation flex
-            if rndmFloat < p_data.SomethingWickedPData.chasmStacks*(10^-1) then
+            if rndmFloat < p_data.WickedPData.chasmStacks*(10^-1) then
                 --tear:ChangeVariant(TearVariant.SOMETHINGWICKED_LOCUST_CLUSTER_TEAR)
                 tear.CollisionDamage = tear.CollisionDamage * 2.6
                 tear.Color = tearColor
@@ -54,9 +54,9 @@ local function FireTear(_, tear)
 end
 local function PlayerUpdate(_, player)
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.chasmStacks
-    and p_data.SomethingWickedPData.chasmStacks > 0 then
-        p_data.somethingwicked_chasmsmoketick = (p_data.somethingwicked_chasmsmoketick or (5 * math.max(1, 10 - p_data.SomethingWickedPData.chasmStacks))) - 1
+    if p_data.WickedPData.chasmStacks
+    and p_data.WickedPData.chasmStacks > 0 then
+        p_data.somethingwicked_chasmsmoketick = (p_data.somethingwicked_chasmsmoketick or (5 * math.max(1, 10 - p_data.WickedPData.chasmStacks))) - 1
         --print(p_data.somethingwicked_chasmsmoketick)
         if p_data.somethingwicked_chasmsmoketick <= 0 then
             p_data.somethingwicked_chasmsmoketick = nil

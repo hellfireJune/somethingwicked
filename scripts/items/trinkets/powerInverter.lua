@@ -27,12 +27,12 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
 
     local p_data = player:GetData()
-    p_data.SomethingWickedPData = p_data.SomethingWickedPData or {}
+    p_data.WickedPData = p_data.WickedPData or {}
     if pickup.SubType == BatterySubType.BATTERY_GOLDEN then
-        p_data.SomethingWickedPData.goldenBatteryRandomRoom = mod:DoGoldenBattery(player, pickup)
+        p_data.WickedPData.goldenBatteryRandomRoom = mod:DoGoldenBattery(player, pickup)
     end
     
-    p_data.SomethingWickedPData.inverterdmgToAdd = (p_data.SomethingWickedPData.inverterdmgToAdd or 0) + dmgToAdd
+    p_data.WickedPData.inverterdmgToAdd = (p_data.WickedPData.inverterdmgToAdd or 0) + dmgToAdd
     player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
     player:EvaluateItems()
     return true
@@ -63,15 +63,15 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
 
         if level:GetStartingRoomIndex() == currIdx
         and currRoom.VisitedCount == 1 then
-            p_data.SomethingWickedPData.inverterdmgToAdd = nil
+            p_data.WickedPData.inverterdmgToAdd = nil
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
             
-            p_data.SomethingWickedPData.goldenBatteryRandomRoom = nil
+            p_data.WickedPData.goldenBatteryRandomRoom = nil
         else
-            local gidx = p_data.SomethingWickedPData.goldenBatteryRandomRoom
+            local gidx = p_data.WickedPData.goldenBatteryRandomRoom
             if gidx and gidx == currIdx then
-                p_data.SomethingWickedPData.goldenBatteryRandomRoom = nil
+                p_data.WickedPData.goldenBatteryRandomRoom = nil
 
                 local room = game:GetRoom()
                 local roomPos = room:FindFreePickupSpawnPosition(Isaac.GetRandomPosition())

@@ -58,7 +58,7 @@ function mod:GachaponDestroy(trinket, player, forceGold)
     or forceGold then
         mult = mult + 1
     end
-    p_data.SomethingWickedPData.gachaponBonus = (p_data.SomethingWickedPData.gachaponBonus or 0) + mult
+    p_data.WickedPData.gachaponBonus = (p_data.WickedPData.gachaponBonus or 0) + mult
 
     local pos = trinket and trinket.Position or player.Position
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 1, pos, Vector.Zero, trinket or player)
@@ -74,7 +74,7 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, OnUpdate)
 --stats are in main.lua, where all the stats are
 function mod:GachaponStatsEvaluate(player, flag)
     local p_data = player:GetData()
-    local mult = p_data.SomethingWickedPData.gachaponBonus
+    local mult = p_data.WickedPData.gachaponBonus
     if mult == nil then
         return 0
     end

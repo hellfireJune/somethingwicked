@@ -19,9 +19,9 @@ end
 function this:PEffectUpdate(player)
     local p_data = player:GetData()
     local hasEffect = player:GetEffects():HasCollectibleEffect(this.helperEffect)
-    if p_data.SomethingWickedPData.lustLastSavedHas == nil then p_data.SomethingWickedPData.lustLastSavedHas = false end
-    if hasEffect ~= p_data.SomethingWickedPData.lustLastSavedHas then
-        p_data.SomethingWickedPData.lustLastSavedHas = hasEffect
+    if p_data.WickedPData.lustLastSavedHas == nil then p_data.WickedPData.lustLastSavedHas = false end
+    if hasEffect ~= p_data.WickedPData.lustLastSavedHas then
+        p_data.WickedPData.lustLastSavedHas = hasEffect
         if hasEffect then
             player:AddMaxHearts(6, true)
             player:AddHearts(6)

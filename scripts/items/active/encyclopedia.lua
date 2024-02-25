@@ -26,15 +26,15 @@ local function UseItem(_, _, rngObj, player)
 
     local p_data = player:GetData()
     if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) then
-        if p_data.SomethingWickedPData.EncycloWisps == nil then
-            p_data.SomethingWickedPData.EncycloWisps = {[1] = "", [2] = "", [3] = "", [4] = ""}
+        if p_data.WickedPData.EncycloWisps == nil then
+            p_data.WickedPData.EncycloWisps = {[1] = "", [2] = "", [3] = "", [4] = ""}
         end
 
         local w = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.ENCYCLOPEDIA)
         local wispsToRespawn = { 1, 2, 3, 4 }
         for _, wisp in pairs(w) do
             local initSeed = wisp.InitSeed
-            local flag, idx = mod:UtilTableHasValue(p_data.SomethingWickedPData.EncycloWisps, initSeed)
+            local flag, idx = mod:UtilTableHasValue(p_data.WickedPData.EncycloWisps, initSeed)
             if flag and idx then
                 wispsToRespawn[idx] = nil
             end
@@ -42,19 +42,19 @@ local function UseItem(_, _, rngObj, player)
 
         for index, value in ipairs(wispsToRespawn) do
             local wisp = player:AddWisp(mod.ITEMS.ENCYCLOPEDIA, player.Position)
-            p_data.SomethingWickedPData.EncycloWisps[index] = wisp.InitSeed
+            p_data.WickedPData.EncycloWisps[index] = wisp.InitSeed
         end
     end
 
     if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL_PASSIVE) then
-        if not p_data.SomethingWickedPData.EncycloBelialBuff then
+        if not p_data.WickedPData.EncycloBelialBuff then
             mod:UtilScheduleForUpdate(function ()
                 sfx:Play(SoundEffect.SOUND_DEVIL_CARD, 1, 0)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 3, player.Position, Vector.Zero, player)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 4, player.Position, Vector.Zero, player)
             end, 3)
         end
-        p_data.SomethingWickedPData.EncycloBelialBuff = 1
+        p_data.WickedPData.EncycloBelialBuff = 1
 
     end
 
@@ -78,12 +78,12 @@ local function PlayerUpdate(_, player)
         end
 
         local p_data = player:GetData()
-        if not encycloCheck and p_data.SomethingWickedPData.EncycloBelialBuff then
-            p_data.SomethingWickedPData.EncycloBelialBuff = nil
+        if not encycloCheck and p_data.WickedPData.EncycloBelialBuff then
+            p_data.WickedPData.EncycloBelialBuff = nil
             player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
         end
-        p_data.SomethingWickedPData.isEncycloActive = encycloCheck
+        p_data.WickedPData.isEncycloActive = encycloCheck
     end
 end
 
@@ -93,7 +93,7 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
     end
 
     local p = familiar.Player
-    if not p:GetData().SomethingWickedPData.isEncycloActive then
+    if not p:GetData().WickedPData.isEncycloActive then
         familiar:Remove()
     end
 end, FamiliarVariant.WISP)

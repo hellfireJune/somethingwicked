@@ -3,7 +3,7 @@ function this:OnDamage(player, amount, flag)
     if player:HasCollectible(mod.ITEMS.CURSE_MASK) or player:HasCollectible(mod.ITEMS.BLACK_MOON_MEDALLION)
     and flag & DamageFlag.DAMAGE_CURSED_DOOR ~= 0 then
         local p_data = player:GetData()
-        p_data.SomethingWickedPData.CurseRoomsHealedOff = p_data.SomethingWickedPData.CurseRoomsHealedOff or {} 
+        p_data.WickedPData.CurseRoomsHealedOff = p_data.WickedPData.CurseRoomsHealedOff or {} 
 
         local room = SomethingWicked.game:GetRoom()
         local door = room:GetGridEntityFromPos(player.Position)
@@ -12,8 +12,8 @@ function this:OnDamage(player, amount, flag)
             door = door:ToDoor()
             if door then
                 local idx = door.TargetRoomType == RoomType.ROOM_CURSE and door.TargetRoomIndex or SomethingWicked.game:GetLevel():GetCurrentRoomIndex()
-                if not SomethingWicked:UtilTableHasValue(p_data.SomethingWickedPData.CurseRoomsHealedOff, idx) then
-                    table.insert(p_data.SomethingWickedPData.CurseRoomsHealedOff, idx)
+                if not SomethingWicked:UtilTableHasValue(p_data.WickedPData.CurseRoomsHealedOff, idx) then
+                    table.insert(p_data.WickedPData.CurseRoomsHealedOff, idx)
                     player:AddHearts(2)
                     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, player.Position - Vector(0, 60), Vector.Zero, player)
                     SomethingWicked.sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
@@ -36,7 +36,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function (_)
     for _, player in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        player:GetData().SomethingWickedPData.CurseRoomsHealedOff = {} 
+        player:GetData().WickedPData.CurseRoomsHealedOff = {} 
     end
     
     if not SomethingWicked.RedKeyRoomHelpers:GenericShouldGenerateRoom(SomethingWicked.game:GetLevel(), SomethingWicked.game) or

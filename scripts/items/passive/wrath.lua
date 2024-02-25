@@ -147,11 +147,11 @@ end
 --this is only done because D4'ing into heartbreak gives 3 broken hearts
 local function PEffectUpdate(_, player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.wrathOwned = p_data.SomethingWickedPData.wrathOwned or player:GetCollectibleNum(mod.ITEMS.WRATH) 
+    p_data.WickedPData.wrathOwned = p_data.WickedPData.wrathOwned or player:GetCollectibleNum(mod.ITEMS.WRATH) 
 
-    if p_data.SomethingWickedPData.wrathOwned < player:GetCollectibleNum(mod.ITEMS.WRATH)  then
+    if p_data.WickedPData.wrathOwned < player:GetCollectibleNum(mod.ITEMS.WRATH)  then
         player:AddBrokenHearts(3)
-        p_data.SomethingWickedPData.wrathOwned = player:GetCollectibleNum(mod.ITEMS.WRATH)
+        p_data.WickedPData.wrathOwned = player:GetCollectibleNum(mod.ITEMS.WRATH)
     end
 end
 

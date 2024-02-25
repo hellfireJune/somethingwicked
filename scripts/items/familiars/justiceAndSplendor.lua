@@ -3,14 +3,14 @@ local mod = SomethingWicked
 local function PEffectUpdate(_, player)
     local p_data = player:GetData()
     if player:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR) then
-        p_data.SomethingWickedPData.splendorTimer = (p_data.SomethingWickedPData.splendorTimer or 120) - 1
-        if p_data.SomethingWickedPData.isSplendorful == nil then
-            p_data.SomethingWickedPData.isSplendorful = false
+        p_data.WickedPData.splendorTimer = (p_data.WickedPData.splendorTimer or 120) - 1
+        if p_data.WickedPData.isSplendorful == nil then
+            p_data.WickedPData.isSplendorful = false
         end
 
-        if p_data.SomethingWickedPData.splendorTimer < 0 then
-            p_data.SomethingWickedPData.isSplendorful = not p_data.SomethingWickedPData.isSplendorful
-            p_data.SomethingWickedPData.splendorTimer = p_data.SomethingWickedPData.isSplendorful and 114 or 90
+        if p_data.WickedPData.splendorTimer < 0 then
+            p_data.WickedPData.isSplendorful = not p_data.WickedPData.isSplendorful
+            p_data.WickedPData.splendorTimer = p_data.WickedPData.isSplendorful and 114 or 90
             
             player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
             player:EvaluateItems()
@@ -35,9 +35,9 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, GabeSwordInit, FamiliarVariant.SO
 local function GabeSwordUpdate(_, familiar)
     local player = familiar.Player
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.splendorTimer = p_data.SomethingWickedPData.splendorTimer or 0
+    p_data.WickedPData.splendorTimer = p_data.WickedPData.splendorTimer or 0
     
-    local multer = mod:Clamp(p_data.SomethingWickedPData.splendorTimer / 7 , 0, 1)* (p_data.SomethingWickedPData.isSplendorful and 1 or -1) + (p_data.SomethingWickedPData.isSplendorful and 0 or 1)
+    local multer = mod:Clamp(p_data.WickedPData.splendorTimer / 7 , 0, 1)* (p_data.WickedPData.isSplendorful and 1 or -1) + (p_data.WickedPData.isSplendorful and 0 or 1)
     local speedMult = mod:Lerp(3, 18, multer)
     local position = mod:DynamicOrbit(familiar, player, speedMult, Vector(45, 45))
     mod:SetFamiliarOrbitPosWOVisualBugs(familiar, position, position - familiar.Position)
@@ -46,7 +46,7 @@ local function GabeSwordUpdate(_, familiar)
     local sprite = familiar:GetSprite()
     familiar.SpriteRotation = rotate
 
-    local alpha = mod:Clamp(p_data.SomethingWickedPData.splendorTimer / 14 , 0, 1)
+    local alpha = mod:Clamp(p_data.WickedPData.splendorTimer / 14 , 0, 1)
     sprite.Color = Color(1, 1, 1, player:GetHearts() < player:GetEffectiveMaxHearts() and alpha or 1)
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, GabeSwordUpdate, FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR)

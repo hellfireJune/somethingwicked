@@ -13,7 +13,7 @@ local roomTables = {
 
 local function UseItem(_, _, player)
     --[[local p_data = player:GetData()
-    p_data.SomethingWickedPData.boLuciferBuff = (p_data.SomethingWickedPData.boLuciferBuff or 0) + 1]]
+    p_data.WickedPData.boLuciferBuff = (p_data.WickedPData.boLuciferBuff or 0) + 1]]
     sfx:Play(SoundEffect.SOUND_DEVIL_CARD, 1, 0)
     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 1, player.Position, Vector.Zero, player)
     local poof2 = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 2, player.Position, Vector.Zero, player)

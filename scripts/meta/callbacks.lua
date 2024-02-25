@@ -346,8 +346,8 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.EvalutePWisps)
 -- okay so i probably shouldnt include this but idk, its good for attaching wisp to player
 function mod:GetWispData(player)
 	local data = player:GetData()
-    data.SomethingWickedPData.itemWisps = data.SomethingWickedPData.itemWisps or {}
-	return data.SomethingWickedPData.itemWisps
+    data.WickedPData.itemWisps = data.WickedPData.itemWisps or {}
+	return data.WickedPData.itemWisps
 end
 function mod:GetWispRefs()
 	if not SomethingWicked.save.runData.itemWisps then
@@ -524,7 +524,7 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, mod.Updately)
 --purchase item
 
 --0 is free, 1 is red hearts, 2 is soul hearts
-local couldBuyItemTable = {
+--[[local couldBuyItemTable = {
     [PickupPrice.PRICE_ONE_HEART] = 1,
     [PickupPrice.PRICE_TWO_HEARTS] = 1,
     [PickupPrice.PRICE_THREE_SOULHEARTS] = 2,
@@ -610,4 +610,7 @@ local function PurchaseItem(_, pickup, player)
         mod:CallCustomCback(ccabEnum.SWCB_POST_PURCHASE_PICKUP, player, pickup, isDevil)
     end
 end 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PurchaseItem)
+SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PurchaseItem)]]
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_SHOP_PURCHASE, function (_, pickup, player, coins)
+    mod:CallCustomCback(ccabEnum.SWCB_POST_PURCHASE_PICKUP, player, pickup, coins<0 and coins ~= PickupPrice.PRICE_FREE, coins)
+end)

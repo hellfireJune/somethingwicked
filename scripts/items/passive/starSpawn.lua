@@ -24,9 +24,9 @@ function mod:StarSpawnPlayerDamage(player)
             end
 
             if isDmg then
-                p_data.SomethingWickedPData.SSDamageBuff = mult
+                p_data.WickedPData.SSDamageBuff = mult
             else
-                p_data.SomethingWickedPData.SSTearsBuff = mult
+                p_data.WickedPData.SSTearsBuff = mult
             end
 
             favoured = not favoured
@@ -40,14 +40,14 @@ end
 function mod:StarSpawnEval(player, flags)
     if player:HasCollectible(mod.ITEMS.STAR_SPAWN) then
         local p_data = player:GetData()
-        p_data.SomethingWickedPData.SSDamageBuff = p_data.SomethingWickedPData.SSDamageBuff or 1.15
-        p_data.SomethingWickedPData.SSTearsBuff = p_data.SomethingWickedPData.SSTearsBuff or 1.15
+        p_data.WickedPData.SSDamageBuff = p_data.WickedPData.SSDamageBuff or 1.15
+        p_data.WickedPData.SSTearsBuff = p_data.WickedPData.SSTearsBuff or 1.15
 
         if flags == CacheFlag.CACHE_DAMAGE then
-            player.Damage = player.Damage * p_data.SomethingWickedPData.SSDamageBuff
+            player.Damage = player.Damage * p_data.WickedPData.SSDamageBuff
         end
         if flags == CacheFlag.CACHE_FIREDELAY then
-            player.MaxFireDelay = mod:TearsUp(player, 0, 0, p_data.SomethingWickedPData.SSTearsBuff)
+            player.MaxFireDelay = mod:TearsUp(player, 0, 0, p_data.WickedPData.SSTearsBuff)
         end
         if flags == CacheFlag.CACHE_TEARCOLOR then
             player.TearColor = player.TearColor * Color(1, 0.74, 0.74, 1, 0.5)

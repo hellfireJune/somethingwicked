@@ -37,11 +37,11 @@ function this:OnBloodDMG(player, amount, flags, source, dmgCooldown)
         else
             local rng = player:GetCollectibleRNG(mod.ITEMS.TEMPERANCE)
             if rng:RandomFloat() < 0.175 * amount then
-                local numberToDrop = math.min(amount, p_data.SomethingWickedPData.temperance_hearts)
+                local numberToDrop = math.min(amount, p_data.WickedPData.temperance_hearts)
                 SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(numberToDrop, PickupVariant.PICKUP_HEART, rng, player.Position, player, function (pickup)
                     pickup.Velocity = SomethingWicked.SlotHelpers:GetPayoutVector(rng)
                 end)
-                p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts - numberToDrop
+                p_data.WickedPData.temperance_hearts = p_data.WickedPData.temperance_hearts - numberToDrop
             end
         end
     else
@@ -59,8 +59,8 @@ function this:OnBloodDMG(player, amount, flags, source, dmgCooldown)
                 end
             end
             if player:HasCollectible(mod.ITEMS.TEMPERANCE) then
-                if p_data.SomethingWickedPData.temperance_hearts >= amount then
-                    p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts - amount
+                if p_data.WickedPData.temperance_hearts >= amount then
+                    p_data.WickedPData.temperance_hearts = p_data.WickedPData.temperance_hearts - amount
                     return blockSlotDMG(player)
                 end
             end
@@ -74,21 +74,21 @@ function this:PlayerRender(player, offset)
         return
     end
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts or maxhearts
+    p_data.WickedPData.temperance_hearts = p_data.WickedPData.temperance_hearts or maxhearts
 
     local pos = Isaac.WorldToScreen(player.Position)
 
-    Isaac.RenderText((p_data.SomethingWickedPData.temperance_hearts/2).."/"..(maxhearts/2), pos.X, pos.Y, 1, 0, 0, 1)
+    Isaac.RenderText((p_data.WickedPData.temperance_hearts/2).."/"..(maxhearts/2), pos.X, pos.Y, 1, 0, 0, 1)
 end
 
 function this:BreakTemperance(player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts or 0
+    p_data.WickedPData.temperance_hearts = p_data.WickedPData.temperance_hearts or 0
     local rng = player:GetCollectibleRNG(mod.ITEMS.TEMPERANCE)
-    SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(p_data.SomethingWickedPData.temperance_hearts, PickupVariant.PICKUP_HEART, rng, player.Position, player, function (pickup)
+    SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(p_data.WickedPData.temperance_hearts, PickupVariant.PICKUP_HEART, rng, player.Position, player, function (pickup)
         pickup.Velocity = SomethingWicked.SlotHelpers:GetPayoutVector(rng)
     end)
-    p_data.SomethingWickedPData.temperance_hearts = nil
+    p_data.WickedPData.temperance_hearts = nil
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnBloodDMG, EntityType.ENTITY_PLAYER)
@@ -105,7 +105,7 @@ function this:HeartCollision(entity, player)
     end
 
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.temperance_hearts < maxhearts
+    if p_data.WickedPData.temperance_hearts < maxhearts
     and not player:CanPickRedHearts() and SomethingWicked.ItemHelpers:CanPickupPickupGeneric(entity, player) then
         local value = heartValues[entity.SubType]
         entity:Remove()

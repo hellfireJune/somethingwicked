@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener
+  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener, Sample Box
 
   Changes:
   - Major general changes
@@ -9,7 +9,7 @@
     - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
       - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
       - Band of Regeneration might also come back but as it is now it's nigh identical to a retribution item and it's not good compared to it either
-    - (Cards, teratoma orbitals and nightmare orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back)
+    - (Cards, teratoma orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back)
     - General nearly entire code rework, a lot of stuff probably changed now
     - Large EID do-over
 
@@ -320,7 +320,7 @@
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
 
   <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
-  <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png" hidden="true"/>
+  <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png"/>
 
   <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->

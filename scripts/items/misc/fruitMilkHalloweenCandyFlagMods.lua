@@ -70,19 +70,19 @@ end
 
 local function PEffectUpdate(_, player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.FlagCheckTimer = (p_data.SomethingWickedPData.FlagCheckTimer or 6) - 1
-    if p_data.SomethingWickedPData.FlagCheckTimer <= 0 then
-        p_data.SomethingWickedPData.FruitMilkFlags = nil
-        p_data.SomethingWickedPData.BonusVanillaFlags = mod:GetBonusTearFlagsToAdd(player)
-        p_data.SomethingWickedPData.FlagCheckTimer = 20
+    p_data.WickedPData.FlagCheckTimer = (p_data.WickedPData.FlagCheckTimer or 6) - 1
+    if p_data.WickedPData.FlagCheckTimer <= 0 then
+        p_data.WickedPData.FruitMilkFlags = nil
+        p_data.WickedPData.BonusVanillaFlags = mod:GetBonusTearFlagsToAdd(player)
+        p_data.WickedPData.FlagCheckTimer = 20
         player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
         player:EvaluateItems()
     end
     if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
-        if p_data.SomethingWickedPData.FruitMilkFlags == nil then
+        if p_data.WickedPData.FruitMilkFlags == nil then
             local c_rng = player:GetCollectibleRNG(mod.ITEMS.FRUIT_MILK)
             local newFlags = mod:GenerateFruitFlag(c_rng)
-            p_data.SomethingWickedPData.FruitMilkFlags = newFlags
+            p_data.WickedPData.FruitMilkFlags = newFlags
             player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
             player:EvaluateItems()
         end
@@ -92,7 +92,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_, _, _, _, player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.FlagCheckTimer = 0
+    p_data.WickedPData.FlagCheckTimer = 0
 end)
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
     local player = mod:UtilGetPlayerFromTear(tear)
@@ -101,9 +101,9 @@ mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
         if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
             local c_rng = player:GetCollectibleRNG(mod.ITEMS.FRUIT_MILK)
             local newFlags = mod:GenerateFruitFlag(c_rng)
-            p_data.SomethingWickedPData.FruitMilkFlags = newFlags
+            p_data.WickedPData.FruitMilkFlags = newFlags
         end
-        p_data.SomethingWickedPData.BonusVanillaFlags = mod:GetBonusTearFlagsToAdd(player)
+        p_data.WickedPData.BonusVanillaFlags = mod:GetBonusTearFlagsToAdd(player)
         player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
         player:EvaluateItems()
     end

@@ -12,11 +12,11 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ITEM_SHOU
     for _, player in ipairs(allPlayers) do
         local p_data = player:GetData()
         if p_data.somethingWicked_RegenRingDamagedThisRoom then
-            p_data.SomethingWickedPData.ringOfRegenCharges = (p_data.SomethingWickedPData.ringOfRegenCharges or 0) + charges2add
+            p_data.WickedPData.ringOfRegenCharges = (p_data.WickedPData.ringOfRegenCharges or 0) + charges2add
             p_data.somethingWicked_RegenRingDamagedThisRoom = false
 
-            if p_data.SomethingWickedPData.ringOfRegenCharges >= roomsNeedToHeal then
-                p_data.SomethingWickedPData.ringOfRegenCharges = 0
+            if p_data.WickedPData.ringOfRegenCharges >= roomsNeedToHeal then
+                p_data.WickedPData.ringOfRegenCharges = 0
                 player:AddHearts(healAmount)
                 SomethingWicked.sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, player.Position - Vector(0, 60), Vector.Zero, player)

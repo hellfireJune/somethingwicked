@@ -23,18 +23,18 @@ local function PEffectUpdate(_, player)
     local stacks = tempEffects:GetCollectibleEffect(mod.ITEMS.TOYBOX) 
 
     if stacks ~= nil and stacks.Count > 0
-    and (p_data.SomethingWickedPData.toyboxTrinket == nil) then
+    and (p_data.WickedPData.toyboxTrinket == nil) then
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
-        p_data.SomethingWickedPData.toyboxTrinket = trinket
+        p_data.WickedPData.toyboxTrinket = trinket
         player:AnimateTrinket(trinket, "UseItem")
         tempEffects:RemoveCollectibleEffect(mod.ITEMS.TOYBOX)
         
         sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
         game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
     end
-    if p_data.SomethingWickedPData.toyboxTrinket ~= nil then
-        mod:UtilAddSmeltedTrinket(p_data.SomethingWickedPData.toyboxTrinket, player)
-        p_data.SomethingWickedPData.toyboxTrinket = nil
+    if p_data.WickedPData.toyboxTrinket ~= nil then
+        mod:UtilAddSmeltedTrinket(p_data.WickedPData.toyboxTrinket, player)
+        p_data.WickedPData.toyboxTrinket = nil
     end
 end
 

@@ -17,10 +17,10 @@ local function PlayerInit(_, player)
     if game:GetFrameCount() > 0 then
         for i, v in ipairs(SomethingWicked:UtilGetAllPlayers()) do
             if v.Index == player.Index then
-                p_data.SomethingWickedPData = SomethingWicked.save.runData.playersData[i] or {}
+                p_data.WickedPData = SomethingWicked.save.runData.playersData[i] or {}
             end
         end
-    else p_data.SomethingWickedPData = {} end
+    else p_data.WickedPData = {} end
 end
 
 local function PreGameExit()
@@ -30,7 +30,7 @@ end
 function mod:SaveModData()
 
     for i, v in ipairs(SomethingWicked:UtilGetAllPlayers()) do
-        SomethingWicked.save.runData.playersData[i] = v:GetData().SomethingWickedPData
+        SomethingWicked.save.runData.playersData[i] = v:GetData().WickedPData
     end
 
     local string = json.encode(SomethingWicked.save)

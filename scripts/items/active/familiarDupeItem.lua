@@ -29,8 +29,8 @@ local function UseItem(_, id, rng, player, flags)
             table.insert(items, item)
         end
 
-        p_data.SomethingWickedPData.dupedFamiliars = p_data.SomethingWickedPData.dupedFamiliars or {}
-        table.insert(p_data.SomethingWickedPData.dupedFamiliars, items)
+        p_data.WickedPData.dupedFamiliars = p_data.WickedPData.dupedFamiliars or {}
+        table.insert(p_data.WickedPData.dupedFamiliars, items)
         player:AddCollectible(mod.ITEMS.SEED_OF_EDEN_PASSIVE)
     else
         return { Discharge = false, ShowAnim = true }
@@ -41,14 +41,14 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.SEED_OF_EDEN)
 
 mod:AddCallback(ModCallbacks.MC_POST_TRIGGER_COLLECTIBLE_REMOVED, function (_, player)
     local p_data = player:GetData()
-    if p_data.SomethingWickedPData.dupedFamiliars then
-        table.remove(p_data.SomethingWickedPData.dupedFamiliars, 1)
+    if p_data.WickedPData.dupedFamiliars then
+        table.remove(p_data.WickedPData.dupedFamiliars, 1)
     end
 end, mod.ITEMS.SEED_OF_EDEN_PASSIVE)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
-    if data.SomethingWickedPData.dupedFamiliars then
-        for _, pair in ipairs(data.SomethingWickedPData.dupedFamiliars) do
+    if data.WickedPData.dupedFamiliars then
+        for _, pair in ipairs(data.WickedPData.dupedFamiliars) do
             
             for _, value in pairs(pair) do
                 mod:AddItemWispForEval(player, value)
