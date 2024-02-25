@@ -17,11 +17,11 @@ local function PickupCollision(_, heart, player)
 
     player = player:ToPlayer()
     if player and mod:WillHeartBePickedUp(heart, player) then
-        local t_mult = player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_TWO_OF_COINS)
+        local t_mult = player:GetTrinketMultiplier(mod.TRINKETS.TWO_OF_COINS)
         if t_mult <= 0 then
             return
         end
-        local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_TWO_OF_COINS)
+        local t_rng = player:GetTrinketRNG(mod.TRINKETS.TWO_OF_COINS)
 
         t_mult = t_mult*heartMults[heart.SubType]
         for _ = 1, math.max(1, (1 + t_rng:RandomInt(4))*t_mult), 1 do

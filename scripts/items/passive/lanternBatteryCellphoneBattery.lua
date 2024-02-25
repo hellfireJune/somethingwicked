@@ -4,13 +4,13 @@ local game = Game()
 
 local procChance = 0.25
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, function ()
-    local allPlayers = mod:UtilGetAllPlayers() -- SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY)
+    local allPlayers = mod:UtilGetAllPlayers() -- SomethingWicked.ItemHelpers:AllPlayersWithCollectible(mod.ITEMS.LANTERN_BATTERY)
     for _, player in ipairs(allPlayers) do
-        local stacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY)
-         + (player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY))
+        local stacks = player:GetCollectibleNum(mod.ITEMS.LANTERN_BATTERY)
+         + (player:GetTrinketMultiplier(mod.TRINKETS.CELLPHONE_BATTERY))
          
         if stacks > 0 then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.LANTERN_BATTERY)
             mod:ChargeFirstActive(player, 1, false, true, function ()
                 return c_rng:RandomFloat() < procChance*stacks
             end)
@@ -45,7 +45,7 @@ local BatteryConvertTable = {
     [BatterySubType.BATTERY_MICRO] = BombSubType.BOMB_TROLL
 }
 local function InitBattery(_, battery)
-    if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CELLPHONE_BATTERY) then
+    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.CELLPHONE_BATTERY) then
         local bombType = BatteryConvertTable[battery.SubType] or BombSubType.BOMB_NORMAL
         battery:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, bombType, true, true, true)
         --battery:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
@@ -55,4 +55,4 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, InitBattery, Picku
 
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player, room)
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_NORMAL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player) 
-end, CollectibleType.SOMETHINGWICKED_LANTERN_BATTERY)
+end, mod.ITEMS.LANTERN_BATTERY)

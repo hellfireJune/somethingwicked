@@ -1,26 +1,26 @@
 local this = {}
 
 this.variants = {
-    [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = {PickupVariant.PICKUP_COIN, 12},
-    [Card.SOMETHINGWICKED_KNIGHT_OF_HEARTS] = {PickupVariant.PICKUP_HEART, 6},
-    [Card.SOMETHINGWICKED_KNIGHT_OF_SPADES] = {PickupVariant.PICKUP_KEY, 4},
-    [Card.SOMETHINGWICKED_KNIGHT_OF_CLUBS] = {PickupVariant.PICKUP_BOMB, 4},
+    [mod.CARDS.KNIGHT_OF_DIAMONDS] = {PickupVariant.PICKUP_COIN, 12},
+    [mod.CARDS.KNIGHT_OF_HEARTS] = {PickupVariant.PICKUP_HEART, 6},
+    [mod.CARDS.KNIGHT_OF_SPADES] = {PickupVariant.PICKUP_KEY, 4},
+    [mod.CARDS.KNIGHT_OF_CLUBS] = {PickupVariant.PICKUP_BOMB, 4},
 }
 
 this.EIDEntries = {
-    [Card.SOMETHINGWICKED_KNIGHT_OF_CLUBS] = {
+    [mod.CARDS.KNIGHT_OF_CLUBS] = {
         desc = "Spawns 4 bombs worth of pickups on use"
     },
-    [Card.SOMETHINGWICKED_KNIGHT_OF_HEARTS] = {
+    [mod.CARDS.KNIGHT_OF_HEARTS] = {
         desc = "Spawns 6 hearts worth of pickups on use"
     },
-    [Card.SOMETHINGWICKED_KNIGHT_OF_SPADES] = {
+    [mod.CARDS.KNIGHT_OF_SPADES] = {
         desc = "Spawns 4 keys worth of pickups on use"
     },
-    [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = {
+    [mod.CARDS.KNIGHT_OF_DIAMONDS] = {
         desc = "Spawns 12 coins worth of pickups on use"
     },
-    [Card.SOMETHINGWICKED_THE_GAME] = {
+    [mod.CARDS.THE_GAME] = {
         desc = "Spawns 3 playing cards on use"
     }
 }
@@ -54,6 +54,6 @@ function this:UseGame(_, player)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseKnights)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseGame, Card.SOMETHINGWICKED_THE_GAME)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseGame, mod.CARDS.THE_GAME)
 
 return this

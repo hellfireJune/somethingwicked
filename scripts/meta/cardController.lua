@@ -4,26 +4,31 @@ local game = Game()
 local cType = mod.CustomCardTypes
 mod.addedCards = {
     [cType.CARDTYPE_THOTH] = {
-        [Card.SOMETHINGWICKEDTHOTH_ART] = 1,
-        [Card.SOMETHINGWICKEDTHOTH_FORTUNE] = 1,
-        [Card.SOMETHINGWICKEDTHOTH_LUST] = 1,
-        [Card.SOMETHINGWICKEDTHOTH_THE_ADJUSTMENT] = 1,
-        [Card.SOMETHINGWICKEDTHOTH_THE_AEON] = 1,
-        [Card.SOMETHINGWICKEDTHOTH_THE_MAGUS] = 1,
+        [mod.CARDS.THOTH_ART] = 1,
+        [mod.CARDS.THOTH_FORTUNE] = 1,
+        [mod.CARDS.THOTH_LUST] = 1,
+        [mod.CARDS.THOTH_THE_ADJUSTMENT] = 1,
+        [mod.CARDS.THOTH_THE_AEON] = 1,
+        [mod.CARDS.THOTH_THE_MAGUS] = 1,
     },
     [cType.CARDTYPE_THOTH_REVERSED] = {
 
     },
     [cType.CARDTYPE_FRENCH_PLAYING] = {
-        [Card.SOMETHINGWICKED_KNIGHT_OF_CLUBS] = 1,
-        [Card.SOMETHINGWICKED_KNIGHT_OF_HEARTS] = 1,
-        [Card.SOMETHINGWICKED_KNIGHT_OF_SPADES] = 1,
-        [Card.SOMETHINGWICKED_KNIGHT_OF_DIAMONDS] = 1,}
+        [mod.CARDS.KNIGHT_OF_CLUBS] = 1,
+        [mod.CARDS.KNIGHT_OF_HEARTS] = 1,
+        [mod.CARDS.KNIGHT_OF_SPADES] = 1,
+        [mod.CARDS.KNIGHT_OF_DIAMONDS] = 1,
+    },
+    [cType.CARDTYPE_RUNE_WICKEDMISC] = {
+        [mod.CARDS.STONE_OF_THE_PIT] = 1
+    }
 }
 local cardSpawnRules = {
     [cType.CARDTYPE_THOTH] = 0--[[.4]],
     [cType.CARDTYPE_THOTH_REVERSED] = 0.6,
-    [cType.CARDTYPE_FRENCH_PLAYING] = 0.6
+    [cType.CARDTYPE_FRENCH_PLAYING] = 0--[[.6]],
+    [cType.CARDTYPE_RUNE_WICKEDMISC] = 1,
 }
 
 local function getCardType(id)
@@ -90,7 +95,7 @@ function mod:AlterCardSpawnRates(rng, card, getPlayingCards, getRunes, onlyRunes
 
     local type = getCardType(card)
     if type then
-        local weight = 0-- cardSpawnRules[type] * (mod.addedCards[type][card] or 1)
+        local weight = cardSpawnRules[type] * (mod.addedCards[type][card] or 1)
         local flaot = rng:RandomFloat()
         if flaot > weight then
             return game:GetItemPool():GetCard(Random() + 1, getPlayingCards, getRunes, onlyRunes)
@@ -162,11 +167,11 @@ local function PreventCardDropping(_, card)
     end
 end
 
---mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, PreventCardDropping, PickupVariant.PICKUP_TAROTCARD)
---mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_TAROTCARD)
---mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_PILL)
---mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, BoonOverrideHold)
---mod:AddCallback(ModCallbacks.MC_INPUT_ACTION, BoonCheckForHold)
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, PreventCardDropping, PickupVariant.PICKUP_TAROTCARD)
+mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_TAROTCARD)
+mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PreventCardPickup, PickupVariant.PICKUP_PILL)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, BoonOverrideHold)
+mod:AddCallback(ModCallbacks.MC_INPUT_ACTION, BoonCheckForHold)
 
 function mod:UseBoonCard(startID, targetID, player, useflags)
     if useflags & (UseFlag.USE_CARBATTERY | UseFlag.USE_MIMIC) ~= 0 then

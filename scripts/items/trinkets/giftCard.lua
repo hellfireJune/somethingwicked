@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 
 local function PEffectUpdate(_, player)
-    if player:HasTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD) then
+    if player:HasTrinket(mod.TRINKETS.GIFT_CARD) then
         local p_data = player:GetData()
         p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown or 4
 
@@ -17,10 +17,10 @@ local function PEffectUpdate(_, player)
                 local rng = player:GetDropRNG()
                 local f = rng:RandomFloat()
                 if f <= 0.05 then
-                    player:TryRemoveTrinket(TrinketType.SOMETHINGWICKED_GIFT_CARD)
+                    player:TryRemoveTrinket(mod.TRINKETS.GIFT_CARD)
                     sfx:Play(SoundEffect.SOUND_DIMEPICKUP)
 
-                    local giftCard = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, TrinketType.SOMETHINGWICKED_GIFT_CARD, player.Position, RandomVector()*2, player)
+                    local giftCard = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, mod.TRINKETS.GIFT_CARD, player.Position, RandomVector()*2, player)
                     giftCard:Die()
                     giftCard.EntityCollisionClass = 0
 

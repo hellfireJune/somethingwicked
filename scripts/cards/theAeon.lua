@@ -11,10 +11,10 @@ function this:UseCard(_, player)
 end
 
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_THE_AEON)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, mod.CARDS.THOTH_THE_AEON)
 
 this.EIDEntries = {
-    [Card.SOMETHINGWICKEDTHOTH_THE_AEON] = {
+    [mod.CARDS.THOTH_THE_AEON] = {
         desc = "Spawns a void blood machine"
     }
 }

@@ -20,9 +20,9 @@ function this:UseCard(_, player)
 end
 
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_THE_ADJUSTMENT)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, mod.CARDS.THOTH_THE_ADJUSTMENT)
 this.EIDEntries = {
-    [Card.SOMETHINGWICKEDTHOTH_THE_ADJUSTMENT] = {
+    [mod.CARDS.THOTH_THE_ADJUSTMENT] = {
         desc = "Will spawn either ".. this.AmountToSpawn .. " bombs, ".. this.AmountToSpawn .. " keys, or ".. this.AmountToSpawn .. " nickels, depending on which you have least of."
     }
 }

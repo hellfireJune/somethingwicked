@@ -17,7 +17,7 @@ function OnDamag(_, ent, amount, flags, source, dmgCooldown)
     if not player then
         return
     end
-    local hasItem = player:HasCollectible(CollectibleType.SOMETHINGWICKED_BRAVERY)
+    local hasItem = player:HasCollectible(mod.ITEMS.BRAVERY)
     if not hasItem then
         return
     end

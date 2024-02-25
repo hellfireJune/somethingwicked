@@ -6,8 +6,8 @@ local function OnEnemyKill(_, entity)
         return
     end
     
-    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_NIGHTSHADE)
-    for _, player in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_NIGHTSHADE)) do--[[and entity:GetDropRNG():RandomFloat() <= 0.33]] 
+    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.NIGHTSHADE)
+    for _, player in ipairs(mod:AllPlayersWithCollectible(mod.ITEMS.NIGHTSHADE)) do--[[and entity:GetDropRNG():RandomFloat() <= 0.33]] 
             
         local numToDo = 0
         for index, value in ipairs(wisps) do
@@ -22,7 +22,7 @@ local function OnEnemyKill(_, entity)
             end
         end
 
-        local wisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_NIGHTSHADE, player.Position, Vector.Zero, player)
+        local wisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.NIGHTSHADE, player.Position, Vector.Zero, player)
         wisp.Parent = player
 
         ::tryagain::
@@ -30,7 +30,7 @@ local function OnEnemyKill(_, entity)
 end
 
 local function RemoveWisps()
-    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_NIGHTSHADE)
+    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.NIGHTSHADE)
     if wisps ~= nil and #wisps > 0 then
         for _, wisp in ipairs(wisps) do
             wisp:Remove()
@@ -40,7 +40,7 @@ end
 
 local timeToDie = 180
 local function WispUpdate(_, wisp)
-    if wisp.SubType ~= CollectibleType.SOMETHINGWICKED_NIGHTSHADE then
+    if wisp.SubType ~= mod.ITEMS.NIGHTSHADE then
         return
     end
     

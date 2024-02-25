@@ -84,7 +84,7 @@ function mod:RedGenerate(game, level, player)
         table.insert(currentTable[weight], IDXs)
     end
 
-    local collectibleRNG = Isaac.GetPlayer(0):GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE) --bad
+    local collectibleRNG = Isaac.GetPlayer(0):GetCollectibleRNG(mod.ITEMS.RED_NIGHTMARE) --bad
     
     --nabbed from segmented mausoleum
 	local oldchallenge = game.Challenge
@@ -133,10 +133,10 @@ function mod:IsValidUSRSpot(idx, game)
 end
 
 local function OnPickup(_, player, room)
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
+    local rng = player:GetCollectibleRNG(mod.ITEMS.RED_NIGHTMARE)
     for _ = 1, 1 + rng:RandomInt(2), 1 do
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, Card.CARD_CRACKED_KEY, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
     end
 end
 
-mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, mod.ITEMS.RED_NIGHTMARE)

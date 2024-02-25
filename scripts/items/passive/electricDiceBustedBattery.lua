@@ -12,12 +12,12 @@ local function ItemUse(_, id, _, player, flags)
     end
 
     local timesToUseBonus = 0
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE) then
-        timesToUseBonus = timesToUseBonus + player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_ELECTRIC_DICE):RandomInt(3)
+    if player:HasCollectible(mod.ITEMS.ELECTRIC_DICE) then
+        timesToUseBonus = timesToUseBonus + player:GetCollectibleRNG(mod.ITEMS.ELECTRIC_DICE):RandomInt(3)
     end
-    if player:HasTrinket(TrinketType.SOMETHINGWICKED_BUSTED_BATTERY) then
-        local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_BUSTED_BATTERY)
-        if t_rng:RandomFloat() < 0.33 * player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_BUSTED_BATTERY) then
+    if player:HasTrinket(mod.TRINKETS.BUSTED_BATTERY) then
+        local t_rng = player:GetTrinketRNG(mod.TRINKETS.BUSTED_BATTERY)
+        if t_rng:RandomFloat() < 0.33 * player:GetTrinketMultiplier(mod.TRINKETS.BUSTED_BATTERY) then
             timesToUseBonus = timesToUseBonus + 1
         end
     end

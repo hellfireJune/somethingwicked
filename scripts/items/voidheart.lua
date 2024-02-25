@@ -1,7 +1,7 @@
 local this = {}
  
 function this:PostPlayerUpdate()
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_VOID_HEART)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(mod.TRINKETS.VOID_HEART)
     if flag and player then
         local allBloodMachines = Isaac.FindByType(EntityType.ENTITY_SLOT, SomethingWicked.MachineVariant.MACHINE_BLOOD)
 
@@ -20,7 +20,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.PostPlayerUpdate)
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_VOID_HEART] = {
+    [mod.TRINKETS.VOID_HEART] = {
         isTrinket = true,
         desc = "!!! Turns all blood donation machines into void blood donation machines",
         encycloDesc = "Turns all blood donation machines into void blood donation machines"

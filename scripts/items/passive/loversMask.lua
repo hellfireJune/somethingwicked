@@ -7,7 +7,7 @@ local function BlockDMG(_, ent, amount, flags, source, dmgCooldown)
     --print("troller")
     
     if flags & DamageFlag.DAMAGE_FAKE ~= 0
-    or ent == nil or not ent:HasCollectible(CollectibleType.SOMETHINGWICKED_LOVERS_MASK) then
+    or ent == nil or not ent:HasCollectible(mod.ITEMS.LOVERS_MASK) then
         return 
     end
     local isRedHearts = false
@@ -41,7 +41,7 @@ local function BlockDMG(_, ent, amount, flags, source, dmgCooldown)
         end, 0, ModCallbacks.MC_INPUT_ACTION)
     end
 
-    local c_rng = ent:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOVERS_MASK)
+    local c_rng = ent:GetCollectibleRNG(mod.ITEMS.LOVERS_MASK)
     if c_rng:RandomFloat() < procChance then
         local color = Color(1, 1, 1, 1, 0.5)
         ent:SetColor(color, 8, 3, true, false)

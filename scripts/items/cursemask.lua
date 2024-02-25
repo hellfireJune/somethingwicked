@@ -1,6 +1,6 @@
 function this:OnDamage(player, amount, flag)
     player = player:ToPlayer()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CURSE_MASK) or player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION)
+    if player:HasCollectible(mod.ITEMS.CURSE_MASK) or player:HasCollectible(mod.ITEMS.BLACK_MOON_MEDALLION)
     and flag & DamageFlag.DAMAGE_CURSED_DOOR ~= 0 then
         local p_data = player:GetData()
         p_data.SomethingWickedPData.CurseRoomsHealedOff = p_data.SomethingWickedPData.CurseRoomsHealedOff or {} 
@@ -8,7 +8,7 @@ function this:OnDamage(player, amount, flag)
         local room = SomethingWicked.game:GetRoom()
         local door = room:GetGridEntityFromPos(player.Position)
 
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CURSE_MASK) and door then
+        if player:HasCollectible(mod.ITEMS.CURSE_MASK) and door then
             door = door:ToDoor()
             if door then
                 local idx = door.TargetRoomType == RoomType.ROOM_CURSE and door.TargetRoomIndex or SomethingWicked.game:GetLevel():GetCurrentRoomIndex()
@@ -20,7 +20,7 @@ function this:OnDamage(player, amount, flag)
                 end
             end
         else
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.BLACK_MOON_MEDALLION)
             if (SomethingWicked.game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE)
             or c_rng:RandomFloat() < 0.5 then
                 return
@@ -44,9 +44,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function (_)
         return
     end
 
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.BLACK_MOON_MEDALLION)
     if flag and player then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BLACK_MOON_MEDALLION)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.BLACK_MOON_MEDALLION)
         for i = 1, c_rng:RandomInt(3) + 1, 1 do
             SomethingWicked.RedKeyRoomHelpers:GenerateSpecialRoom("curse", 1, 6, true, c_rng)
         end
@@ -55,7 +55,7 @@ end)
 SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnDamage, EntityType.ENTITY_PLAYER)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CURSE_MASK] = {
+    [mod.ITEMS.CURSE_MASK] = {
         desc = "Blocks all damage from curse rooms#Curse rooms heal upon entering for the first time",
         Hide = true,
     }

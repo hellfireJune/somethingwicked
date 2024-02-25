@@ -3,7 +3,7 @@ local mod = SomethingWicked
 local otherSpeedMult = 0.15
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
     ApplyLogic = function (_, player, tear)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DARKNESS) then
+        if player:HasCollectible(mod.ITEMS.DARKNESS) then
             return true
         end
     end,
@@ -39,7 +39,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
 })
 
 --[[this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_DARKNESS] = {
+    [mod.ITEMS.DARKNESS] = {
         desc = "",
         Hide = true,
     }

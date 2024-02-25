@@ -3,7 +3,7 @@ local game = Game()
 
 function mod:WickedSoulOnPickup(player)
     local level = game:GetLevel()
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+    local rng = player:GetCollectibleRNG(mod.ITEMS.WICKED_SOUL)
     local possibleCurses = {}
     for index, value in ipairs(mod.CONST.CursePool) do
         if level:GetCurses() & value == 0 then
@@ -18,4 +18,4 @@ function mod:WickedSoulOnPickup(player)
     --when vfx, do here.
 end
 
-mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.WickedSoulOnPickup, CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.WickedSoulOnPickup, mod.ITEMS.WICKED_SOUL)

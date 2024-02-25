@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local curseDuration = 5.5
 
 local function PlayerUpdate(_, player)
-    if mod:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_CURSED_CANDLE) then
+    if mod:HoldItemUpdateHelper(player, mod.ITEMS.CURSED_CANDLE) then
         local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLUE_FLAME, mod.WickedFireSubtype, player.Position, mod:GetFireVector(player):Resized(18), player)
         fire = fire:ToEffect()
         fire.Timeout = 20
@@ -37,7 +37,7 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPri
 
 
 local function OnWispDie(_, entity)
-    if entity.Variant == FamiliarVariant.WISP and entity.SubType == CollectibleType.SOMETHINGWICKED_CURSED_CANDLE then
+    if entity.Variant == FamiliarVariant.WISP and entity.SubType == mod.ITEMS.CURSED_CANDLE then
         local smolFire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLUE_FLAME, mod.WickedFireSubtype, entity.Position, Vector.Zero, entity):ToEffect()
         smolFire.Timeout = 15
         smolFire.SpriteScale = Vector(0.75, 0.75)
@@ -45,7 +45,7 @@ local function OnWispDie(_, entity)
 end
 
 local function RemoveWisps()
-    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_CURSED_CANDLE)
+    local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.CURSED_CANDLE)
     if wisps ~= nil and #wisps > 0 then
         for _, wisp in ipairs(wisps) do
             wisp:Remove()

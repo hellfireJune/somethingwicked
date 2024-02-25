@@ -33,4 +33,4 @@ local function UseBox(_, _, rngObj, player, flags)
     return {ShowAnim = true, Remove = true}
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseBox, CollectibleType.SOMETHINGWICKED_ABANDONED_BOX)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseBox, mod.ITEMS.ABANDONED_BOX)

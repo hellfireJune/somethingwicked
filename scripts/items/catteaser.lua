@@ -28,7 +28,7 @@ end
 
 mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_CAT_TEASER, {
     ApplyLogic = function (_, player, tear)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CAT_TEASER) then
+        if player:HasCollectible(mod.ITEMS.CAT_TEASER) then
             return true
         end
     end,
@@ -80,7 +80,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PROJECTILE_UPDATE, function (_,
 end)
 
 
-this.EIDEntries = {[CollectibleType.SOMETHINGWICKED_CAT_TEASER] = {
+this.EIDEntries = {[mod.ITEMS.CAT_TEASER] = {
     desc = "mew mew mew",
     Hide = true,
 }}

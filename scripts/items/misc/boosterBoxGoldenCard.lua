@@ -37,16 +37,16 @@ local function randomCard(rng)
     return card, desc
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_GOLDEN_CARD)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.GOLDEN_CARD)
 
 local debt = 5
 local function procChance(player)
     local roomDebt = player:GetData().SomethingWickedPData.bBoxRoomDebt or 0
-    return (0.66*player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)) - (roomDebt*0.064)
+    return (0.66*player:GetCollectibleNum(mod.ITEMS.BOOSTER_BOX)) - (roomDebt*0.064)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
     local wisp = ent:ToFamiliar()
-    if wisp and wisp.Variant == FamiliarVariant.WISP and wisp.SubType == CollectibleType.SOMETHINGWICKED_GOLDEN_CARD then
+    if wisp and wisp.Variant == FamiliarVariant.WISP and wisp.SubType == mod.ITEMS.GOLDEN_CARD then
         --[[local rng = wisp:GetDropRNG()
         if rng:RandomFloat() < 0.5 then]]
             local player = wisp.Player
@@ -57,8 +57,8 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
     end
 
     if ent:IsEnemy() then
-        for _, player in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)) do
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BOOSTER_BOX)
+        for _, player in ipairs(mod:AllPlayersWithCollectible(mod.ITEMS.BOOSTER_BOX)) do
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.BOOSTER_BOX)
             --print(procChance(player))
             if c_rng:RandomFloat() < procChance(player) then
                 local card = randomCard(c_rng)
@@ -95,12 +95,12 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
 
 local function OnDMG(_, ent)
     ent = ent:ToPlayer()
-    if not ent or not ent:HasTrinket(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD) then
+    if not ent or not ent:HasTrinket(mod.TRINKETS.CARD_GRAVEYARD) then
         return
     end
 
-    local t_rng = ent:GetTrinketRNG(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD)
-    if t_rng:RandomFloat() < 0.2*math.max(1, ent:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_CARD_GRAVEYARD)) then
+    local t_rng = ent:GetTrinketRNG(mod.TRINKETS.CARD_GRAVEYARD)
+    if t_rng:RandomFloat() < 0.2*math.max(1, ent:GetTrinketMultiplier(mod.TRINKETS.CARD_GRAVEYARD)) then
         local p_data = ent:GetData()
         p_data.SomethingWickedPData.FortuneR_Stacks = (p_data.SomethingWickedPData.FortuneR_Stacks or 0)+1
     end

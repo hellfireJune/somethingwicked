@@ -3,7 +3,7 @@ local head = Isaac.GetEntityVariantByName("Balrog Head")
 local sfx = SFXManager()
 
 local function PlayerUpdate(_, player)
-    if mod:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_BALROGS_HEAD) then
+    if mod:HoldItemUpdateHelper(player, mod.ITEMS.BALROGS_HEAD) then
         local tear = player:FireTear(player.Position, (mod:GetUseDirection(player)), false, true, false)
         tear.Velocity = tear.Velocity * 1.5
         tear:ChangeVariant(head)
@@ -38,7 +38,7 @@ end
 
 
 local function OnWispDie(entity)
-    if entity.Variant == FamiliarVariant.WISP and entity.SubType == CollectibleType.SOMETHINGWICKED_BALROGS_HEAD then
+    if entity.Variant == FamiliarVariant.WISP and entity.SubType == mod.ITEMS.BALROGS_HEAD then
         local smolFire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, entity.Position, Vector.Zero, entity)
         smolFire.CollisionDamage = 15
         smolFire.SpriteScale = Vector(0.75, 0.75)

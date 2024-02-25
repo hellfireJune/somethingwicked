@@ -1,13 +1,13 @@
 local mod = SomethingWicked
 
 local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) then
+    if not player:HasCollectible(mod.ITEMS.TECH_MODULO) then
         return
     end
     local vel = dir
     --local _, pos = room:CheckLine(shooter.Position, shooter.Position + vel, 0)
 
-    local stacks = math.max(player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_TECH_MODULO), 1)
+    local stacks = math.max(player:GetCollectibleNum(mod.ITEMS.TECH_MODULO), 1)
     mod:DoHitscan(tear.Position, vel, player, function (position)
         for i = -1, 1, 2 do
             local ang = vel:Normalized():Rotated(90*i)

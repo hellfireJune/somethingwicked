@@ -1,15 +1,15 @@
 function this:CacheFlag(player)    
-    local n_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)
-    local n_sourceItem = Isaac.GetItemConfig():GetTrinket(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL), n_rng, n_sourceItem, SomethingWicked.NightmareSubTypes.NIGHTMARE_PERMANENT) 
+    local n_rng = player:GetTrinketRNG(mod.TRINKETS.NIGHTMARE_FUEL)
+    local n_sourceItem = Isaac.GetItemConfig():GetTrinket(mod.TRINKETS.NIGHTMARE_FUEL)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, player:GetTrinketMultiplier(mod.TRINKETS.NIGHTMARE_FUEL), n_rng, n_sourceItem, SomethingWicked.NightmareSubTypes.NIGHTMARE_PERMANENT) 
 
-    local v_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_VIRTUE)
-    local v_sourceItem = Isaac.GetItemConfig():GetTrinket(TrinketType.SOMETHINGWICKED_VIRTUE)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_VIRTUE), v_rng, v_sourceItem, SomethingWicked.NightmareSubTypes.NIGHTMARE_HOLY)
+    local v_rng = player:GetTrinketRNG(mod.TRINKETS.VIRTUE)
+    local v_sourceItem = Isaac.GetItemConfig():GetTrinket(mod.TRINKETS.VIRTUE)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, player:GetTrinketMultiplier(mod.TRINKETS.VIRTUE), v_rng, v_sourceItem, SomethingWicked.NightmareSubTypes.NIGHTMARE_HOLY)
 end
 
 function this:NewRoom()
-    for _, value in ipairs(SomethingWicked.ItemHelpers:AllPlayersWithTrinket(TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL)) do
+    for _, value in ipairs(SomethingWicked.ItemHelpers:AllPlayersWithTrinket(mod.TRINKETS.NIGHTMARE_FUEL)) do
         value:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
         value:EvaluateItems()
     end
@@ -19,7 +19,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.CacheFlag, Cach
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoom)
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_NIGHTMARE_FUEL] = {
+    [mod.TRINKETS.NIGHTMARE_FUEL] = {
         desc = "Spawns 1 Nightmare familiar which erattically orbits the player and attacks nearby enemies with homing tears#Familiar respawns each room if it dies",
         isTrinket = true,
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1 Nightmare familiar which erattically orbits the player and attacks nearby enemies with homing tears","Familiar respawns each room if it dies"})

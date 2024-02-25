@@ -1,9 +1,9 @@
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player, flags)
-    SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_ICE_WAND)
-end, CollectibleType.SOMETHINGWICKED_ICE_WAND)
+    SomethingWicked.HoldItemHelpers:HoldItemUseHelper(player, flags, mod.ITEMS.ICE_WAND)
+end, mod.ITEMS.ICE_WAND)
 
 function this:IceWandUpdate(player)
-    if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_ICE_WAND) then
+    if SomethingWicked.HoldItemHelpers:HoldItemUpdateHelper(player, mod.ITEMS.ICE_WAND) then
         local tear = player:FireTear(player.Position, (SomethingWicked.HoldItemHelpers:GetUseDirection(player)), false, true, false)
         tear.Velocity = tear.Velocity:Resized(15)
         local t_data = tear:GetData()

@@ -15,7 +15,7 @@ function this:FamiliarUpdate(familiar)
         if room:GetFrameCount() == 0 then
             familiar.Visible = true
 
-            local shouldBuff = player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) or player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS)
+            local shouldBuff = player:HasCollectible(mod.ITEMS.PLANCHETTE) or player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS)
             familiar.HitPoints = shouldBuff and 4 or 2
             return
         end
@@ -27,7 +27,7 @@ function this:FamiliarUpdate(familiar)
             familiar.Visible = false
 
             for i = 1, 3, 1 do
-                local nwisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_LIGHTHOUSE, familiar.Position, Vector.Zero, familiar):ToFamiliar()
+                local nwisp = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.LIGHTHOUSE, familiar.Position, Vector.Zero, familiar):ToFamiliar()
                 nwisp.Parent = familiar
                 nwisp:RemoveFromOrbit()
                 nwisp.OrbitDistance = Vector(8, 8)
@@ -75,7 +75,7 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, Call
 end, FamiliarVariant.SOMETHINGWICKED_BIG_WISP)
 
 function this:WispUpdate(familiar)
-    if familiar.SubType ~= CollectibleType.SOMETHINGWICKED_LIGHTHOUSE then
+    if familiar.SubType ~= mod.ITEMS.LIGHTHOUSE then
         return
     end
 

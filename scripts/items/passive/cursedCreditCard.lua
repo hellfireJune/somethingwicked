@@ -25,9 +25,9 @@ local function PickupCollision(_, pickup, collider)
     collider = collider:ToPlayer()
 
     local canBuy, mult = couldBuyItemTable[pickup.Price](collider)
-    if collider:HasCollectible(CollectibleType.SOMETHINGWICKED_CURSED_CREDIT_CARD) 
+    if collider:HasCollectible(mod.ITEMS.CURSED_CREDIT_CARD) 
     and collider:CanPickupItem() and collider:IsExtraAnimationFinished() and canBuy then
-        local rng = collider:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CURSED_CREDIT_CARD)
+        local rng = collider:GetCollectibleRNG(mod.ITEMS.CURSED_CREDIT_CARD)
         local proc = rng:RandomFloat()
         if proc <= procChance * mult then
             pickup.Price = PickupPrice.PRICE_FREE

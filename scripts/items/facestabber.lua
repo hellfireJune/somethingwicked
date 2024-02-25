@@ -5,14 +5,14 @@ chargebar:Load("gfx/chargebar.anm2", true)
 
 local dmgMult = 1.5
 function this:UseItem(_, _, player, flags)
-    return mod.HoldItemHelpers:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
+    return mod.HoldItemHelpers:HoldItemUseHelper(player, flags, mod.ITEMS.FLYING_GUILLOTINE)
 end
 
 local maxFrames = 18
 function this:PEffectUpdate(player)
     local d = player:GetData()
     if player:IsHoldingItem() 
-    and d.somethingWicked_isHoldingItem[CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] == true then
+    and d.somethingWicked_isHoldingItem[mod.ITEMS.FLYING_GUILLOTINE] == true then
         d.sw_guillotineData = d.sw_guillotineData or 
         {
             Charge = 0,
@@ -37,9 +37,9 @@ function this:PEffectUpdate(player)
             tear:Update()
 
             
-            local _, slot = mod.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
-            player:AnimateCollectible(CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE, "HideItem", "PlayerPickupSparkle")
-            d.somethingWicked_isHoldingItem[CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] = false
+            local _, slot = mod.ItemHelpers:CheckPlayerForActiveData(player, mod.ITEMS.FLYING_GUILLOTINE)
+            player:AnimateCollectible(mod.ITEMS.FLYING_GUILLOTINE, "HideItem", "PlayerPickupSparkle")
+            d.somethingWicked_isHoldingItem[mod.ITEMS.FLYING_GUILLOTINE] = false
             player:DischargeActiveItem(slot)
 
             d.sw_guillotineData = nil
@@ -122,7 +122,7 @@ function this:PlayerRender(player, offset)
     chargebar:Render(pos)
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, mod.ITEMS.FLYING_GUILLOTINE)
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 mod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, this.KnifeCollision)
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, this.PlayerRender)
@@ -153,7 +153,7 @@ end
 mod:AddCallback(ModCallbacks.MC_NPC_UPDATE, NPCUpdate)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_FLYING_GUILLOTINE] = {
+    [mod.ITEMS.FLYING_GUILLOTINE] = {
         desc = "",
         Hide = true,
     }

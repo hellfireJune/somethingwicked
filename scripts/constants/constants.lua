@@ -173,6 +173,7 @@ SomethingWicked.CustomCardTypes = {
     CARDTYPE_THOTH = 1,
     CARDTYPE_THOTH_REVERSED = 2,
     CARDTYPE_FRENCH_PLAYING = 3,
+    CARDTYPE_RUNE_WICKEDMISC = 4,
 }
 SomethingWicked.NightmareSubTypes = {
     NIGHTMARE_STANDARD = 0,

@@ -38,11 +38,11 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.CacheUpdate, CacheFlag.CACHE_SPEED)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_LUST)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, mod.CARDS.THOTH_LUST)
 
 
 this.EIDEntries = {
-    [Card.SOMETHINGWICKEDTHOTH_LUST] = {
+    [mod.CARDS.THOTH_LUST] = {
         desc = "Gives three full heart containers for the current room#Speed down by ".. this.SpeedDown .. "#{{Player14}} Spawns a Golden Penny instead as Keeper"
     }
 }

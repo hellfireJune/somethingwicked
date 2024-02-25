@@ -230,6 +230,7 @@ local a_ = i_.."active/"
 local f_ = i_.."familiars/"
 local m_ = i_.."misc/"
 local t_ = i_.."trinkets/"
+local c_ = "cards/"
 
 local midLoad = {
   m_.."itemPopup",
@@ -294,6 +295,8 @@ local midLoad = {
   f_.."roguePlanet",
   a_.."familiarDupeItem",
   p_.."disAcheron",
+  p_.."reliquary",
+  a_.."bookOfInsanity",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -308,11 +311,13 @@ local midLoad = {
   t_.."bobsHeart",
   t_.."ticketRoll",
   t_.."demonCore",
+
+  c_.."stoneOfThePit",
 }
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
   ApplyLogic = function (_, p, tear)
-      if p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) then
-          local rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLASMA_GLOBE) 
+      if p:HasCollectible(mod.ITEMS.PLASMA_GLOBE) then
+          local rng = p:GetCollectibleRNG(mod.ITEMS.PLASMA_GLOBE) 
           local proc = p.Luck >= 0 and (mod.PlasmaGlobeBaseProc + (mod.PlasmaGlobeBaseProc * (p.Luck / 2))) or (mod.PlasmaGlobeBaseProc / math.abs(p.Luck))
           if rng:RandomFloat() > proc then
               return
@@ -334,13 +339,13 @@ function mod:EvaluateGenericStatItems(player, flags)
   if not player then
     return
   end
-  local wickedSoulMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WICKED_SOUL)
-  local goldenWatchMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH)
-  local lankyMushMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_LANKY_MUSHROOM)
+  local wickedSoulMult = player:GetCollectibleNum(mod.ITEMS.WICKED_SOUL)
+  local goldenWatchMult = player:GetCollectibleNum(mod.ITEMS.GOLDEN_WATCH)
+  local lankyMushMult = player:GetCollectibleNum(mod.ITEMS.LANKY_MUSHROOM)
   local gachaponMult = mod:GachaponStatsEvaluate(player)
-  local roguePlanet = mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM))
+  local roguePlanet = mod:BoolToNum(player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM))
 
-  local soulId = ((game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE) and TrinketType.SOMETHINGWICKED_VIRTUOUS_SOUL or TrinketType.SOMETHINGWICKED_DAMNED_SOUL)
+  local soulId = ((game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE) and mod.TRINKETS.VIRTUOUS_SOUL or mod.TRINKETS.DAMNED_SOUL)
   local curseSoulMult = player:GetTrinketMultiplier(soulId)
 
   local p_data = player:GetData()
@@ -352,15 +357,15 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.Damage = mod:DamageUp(player, 0.6 * gachaponMult)
     player.Damage = mod:DamageUp(player, 0.3 * curseSoulMult)
 
-    player.Damage = mod:DamageUp(player, 1 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_AVENGER_EMBLEM)))
-    player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_HORN))
-    player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_SILVER_RING))
+    player.Damage = mod:DamageUp(player, 1 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.AVENGER_EMBLEM)))
+    player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.WOODEN_HORN))
+    player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(mod.ITEMS.SILVER_RING))
     player.Damage = mod:DamageUp(player, p_data.SomethingWickedPData.EncycloBelialBuff or 0)
-    player.Damage = mod:DamageUp(player, (0.7 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)))
-    player.Damage = mod:DamageUp(player, 0.7 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_RAMS_HEAD))
+    player.Damage = mod:DamageUp(player, (0.7 * player:GetCollectibleNum(mod.ITEMS.CROSSED_HEART)))
+    player.Damage = mod:DamageUp(player, 0.7 * player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD))
     
-    if player:GetEffects():GetCollectibleEffect(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER) then  
-      player.Damage = mod:DamageUp(player, 0.6 * player:GetEffects():GetCollectibleEffectNum(CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER))
+    if player:GetEffects():GetCollectibleEffect(mod.ITEMS.BOOK_OF_LUCIFER) then  
+      player.Damage = mod:DamageUp(player, 0.6 * player:GetEffects():GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LUCIFER))
     end
     
     if p_data.SomethingWickedPData.inverterdmgToAdd then
@@ -376,9 +381,12 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MaxFireDelay = mod:TearsUp(player, 0.45 * goldenWatchMult)
     player.MaxFireDelay = mod:TearsUp(player, 0, 0.5 * curseSoulMult)
 
-    player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WHITE_ROSE))
-    player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO))
-    player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_RAMS_HEAD) * 0.5)
+    player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(mod.ITEMS.WHITE_ROSE))
+    player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO))
+    player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD) * 0.5)
+    if p_data.SomethingWickedPData.reliqBuff then
+        player.MaxFireDelay = mod:TearsUp(player, 0, p_data.SomethingWickedPData.reliqBuff*0.25)
+    end
   end
   if flags == CacheFlag.CACHE_LUCK then
     player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult+goldenWatchMult+curseSoulMult))
@@ -387,12 +395,12 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult+goldenWatchMult))
     player.MoveSpeed = player.MoveSpeed + (0.15 * curseSoulMult)
 
-    player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOTTLE_OF_SHAMPOO)*0.3
+    player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO)*0.3
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
-      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_GANYMEDE)))
-      player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_STAR_TREAT))
+      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.GANYMEDE)))
+      player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
@@ -403,9 +411,9 @@ function mod:EvaluateGenericStatItems(player, flags)
     if lourdesBuff then
       player.TearFlags = player.TearFlags | TearFlags.TEAR_HOMING
     end
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
+    if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
         if not p_data.SomethingWickedPData.FruitMilkFlags then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FRUIT_MILK)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.FRUIT_MILK)
             local newFlags = mod:GenerateFruitFlag(c_rng)
             p_data.SomethingWickedPData.FruitMilkFlags = newFlags
         end
@@ -414,7 +422,7 @@ function mod:EvaluateGenericStatItems(player, flags)
         player.TearFlags = player.TearFlags | p_data.SomethingWickedPData.FruitMilkFlags
     end
 
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM) then
+    if player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
       player.TearFlags = player.TearFlags | (TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_SPECTRAL)
     end
 
@@ -428,17 +436,17 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
   end
   if  flags == CacheFlag.CACHE_FAMILIARS then
-    local stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_STRANGE_APPLE)
+    local stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.STRANGE_APPLE)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_RETROSNAKE, stacks, rng, source)
     
-    stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_DEVILSKNIFE_ITEM)
+    stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.DEVILSKNIFE_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_DEVILSKNIFE, stacks, rng, source)
     
-    stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_SOLOMON_ITEM)
+    stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.SOLOMON_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_SOLOMON, stacks, rng, source)
     
-    stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR) then
+    stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.JUSTICE_AND_SPLENDOR)
+    if player:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR) then
         local p_data = player:GetData()
         if p_data.SomethingWickedPData.isSplendorful
         or player:GetHearts() >= player:GetEffectiveMaxHearts() then
@@ -449,11 +457,11 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR, stacks, rng, source)
     
-    _, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM)
+    _, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.ROGUE_PLANET_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
     
-    stacks, rng, source = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_MINOS_ITEM)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(CollectibleType.SOMETHINGWICKED_MINOS_ITEM)), rng, source)
+    stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
   end
 
@@ -471,19 +479,19 @@ function mod:EvaluateLateStats(player, flags)
     end
   end
   if flags == CacheFlag.CACHE_DAMAGE then
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SILVER_RING) then
+    if player:HasCollectible(mod.ITEMS.SILVER_RING) then
       player.Damage = player.Damage * 1.1
     end
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
+    if player:HasCollectible(mod.ITEMS.WICKED_SOUL) then
       player.Damage = player.Damage * 1.3
     end
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
+    if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
       player.Damage = player.Damage * 0.2
     end
     if shouldBoost then
       player.Damage = player.Damage * 1.2
     end
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_TECH_MODULO) then
+    if player:HasCollectible(mod.ITEMS.TECH_MODULO) then
         player.Damage = player.Damage * 2/3
     end
   end
@@ -492,11 +500,11 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.LATE, mod.EvaluateLateStats)
 
 local quickThrowables = {
-  CollectibleType.SOMETHINGWICKED_CURSED_CANDLE,
-  CollectibleType.SOMETHINGWICKED_BALROGS_HEAD,
+  mod.ITEMS.CURSED_CANDLE,
+  mod.ITEMS.BALROGS_HEAD,
 }
 function mod:useItemGeneric(id, rng, player, flags)
-  if id == CollectibleType.SOMETHINGWICKED_EDENS_HEAD then  
+  if id == mod.ITEMS.EDENS_HEAD then  
     if flags & UseFlag.USE_CARBATTERY ~= 0 then
       return
     end
@@ -508,21 +516,30 @@ function mod:useItemGeneric(id, rng, player, flags)
   if mod:UtilTableHasValue(quickThrowables, id) then
     return mod:HoldItemUseHelper(player, flags, id)
   end
-  if id == CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK
-  or id == CollectibleType.SOMETHINGWICKED_DADS_WALLET then
+  if id == mod.ITEMS.EVIL_PIGGYBANK
+  or id == mod.ITEMS.DADS_WALLET then
       return { Discharge = false, ShowAnim = true}
   end
-  if id == CollectibleType.SOMETHINGWICKED_VOID_EGG then
+  if id == mod.ITEMS.VOID_EGG then
     mod:AddLocusts(player, rng:RandomInt(2) + 1, rng) return
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
 
+function mod:useCardGeneric(id, player)
+  if id == mod.CARDS.STONE_OF_THE_PIT then    
+    sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
+    local trinket = game:GetItemPool():GetTrinket()
+    player:AnimateTrinket(trinket, "Pickup")
+    mod:UtilAddSmeltedTrinket(trinket, player)
+  end
+end
+
 function mod:peffectGenericUpdate(player)
   local p_data = player:GetData()
 
-  if player:HasTrinket(TrinketType.SOMETHINGWICKED_DAMNED_SOUL) or player:HasTrinket(TrinketType.SOMETHINGWICKED_VIRTUOUS_SOUL) then
-    local hadCurse = (SomethingWicked.game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE)
+  if player:HasTrinket(mod.TRINKETS.DAMNED_SOUL) or player:HasTrinket(mod.TRINKETS.VIRTUOUS_SOUL) then
+    local hadCurse = (game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE)
     if hadCurse ~= p_data.sw_hadCurse then
         p_data.sw_hadCurse = hadCurse
         player:AddCacheFlags(CacheFlag.CACHE_ALL)
@@ -533,20 +550,20 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.peffectGenericUpdate)
 
 function mod:GenericOnPickups(player, room, id)
-  if id == CollectibleType.SOMETHINGWICKED_WHITE_ROSE then
+  if id == mod.ITEMS.WHITE_ROSE then
     for i = 1, 4, 1 do
       player:AddWisp(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES, player.Position)
     end
     return
   end
-  if id == CollectibleType.SOMETHINGWICKED_RED_LOCKBOX then
-    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_LOCKBOX)
+  if id == mod.ITEMS.RED_LOCKBOX then
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.RED_LOCKBOX)
     for i = 1, 4 + c_rng:RandomInt(3), 1 do
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
     end
     return
   end
-  if id == CollectibleType.SOMETHINGWICKED_WICKERMAN then
+  if id == mod.ITEMS.WICKERMAN then
     for i = 1, 2, 1 do
       Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)
     end
@@ -559,15 +576,15 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, mod.GenericOnPickups)
 function mod:GenericPostPurchase(player, pickup, isDevil)
   local p_data = player:GetData()
   if not isDevil then
-    for i = 1, player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH), 1 do
-      player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH)
-      mod:QueueItemPopUp(player, CollectibleType.SOMETHINGWICKED_GOLDEN_WATCH, 1, 1)
+    for i = 1, player:GetCollectibleNum(mod.ITEMS.GOLDEN_WATCH), 1 do
+      player:RemoveCollectible(mod.ITEMS.GOLDEN_WATCH)
+      mod:QueueItemPopUp(player, mod.ITEMS.GOLDEN_WATCH, 1, 1)
 
       sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
     end
 
     if pickup.Price == PickupPrice.PRICE_FREE then
-      local id = p_data.somethingWicked_isMammonItem and CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK or CollectibleType.SOMETHINGWICKED_DADS_WALLET
+      local id = p_data.somethingWicked_isMammonItem and mod.ITEMS.EVIL_PIGGYBANK or mod.ITEMS.DADS_WALLET
       
       local charge, slot = mod:CheckPlayerForActiveData(player, id)
       if slot == -1 then
@@ -594,12 +611,12 @@ function mod:LatePickupUpdate(pickup)
   local p_data = pickup:GetData()
   
   if pickup:IsShopItem() then
-    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DADS_WALLET) then
+    if mod:GlobalPlayerHasCollectible(mod.ITEMS.DADS_WALLET) then
       if pickup.Price > 0 then
         pickup.Price = PickupPrice.PRICE_FREE
       end
     end
-    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_EVIL_PIGGYBANK)
+    if mod:GlobalPlayerHasCollectible(mod.ITEMS.EVIL_PIGGYBANK)
     and pickup.Price ~= PickupPrice.PRICE_FREE then
       if pickup.Price < 0 then
         pickup.Price = PickupPrice.PRICE_FREE
@@ -610,7 +627,7 @@ function mod:LatePickupUpdate(pickup)
       p_data.somethingWicked_isMammonItem = false
     end
     
-    if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_MEAL_COUPON) then
+    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.MEAL_COUPON) then
       if pickup.Price > 0 then
           pickup.Price = PickupPrice.PRICE_FREE
       end
@@ -632,15 +649,15 @@ function mod:OnNewRoom()
       
       local hasSpawnedBirettaYet, hasSpawnedWickermanYet, shouldGenRoom = false, false, mod:GenericShouldGenerateRoom(level, game)
       for _, player in ipairs(mod:UtilGetAllPlayers()) do
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) then
+        if player:HasCollectible(mod.ITEMS.WOODEN_DICE) then
           player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
         end
         
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_SOUL) then
+        if player:HasCollectible(mod.ITEMS.WICKED_SOUL) then
           mod:WickedSoulOnPickup(player)
         end
 
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_NIGHTMARE) then
+        if player:HasCollectible(mod.ITEMS.RED_NIGHTMARE) then
           mod:RedGenerate(game, level, player)
         end
         
@@ -648,20 +665,24 @@ function mod:OnNewRoom()
           player:GetData().SomethingWickedPData.demonCoreFlag = false
         end
         
-        if not hasSpawnedBirettaYet and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BIRETTA) then
+        if not hasSpawnedBirettaYet and player:HasCollectible(mod.ITEMS.BIRETTA) then
           mod:SpawnMachineQuick(Vector(520, 120), mod.MachineVariant.MACHINE_CONFESSIONAL, player)
         end
         
         mod:BookOfLuciferNewFloor(player, shouldGenRoom)
 
         if shouldGenRoom then
-          if not hasSpawnedWickermanYet and player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKERMAN) then
-            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WICKERMAN)
+          if not hasSpawnedWickermanYet and player:HasCollectible(mod.ITEMS.WICKERMAN) then
+            local rng = player:GetCollectibleRNG(mod.ITEMS.WICKERMAN)
             if not mod:RoomTypeCurrentlyExists(RoomType.ROOM_SACRIFICE, level, rng) then
                 mod:GenerateSpecialRoom("sacrifice", 1, 5, true, rng)
             end
           end
         end
+      end
+
+      for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, mod.NightmareSubTypes.NIGHTMARE_FLOORONLY)) do
+        value:Remove()
       end
     end
 end
@@ -678,15 +699,15 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
   if currRoom.VisitedCount == 1 then
     --cats eye
     if rtype == RoomType.ROOM_SECRET or rtype == RoomType.ROOM_SUPERSECRET then
-      for i = 1, mod:GlobalGetTrinketNum(TrinketType.SOMETHINGWICKED_CATS_EYE), 1 do
+      for i = 1, mod:GlobalGetTrinketNum(mod.TRINKETS.CATS_EYE), 1 do
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_GRAB_BAG, 0, room:FindFreePickupSpawnPosition(room:GetCenterPos()), Vector.Zero, nil)
       end
     end
   end
   
-  local glitch = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET)
-  local curse = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_CURSED_KEY)
-  local treasure = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TREASURERS_KEY)
+  local glitch = mod:GlobalPlayerHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET)
+  local curse = mod:GlobalPlayerHasTrinket(mod.TRINKETS.CURSED_KEY)
+  local treasure = mod:GlobalPlayerHasTrinket(mod.TRINKETS.TREASURERS_KEY)
 
   for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
     local door = room:GetDoor(i)
@@ -715,12 +736,19 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
     mod:BolineTakeDMG(p)
 
     --indulgence
-    if p:HasTrinket(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE) then
-      local t_rng = p:GetTrinketRNG(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE)
-      if t_rng:RandomFloat() < 0.1*p:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_PRINT_OF_INDULGENCE) then
+    if p:HasTrinket(mod.TRINKETS.PRINT_OF_INDULGENCE) then
+      local t_rng = p:GetTrinketRNG(mod.TRINKETS.PRINT_OF_INDULGENCE)
+      if t_rng:RandomFloat() < 0.1*p:GetTrinketMultiplier(mod.TRINKETS.PRINT_OF_INDULGENCE) then
           local room = game:GetRoom()
           local pos = room:FindFreePickupSpawnPosition(p.Position)
           Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, pos, Vector.Zero, p)
+      end
+    end
+    
+    if p:HasCollectible(mod.ITEMS.YELLOW_SIGIL) then
+      local c_rng = p:GetCollectibleRNG(mod.ITEMS.YELLOW_SIGIL)
+      if c_rng:RandomFloat() < 0.5 then
+        mod:SpawnNightmare(p, p.Position, mod.NightmareSubTypes.NIGHTMARE_FLOORONLY)
       end
     end
 
@@ -741,9 +769,9 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, mod.PostEntityTakeDMG)
 
 function mod:OnUsePill(effect, player)
-  if player:HasTrinket(TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL) then
+  if player:HasTrinket(mod.TRINKETS.SUGAR_COATED_PILL) then
     mod.save.runData.sugarCoatedPillEffect = effect
-    player:TryRemoveTrinket(TrinketType.SOMETHINGWICKED_SUGAR_COATED_PILL)
+    player:TryRemoveTrinket(mod.TRINKETS.SUGAR_COATED_PILL)
 
     sfx:Play(SoundEffect.SOUND_VAMP_GULP)
 end
@@ -759,7 +787,7 @@ end
 mod:AddCallback(ModCallbacks.MC_GET_PILL_EFFECT, mod.GetPillEffect)
 
 local bombVariants = {
-  [2761] = { CollectibleType.SOMETHINGWICKED_VOID_BOMBS, "sw_isVoidBomb" }
+  [2761] = { mod.ITEMS.VOID_BOMBS, "sw_isVoidBomb" }
 }
 function mod:BombInit(bomb)
   local p = bomb.SpawnerEntity
@@ -798,7 +826,7 @@ function mod:BombUpdate(bomb)
     if b_s:IsPlaying("Explode") then
       --void bombs
       if b_data.sw_isVoidBomb then
-        local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_VOID_BOMBS)
+        local c_rng = p:GetCollectibleRNG(mod.ITEMS.VOID_BOMBS)
         if not bomb.IsFetus or (c_rng:RandomFloat() > 0.2 + (0.026 * p.Luck)) then
           local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, p)
           local void = Isaac.Spawn(EntityType.ENTITY_LASER, LaserVariant.THICK_RED, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, p)
@@ -826,9 +854,9 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
 
 
 local function BossRoomClear(pos)
-  local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
+  local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.CAT_FOOD)
   if flag and player then
-      local numCatFood = mod:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_CAT_FOOD)
+      local numCatFood = mod:GlobalGetCollectibleNum(mod.ITEMS.CAT_FOOD)
       for i = 1, numCatFood * 5, 1 do
           Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF, pos, RandomVector() * 5, player)
       end

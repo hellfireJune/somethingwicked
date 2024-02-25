@@ -82,24 +82,24 @@ end
 local function UseItem()
     return true
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.DOUBLING_CHERRY)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
     local effects = player:GetEffects()
-    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY)
-    local c_sourceItem = Isaac.GetItemConfig():GetCollectible(CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY)
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.DOUBLING_CHERRY)
+    local c_sourceItem = Isaac.GetItemConfig():GetCollectible(mod.ITEMS.DOUBLING_CHERRY)
 
     local boxStacks = effects:GetCollectibleEffectNum(CollectibleType.COLLECTIBLE_BOX_OF_FRIENDS)
-    local itemStacks = effects:GetCollectibleEffectNum(CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY)
+    local itemStacks = effects:GetCollectibleEffectNum(mod.ITEMS.DOUBLING_CHERRY)
     local realstacks = 0
     if itemStacks > 0 then
         realstacks = (itemStacks) + boxStacks
     end
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC, realstacks, c_rng, c_sourceItem)
     
-    local l_stacks, l_rng, l_sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_LEGION_ITEM)
+    local l_stacks, l_rng, l_sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.LEGION_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION, l_stacks, l_rng, l_sourceItem)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION_B, player:HasCollectible(CollectibleType.SOMETHINGWICKED_LEGION_ITEM) and 3 or 0 , l_rng, l_sourceItem)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LEGION_B, player:HasCollectible(mod.ITEMS.LEGION_ITEM) and 3 or 0 , l_rng, l_sourceItem)
 end, CacheFlag.CACHE_FAMILIARS)
 
 local function FamiliarUpdate(_, familiar)
@@ -136,11 +136,11 @@ SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_FIRE_PURE
 end)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LEGION_ITEM] = {
+    [mod.ITEMS.LEGION_ITEM] = {
         desc = "hey guys",
         Hide = true,
     },
-    [CollectibleType.SOMETHINGWICKED_DOUBLING_CHERRY] = {
+    [mod.ITEMS.DOUBLING_CHERRY] = {
         desc = "Doubles you",
         Hide = true,
     }

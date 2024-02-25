@@ -8,7 +8,7 @@ local function BossPoolEdit(_, collectible, itempooltype, decrease, seed)
         return
     end
 
-    if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_DEMONIUM_PAGE) then
+    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.DEMONIUM_PAGE) then
             while crashPreventer < 100 do
                 local config = Isaac.GetItemConfig()
                 local itempool = SomethingWicked.game:GetItemPool()

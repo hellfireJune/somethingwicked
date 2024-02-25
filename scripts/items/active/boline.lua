@@ -2,13 +2,13 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 
 local function ItemUse(_, _, _, player, flags)
-    return mod:HoldItemUseHelper(player, flags, CollectibleType.SOMETHINGWICKED_BOLINE)
+    return mod:HoldItemUseHelper(player, flags, mod.ITEMS.BOLINE)
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, ItemUse, CollectibleType.SOMETHINGWICKED_BOLINE)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, ItemUse, mod.ITEMS.BOLINE)
 
 local scaleMult = 1.4
 local function PlayerUpdate(_, player)
-    if mod:HoldItemUpdateHelper(player, CollectibleType.SOMETHINGWICKED_BOLINE) then
+    if mod:HoldItemUpdateHelper(player, mod.ITEMS.BOLINE) then
         local direction = mod:GetFireVector(player) * 4
         local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 1, player.Position, direction, player)
         local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, player.Position, Vector.Zero, player):ToLaser()
@@ -37,14 +37,14 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)
 
 function mod:BolineTakeDMG(player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BOLINE) then
-        SomethingWicked:ChargeFirstActiveOfType(player, CollectibleType.SOMETHINGWICKED_BOLINE, 2, false)
+    if player:HasCollectible(mod.ITEMS.BOLINE) then
+        SomethingWicked:ChargeFirstActiveOfType(player, mod.ITEMS.BOLINE, 2, false)
     end
 end
 
 
 function mod:PostBolineWispTakeDamage(wisp, collectible)
-    if collectible ~= CollectibleType.SOMETHINGWICKED_BOLINE then
+    if collectible ~= mod.ITEMS.BOLINE then
         return
     end
 

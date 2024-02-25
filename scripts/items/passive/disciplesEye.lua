@@ -3,7 +3,7 @@ local game = Game()
 
 local function PlayerUpdate(_, player)
     local lvel = game:GetLevel()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
+    if player:HasCollectible(mod.ITEMS.DISCIPLES_EYE) then
         for i = 1, 169 do
             local redRoom = lvel:GetRoomByIdx(i)
                 
@@ -23,7 +23,7 @@ end
 
 local function OnTakeDamage(_, player, _, flags, ref)
     local room = game:GetRoom()
-    if player:ToPlayer():HasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
+    if player:ToPlayer():HasCollectible(mod.ITEMS.DISCIPLES_EYE)
     and flags & DamageFlag.DAMAGE_SPIKES ~= 0
     and room:GetType() == RoomType.ROOM_SACRIFICE
     and player:GetDropRNG():RandomInt(3) == 1 then
@@ -34,13 +34,13 @@ end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnTakeDamage, EntityType.ENTITY_PLAYER)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, PlayerUpdate)
 --SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
-SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE)
+SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, mod.ITEMS.DISCIPLES_EYE)
 
 
 if MinimapAPI then
     local function MinimapAPICompatibility(_, room, dflags)
         if room.Descriptor and room.Descriptor.Data.Type == RoomType.ROOM_ULTRASECRET then
-            if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_DISCIPLES_EYE) then
+            if mod:GlobalPlayerHasCollectible(mod.ITEMS.DISCIPLES_EYE) then
                 return dflags |  1 << 2
             end
         end

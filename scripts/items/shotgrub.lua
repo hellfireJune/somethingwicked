@@ -8,7 +8,7 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SHOTGRUB, {
         or tear.Parent.Type ~= 1 then
             return false
         end
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SHOTGRUB) then
+        if player:HasCollectible(mod.ITEMS.SHOTGRUB) then
             tear:AddTearFlags(TearFlags.TEAR_WIGGLE)
             return true
         end
@@ -42,7 +42,7 @@ function this:HitEnemy(tear, pos)
 
             new.Color = new.Color * splittedColor
 
-            local c_rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SHOTGRUB)
+            local c_rng = p:GetCollectibleRNG(mod.ITEMS.SHOTGRUB)
             if c_rng:RandomFloat() < poisonProc(p) then
                 new:AddTearFlags(TearFlags.TEAR_MYSTERIOUS_LIQUID_CREEP)
             end
@@ -52,7 +52,7 @@ function this:HitEnemy(tear, pos)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_SHOTGRUB] = {
+    [mod.ITEMS.SHOTGRUB] = {
         desc = "Oogly Boogly",
         Hide = true,
     }

@@ -14,7 +14,7 @@ local function BuffFamiliarHP(_, familiar)
     end
 
     local player = familiar.Player
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
+    if player:HasCollectible(mod.ITEMS.PLANCHETTE) then
         if familiar.FrameCount == 5 and familiar.MaxHitPoints > 0 then
             heal(familiar)
         end
@@ -32,7 +32,7 @@ local function WispFire(_, tear)
             return
         end
         local p = spawner.Player
-        if p and p:HasCollectible(CollectibleType.SOMETHINGWICKED_PLANCHETTE) then
+        if p and p:HasCollectible(mod.ITEMS.PLANCHETTE) then
             tear.Scale = tear.Scale * 1.2
             tear.CollisionDamage = tear.CollisionDamage * 2
         end
@@ -53,7 +53,7 @@ local function PlanchetteOnPickup(_, player)
     end
 
     for i = 1, 4, 1 do
-        player:AddWisp(CollectibleType.SOMETHINGWICKED_PLANCHETTE, player.Position)
+        player:AddWisp(mod.ITEMS.PLANCHETTE, player.Position)
     end
 end
 
@@ -85,4 +85,4 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, PreEntityTakeDMG)
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, WispFire)
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BuffFamiliarHP)
-mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, PlanchetteOnPickup, CollectibleType.SOMETHINGWICKED_PLANCHETTE)
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, PlanchetteOnPickup, mod.ITEMS.PLANCHETTE)

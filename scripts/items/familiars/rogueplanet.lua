@@ -3,7 +3,7 @@ local mod = SomethingWicked
 local function ShootTear(_, tear)
     local player = mod:UtilGetPlayerFromTear(tear)
     if tear.FrameCount == 1
-    and player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM) then
+    and player and player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
         
         local planets = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
         for _, planet in ipairs(planets) do
@@ -31,7 +31,7 @@ local function ShootLaser(_, laser)
     if laser.SubType ~= LaserSubType.LASER_SUBTYPE_RING_LUDOVICO
     and (laser.SubType ~= 3 or l_data.somethingwicked_rogueplanetlaser) --i need it to run the update thing twice. dont ask why. i forgot and dont want to remember.
     and (laser.FrameCount <= 1)
-    and player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_ROGUE_PLANET_ITEM) then
+    and player and player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
         
         local planets = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
         for _, planet in ipairs(planets) do

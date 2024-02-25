@@ -1,7 +1,7 @@
 local frameCooldown = 15
 local maxGhosts = 7
 function this:OnEnemyDMGGeneric(tear, collider, player, proc)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_DUDAEL) then
+    if not player:HasCollectible(mod.ITEMS.DUDAEL) then
         return
     end
 
@@ -43,7 +43,7 @@ function this:UseItem(_, _, player)
     p_data.somethingWicked_dudaelGhosts = {}
     return true
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_DUDAEL)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, mod.ITEMS.DUDAEL)
 
 local moveSpeed = 40
 local distanceTillIdle = 80

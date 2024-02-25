@@ -7,7 +7,7 @@ function this:RemoveHeartContainerThing(player)
         player:AddMaxHearts(-2)
         player:AddBlackHearts(1)
 
-        local locust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, CollectibleType.SOMETHINGWICKED_DEVILSTAIL, player.Position, Vector.Zero, player)
+        local locust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST, mod.ITEMS.DEVILSTAIL, player.Position, Vector.Zero, player)
         locust.Parent = player
 
         p_data.SomethingWickedPData.framestoremovemoreheartcontainers = 6
@@ -18,7 +18,7 @@ end
 
 function this:OnDMG(player, amount, flag)
     player = player:ToPlayer()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_DEVILSTAIL) then
+    if player:HasCollectible(mod.ITEMS.DEVILSTAIL) then
         local p_data = player:GetData()
         --this:RemoveHeartContainerThing(player)
         p_data.SomethingWickedPData.framestoremovemoreheartcontainers = 2
@@ -39,7 +39,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PlayerUpda
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, this.OnDMG, EntityType.ENTITY_PLAYER)
 
 function this:LocustUpdate(locust)
-    if locust.SubType ~= CollectibleType.SOMETHINGWICKED_DEVILSTAIL then
+    if locust.SubType ~= mod.ITEMS.DEVILSTAIL then
         return
     end
 
@@ -53,7 +53,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.LocustUpdate, FamiliarVariant.ABYSS_LOCUST)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_DEVILSTAIL] = {
+    [mod.ITEMS.DEVILSTAIL] = {
         desc = "!!! Taking damage with empty heart containers will remove all empty heart containers, and give half a black heart and an abyss locust",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Taking damage with empty heart containers will remove all empty heart containers, and give half a black heart and an abyss locust"}),
         pools = {

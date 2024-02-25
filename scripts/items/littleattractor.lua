@@ -7,7 +7,7 @@ function this:FamiliarUpdate(familiar)
 end
 
 function this:EvalCache(player)
-    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_LITTLE_ATTRACTOR_ITEM)
+    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.LITTLE_ATTRACTOR_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR, stacks, rng, sourceItem)
 end
 
@@ -15,7 +15,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.EvalCache, CacheFlag.CACHE_FAMILIARS)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LITTLE_ATTRACTOR_ITEM] = {
+    [mod.ITEMS.LITTLE_ATTRACTOR_ITEM] = {
         Hide = true,
     }
 }

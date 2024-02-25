@@ -18,14 +18,14 @@ function this:SpawnLocusts(player, rng, subtype)
     return true
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseSprout, CollectibleType.SOMETHINGWICKED_MARBLE_SPROUT)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseTM, CollectibleType.SOMETHINGWICKED_TASK_MANAGER)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseSprout, mod.ITEMS.MARBLE_SPROUT)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseTM, mod.ITEMS.TASK_MANAGER)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_MARBLE_SPROUT] = {
+    [mod.ITEMS.MARBLE_SPROUT] = {
         Hide = true,
     },
-    [CollectibleType.SOMETHINGWICKED_TASK_MANAGER] = {
+    [mod.ITEMS.TASK_MANAGER] = {
         Hide = true,
     }
 }

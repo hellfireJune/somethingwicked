@@ -4,7 +4,7 @@ local sHeartValues = { [HeartSubType.HEART_HALF_SOUL] = 1, [HeartSubType.HEART_S
 
 mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
     player = player:ToPlayer()
-    if not player or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP) then
+    if not player or not player:HasCollectible(mod.ITEMS.RED_CAP) then
         return
     end
     if not mod:CanPickupPickupGeneric(pickup, player) then
@@ -31,7 +31,7 @@ mod:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.L
 end, PickupVariant.PICKUP_HEART)
 
 mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-    local itemNult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_RED_CAP)
+    local itemNult = player:GetCollectibleNum(mod.ITEMS.RED_CAP)
 
     if flags == CacheFlag.CACHE_SHOTSPEED then
         player.ShotSpeed = player.ShotSpeed - (0.15 * itemNult)
@@ -42,7 +42,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, pickup)
-    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_RED_CAP)
+    if mod:GlobalPlayerHasCollectible(mod.ITEMS.RED_CAP)
     and sHeartValues[pickup.SubType] ~= nil then
         local red = ((math.sin(pickup.FrameCount / 20)+1)/10)
         pickup:SetColor(Color(1, 0.9, 0.9, 1, red), 2, 1, false, false)

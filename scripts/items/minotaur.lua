@@ -15,8 +15,8 @@ end
 
 function this:FireTear(tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
-    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then 
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
+    if player and player:HasCollectible(mod.ITEMS.CRYING_MINOTAUR) then 
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.CRYING_MINOTAUR)
         local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
             tear.Color = this.DreadStatusColor
@@ -30,8 +30,8 @@ function this:FireLaser(laser, player, pure)
     if not pure then
         return
     end
-    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR) then 
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CRYING_MINOTAUR)
+    if player and player:HasCollectible(mod.ITEMS.CRYING_MINOTAUR) then 
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.CRYING_MINOTAUR)
         local procChance = ProcChance(player)
         if c_rng:RandomFloat() < procChance then
             laser.Color = this.DreadStatusColor

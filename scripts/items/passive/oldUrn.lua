@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local game = Game()
 
 function mod:OldUrnPickup(player, room, id)
-    if id ~= CollectibleType.SOMETHINGWICKED_OLD_URN then
+    if id ~= mod.ITEMS.OLD_URN then
         return
     end
 

@@ -3,10 +3,10 @@ local game = Game()
 local sfx = SFXManager()
 
 local chanceToTurn = 1
-local blacklist = {CollectibleType.SOMETHINGWICKED_GLITCHCITY, CollectibleType.COLLECTIBLE_MISSINGNO}
+local blacklist = {mod.ITEMS.GLITCHCITY, CollectibleType.COLLECTIBLE_MISSINGNO}
 local function PlayerUpdate(_, player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY) then
-        local stacks = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
+    if player:HasCollectible(mod.ITEMS.GLITCHCITY) then
+        local stacks = player:GetCollectibleNum(mod.ITEMS.GLITCHCITY)
         local p_data = player:GetData()
         p_data.sw_glitchCityTimer = (p_data.sw_glitchCityTimer or 170) - (stacks+0.2)
         --print(p_data.sw_glitchCityTimer, stacks, (stacks*10))
@@ -16,7 +16,7 @@ local function PlayerUpdate(_, player)
             p_data.sw_glitchCityTimer = math.min(p_data.sw_glitchCityTimer, 20)
         end
 
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.GLITCHCITY)
         if p_data.sw_glitchCityTimer < 0 then
             while p_data.sw_glitchCityTimer < 0 do
                 local target = mod.FamiliarHelpers:FindNearestVulnerableEnemy(player.Position)
@@ -65,8 +65,8 @@ local function PlayerUpdate(_, player)
                 player:AnimateCollectible(unlockySod , "LiftItem", "PlayerPickupSparkle")
 
                 mod:UtilScheduleForUpdate(function ()
-                    local conf = iconfig:GetCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY)
-                    player:AnimateCollectible(CollectibleType.SOMETHINGWICKED_GLITCHCITY, "Pickup", "PlayerPickupSparkle")
+                    local conf = iconfig:GetCollectible(mod.ITEMS.GLITCHCITY)
+                    player:AnimateCollectible(mod.ITEMS.GLITCHCITY, "Pickup", "PlayerPickupSparkle")
                     player:QueueItem(conf, conf.InitCharge)
                     game:GetHUD():ShowItemText(player, conf)
                     sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK)

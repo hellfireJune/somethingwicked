@@ -2,10 +2,10 @@ local mod = SomethingWicked
 
 --max mult = 2.6, min mult = 0.5
 function mod:StarSpawnPlayerDamage(player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STAR_SPAWN) then
+    if player:HasCollectible(mod.ITEMS.STAR_SPAWN) then
         local p_data = player:GetData()
 
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_SPAWN)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.STAR_SPAWN)
         local rand = rng:RandomFloat()
         local favoured = false
         if rand > 0.5 then
@@ -38,7 +38,7 @@ function mod:StarSpawnPlayerDamage(player)
 end
 
 function mod:StarSpawnEval(player, flags)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STAR_SPAWN) then
+    if player:HasCollectible(mod.ITEMS.STAR_SPAWN) then
         local p_data = player:GetData()
         p_data.SomethingWickedPData.SSDamageBuff = p_data.SomethingWickedPData.SSDamageBuff or 1.15
         p_data.SomethingWickedPData.SSTearsBuff = p_data.SomethingWickedPData.SSTearsBuff or 1.15

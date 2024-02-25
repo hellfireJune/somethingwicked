@@ -4,8 +4,8 @@ local function procChance(player, rng)
     return 1
 end
 function this:OnEnemyDMGd(tear, theDMGer, player, proccer)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_MOSAIC_SHARD) then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_MOSAIC_SHARD)
+    if player:HasCollectible(mod.ITEMS.MOSAIC_SHARD) then
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.MOSAIC_SHARD)
         if c_rng:RandomFloat() > procChance(player, c_rng) * proccer then
             return
         end

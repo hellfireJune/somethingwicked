@@ -68,7 +68,7 @@ local function ItemUse(_, _, _, player)
     return true
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, ItemUse, CollectibleType.SOMETHINGWICKED_D_STOCK)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, ItemUse, mod.ITEMS.D_STOCK)
 
 function mod:DbugShop(ids,offs)
     for index, value in ipairs(Isaac.FindByType(5)) do

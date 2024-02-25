@@ -24,7 +24,7 @@ local function UseItem(_, _, rng, player, flags)
         return true
     end
     p_data.SomethingWickedPData.chaosHeart_MarkedForDetonate = player.FrameCount
-    player:AnimateCollectible(CollectibleType.SOMETHINGWICKED_CHAOS_HEART , "LiftItem", "PlayerPickupSparkle")
+    player:AnimateCollectible(mod.ITEMS.CHAOS_HEART , "LiftItem", "PlayerPickupSparkle")
     --fail
 end
 
@@ -39,10 +39,10 @@ local function PlayerUpdate(_, player)
     --print(frameDifference) 
     if frameDifference >= framesAfter then
         local room = game:GetRoom()
-        player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
+        player:RemoveCollectible(mod.ITEMS.CHAOS_HEART)
         room:MamaMegaExplosion(player.Position)
         
-        local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
+        local wisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.CHAOS_HEART)
         if wisps ~= nil and #wisps > 0 then
             for _, wisp in ipairs(wisps) do
                 wisp:Kill()
@@ -58,5 +58,5 @@ local function PlayerUpdate(_, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_CHAOS_HEART)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.CHAOS_HEART)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)

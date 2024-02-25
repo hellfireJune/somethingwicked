@@ -48,7 +48,7 @@ end
 local dps = 8
 local damagePerTear = 15.5
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_AIR_FRESHENER) then
+    if not player:HasCollectible(mod.ITEMS.AIR_FRESHENER) then
         return
     end
 
@@ -57,11 +57,11 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         return
     end
 
-    local dpsMult = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_AIR_FRESHENER)*dps
+    local dpsMult = player:GetCollectibleNum(mod.ITEMS.AIR_FRESHENER)*dps
     local p_data = player:GetData()
     p_data.sw_airFreshenerTick = (p_data.sw_airFreshenerTick or 0) + (dpsMult/30)
 
-    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_AIR_FRESHENER)
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.AIR_FRESHENER)
     local spawnMult = 0.75 + 0.5*c_rng:RandomFloat()
     if p_data.sw_airFreshenerTick > damagePerTear then
         p_data.sw_airFreshenerTick = p_data.sw_airFreshenerTick - damagePerTear

@@ -2,7 +2,7 @@ local this = {}
 local mod = SomethingWicked
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, p_data)
-    p_data.sw_ddChance = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_PENDULUM) + p_data.sw_ddChance
+    p_data.sw_ddChance = player:GetCollectibleNum(mod.ITEMS.PENDULUM) + p_data.sw_ddChance
 end)
 
 --local defaultcolor = Color(50, 50, 50, 1, 0)
@@ -10,7 +10,7 @@ function this:ProjectileInit(proj)
     if proj.FrameCount ~= 1 then
         return
     end
-    if not mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_PENDULUM) then
+    if not mod.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.PENDULUM) then
         return
     end
 
@@ -29,7 +29,7 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_PROJECTILE_UPDATE, this.ProjectileInit)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_PENDULUM] = {
+    [mod.ITEMS.PENDULUM] = {
         desc = "?",
         Hide = true
     }

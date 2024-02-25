@@ -26,14 +26,14 @@ local function OnTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     elseif not e_data.sw_hellfirePrimedFrames and ent.HitPoints < 0.1 then
         return
     end
-    local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_HELLFIRE)
+    local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.HELLFIRE)
     if flag and player then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_HELLFIRE)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.HELLFIRE)
         if e_data.sw_isHellfireMarked == nil then
             e_data.sw_isHellfireMarked = c_rng:RandomFloat() < procChance(player)
         end
     end
-    if mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
+    if mod:GlobalPlayerHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
         e_data.sw_crownOfBloodMarked = true
     end
     if e_data.sw_isHellfireMarked or e_data.sw_crownOfBloodMarked then
@@ -105,7 +105,7 @@ end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_NPC_EFFECT_TICK, mod.HellfireCOBUpdate)
 
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
-    if not mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD) then
+    if not mod:GlobalPlayerHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) then
         return
     end
 
@@ -114,7 +114,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
         luck = luck + value.Luck
     end
     luck = mod:Clamp(luck, 10, 0)
-    local rng = mod:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CROWN_OF_BLOOD)
+    local rng = mod:GlobalGetCollectibleRNG(mod.ITEMS.CROWN_OF_BLOOD)
 
     --https://bindingofisaacrebirth.fandom.com/wiki/Room_Clear_Awards?so=search
     local thing = (rng:RandomFloat() * luck * 0.1) + rng:RandomFloat()

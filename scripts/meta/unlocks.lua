@@ -7,7 +7,7 @@ mod.save.unlockData.unlocks = mod.save.unlockData.unlocks or {}
 mod.unlocks = {
     ["APOLLYONS_CROWN"] = {
         unlockData = {
-            Collectibles = {CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN}
+            Collectibles = {mod.ITEMS.APOLLYONS_CROWN}
         },
         lockStatus = false
     }

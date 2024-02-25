@@ -14,12 +14,12 @@ mod.AssistTrophyBlacklist = {
 
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
     local tempEffects = player:GetEffects()
-    tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_ITEM_BOX, true, 3)
+    tempEffects:AddCollectibleEffect(mod.ITEMS.ITEM_BOX, true, 3)
     player:GetData().sw_mysteryWisps = {}
     sfx:Play(SoundEffect.SOUND_POWERUP1, 1, 0)
 
     return true
-end, CollectibleType.SOMETHINGWICKED_ITEM_BOX)
+end, mod.ITEMS.ITEM_BOX)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     local p_data = player:GetData()
@@ -27,11 +27,11 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         return
     end
     local tempEffects = player:GetEffects()
-    local s = tempEffects:GetCollectibleEffect(CollectibleType.SOMETHINGWICKED_ITEM_BOX)
+    local s = tempEffects:GetCollectibleEffect(mod.ITEMS.ITEM_BOX)
 
     if s ~= nil and s.Count > 0 then
-        tempEffects:RemoveCollectibleEffect(CollectibleType.SOMETHINGWICKED_ITEM_BOX)
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_ITEM_BOX)
+        tempEffects:RemoveCollectibleEffect(mod.ITEMS.ITEM_BOX)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.ITEM_BOX)
 
         local c = -1
         while c < 0 or mod:UtilTableHasValue(bList) or (rList[c] and rList[c] < c_rng:RandomFloat()) do
@@ -75,7 +75,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, c_rng, player)
     player:AnimateCollectible(c, "UseItem")
     
     mod:EvalutePWisps(player)
-end, CollectibleType.SOMETHINGWICKED_ASSIST_TROPHY)
+end, mod.ITEMS.ASSIST_TROPHY)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
     if data.sw_mysteryWisps then

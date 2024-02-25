@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local game = Game()
 
 local function CheckForDealDoors()
-    if not SomethingWicked:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET) then
+    if not SomethingWicked:GlobalPlayerHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET) then
         return
     end
     local room = game:GetRoom()
@@ -29,7 +29,7 @@ function mod:ZZZZZZConvertDoor(door)
     end
     sprite:LoadGraphics()
 end
---[[    [TrinketType.SOMETHINGWICKED_ZZZZZZ_MAGNET] = {
+--[[    [mod.TRINKETS.ZZZZZZ_MAGNET] = {
         desc = "!!! Turns all doors to Devil Rooms and Angel Rooms into doors to the Error Room",
         isTrinket = true,
     }]]

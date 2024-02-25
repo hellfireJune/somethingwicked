@@ -4,11 +4,11 @@ local function proc(player)
     return 1
 end
 function this:EnemyDMG(tear, collider, player, procChance)
-    if not player or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_RED_QUEEN) then
+    if not player or not player:HasCollectible(mod.ITEMS.RED_QUEEN) then
         return
     end
 
-    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_RED_QUEEN)
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.RED_QUEEN)
     if c_rng:RandomFloat() > proc(player) then
         return
     end

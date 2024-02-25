@@ -27,7 +27,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem)
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_PRISMATIC_MUSHROOM] = {
+    [mod.ITEMS.PRISMATIC_MUSHROOM] = {
         desc = "",
         Hide = true,
     }

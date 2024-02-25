@@ -7,7 +7,7 @@ end, FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY)
 
 local function NewRoomBehaviour(familiar)
     if not familiar.Parent and familiar.RoomClearCount > 3 then
-        local c_rng = familiar.Player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CUTIE_FLY_ITEM)
+        local c_rng = familiar.Player:GetCollectibleRNG(mod.ITEMS.CUTIE_FLY_ITEM)
 
         local enemies = Isaac.FindInRadius(Vector.Zero, 80000, 8)
         enemies = SomethingWicked:UtilShuffleTable(enemies, c_rng)
@@ -71,7 +71,7 @@ end
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ITEM_SHOULD_CHARGE, this.HealParent)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-        local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_CUTIE_FLY_ITEM)
+        local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.CUTIE_FLY_ITEM)
         player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_CUTIE_FLY, stacks, rng, sourceItem)
 end, CacheFlag.CACHE_FAMILIARS)
 

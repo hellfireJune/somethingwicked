@@ -20,7 +20,7 @@ local function PickupCollision(_, entity, player)
 
     player = player:ToPlayer()
     if player then
-        local charge, slot = mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_VOID_EGG)
+        local charge, slot = mod:CheckPlayerForActiveData(player, mod.ITEMS.VOID_EGG)
         if slot ~= -1 and charge < (player:HasCollectible(CollectibleType.COLLECTIBLE_BATTERY) and 6 or 3) then
             player:SetActiveCharge(charge + HeartValues[entity.SubType], slot)
             entity:Remove()
@@ -41,12 +41,12 @@ SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PickupCollisio
 function WispTearUpdate(_, tear)
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR
     or tear.SpawnerVariant ~= FamiliarVariant.WISP
-    or tear.SpawnerEntity.SubType ~= CollectibleType.SOMETHINGWICKED_VOID_EGG then
+    or tear.SpawnerEntity.SubType ~= mod.ITEMS.VOID_EGG then
         return
     end
 
     local rng = tear:GetDropRNG()
-    if #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY) < #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_VOID_EGG) then
+    if #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY) < #Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.VOID_EGG) then
         local subtype = rng:RandomInt(5) + 1
         for ii = 1, 1 + (subtype == LocustSubtypes.LOCUST_OF_CONQUEST and rng:RandomInt(3) or 0), 1 do
             Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, subtype, tear.Position, Vector.Zero, tear)

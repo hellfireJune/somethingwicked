@@ -8,7 +8,7 @@ SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_PROVI
         this:TearUpdate(tear)
     end,
     ApplyLogic = function (_, player)
-        return player:HasCollectible(CollectibleType.SOMETHINGWICKED_EYE_OF_PROVIDENCE)
+        return player:HasCollectible(mod.ITEMS.EYE_OF_PROVIDENCE)
     end
 })
 
@@ -38,7 +38,7 @@ function this:TearUpdate(tear)
 end
 
 function this:CacheEval(player, flags)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_EYE_OF_PROVIDENCE) then
+    if player:HasCollectible(mod.ITEMS.EYE_OF_PROVIDENCE) then
         player.TearFlags = player.TearFlags | TearFlags.TEAR_PIERCING
     end
 end

@@ -5,9 +5,9 @@ local function procChance(player)
 end
 mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_RAIN_HELLFIRE, {
     ApplyLogic = function (_, player, tear)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
+        if player:HasCollectible(mod.ITEMS.BLOOD_HAIL)
         and ((tear.Parent and tear.Parent.Type == 1)) then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BLOOD_HAIL)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.BLOOD_HAIL)
             if c_rng:RandomFloat() < procChance(player) then
                 return true
             end
@@ -79,7 +79,7 @@ function this:TearCollision(tear)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_BLOOD_HAIL] = {
+    [mod.ITEMS.BLOOD_HAIL] = {
         desc = "rain ):",
         Hide = true,
     }

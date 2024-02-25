@@ -7,7 +7,7 @@ local function PickupInit(_, entity)
         return
     end
 
-    if mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_BOBS_HEART) then
+    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.BOBS_HEART) then
         entity:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ROTTEN, true)
     end
 end

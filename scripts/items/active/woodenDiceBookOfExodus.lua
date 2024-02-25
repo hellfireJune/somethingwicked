@@ -3,7 +3,7 @@ local sfx = SFXManager()
 local game = Game()
 
 local function PickupInit(_, pickup)
-    local players = mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
+    local players = mod:AllPlayersWithCollectible(mod.ITEMS.BOOK_OF_EXODUS)
 
     for _, player in ipairs(players) do
         if (pickup:GetSprite():IsPlaying("Appear") or pickup:GetSprite():IsPlaying("AppearFast")) 
@@ -19,7 +19,7 @@ end
 
 --floorly smelt now in main.lua
 
-local function ShittyWorkaroundMarblesCheck(_, player)
+--[[local function ShittyWorkaroundMarblesCheck(_, player)
     local p_data = player:GetData()
     p_data.somethingwicked_LastHeldTrinkets = p_data.somethingwicked_LastHeldTrinkets or {}
     for key, value in pairs(p_data.somethingwicked_LastHeldTrinkets) do
@@ -49,10 +49,22 @@ function SomethingWicked:UtilRefreshTrinketInventory(player)
     end 
 
     p_data.SomethingWickedPData.TrinketInventory = newTable
+end]]
+
+function mod:GetSmeltedTrinkets(player)
+    local history = player:GetHistory()
+    local historyItems = history:GetcollectiblesHistory()
+
+    local trinks = {}
+    for index, value in ipairs(historyItems) do
+        if value:IsTrinket() then
+            table.insert(trinks, value:GetItemID())
+        end
+    end
+    return trinks
 end
 
 local function UseDice(_, _, rngObj, player, flags)
-    local p_data = player:GetData()
     local trinketsToAdd = 0
     local smeltedTrinketsToAdd = 0
     local gildedTrinketsToAdd = 0
@@ -69,14 +81,14 @@ local function UseDice(_, _, rngObj, player, flags)
                 gildedTrinketsToAdd = gildedTrinketsToAdd + 1
             end
 
-            if trinket % TrinketType.TRINKET_GOLDEN_FLAG == TrinketType.SOMETHINGWICKED_GACHAPON then
+            if trinket % TrinketType.TRINKET_GOLDEN_FLAG == mod.TRINKETS.GACHAPON then
                 mod:GachaponDestroy(nil, player, gilded)
             end
         end
     end
-    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
-    SomethingWicked:UtilRefreshTrinketInventory(player)
-    for key, trinket in pairs(p_data.SomethingWickedPData.TrinketInventory) do
+    
+    local smeltedTrinkets = mod:GetSmeltedTrinkets(player)
+    for key, trinket in pairs(smeltedTrinkets) do
         if player:HasTrinket(trinket) then
             player:TryRemoveTrinket(trinket)
             smeltedTrinketsToAdd = smeltedTrinketsToAdd + 1
@@ -114,7 +126,6 @@ local function BookEffect(player, trinket, inInventory)
     if inInventory then
         player:AddTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG)
     else
-        SomethingWicked:UtilRefreshTrinketInventory(player)
         SomethingWicked:UtilAddSmeltedTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG, player) 
     end
 
@@ -130,7 +141,7 @@ local function BookEffect(player, trinket, inInventory)
 end
 local function UseBook(_, _, rngObj, player, flags)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
+    
     for i = 0, player:GetMaxTrinkets() - 1 , 1 do
         local trinket = player:GetTrinket(i)
         if trinket < TrinketType.TRINKET_GOLDEN_FLAG and trinket ~= 0 then
@@ -138,8 +149,8 @@ local function UseBook(_, _, rngObj, player, flags)
         end
     end
     
-    SomethingWicked:UtilRefreshTrinketInventory(player)
-    for key, value in pairs(p_data.SomethingWickedPData.TrinketInventory) do
+    local smeltedTrinkets = mod:GetSmeltedTrinkets(player)
+    for key, value in pairs(smeltedTrinkets) do
         if player:HasTrinket(value)
         and value < TrinketType.TRINKET_GOLDEN_FLAG and value ~= 0  then
             return BookEffect(player, value, false)
@@ -152,17 +163,17 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, PickupInit, PickupVariant.PICKUP_TRINKET)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseBook, CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseDice, CollectibleType.SOMETHINGWICKED_WOODEN_DICE)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseBook, mod.ITEMS.BOOK_OF_EXODUS)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseDice, mod.ITEMS.WOODEN_DICE)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, function (_, rngObj, player, flags)
+--[[SomethingWicked:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, function (_, rngObj, player, flags)
     local p_data = player:GetData()
     p_data.SomethingWickedPData.TrinketInventory = p_data.SomethingWickedPData.TrinketInventory or {}
     if player:GetTrinket(0) ~= 0 then
         table.insert(p_data.SomethingWickedPData.TrinketInventory, player:GetTrinket(0))
     end
-end, CollectibleType.COLLECTIBLE_SMELTER)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, ShittyWorkaroundMarblesCheck) --i loooove marbles
+end, CollectibleType.COLLECTIBLE_SMELTER)]]
+--SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, ShittyWorkaroundMarblesCheck) --i loooove marbles
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player)
-    player.Luck = player.Luck + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WOODEN_DICE) + player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS)
+    player.Luck = player.Luck + player:GetCollectibleNum(mod.ITEMS.WOODEN_DICE) + player:GetCollectibleNum(mod.ITEMS.BOOK_OF_EXODUS)
 end, CacheFlag.CACHE_LUCK)

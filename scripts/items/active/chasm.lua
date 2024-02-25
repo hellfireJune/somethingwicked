@@ -17,7 +17,7 @@ local function UseItem(_, _, _, player)
             poof.Color = tearColor
             sfx:Play(SoundEffect.SOUND_BLACK_POOF, 1, 0)
             if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) then
-                player:AddWisp(CollectibleType.SOMETHINGWICKED_CHASM, player.Position)
+                player:AddWisp(mod.ITEMS.CHASM, player.Position)
             end
 
             stacksToAdd = stacksToAdd + 1
@@ -41,7 +41,7 @@ local function FireTear(_, tear)
     if player then
         local p_data = player:GetData()
         if p_data.SomethingWickedPData.chasmStacks then
-            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CHASM)
+            local rng = player:GetCollectibleRNG(mod.ITEMS.CHASM)
             local rndmFloat = rng:RandomFloat()
             --the scientfic notation flex
             if rndmFloat < p_data.SomethingWickedPData.chasmStacks*(10^-1) then
@@ -70,5 +70,5 @@ local function PlayerUpdate(_, player)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, FireTear)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_CHASM)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.CHASM)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)

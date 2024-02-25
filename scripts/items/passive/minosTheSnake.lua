@@ -364,7 +364,7 @@ end
 
 local function HydrusPlayerUpdate(_, player)
     local p_data = player:GetData()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRUS) then
+    if player:HasCollectible(mod.ITEMS.HYDRUS) then
         p_data.somethingwicked_HydrusTearRespawnTime = p_data.somethingwicked_HydrusTearRespawnTime or 0
 
         if (not p_data.somethingwicked_HydrusTear or
@@ -379,7 +379,7 @@ local function HydrusPlayerUpdate(_, player)
         end
     end
 
-    --[[if player:HasCollectible(CollectibleType.SOMETHINGWICKED_HYDRA) then
+    --[[if player:HasCollectible(mod.ITEMS.HYDRA) then
         p_data.somethingwicked_HydraTearRespawnTime = p_data.somethingwicked_HydraTearRespawnTime or 0
         p_data.somethingwicked_HydraTears = p_data.somethingwicked_HydraTears or {}
 
@@ -438,7 +438,7 @@ end
 
 local function NewRoom()
     CachedRoom = game:GetRoom()
-    for _, p in ipairs(mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_HYDRUS)) do
+    for _, p in ipairs(mod:AllPlayersWithCollectible(mod.ITEMS.HYDRUS)) do
         local p_data = p:GetData()
         p_data.somethingwicked_HydrusTearRespawnTime = 0
     end

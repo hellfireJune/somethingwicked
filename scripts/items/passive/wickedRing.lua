@@ -29,8 +29,8 @@ end
 
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_CRITCHARGE, {
     ApplyLogic = function (_, p)
-        if p:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_RING) then
-            local rng = p:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WICKED_RING)
+        if p:HasCollectible(mod.ITEMS.WICKED_RING) then
+            local rng = p:GetCollectibleRNG(mod.ITEMS.WICKED_RING)
             if rng:RandomFloat() < procChance(p) then
                 return true
             end
@@ -57,7 +57,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_CRITCHARGE, {
 })
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, function (_, player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WICKED_RING) then
+    if player:HasCollectible(mod.ITEMS.WICKED_RING) then
         local p_data = player:GetData()
         if not p_data.sw_wickedRingRender then
             updatePlayersProgress(player)

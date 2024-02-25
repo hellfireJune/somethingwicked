@@ -2,7 +2,7 @@ local mod = SomethingWicked
 
 local function PEffectUpdate(_, player)
     local p_data = player:GetData()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_JUSTICE_AND_SPLENDOR) then
+    if player:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR) then
         p_data.SomethingWickedPData.splendorTimer = (p_data.SomethingWickedPData.splendorTimer or 120) - 1
         if p_data.SomethingWickedPData.isSplendorful == nil then
             p_data.SomethingWickedPData.isSplendorful = false

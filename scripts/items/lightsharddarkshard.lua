@@ -6,7 +6,7 @@ TearVariant.SOMETHINGWICKED_DARK_SHARD = 2
 local shardDelay = 2/5
 local angleVariance = 25
 function this:UpdatePlayer(player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_LIGHT_SHARD) and not player:HasCollectible(CollectibleType.SOMETHINGWICKED_DARK_SHARD) then
+    if not player:HasCollectible(mod.ITEMS.LIGHT_SHARD) and not player:HasCollectible(mod.ITEMS.DARK_SHARD) then
         return
     end
     local fireDirection = player:GetAimDirection()
@@ -18,8 +18,8 @@ function this:UpdatePlayer(player)
 
         local ang = math.sin(player.FrameCount/10)*angleVariance
         for i = -1, 2, 1 do
-            local id = i == 1 and CollectibleType.SOMETHINGWICKED_LIGHT_SHARD or CollectibleType.SOMETHINGWICKED_DARK_SHARD
-            local isLight = id == CollectibleType.SOMETHINGWICKED_LIGHT_SHARD
+            local id = i == 1 and mod.ITEMS.LIGHT_SHARD or mod.ITEMS.DARK_SHARD
+            local isLight = id == mod.ITEMS.LIGHT_SHARD
 
             local hearts = isLight and player:GetEffectiveMaxHearts() or 0
             if player:GetHearts() == hearts then
@@ -37,13 +37,13 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.UpdatePlayer)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player)
     player:AddEternalHearts(1)
-end, CollectibleType.SOMETHINGWICKED_LIGHT_SHARD)
+end, mod.ITEMS.LIGHT_SHARD)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LIGHT_SHARD] = {
+    [mod.ITEMS.LIGHT_SHARD] = {
         Hide = true,
     },
-    [CollectibleType.SOMETHINGWICKED_DARK_SHARD] = {
+    [mod.ITEMS.DARK_SHARD] = {
         Hide = true,
     }
 }

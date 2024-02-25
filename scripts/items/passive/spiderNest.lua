@@ -3,7 +3,7 @@ local mod = SomethingWicked
 local sfx, game = SFXManager(), Game()
 
 local function IsFiring(_, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_SPIDER_EGG) then
+    if not player:HasCollectible(mod.ITEMS.SPIDER_EGG) then
         return
     end
 
@@ -17,7 +17,7 @@ local function IsFiring(_, player)
             return
         end
 
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SPIDER_EGG)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.SPIDER_EGG)
         local vector = mod:UtilGetFireVector(player:GetAimDirection(), player)
         vector = vector:Rotated(c_rng:RandomFloat()*25)
         local testEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_SPIDER_EGG, 0, player.Position, (vector:Normalized())*6, player):ToEffect()

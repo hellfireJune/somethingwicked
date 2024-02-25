@@ -43,7 +43,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, FamiliarInit, Familia
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, UpdateFamiliar, FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL)
 
 function this:TeratomaChunkPickup(player, room)
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_TERATOMA_CHUNK)
+    local rng = player:GetCollectibleRNG(mod.ITEMS.TERATOMA_CHUNK)
     for i = 1, 8 + rng:RandomInt(6), 1 do
         Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL, 0, player.Position, Vector.Zero, player)
     end

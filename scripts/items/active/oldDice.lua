@@ -25,7 +25,7 @@ local function OnUse(_, _, rngObj, player, flags)
     local conf = itemConfig:GetCollectible(collectible)
     game:GetHUD():ShowItemText(player, conf)
     pool:RemoveCollectible(collectible)
-    local charge, slot = mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE)
+    local charge, slot = mod:CheckPlayerForActiveData(player, mod.ITEMS.OLD_DICE)
 
     if conf.Type == ItemType.ITEM_ACTIVE
     --[[and slot <= 1]] then
@@ -44,7 +44,7 @@ local function OnFixedUpdate(_, player)
         return
     end
 
-    local oldDices = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, CollectibleType.SOMETHINGWICKED_OLD_DICE, true)
+    local oldDices = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, mod.ITEMS.OLD_DICE, true)
     local dice = nil
     if item.Type == ItemType.ITEM_ACTIVE
     and player:GetActiveItem(ActiveSlot.SLOT_PRIMARY) == 0 then
@@ -57,7 +57,7 @@ local function OnFixedUpdate(_, player)
         end
     end
 
-    if ((mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) >= baseMaxCharge)
+    if ((mod:CheckPlayerForActiveData(player, mod.ITEMS.OLD_DICE) >= baseMaxCharge)
     or dice ~= nil) then
         local dEffects = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD, -1, true)
 
@@ -93,8 +93,8 @@ local function OnFixedUpdate(_, player)
 
             if Input.IsActionPressed(buttonToPress, player.ControllerIndex)
             and (noDrop or not Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex)) then
-                player:UseActiveItem(CollectibleType.SOMETHINGWICKED_OLD_DICE, 0, -1)
-                player:AddCollectible(CollectibleType.SOMETHINGWICKED_OLD_DICE, dice.Charge - baseMaxCharge, false)
+                player:UseActiveItem(mod.ITEMS.OLD_DICE, 0, -1)
+                player:AddCollectible(mod.ITEMS.OLD_DICE, dice.Charge - baseMaxCharge, false)
 
                 local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, dice.Position, Vector.Zero, dice)
                 poof.Color = Color(0.1, 0.1, 0.1)
@@ -110,7 +110,7 @@ local function OnEffectUpdate(_, effect)
 
     if (player == nil or
     player.QueuedItem.Item == nil or
-    (mod:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_OLD_DICE) < baseMaxCharge
+    (mod:CheckPlayerForActiveData(player, mod.ITEMS.OLD_DICE) < baseMaxCharge
     and player.QueuedItem.Item.Type ~= ItemType.ITEM_ACTIVE)) then
         sprite:Play("Dissapear")
     elseif sprite:IsPlaying("Appear") 
@@ -127,4 +127,4 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, OnFixedUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, OnEffectUpdate, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD)
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, OnUse, CollectibleType.SOMETHINGWICKED_OLD_DICE)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, OnUse, mod.ITEMS.OLD_DICE)

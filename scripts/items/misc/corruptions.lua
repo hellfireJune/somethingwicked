@@ -120,7 +120,7 @@ end
 
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = {
+    [mod.TRINKETS.FLOATING_POINT_BUG] = {
         desc = "sucks",
         isTrinket = true,
         Hide = true,

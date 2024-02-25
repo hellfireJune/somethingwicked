@@ -30,8 +30,8 @@ end
 
 mod:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BLACK_SALT, {
     ApplyLogic = function (_, player)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_BLACK_SALT) then
-            local c_rng = player:GetCollectible(CollectibleType.SOMETHINGWICKED_BLACK_SALT)
+        if player:HasCollectible(mod.ITEMS.BLACK_SALT) then
+            local c_rng = player:GetCollectible(mod.ITEMS.BLACK_SALT)
             if c_rng:RandomFloat() < procChance(player) then
                 return true
             end
@@ -70,7 +70,7 @@ end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_NPC_EFFECT_TICK, NPCUpdate)
 
 local EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_BLACK_SALT] = {
+    [mod.ITEMS.BLACK_SALT] = {
         desc = "",
     }
 }

@@ -6,7 +6,7 @@ local function UseItem(_, id, _, player, flags)
     if flags & UseFlag.USE_CARBATTERY ~= 0 or flags & UseFlag.USE_OWNED == 0 then
         return
     end
-    if not player:HasTrinket(TrinketType.SOMETHINGWICKED_DICE_ROLLER) then
+    if not player:HasTrinket(mod.TRINKETS.DICE_ROLLER) then
         return
     end
     
@@ -59,10 +59,10 @@ local function PEffect(_, player)
 
         if consumed or chargeDown or usedThing then
             local charge = consumed and 4 or mod:Clamp(d.charge, 4, 1)
-            local mult = math.max(1, player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_DICE_ROLLER))
+            local mult = math.max(1, player:GetTrinketMultiplier(mod.TRINKETS.DICE_ROLLER))
             charge = (charge/4)*mult
 
-            local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_DICE_ROLLER)
+            local t_rng = player:GetTrinketRNG(mod.TRINKETS.DICE_ROLLER)
             while t_rng:RandomFloat() < charge do
                 charge = charge - 1
                 

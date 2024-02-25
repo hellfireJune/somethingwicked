@@ -13,11 +13,11 @@ local function procChance(player)
     return (baseChance - ((1 - 1 / (1 + chanceMod)) * 0.27))
 end
 local function callOfTheVoidOnFire(_, shooter, vector, scalar, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_CALL_OF_THE_VOID) then
+    if not player:HasCollectible(mod.ITEMS.CALL_OF_THE_VOID) then
         return
     end
 
-    local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CALL_OF_THE_VOID)
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.CALL_OF_THE_VOID)
     local chance = procChance(player)
     if c_rng:RandomFloat() < 1 + chance then
         local a = mod.EnemyHelpers:Lerp(-angleVariance, angleVariance, c_rng:RandomFloat())
@@ -125,7 +125,7 @@ end)
 
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_CALL_OF_THE_VOID] = {
+    [mod.ITEMS.CALL_OF_THE_VOID] = {
         desc = "Made of steel and black",
         Hide = true,
     }

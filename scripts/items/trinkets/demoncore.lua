@@ -1,7 +1,7 @@
 local function OnDamage(_, player)
     player = player:ToPlayer()
 
-    if not player:HasTrinket(TrinketType.SOMETHINGWICKED_DEMON_CORE) then
+    if not player:HasTrinket(mod.TRINKETS.DEMON_CORE) then
         return
     end
     local p_data = player:GetData()

@@ -10,7 +10,7 @@ local function UseItem(_, _, _, player)
 
     sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
     local tempEffects = player:GetEffects()
-    tempEffects:AddCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX, true, 3)
+    tempEffects:AddCollectibleEffect(mod.ITEMS.TOYBOX, true, 3)
     return { Remove = true}
 end
 
@@ -20,14 +20,14 @@ local function PEffectUpdate(_, player)
     end
     local tempEffects = player:GetEffects()
     local p_data = player:GetData()
-    local stacks = tempEffects:GetCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX) 
+    local stacks = tempEffects:GetCollectibleEffect(mod.ITEMS.TOYBOX) 
 
     if stacks ~= nil and stacks.Count > 0
     and (p_data.SomethingWickedPData.toyboxTrinket == nil) then
         local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
         p_data.SomethingWickedPData.toyboxTrinket = trinket
         player:AnimateTrinket(trinket, "UseItem")
-        tempEffects:RemoveCollectibleEffect(CollectibleType.SOMETHINGWICKED_TOYBOX)
+        tempEffects:RemoveCollectibleEffect(mod.ITEMS.TOYBOX)
         
         sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
         game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
@@ -38,5 +38,5 @@ local function PEffectUpdate(_, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_TOYBOX)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.TOYBOX)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)

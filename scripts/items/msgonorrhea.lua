@@ -40,7 +40,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, this.TearRemoved, EntityType.ENTITY_TEAR)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_MS_GONORRHEA)
+    local stacks, rng, sourceItem = SomethingWicked.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.MS_GONORRHEA)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA, stacks, rng, sourceItem)
 end, CacheFlag.CACHE_FAMILIARS)
 

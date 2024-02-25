@@ -8,8 +8,8 @@
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wicked Soul" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1"/>
-		<!--<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
-		<!--<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
+		<Item Name="King in Yellow" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -68,7 +68,7 @@
 
 	<Pool Name="library">
 		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
-		<!--<Item Name="Book of Insanity" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>-->
+		<Item Name="King in Yellow" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
 		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
@@ -253,8 +253,8 @@
 		<Item Name="Bravery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Ram's Head" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wicked Soul" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1"/>
-		<!--<Item Name="Book of Insanity" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
-		<!--<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
+		<Item Name="King in Yellow" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Yellow Sigil" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chaos Heart" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Cursed Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Spider Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>

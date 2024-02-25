@@ -4,7 +4,7 @@ local maxSpeed = 20
 local wantedDistance = 120
 
 function this:YoYoCheck(player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_THE_YOYO) then return end
+    if not player:HasCollectible(mod.ITEMS.THE_YOYO) then return end
 
     local p_data = player:GetData()
     if player:GetFireDirection() ~= Direction.NO_DIRECTION then
@@ -15,7 +15,7 @@ function this:YoYoCheck(player)
         local tab, cur = this:checkFamiliars(p_data)
         p_data.SomethingWickedPData.YoYos = tab
 
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_THE_YOYO)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.THE_YOYO)
         while cur < est do
             cur = cur + 1
 
@@ -105,11 +105,11 @@ function this:checkFamiliars(p_data)
 end
 
 function this:getEstimatedyoyos(player)
-    return mod.FamiliarHelpers:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_THE_YOYO)
+    return mod.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_THE_YOYO] = {
+    [mod.ITEMS.THE_YOYO] = {
         desc = "He just kept on yo-ing",
         Hide = true,
     }

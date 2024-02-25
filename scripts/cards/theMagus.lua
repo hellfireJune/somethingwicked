@@ -8,11 +8,11 @@ function this:UseCard(_, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_THE_MAGUS)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, mod.CARDS.THOTH_THE_MAGUS)
 
 
 this.EIDEntries = {
-    [Card.SOMETHINGWICKEDTHOTH_THE_MAGUS] = {
+    [mod.CARDS.THOTH_THE_MAGUS] = {
         desc = "Spawns ".. this.AmountToSpawn .. " batteries."
     }
 }

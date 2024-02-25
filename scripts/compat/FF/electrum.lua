@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local ff = FiendFolio
 
 local synergies = {
-    [CollectibleType.SOMETHINGWICKED_D_STOCK] = function (player, mult, rng, iconfig)
+    [mod.ITEMS.D_STOCK] = function (player, mult, rng, iconfig)
         local hf = function (enemy, p, m, r)
             if r:RandomInt(2) == 0 then
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 0, enemy.Position, mod.SlotHelpers:GetPayoutVector(r), p)
@@ -10,67 +10,67 @@ local synergies = {
         end
         ff:electrumShock(player, mult, rng, iconfig, nil, hf)
     end,
-    [CollectibleType.SOMETHINGWICKED_BALROGS_HEAD] = function ()
+    [mod.ITEMS.BALROGS_HEAD] = function ()
         --add me elsewhere :3
     end,
-    [CollectibleType.SOMETHINGWICKED_WOODEN_DICE] = function ()
+    [mod.ITEMS.WOODEN_DICE] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_BOOK_OF_LUCIFER] = function ()
+    [mod.ITEMS.BOOK_OF_LUCIFER] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_TOYBOX] = function ()
+    [mod.ITEMS.TOYBOX] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_TIAMATS_DICE] = function ()
+    [mod.ITEMS.TIAMATS_DICE] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_BOOK_OF_EXODUS] = function ()
+    [mod.ITEMS.BOOK_OF_EXODUS] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_CURSED_CANDLE] = function ()
+    [mod.ITEMS.CURSED_CANDLE] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_VOID_EGG] = function ()
+    [mod.ITEMS.VOID_EGG] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_DADS_WALLET] = function ()
+    [mod.ITEMS.DADS_WALLET] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_BOOK_OF_INSANITY] = function ()
+    [mod.ITEMS.BOOK_OF_INSANITY] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_CHAOS_HEART] = function ()
+    [mod.ITEMS.CHAOS_HEART] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM] = function ()
+    [mod.ITEMS.CURSED_MUSHROOM] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_OLD_DICE] = function ()
+    [mod.ITEMS.OLD_DICE] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA] = function ()
+    [mod.ITEMS.ENCYCLOPEDIA] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER] = function ()
+    [mod.ITEMS.TRINKET_SMASHER] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_CHASM] = function ()
+    [mod.ITEMS.CHASM] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU] = function ()
+    [mod.ITEMS.FETUS_IN_FETU] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_EDENS_HEAD] = function ()
+    [mod.ITEMS.EDENS_HEAD] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_ABANDONED_BOX] = function ()
+    [mod.ITEMS.ABANDONED_BOX] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_GOLDEN_CARD] = function ()
+    [mod.ITEMS.GOLDEN_CARD] = function ()
         
     end,
-    [CollectibleType.SOMETHINGWICKED_BOLINE] = function ()
+    [mod.ITEMS.BOLINE] = function ()
         
     end,
 }

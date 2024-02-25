@@ -3,7 +3,7 @@ this.poofGreen = Color(0, 0.25, 0)
 this.bloodGreen = Color(0, 1, 0, 1, 0, 0.15, 0)
 
 function this:UseItem(_, _, player)
-    for _, wisp in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU)) do
+    for _, wisp in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.FETUS_IN_FETU)) do
         player:ThrowBlueSpider(wisp.Position, Vector.Zero)
         wisp:Kill()
     end
@@ -25,9 +25,9 @@ function this:UseItem(_, _, player)
 end
 
 function this:OnNPCKill(enemy)
-    local allPlayers = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU)
+    local allPlayers = SomethingWicked.ItemHelpers:AllPlayersWithCollectible(mod.ITEMS.FETUS_IN_FETU)
     for _, player in ipairs(allPlayers) do
-        local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU)
+        local charge, slot = SomethingWicked.ItemHelpers:CheckPlayerForActiveData(player, mod.ITEMS.FETUS_IN_FETU)
         if charge < this.maxCharge * 2 then
             player:SetActiveCharge(charge + 1, slot)
     
@@ -47,12 +47,12 @@ function this:ResetPos()
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, mod.ITEMS.FETUS_IN_FETU)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.OnNPCKill)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.ResetPos)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_FETUS_IN_FETU] = {
+    [mod.ITEMS.FETUS_IN_FETU] = {
         desc = "Spawns 1 teratoma orbital on use#Teratoma orbitals will die upon taking any damage, projectiles will pierce through them, but they will spawn spiders on room clear#Gains 1 charge on killing enemies, can overcharge",
         encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Spawns 1 teratoma orbital on use","Teratoma orbitals will die upon taking any damage, projectiles will pierce through them, but they will spawn spiders on room clear","Gains 1 charge on killing enemies, can overcharge"}),
         pools = {

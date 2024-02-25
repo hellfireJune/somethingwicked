@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 
 local function Update(_, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_SUPERIORITY) then
+    if not player:HasCollectible(mod.ITEMS.SUPERIORITY) then
         return
     end
     local p_data = player:GetData()

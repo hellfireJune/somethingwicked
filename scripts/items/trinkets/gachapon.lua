@@ -12,7 +12,7 @@ local function OnUpdate(pickup)
         local item = player.QueuedItem.Item
         if item ~= nil
         and item:IsTrinket()
-        and item.ID == TrinketType.SOMETHINGWICKED_GACHAPON then
+        and item.ID == mod.TRINKETS.GACHAPON then
             pickingUp = true
             break
         end
@@ -25,7 +25,7 @@ local function OnUpdate(pickup)
             if trinket.frame <= frameCount
             and ((pickup:Exists() == false)
             or (pickup.Type ~= EntityType.ENTITY_PICKUP or pickup.Variant ~= PickupVariant.PICKUP_TRINKET 
-            or (pickup.SubType ~= TrinketType.SOMETHINGWICKED_GACHAPON and pickup.SubType ~= TrinketType.SOMETHINGWICKED_GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG))) then
+            or (pickup.SubType ~= mod.TRINKETS.GACHAPON and pickup.SubType ~= mod.TRINKETS.GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG))) then
                 local player
                 if trinket.SpawnerEntity then
                     player = trinket.SpawnerEntity:ToPlayer()
@@ -37,8 +37,8 @@ local function OnUpdate(pickup)
     end
     thingsToCheck = {}
 
-    local allTrinkets = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, TrinketType.SOMETHINGWICKED_GACHAPON)
-    local allGoldenTrinkets = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, TrinketType.SOMETHINGWICKED_GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG)
+    local allTrinkets = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, mod.TRINKETS.GACHAPON)
+    local allGoldenTrinkets = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, mod.TRINKETS.GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG)
     for index, value in ipairs(allGoldenTrinkets) do
         table.insert(allTrinkets, value)
     end

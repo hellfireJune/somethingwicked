@@ -1,8 +1,8 @@
 local baseAmount = 10 local moreAmountMax = 8
 function this:EnemyDeath(entity)
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SAINTS_HEAD)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.SAINTS_HEAD)
     if flag and player then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SAINTS_HEAD)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.SAINTS_HEAD)
 
         local amountToSpawn = baseAmount + c_rng:RandomInt(moreAmountMax + 1)
         for i = 1, amountToSpawn, 1 do
@@ -24,7 +24,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, this.EnemyDeath)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_SAINTS_HEAD] = {
+    [mod.ITEMS.SAINTS_HEAD] = {
         desc = "pssh",
         Hide = true,
     }

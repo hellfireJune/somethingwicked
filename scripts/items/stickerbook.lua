@@ -3,15 +3,15 @@ local function ProcChance(player)
 end
 SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_STICKER_BOOK, {
     ApplyLogic = function (_, player, tear)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_STICKER_BOOK) then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)
+        if player:HasCollectible(mod.ITEMS.STICKER_BOOK) then
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.STICKER_BOOK)
             if c_rng:RandomFloat() < ProcChance(player) then
                 return true
             end
         end
     end,
     PostApply = function (_, player, tear)
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STICKER_BOOK)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.STICKER_BOOK)
         this:MakeStickerY(tear, c_rng)
     end,
     EnemyHitEffect = function (_, tear, pos, enemy)
@@ -58,7 +58,7 @@ function this:OnEnemyDie(entity)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_STICKER_BOOK] = {
+    [mod.ITEMS.STICKER_BOOK] = {
         desc = "bookie",
         Hide = true,
     }

@@ -15,11 +15,11 @@ local function OnRoomClear()
     local room = game:GetRoom()
 
     if room:GetType() == RoomType.ROOM_BOSS then
-        local --[[flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_BIRETTA)
+        local --[[flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.BIRETTA)
         if flag and player then
             this:ezSpawn(this.BirettaPosition, SomethingWicked.MachineVariant.MACHINE_CONFESSIONAL, player)
         end]]
-        flag, player = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_TICKET_ROLL)
+        flag, player = mod:GlobalPlayerHasTrinket(mod.TRINKETS.TICKET_ROLL)
         if flag and player then
             mod:SpawnMachineQuick(ScratchTicketPosition, mod.MachineVariant.MACHINE_SLOT, player)
         end

@@ -15,7 +15,7 @@ local LaserColors = {
 local function SplitTearsSometimes(_, tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player
-    and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
+    and player:HasCollectible(mod.ITEMS.THREED_GLASSES)
     and tear.FrameCount == 1
     and tear.Parent then
         local t_data = tear:GetData()
@@ -55,7 +55,7 @@ local function SplitLasersToo(_, laser, player, pure)
         return
     end
     if player 
-    and player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES) then
+    and player:HasCollectible(mod.ITEMS.THREED_GLASSES) then
         local rng = laser:GetDropRNG()
         local proc = rng:RandomFloat()
         if proc < procChance then
@@ -114,12 +114,12 @@ local function SplitBombsAswell(_, bomb)
 
     local player = SomethingWicked:UtilGetPlayerFromTear(bomb)
     if not player
-    or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_3D_GLASSES) then
+    or not player:HasCollectible(mod.ITEMS.THREED_GLASSES) then
         return
     end
 
     if (bomb.Parent and bomb.Parent.Type == EntityType.ENTITY_PLAYER) then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_3D_GLASSES)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.THREED_GLASSES)
 
         if c_rng:RandomFloat() < procChance then
             local vel = bomb.Velocity

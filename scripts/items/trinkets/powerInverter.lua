@@ -10,7 +10,7 @@ local dmgPer6Charges = 0.9
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
 
     player = player:ToPlayer()
-    if not player or not player:HasTrinket(TrinketType.SOMETHINGWICKED_POWER_INVERTER) then
+    if not player or not player:HasTrinket(mod.TRINKETS.POWER_INVERTER) then
         return
     end
     if not mod:CanPickupPickupGeneric(pickup, player) then
@@ -23,7 +23,7 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
     sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
 
-    local tmult = math.min(player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_POWER_INVERTER), 1)
+    local tmult = math.min(player:GetTrinketMultiplier(mod.TRINKETS.POWER_INVERTER), 1)
     local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
 
     local p_data = player:GetData()
@@ -45,7 +45,7 @@ function mod:DoGoldenBattery(player, battery)
     local currIdx = level:GetCurrentRoomIndex()
     
     local newIdx = currIdx
-    local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_POWER_INVERTER)
+    local t_rng = player:GetTrinketRNG(mod.TRINKETS.POWER_INVERTER)
     while newIdx == currIdx do
         local seed = t_rng:RandomInt(2000000) --rt if u dont know how to seed good
         newIdx = level:GetRandomRoomIndex(false, seed) 

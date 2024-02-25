@@ -3,7 +3,7 @@ local game = Game()
 
 local function PickupCollision(chest, player)
     player = player:ToPlayer()
-    if player and player:HasTrinket(TrinketType.SOMETHINGWICKED_STONE_KEY) and chest.SubType == ChestSubType.CHEST_CLOSED then
+    if player and player:HasTrinket(mod.TRINKETS.STONE_KEY) and chest.SubType == ChestSubType.CHEST_CLOSED then
         chest:TryOpenChest()
     end
 end
@@ -12,14 +12,14 @@ mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PickupCollision, PickupVar
 
 local oldSecret = {}
 local function Update()
-    local t_mult = mod:GlobalGetTrinketNum(TrinketType.SOMETHINGWICKED_STONE_KEY)
+    local t_mult = mod:GlobalGetTrinketNum(mod.TRINKETS.STONE_KEY)
 
     if t_mult < 0 then
         oldSecret = {}
         return
     end
 
-    local t_rng = Isaac.GetPlayer():GetTrinketRNG(TrinketType.SOMETHINGWICKED_STONE_KEY)
+    local t_rng = Isaac.GetPlayer():GetTrinketRNG(mod.TRINKETS.STONE_KEY)
     local room = game:GetRoom()
     local secrets = {}
     

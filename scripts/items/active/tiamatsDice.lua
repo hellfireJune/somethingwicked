@@ -43,4 +43,4 @@ local function UseItem(_, _, rngObj)
     return true
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_TIAMATS_DICE)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.TIAMATS_DICE)

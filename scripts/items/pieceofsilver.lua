@@ -5,8 +5,8 @@ local function proc(player)
 end
 mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_COINSHOT, {
     ApplyLogic = function (_, player, tear)
-        if tear.Type == EntityType.ENTITY_TEAR and player:HasCollectible(CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER) then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER)
+        if tear.Type == EntityType.ENTITY_TEAR and player:HasCollectible(mod.ITEMS.PIECE_OF_SILVER) then
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.PIECE_OF_SILVER)
             if c_rng:RandomFloat() < proc(player) then
                 return true
             end
@@ -67,7 +67,7 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_COINSHOT, {
 })
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_PIECE_OF_SILVER] = {
+    [mod.ITEMS.PIECE_OF_SILVER] = {
         desc = "THE ONE PIEEECE",
         Hide = true,
     }

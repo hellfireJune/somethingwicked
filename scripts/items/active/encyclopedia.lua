@@ -6,9 +6,9 @@ local function NewLevel()
     local libraryExists
     local level = game:GetLevel()
 
-    local itemflag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+    local itemflag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.ENCYCLOPEDIA)
     if itemflag and player then
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.ENCYCLOPEDIA)
         libraryExists = mod:RoomTypeCurrentlyExists(RoomType.ROOM_LIBRARY, level, rng)
 
         if not libraryExists then
@@ -30,7 +30,7 @@ local function UseItem(_, _, rngObj, player)
             p_data.SomethingWickedPData.EncycloWisps = {[1] = "", [2] = "", [3] = "", [4] = ""}
         end
 
-        local w = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+        local w = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.WISP, mod.ITEMS.ENCYCLOPEDIA)
         local wispsToRespawn = { 1, 2, 3, 4 }
         for _, wisp in pairs(w) do
             local initSeed = wisp.InitSeed
@@ -41,7 +41,7 @@ local function UseItem(_, _, rngObj, player)
         end
 
         for index, value in ipairs(wispsToRespawn) do
-            local wisp = player:AddWisp(CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA, player.Position)
+            local wisp = player:AddWisp(mod.ITEMS.ENCYCLOPEDIA, player.Position)
             p_data.SomethingWickedPData.EncycloWisps[index] = wisp.InitSeed
         end
     end
@@ -63,16 +63,16 @@ end
 
 local lastEncycloCheck = nil
 local function PlayerUpdate(_, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA) then
+    if not player:HasCollectible(mod.ITEMS.ENCYCLOPEDIA) then
         return
     end
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+    local rng = player:GetCollectibleRNG(mod.ITEMS.ENCYCLOPEDIA)
     local encycloCheck = mod:RoomTypeCurrentlyExists(RoomType.ROOM_LIBRARY, nil, rng)
     if encycloCheck ~= lastEncycloCheck then
         lastEncycloCheck = encycloCheck
 
         local newCharge = (encycloCheck) and 1 or 0
-        local datas = mod:GetAllActiveDatasOfType(player, CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+        local datas = mod:GetAllActiveDatasOfType(player, mod.ITEMS.ENCYCLOPEDIA)
         for slot, oldCharge in pairs(datas) do
             player:SetActiveCharge(newCharge, slot)
         end
@@ -88,7 +88,7 @@ local function PlayerUpdate(_, player)
 end
 
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
-    if familiar.SubType ~= CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA  then
+    if familiar.SubType ~= mod.ITEMS.ENCYCLOPEDIA  then
         return
     end
 
@@ -98,6 +98,6 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
     end
 end, FamiliarVariant.WISP)
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_ENCYCLOPEDIA)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.ENCYCLOPEDIA)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, NewLevel)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)

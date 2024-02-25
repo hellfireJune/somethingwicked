@@ -13,7 +13,7 @@ mod.CrownSpecialLocusts = {
     {CollectibleType.COLLECTIBLE_MUTANT_SPIDER, 4},
     {CollectibleType.COLLECTIBLE_NUMBER_ONE, 1},
     {CollectibleType.COLLECTIBLE_SPOON_BENDER, 1},
-    {CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM, 1}
+    {mod.ITEMS.CURSED_MUSHROOM, 1}
 }
 local preventPoof = false
 function mod:DestroyCrownLocustsWithInitSeeds(seeds, flies, player)
@@ -44,7 +44,7 @@ end
 
 local chanceForSpecialLocust = 0.12044
 local function FamiliarCache(_, player)
-    local stacks, rng, sourceItem = mod:BasicFamiliarNum(player, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN)
+    local stacks, rng, sourceItem = mod:BasicFamiliarNum(player, mod.ITEMS.APOLLYONS_CROWN)
     --player:CheckFamiliar(FamiliarVariant.ABYSS_LOCUST, stacks*2, rng, sourceItem, this.dummyItem)
 
     local p_data = player:GetData()
@@ -73,7 +73,7 @@ local function FamiliarCache(_, player)
         if i <= stacks then
             local shouldBeSpecial = rng:RandomFloat() < chanceForSpecialLocust
 
-            local count, type = 1, CollectibleType.SOMETHINGWICKED_APOLLYONS_CROWN
+            local count, type = 1, mod.ITEMS.APOLLYONS_CROWN
             if not shouldBeSpecial then
                 
             else

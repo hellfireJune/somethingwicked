@@ -41,6 +41,12 @@
     - Now called "Wickerman", and resprited
     - Always spawns just two red hearts now, instead of hearts equal to two full red hearts
 
+  - Nightmares
+    - Entirely reworked. New nightmares will orbit around the player, invulnerable, but will pause in place and fire if the player is firing. Also visually redesigned to match
+    - Nightmare-Centric items have received some slight changes too
+      - Book of Insanity is now called "King in Yellow"
+      - Yellow Sigil now spawns invulnerable nightmares that last the entire floor
+
   - Red
     - Resprited
     - Now spawns 1-3 cracked keys on pickup (i think thats new?)
@@ -108,6 +114,7 @@
     - Some itempools definitely got changed
     - Animation and sound changes for a bunch of items
     - Fixed a bunch of inconsistent stuff with orbitals (Devilsknife moves faster, swords of light blocks projectiles)
+    - Mod now uses it's own enum for item ids instead of the vanilla enum
 
   Fixes:
   - Ticket Roll's slot machines will no longer spawn in spots obviously unreachable by the player
@@ -173,7 +180,7 @@
   <active id="41" name="Lost Wallet" gfx="lostwallet.png" description="Almost empty..." quality="2" tags="offensive" maxcharges="4" chargetype="special"/> 
   <familiar id="42" name="Minos" gfx="minos_spritesheet.png" description="Rattle, rattle, rattle" quality="3" tags="offensive summonable" cache="familiars"/> <!--sewing machine-->
   <passive id="43" name="Wicked Soul" gfx="wickedsoul.png" description="All stats up, curse up" quality="3" tags="offensive summonable" cache="all"/> <!--costumes-->
-  <active id="44" name="Book of Insanity" gfx="bookofinsanity2.png" description="Split your mind" quality="2" tags="offensive book" maxcharges="4"/> 
+  <active id="44" name="King in Yellow" gfx="bookofinsanity2.png" description="Split your mind" quality="2" tags="offensive book" maxcharges="4"/> 
   <passive id="45" name="Yellow Sigil" gfx="yellowsign.png" description="Nightmare stone" quality="2" tags="nolostbr summonable"/> <!--costumes-->
   <active id="46" name="Chaos Heart" gfx="chaosheart.png" description="Volatile healing" quality="1"/> 
   <active id="47" name="Cursed Mushroom" gfx="cursedmushroom.png" description="Temporary room debuff" quality="2" tags="mushroom offensive" maxcharges="3"/>
@@ -223,14 +230,14 @@
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
   
   <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
+  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
   <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
+  <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
   <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="SNffffff..." quality="2" tags="offensive summonable"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="" tags="offensive"/>
-  
-  <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
 
   <passive id="79" name="Plague of Wormwood" hidden="true" tags="noeden"/> <!--code done-->
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
@@ -241,7 +248,6 @@
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive noeden" hidden="true"/> <!--add charg-->
   <passive id="90" name="Red Queen" hidden="true" tags="noeden"/>
   <familiar id="94" name="Little Attractor" hidden="true" tags="noeden"/> 
-  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive noeden"/>
   <active id="98" name="Magic Clay" hidden="true" tags="noeden"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true" tags="noeden"/>
@@ -269,7 +275,7 @@
   <passive id="135" name="Void's Call" hidden="true" tags="noeden" description="Cycle of blood" quality="3" maxcharges="1"/>
   <passive id="137" name="Pressure Valve" hidden="true" quality="1" cache="firedelay" tags="offensive summonable tearsup noeden"/>
   <passive id="138" name="Cat Teaser" hidden="true" tags="noeden" quality="0"/>
-  <passive id="139" name="Martyral Baptism" description="Baptism through Blood" hidden="true" tags="noeden"/>
+  <passive id="139" name="Martyral Baptism" description="Baptism through blood" hidden="true" tags="noeden"/>
 
   <passive id="142" name="Pendulum" description="" gfx="goldenwatch.png" hidden="true" tags="noeden"/>
   <passive id="143" name="The Yo-Yo!" hidden="true" tags="noeden" gfx="sw_yoyo.png"/>

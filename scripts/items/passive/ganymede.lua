@@ -5,7 +5,7 @@ local volleyNum = 1
 local minSpread = 37.5
 local additionalSpread = 90
 function OnFirePure(_, shooter, vector, scalar, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_GANYMEDE) then
+    if not player:HasCollectible(mod.ITEMS.GANYMEDE) then
         return
     end
 
@@ -19,7 +19,7 @@ function OnFirePure(_, shooter, vector, scalar, player)
     end
 
     if p_data.sw_ganymedeTick == fireNeeded then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_GANYMEDE)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.GANYMEDE)
         for i = 1, volleyNum, 1 do
             local mult = c_rng:RandomFloat()>0.5 and -1 or 1
             local addSpread = c_rng:RandomFloat()*additionalSpread

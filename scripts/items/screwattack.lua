@@ -7,8 +7,8 @@ local function ProcChance(player, tear)
 end
 mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SCREW_ATTACK, {
     ApplyLogic = function (_, player, tear)
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_SCREW_ATTACK) then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_SCREW_ATTACK)
+        if player:HasCollectible(mod.ITEMS.SCREW_ATTACK) then
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.SCREW_ATTACK)
             if c_rng:RandomFloat() < ProcChance(player, tear) then
                 if tear.Type ~= EntityType.ENTITY_TEAR then
                     local s = player:FireTear(tear.Position, mod:UtilGetFireVector(player), false, true, false, nil, 0.5)
@@ -42,7 +42,7 @@ function this:PreCollide(tear, collider)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_SCREW_ATTACK] = {
+    [mod.ITEMS.SCREW_ATTACK] = {
         desc = "screwed in",
         Hide = true,
     }

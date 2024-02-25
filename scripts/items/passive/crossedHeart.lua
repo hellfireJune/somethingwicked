@@ -3,7 +3,7 @@ local validSubtypes = {HeartSubType.HEART_FULL, HeartSubType.HEART_HALF, HeartSu
 local ProcChance = 0.5
 local function PickupHeart(pickup, player)
     player = player:ToPlayer()
-    if player == nil or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_CROSSED_HEART)  then
+    if player == nil or not player:HasCollectible(mod.ITEMS.CROSSED_HEART)  then
         return
     end
 

@@ -15,8 +15,8 @@ local slotScrollOrder = {
 }
 
 function this:PlayerUpdate(player)
-    for index, value in pairs(SomethingWicked.ItemHelpers:GetAllActiveDatasOfType(player, CollectibleType.SOMETHINGWICKED_MAGIC_CLAY)) do
-        player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_MAGIC_CLAY)
+    for index, value in pairs(SomethingWicked.ItemHelpers:GetAllActiveDatasOfType(player, mod.ITEMS.MAGIC_CLAY)) do
+        player:RemoveCollectible(mod.ITEMS.MAGIC_CLAY)
         player:AddCollectible(this.formSlot, false, index, value)
     end
 

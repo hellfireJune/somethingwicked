@@ -47,8 +47,8 @@ local function NewRoomLogic()
     if not mod.save.runData.CoE_rooms[idx] then
         local newData = {}
         
-        local stacks = mod:GlobalGetCollectibleNum(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
-        local rng = mod:GlobalGetCollectibleRNG(CollectibleType.SOMETHINGWICKED_LOURDES_WATER)
+        local stacks = mod:GlobalGetCollectibleNum(mod.ITEMS.LOURDES_WATER)
+        local rng = mod:GlobalGetCollectibleRNG(mod.ITEMS.LOURDES_WATER)
 
         local rocks = {}
         for i = 0, room:GetGridSize(), 1 do

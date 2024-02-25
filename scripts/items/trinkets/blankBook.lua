@@ -13,11 +13,11 @@ local function itemCheck(player, hasItem, hasTrinket, item)
 end
 
 local function PlayerUpdate(_, player)
-    local hasTrinket = player:HasTrinket(TrinketType.SOMETHINGWICKED_EMPTY_BOOK)
+    local hasTrinket = player:HasTrinket(mod.TRINKETS.EMPTY_BOOK)
     local hasItem = player:HasCollectible(dummyItem)
     itemCheck(player, hasItem, hasTrinket, dummyItem)
 
-    local hasGoldenTrinket = player:HasTrinket(TrinketType.SOMETHINGWICKED_EMPTY_BOOK + TrinketType.TRINKET_GOLDEN_FLAG)
+    local hasGoldenTrinket = player:HasTrinket(mod.TRINKETS.EMPTY_BOOK + TrinketType.TRINKET_GOLDEN_FLAG)
     local hasGoldenItem = player:HasCollectible(gDummy)
     itemCheck(player, hasGoldenItem, hasGoldenTrinket, gDummy)
 end

@@ -8,10 +8,10 @@ local function procChance(player)
     return 0.2 + ((1 - 1 / (1 + 0.10 * luck)) * 0.37)
 end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter, vector, scalar, player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_CHRISMATORY) then
+    if player:HasCollectible(mod.ITEMS.CHRISMATORY) then
         local isPlayer = shooter.Type == EntityType.ENTITY_PLAYER
         local p_data = player:GetData()
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_CHRISMATORY)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.CHRISMATORY)
 
         --print(p_data.sw_chrismatoryTick)
         if p_data.sw_chrismatoryTick and p_data.sw_chrismatoryTick ~= 150 then

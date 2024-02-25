@@ -37,8 +37,8 @@ function this:TearOnHit(tear, pos)
 end
 
 function this:FireTear(player, tear)
-    if player and player:HasCollectible(CollectibleType.SOMETHINGWICKED_BALROGS_HEART) then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_BALROGS_HEART)
+    if player and player:HasCollectible(mod.ITEMS.BALROGS_HEART) then
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.BALROGS_HEART)
         local f = c_rng:RandomFloat()
         if f < 1+0.15 then
             return true
@@ -47,7 +47,7 @@ function this:FireTear(player, tear)
 end
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_BALROGS_HEART] = {
+    [mod.ITEMS.BALROGS_HEART] = {
         desc = "",
         Hide = true,
     }

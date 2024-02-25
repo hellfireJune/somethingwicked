@@ -16,13 +16,13 @@ local function UseCrusher(_, _, t_rng, player, flags)
             isGold = true
             freq = freq + 1
         end
-        if currTrinket == TrinketType.SOMETHINGWICKED_GACHAPON or currTrinket == TrinketType.SOMETHINGWICKED_GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG then
+        if currTrinket == mod.TRINKETS.GACHAPON or currTrinket == mod.TRINKETS.GACHAPON + TrinketType.TRINKET_GOLDEN_FLAG then
             mod:GachaponDestroy(nil, player, isGold)
         end
 
         if player:HasCollectible(CollectibleType.COLLECTIBLE_BOOK_OF_VIRTUES) then
             for i = 1, (freq - 1) * 2, 1 do
-                player:AddWisp(CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER, player.Position)
+                player:AddWisp(mod.ITEMS.TRINKET_SMASHER, player.Position)
             end
         end
         
@@ -43,10 +43,10 @@ local function UseCrusher(_, _, t_rng, player, flags)
     return {ShowAnim = true, Discharge = false}
 end
 
-mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseCrusher, CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER)
+mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseCrusher, mod.ITEMS.TRINKET_SMASHER)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_TRINKET_SMASHER) then
+    if player:HasCollectible(mod.ITEMS.TRINKET_SMASHER) then
         mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_SMELTER)
     end
 end)

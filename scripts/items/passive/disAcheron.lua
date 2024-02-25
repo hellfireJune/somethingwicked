@@ -14,7 +14,7 @@ function mod:AddDisItem(player, isActuallyDis, pool, pos)
     end
     local p_data = player:GetData()
     local collectible = mod:GetCollectibleWithArgs(function (conf, id)
-        return conf.Type ~= ItemType.ITEM_ACTIVE and conf:HasTags(ItemConfig.TAG_SUMMONABLE) and (isActuallyDis or id ~= CollectibleType.SOMETHINGWICKED_ACHERON)
+        return conf.Type ~= ItemType.ITEM_ACTIVE and conf:HasTags(ItemConfig.TAG_SUMMONABLE) and (isActuallyDis or id ~= mod.ITEMS.ACHERON)
     end, pool)
     p_data.SomethingWickedPData.disItems = p_data.SomethingWickedPData.disItems or {}
     table.insert(p_data.SomethingWickedPData.disItems, {
@@ -27,7 +27,7 @@ function mod:AddDisItem(player, isActuallyDis, pool, pos)
 end
 
 local function PickupItem(_, type, _, firstTime, _, _, player)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_DIS) or not firstTime then
+    if not player:HasCollectible(mod.ITEMS.DIS) or not firstTime then
         return
     end
 
@@ -49,7 +49,7 @@ local function PlayerUpdate(_, player)
         p_data.SomethingWickedPData.disRenderData = p_data.SomethingWickedPData.disRenderData or {}
         local madeFunnySoundThisFrame = false
         local iConfig = Isaac.GetItemConfig()
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_DIS)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.DIS)
 
         for i = 1, #p_data.SomethingWickedPData.disItems, 1 do
             local tab = p_data.SomethingWickedPData.disItems[i]
@@ -153,7 +153,7 @@ local function PlayerUpdate(_, player)
 end
 
 local function EnemyDies(_, enemy)
-    local allP = mod:AllPlayersWithCollectible(CollectibleType.SOMETHINGWICKED_ACHERON)
+    local allP = mod:AllPlayersWithCollectible(mod.ITEMS.ACHERON)
     for _, player in ipairs(allP) do
         local dmg = enemy.MaxHitPoints
         local p_data = player:GetData()

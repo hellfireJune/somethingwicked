@@ -22,7 +22,7 @@ function this:OnBloodDMG(player, amount, flags, source, dmgCooldown)
     end
 
     local p_data = player:GetData()
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_TEMPERANCE)then
+    if player:HasCollectible(mod.ITEMS.TEMPERANCE)then
         if isBlocking == true then
             return
         end
@@ -32,10 +32,10 @@ function this:OnBloodDMG(player, amount, flags, source, dmgCooldown)
             isBlocking = false
 
             this:BreakTemperance(player)
-            player:RemoveCollectible(CollectibleType.SOMETHINGWICKED_TEMPERANCE)
+            player:RemoveCollectible(mod.ITEMS.TEMPERANCE)
             return false
         else
-            local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_TEMPERANCE)
+            local rng = player:GetCollectibleRNG(mod.ITEMS.TEMPERANCE)
             if rng:RandomFloat() < 0.175 * amount then
                 local numberToDrop = math.min(amount, p_data.SomethingWickedPData.temperance_hearts)
                 SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(numberToDrop, PickupVariant.PICKUP_HEART, rng, player.Position, player, function (pickup)
@@ -52,13 +52,13 @@ function this:OnBloodDMG(player, amount, flags, source, dmgCooldown)
         if sourceEnt.Type == EntityType.ENTITY_SLOT
         and (sourceEnt.Variant == SomethingWicked.MachineVariant.MACHINE_BLOOD
         or sourceEnt.Variant == SomethingWicked.MachineVariant.MACHINE_DEVIL_BEGGAR) then
-            if player:HasTrinket(TrinketType.SOMETHINGWICKED_SURGICAL_MASK) then
-                local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_SURGICAL_MASK)
+            if player:HasTrinket(mod.TRINKETS.SURGICAL_MASK) then
+                local t_rng = player:GetTrinketRNG(mod.TRINKETS.SURGICAL_MASK)
                 if t_rng:RandomFloat() < 0.33 then
                     return blockSlotDMG(player)
                 end
             end
-            if player:HasCollectible(CollectibleType.SOMETHINGWICKED_TEMPERANCE) then
+            if player:HasCollectible(mod.ITEMS.TEMPERANCE) then
                 if p_data.SomethingWickedPData.temperance_hearts >= amount then
                     p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts - amount
                     return blockSlotDMG(player)
@@ -70,7 +70,7 @@ end
 
 local maxhearts = 12
 function this:PlayerRender(player, offset)
-    if not player:HasCollectible(CollectibleType.SOMETHINGWICKED_TEMPERANCE) then
+    if not player:HasCollectible(mod.ITEMS.TEMPERANCE) then
         return
     end
     local p_data = player:GetData()
@@ -84,7 +84,7 @@ end
 function this:BreakTemperance(player)
     local p_data = player:GetData()
     p_data.SomethingWickedPData.temperance_hearts = p_data.SomethingWickedPData.temperance_hearts or 0
-    local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_TEMPERANCE)
+    local rng = player:GetCollectibleRNG(mod.ITEMS.TEMPERANCE)
     SomethingWicked.ItemHelpers:SpawnPickupShmorgabord(p_data.SomethingWickedPData.temperance_hearts, PickupVariant.PICKUP_HEART, rng, player.Position, player, function (pickup)
         pickup.Velocity = SomethingWicked.SlotHelpers:GetPayoutVector(rng)
     end)
@@ -100,7 +100,7 @@ function this:HeartCollision(entity, player)
     end
 
     player = player:ToPlayer()
-    if not player or not player:HasCollectible(CollectibleType.SOMETHINGWICKED_TEMPERANCE) then
+    if not player or not player:HasCollectible(mod.ITEMS.TEMPERANCE) then
         return
     end
 
@@ -114,7 +114,7 @@ function this:HeartCollision(entity, player)
 end
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_SURGICAL_MASK] = {
+    [mod.TRINKETS.SURGICAL_MASK] = {
         isTrinket = true,
         desc = "33% chance to not take damage when using a blood donation machine",
         Hide = true,

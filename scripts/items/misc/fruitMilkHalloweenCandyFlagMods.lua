@@ -20,13 +20,13 @@ local rarerFlags = {
     TearFlags.TEAR_LASERSHOT
 }
 mod.quickTearFlagAdders = {
-    [TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY] = {
+    [mod.TRINKETS.HALLOWEEN_CANDY] = {
         chance = 0.11, flags = TearFlags.TEAR_FEAR, trinket = true
     },
-    [TrinketType.SOMETHINGWICKED_GODLY_TOMATO] = {
+    [mod.TRINKETS.GODLY_TOMATO] = {
         chance = 0.135, flags = TearFlags.TEAR_GLOW, trinket = true
     },
-    [TrinketType.SOMETHINGWICKED_POPPET] = {
+    [mod.TRINKETS.POPPET] = {
         chance = 0.135, flags = TearFlags.TEAR_PIERCING | TearFlags.TEAR_BELIAL, trinket = true
     }
 }
@@ -78,9 +78,9 @@ local function PEffectUpdate(_, player)
         player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
         player:EvaluateItems()
     end
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
+    if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
         if p_data.SomethingWickedPData.FruitMilkFlags == nil then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FRUIT_MILK)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.FRUIT_MILK)
             local newFlags = mod:GenerateFruitFlag(c_rng)
             p_data.SomethingWickedPData.FruitMilkFlags = newFlags
             player:AddCacheFlags(CacheFlag.CACHE_TEARFLAG)
@@ -98,8 +98,8 @@ mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
     local player = mod:UtilGetPlayerFromTear(tear)
     if player then
         local p_data = player:GetData()
-        if player:HasCollectible(CollectibleType.SOMETHINGWICKED_FRUIT_MILK) then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_FRUIT_MILK)
+        if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.FRUIT_MILK)
             local newFlags = mod:GenerateFruitFlag(c_rng)
             p_data.SomethingWickedPData.FruitMilkFlags = newFlags
         end
@@ -109,7 +109,7 @@ mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
     end
 end)
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, trinket)
-    if (trinket.SubType ~= TrinketType.SOMETHINGWICKED_HALLOWEEN_CANDY)
+    if (trinket.SubType ~= mod.TRINKETS.HALLOWEEN_CANDY)
     or trinket.FrameCount % 5 ~= 4 then
         return
     end
@@ -122,7 +122,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, trinket)
 end, PickupVariant.PICKUP_TRINKET)
 
 --[[this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_FRUIT_MILK] = {
+    [mod.ITEMS.FRUIT_MILK] = {
         desc = "",
         Hide = true
     },

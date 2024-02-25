@@ -5,7 +5,7 @@ function this:OnNewRoom()
         local room = SomethingWicked.game:GetRoom()
         if room:IsFirstVisit() 
         and room:GetType() == RoomType.ROOM_TREASURE
-        and (v:GetCard(0) == Card.SOMETHINGWICKED_MAGPIE_EYE_BOON or v:GetCard(1) == Card.SOMETHINGWICKED_MAGPIE_EYE_BOON) then
+        and (v:GetCard(0) == mod.CARDS.MAGPIE_EYE_BOON or v:GetCard(1) == mod.CARDS.MAGPIE_EYE_BOON) then
         
             for _, i in ipairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)) do
                 i = i:ToPickup()
@@ -29,18 +29,18 @@ function this:OnNewRoom()
 end
 
 function this:UseMagpieEye(_, player, useflags)
-    SomethingWicked.cardCore:UseBoonCard(Card.SOMETHINGWICKED_MAGPIE_EYE, Card.SOMETHINGWICKED_MAGPIE_EYE_BOON, player, useflags)
+    SomethingWicked.cardCore:UseBoonCard(mod.CARDS.MAGPIE_EYE, mod.CARDS.MAGPIE_EYE_BOON, player, useflags)
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseMagpieEye, Card.SOMETHINGWICKED_MAGPIE_EYE)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseMagpieEye, mod.CARDS.MAGPIE_EYE)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.OnNewRoom)
 
-SomethingWicked:AddBoon(Card.SOMETHINGWICKED_MAGPIE_EYE_BOON)
+SomethingWicked:AddBoon(mod.CARDS.MAGPIE_EYE_BOON)
 this.EIDEntries = {
-    [Card.SOMETHINGWICKED_MAGPIE_EYE] = {
+    [mod.CARDS.MAGPIE_EYE] = {
         desc = "Upon using this card, this card will become undroppable, and cannot be swapped out#While holding the used card, all item rooms will be a More Options item room#Using the card again will remove it"
     },
-    [Card.SOMETHINGWICKED_MAGPIE_EYE_BOON] = {
+    [mod.CARDS.MAGPIE_EYE_BOON] = {
         desc = "All item rooms will be a More Options item room while held#Cannot be dropped or swapped out"
     }
 }

@@ -65,7 +65,7 @@ mod.LuckyButtonValidSlots = {
 }
 
 function this:PostUpdate()
-    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_LUCKY_BUTTON) then
+    if SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(mod.TRINKETS.LUCKY_BUTTON) then
         local machines = Isaac.FindByType(EntityType.ENTITY_SLOT)
         for key, slot in pairs(machines) do
             if this.ValidSlots[slot.Variant] then
@@ -77,7 +77,7 @@ function this:PostUpdate()
                         local foot = mod.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.COLLECTIBLE_LUCKY_FOOT)
                         local hardMode = mod.game.Difficulty == Difficulty.DIFFICULTY_HARD
 
-                        func(slot.Position, slot:GetDropRNG(), foot, hardMode, mod.ItemHelpers:GlobalGetTrinketNum(TrinketType.SOMETHINGWICKED_LUCKY_BUTTON))
+                        func(slot.Position, slot:GetDropRNG(), foot, hardMode, mod.ItemHelpers:GlobalGetTrinketNum(mod.TRINKETS.LUCKY_BUTTON))
 
                         e_data.somethingWicked_luckyButtonCheck = true
                         break
@@ -92,7 +92,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_UPDATE, this.PostUpdate)
 
 this.EIDEntries = {
-    [TrinketType.SOMETHINGWICKED_LUCKY_BUTTON] = {
+    [mod.TRINKETS.LUCKY_BUTTON] = {
         desc = "Slot machines and fortune machines will try to pay out twice",
         Hide = true,
     }

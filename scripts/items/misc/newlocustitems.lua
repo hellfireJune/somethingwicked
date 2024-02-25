@@ -15,15 +15,15 @@ local function FlyInit(familiar)
     elseif familiar.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
         this:InitGlitchLocust(familiar)
     elseif]] familiar.SubType == 0 then
-        local --[[flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_SAND_FLIES)
+        local --[[flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.SAND_FLIES)
         if flag and player then
             familiar.SubType = LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST
             this:InitGlitchLocust(familiar)
             return
         end
-        flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
+        flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.PLAGUE_OF_WORMWOOD)
         if flag and player then
-            local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.PLAGUE_OF_WORMWOOD)
             local r_float = c_rng:RandomFloat()
             local procChance = 0.5 + player.Luck * 0.3
 
@@ -33,18 +33,18 @@ local function FlyInit(familiar)
                 return
             end
         end]]
-        flag, player = mod:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_OWL_FEATHER)
+        flag, player = mod:GlobalPlayerHasTrinket(mod.TRINKETS.OWL_FEATHER)
         if flag and player then
-            local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_OWL_FEATHER)
-            if t_rng:RandomFloat() < 0.2 * player:GetTrinketMultiplier(TrinketType.SOMETHINGWICKED_OWL_FEATHER) then
+            local t_rng = player:GetTrinketRNG(mod.TRINKETS.OWL_FEATHER)
+            if t_rng:RandomFloat() < 0.2 * player:GetTrinketMultiplier(mod.TRINKETS.OWL_FEATHER) then
                 familiar.SubType = LocustSubtypes.LOCUST_OF_WRATH
                 familiar:GetSprite():Play(SOTBPAnimations[LocustSubtypes.LOCUST_OF_WRATH], true)
                 return
             end
         end
-        flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
+        flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
         if flag and player then
-            local myRNG = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
+            local myRNG = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 
             local subtype = myRNG:RandomInt(5) + 1
             if subtype == LocustSubtypes.LOCUST_OF_CONQUEST then
@@ -60,9 +60,9 @@ local function FlyInit(familiar)
 end
 
 local function enemyDeath(enemy)
-    local flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
+    local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
     if flag and player then
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_STAR_OF_THE_BOTTOMLESS_PIT)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 
         local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
         local chance = rng:RandomFloat() 
@@ -72,7 +72,7 @@ local function enemyDeath(enemy)
     end
 
     --[[local e_data = enemy:GetData()
-    flag, player = mod:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_PLAGUE_OF_WORMWOOD)
+    flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.PLAGUE_OF_WORMWOOD)
     if flag and e_data.somethingWicked_bitterParent then
         local wf = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD, enemy.Position, Vector.Zero, e_data.somethingWicked_bitterParent)
         wf.Parent = e_data.somethingWicked_bitterParent
@@ -136,13 +136,13 @@ this.PossibleCorruptions = numberBug.PossibleCorruptions]]
     if room:IsClear() and not room:IsAmbushActive() then
         return
     end
-    SpawnLocusts(TrinketType.SOMETHINGWICKED_BAG_OF_MUGWORTS, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD)
-    SpawnLocusts(TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG, LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST)
+    SpawnLocusts(mod.TRINKETS.BAG_OF_MUGWORTS, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD)
+    SpawnLocusts(mod.TRINKETS.FLOATING_POINT_BUG, LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST)
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, this.NewRoom)
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_NEW_WAVE_SPAWNED, this.NewRoom)]]
 
 --this.EIDEntries = {
-    --[TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG] = numberBug.EIDEntries[TrinketType.SOMETHINGWICKED_FLOATING_POINT_BUG],
+    --[mod.TRINKETS.FLOATING_POINT_BUG] = numberBug.EIDEntries[mod.TRINKETS.FLOATING_POINT_BUG],
 --}
 --return this

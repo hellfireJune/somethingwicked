@@ -8,10 +8,10 @@ function this:UseCard(_, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, Card.SOMETHINGWICKEDTHOTH_ART)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_CARD, this.UseCard, mod.CARDS.THOTH_ART)
 
 this.EIDEntries = {
-    [Card.SOMETHINGWICKEDTHOTH_ART] = {
+    [mod.CARDS.THOTH_ART] = {
         desc = "Spawns ".. this.AmountToSpawn .. " random hearts."
     }
 }

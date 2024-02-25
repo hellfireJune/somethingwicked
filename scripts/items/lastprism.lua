@@ -8,7 +8,7 @@ function this:PostPEffectUpdate(player)
     local p_data = player:GetData()
 
     local effects = player:GetEffects()
-    if not effects:HasCollectibleEffect(CollectibleType.SOMETHINGWICKED_LAST_PRISM) then
+    if not effects:HasCollectibleEffect(mod.ITEMS.LAST_PRISM) then
         if p_data.somethingWicked_lastPrism then
             --cleanup
             p_data.somethingWicked_usingLastPrism = false
@@ -89,7 +89,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PostPEffectUpdate)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_LAST_PRISM] = {
+    [mod.ITEMS.LAST_PRISM] = {
         Hide = true
     }
 }

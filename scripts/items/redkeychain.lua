@@ -2,9 +2,9 @@ local this = {}
 
 local ccSpawnChance = 0.1
 SomethingWicked:AddCallback(ModCallbacks.MC_GET_CARD, function ()
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_RED_KEYCHAIN)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(mod.TRINKETS.RED_KEYCHAIN)
     if flag and player then
-        local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_RED_KEYCHAIN)
+        local t_rng = player:GetTrinketRNG(mod.TRINKETS.RED_KEYCHAIN)
         if t_rng:RandomFloat() < ccSpawnChance then
             return Card.CARD_CRACKED_KEY
         end
@@ -17,7 +17,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, function ()
 end)
 
 function this:UpdateRoomly()
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(TrinketType.SOMETHINGWICKED_RED_KEYCHAIN)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasTrinket(mod.TRINKETS.RED_KEYCHAIN)
     if flag and player then
         if SomethingWicked.game:GetFrameCount() % 4 == 1 then --sort of like a bus stop (doing this coz i fear how performance intensive this might be on later levels)
             local SkipMakingRRooms = false
@@ -47,7 +47,7 @@ function this:UpdateRoomly()
 
                         if #attachedRooms < 4 then
                             local rrSlot = -1
-                            local t_rng = player:GetTrinketRNG(TrinketType.SOMETHINGWICKED_RED_KEYCHAIN)
+                            local t_rng = player:GetTrinketRNG(mod.TRINKETS.RED_KEYCHAIN)
 
                             if attachedRooms == {} then
                                 rrSlot = t_rng:RandomInt(4)

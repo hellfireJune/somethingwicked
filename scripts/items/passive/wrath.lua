@@ -121,10 +121,10 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
 end)
 
 local function TearOnHit(_, tear, collider, player, procChance)
-    if player:HasCollectible(CollectibleType.SOMETHINGWICKED_WRATH) 
+    if player:HasCollectible(mod.ITEMS.WRATH) 
     and tear:GetData().somethingWicked_trueHoming == nil
     and ((tear.Parent and tear.Parent.Type == EntityType.ENTITY_PLAYER) or tear.Type == EntityType.ENTITY_PLAYER) then
-        local rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_WRATH)
+        local rng = player:GetCollectibleRNG(mod.ITEMS.WRATH)
 
         if rng:RandomFloat() <= procChance then
             local bonusAng = rng:RandomInt(60)
@@ -147,11 +147,11 @@ end
 --this is only done because D4'ing into heartbreak gives 3 broken hearts
 local function PEffectUpdate(_, player)
     local p_data = player:GetData()
-    p_data.SomethingWickedPData.wrathOwned = p_data.SomethingWickedPData.wrathOwned or player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WRATH) 
+    p_data.SomethingWickedPData.wrathOwned = p_data.SomethingWickedPData.wrathOwned or player:GetCollectibleNum(mod.ITEMS.WRATH) 
 
-    if p_data.SomethingWickedPData.wrathOwned < player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WRATH)  then
+    if p_data.SomethingWickedPData.wrathOwned < player:GetCollectibleNum(mod.ITEMS.WRATH)  then
         player:AddBrokenHearts(3)
-        p_data.SomethingWickedPData.wrathOwned = player:GetCollectibleNum(CollectibleType.SOMETHINGWICKED_WRATH)
+        p_data.SomethingWickedPData.wrathOwned = player:GetCollectibleNum(mod.ITEMS.WRATH)
     end
 end
 

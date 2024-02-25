@@ -9,9 +9,9 @@ function this:OnKillzEnemy(enemy)
         return
     end
 
-    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(CollectibleType.SOMETHINGWICKED_TOMBSTONE)
+    local flag, player = SomethingWicked.ItemHelpers:GlobalPlayerHasCollectible(mod.ITEMS.TOMBSTONE)
     if flag and player then
-        local c_rng = player:GetCollectibleRNG(CollectibleType.SOMETHINGWICKED_TOMBSTONE)
+        local c_rng = player:GetCollectibleRNG(mod.ITEMS.TOMBSTONE)
         if c_rng:RandomFloat() < procChance(player) then
             local tombStone = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TOMBSTONE, 0, enemy.Position, Vector.Zero, player):ToEffect()
             tombStone.Parent = player
@@ -106,7 +106,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateTombs
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateFog, EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_TOMBSTONE] = {
+    [mod.ITEMS.TOMBSTONE] = {
         desc = "oogly boogly",
         Hide = true,
     }

@@ -26,7 +26,7 @@ end
 
 
 local function OnWispDie(_, entity)
-    if entity.Variant == FamiliarVariant.WISP and entity.SubType == CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM then
+    if entity.Variant == FamiliarVariant.WISP and entity.SubType == mod.ITEMS.CURSED_MUSHROOM then
         local nearbyEnemies = Isaac.FindInRadius(entity.Position, WispCurseRadius, 8)
         for key, ent in pairs(nearbyEnemies) do
             OnCurse(ent)
@@ -47,7 +47,7 @@ local function LocustDidDamage(_, ent, amount, flags, source, dmgCooldown)
     if locust ~= nil
     and locust.Type == EntityType.ENTITY_FAMILIAR
     and locust.Variant == FamiliarVariant.ABYSS_LOCUST
-    and locust.SubType == CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM then
+    and locust.SubType == mod.ITEMS.CURSED_MUSHROOM then
         if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
             mod:UtilAddCurse(ent, 1)
         end 
@@ -56,4 +56,4 @@ end
 
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, LocustDidDamage)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, OnWispDie, EntityType.ENTITY_FAMILIAR)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, CollectibleType.SOMETHINGWICKED_CURSED_MUSHROOM)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.CURSED_MUSHROOM)

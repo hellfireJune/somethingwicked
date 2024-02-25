@@ -11,10 +11,10 @@ function this:OnDread(ent)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, CollectibleType.SOMETHINGWICKED_FEAR_STALKS_THE_LAND)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, mod.ITEMS.FEAR_STALKS_THE_LAND)
 
 this.EIDEntries = {
-    [CollectibleType.SOMETHINGWICKED_FEAR_STALKS_THE_LAND] = {
+    [mod.ITEMS.FEAR_STALKS_THE_LAND] = {
         desc = "Radiohead",
         Hide = true,
     }
