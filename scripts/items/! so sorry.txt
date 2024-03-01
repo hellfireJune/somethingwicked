@@ -1,1 +1,1 @@
-this folder is really unorganized and a bunch of stuff are in combined files i just recommend if you need anything you open the whole mod in vs code then just search through there
+anything in the subfolders here is actually present in the mod, dont touch anything else if you value your time

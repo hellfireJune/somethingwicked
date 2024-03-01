@@ -13,9 +13,9 @@ EffectVariant.SOMETHINGWICKED_ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked I
 EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
 EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
 EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
+EffectVariant.SOMETHINGWICKED_DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
 
-
-TearVariant.SOMETHINGWICKED_REALLY_GOOD_PLACEHOLDER = Isaac.GetEntityVariantByName("Wicked Placeholder Tear")
+TearVariant.SOMETHINGWICKED_GANYSPARK = Isaac.GetEntityVariantByName("Ganymede Spark Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
 TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear")
 TearVariant.SOMETHINGWICKED_STICKERBOOK_STICKER = Isaac.GetEntityVariantByName("Sticker Tear")

@@ -1,3 +1,5 @@
+local mod = SomethingWicked
+
 local function ProcChance(player)
     return 1
 end

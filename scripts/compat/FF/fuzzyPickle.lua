@@ -1,11 +1,13 @@
+local mod = SomethingWicked
 local references = {
     Actives = {
-        {ID = mod.ITEMS.BALROGS_HEAD, Reference = "King Gizzard and the Lizard Wizard", Partial = true},
-        {ID = mod.ITEMS.CHAOS_HEART, Reference = "Ring of Pain", Partial=true},
+        {ID = mod.ITEMS.BALROGS_HEAD, Reference = "King Gizzard and the Lizard Wizard"},
+        {ID = mod.ITEMS.CHAOS_HEART, Reference = "Ring of Pain"},
         {ID = mod.ITEMS.CURSED_MUSHROOM, Reference = "Super Mario Bros: The Lost Levels"},
         {ID = mod.ITEMS.ASSIST_TROPHY, Reference = "Super Smash Bros"},
         {ID = mod.ITEMS.ITEM_BOX, Reference = "Mario Kart"},
-        {ID = mod.ITEMS.BOOK_OF_INSANITY, Reference = "The King in Yellow"}
+        {ID = mod.ITEMS.BOOK_OF_INSANITY, Reference = "The King in Yellow"},
+        {ID = mod.ITEMS.BOLINE, Reference = "King Gizzard and the Lizard Wizard", Partial=true}
     },
     Passives = {
         {ID = mod.ITEMS.AVENGER_EMBLEM, Reference = "Terraria"},
@@ -28,6 +30,7 @@ local references = {
         {ID = mod.ITEMS.GOLDEN_WATCH, Reference = "Enter the Gungeon", Partial=true},
         {ID = mod.ITEMS.YELLOW_SIGIL, Reference = "The King in Yellow"},
         {ID = mod.ITEMS.GANYMEDE, Reference = "Planetside of Gunymede" },
+        {ID = mod.ITEMS.STAR_TREAT, Reference = "Bee Swarm Simulator"}
     },
     Trinkets = {
         {ID = mod.TRINKETS.CATS_EYE, Reference = "The Cat Empire"},

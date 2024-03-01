@@ -574,7 +574,7 @@ function SomethingWicked:ChargeFirstActive(player, chargeToAdd, skipBatteryCheck
     chargeToAdd = chargeToAdd or 1
 
     for i = 0, 3, 1 do
-        print("Ah")
+        --print("Ah")
         local currentItem = player:GetActiveItem(i)
         if currentItem ~= 0 and player:NeedsCharge(i) then
             local maxCharge = Isaac.GetItemConfig():GetCollectible(currentItem).MaxCharges
@@ -1226,7 +1226,7 @@ function mod:GetAngleDifference(a1, a2)
     return (sub + 180) % 360 - 180
 end
 
-function mod:AngularMovementFunction(familiar, target, speed, variance, lerpMult)
+function SomethingWicked:AngularMovementFunction(familiar, target, speed, variance, lerpMult)
     local enemypos = target.Position or target
         
     local velToEnemy = (enemypos - familiar.Position)
@@ -1249,6 +1249,7 @@ function mod:CollisionKnockback(mainPos, otherPos, currVelocity)
     local velAng = mod:GetAngleDegreesButGood(-currVelocity)
     local disAng = mod:GetAngleDegreesButGood(normal)
     local knockBackAngle = (velAng + 2 * (disAng - velAng))%360
+    print(velAng, disAng, knockBackAngle)   
 
     return Vector.FromAngle(knockBackAngle)
 end
@@ -1346,4 +1347,19 @@ end
 function SomethingWicked:Current45VoltCharge()
     local level = game:GetLevel()
     return 40 + 20*level:GetAbsoluteStage()
+end
+
+function SomethingWicked:SetEasyTearTrail(tear)
+    local t_data = tear:GetData() 
+    local init = false
+    if not t_data.sw_tearTrail then
+        init = true
+        local trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPRITE_TRAIL, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear):ToEffect()
+        trail.MinRadius = 0.2
+        trail:FollowParent(tear)
+        trail.ParentOffset = tear.PositionOffset
+        t_data.sw_tearTrail = trail
+    end
+    t_data.sw_tearTrail.ParentOffset = tear.PositionOffset
+    return t_data.sw_tearTrail, init
 end

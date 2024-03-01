@@ -1,5 +1,5 @@
 local mod = SomethingWicked
-mod.ITEMS = {}
+SomethingWicked.ITEMS = {}
 
 mod.ITEMS.AVENGER_EMBLEM = Isaac.GetItemIdByName("Avenger Emblem")
 mod.ITEMS.BOLINE = Isaac.GetItemIdByName("Boline")
@@ -45,7 +45,6 @@ mod.ITEMS.CURSED_CANDLE = Isaac.GetItemIdByName("Cursed Candle")
 mod.ITEMS.CURSED_CREDIT_CARD = Isaac.GetItemIdByName("Cursed Credit Card")
 mod.ITEMS.CURSED_MUSHROOM = Isaac.GetItemIdByName("Cursed Mushroom")
 mod.ITEMS.CURSE_MASK = Isaac.GetItemIdByName("Curse Mask") --unfinished
-mod.ITEMS.BLACK_MOON_MEDALLION = Isaac.GetItemIdByName("Black Moon Medallion") --unfinished
 mod.ITEMS.CUTIE_FLY_ITEM = Isaac.GetItemIdByName("Cutie Fly") --unfinished
 mod.ITEMS.DADS_WALLET = Isaac.GetItemIdByName("Lost Wallet")
 mod.ITEMS.EVIL_PIGGYBANK = Isaac.GetItemIdByName("Mammon's Piggybank") --unfinished
@@ -137,7 +136,7 @@ mod.ITEMS.DIS = Isaac.GetItemIdByName("Dis")
 mod.ITEMS.ACHERON = Isaac.GetItemIdByName("Acheron")
 
 --trinkets
-mod.TRINKETS = {}
+SomethingWicked.TRINKETS = {}
 mod.TRINKETS.TICKET_ROLL = Isaac.GetTrinketIdByName("Ticket Roll") -- retouch
 mod.TRINKETS.BUSTED_BATTERY = Isaac.GetTrinketIdByName("Busted Battery") --unfinished
 mod.TRINKETS.GODLY_TOMATO = Isaac.GetTrinketIdByName("Godly Tomato") -- retouch
@@ -161,7 +160,6 @@ mod.TRINKETS.LUCKY_BUTTON = Isaac.GetTrinketIdByName("Lucky Button") --unfinishe
 mod.TRINKETS.MR_SKITS = Isaac.GetTrinketIdByName("Mr. Skits") -- unfinished
 mod.TRINKETS.OWL_FEATHER = Isaac.GetTrinketIdByName("Owl Feather") -- maybe resprite? animals r hard
 mod.TRINKETS.NIGHTMARE_FUEL = Isaac.GetTrinketIdByName("Nightmare Fuel") -- retouch this to hell and back
-mod.TRINKETS.VIRTUE = Isaac.GetTrinketIdByName("Virtue") -- unfinished as hell
 mod.TRINKETS.POWER_INVERTER = Isaac.GetTrinketIdByName("Power Inverter")
 mod.TRINKETS.RED_KEYCHAIN = Isaac.GetTrinketIdByName("Red Keychain") -- unfinished
 mod.TRINKETS.SURGICAL_MASK = Isaac.GetTrinketIdByName("Surgical Mask") -- unfinished, justn eeds sprite
@@ -177,7 +175,7 @@ mod.TRINKETS.PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print")
 mod.TRINKETS.SAMPLE_BOX = Isaac.GetTrinketIdByName("Sample Box")
 
 --CARDS
-mod.CARDS = {}
+SomethingWicked.CARDS = {}
 mod.CARDS.MAGPIE_EYE = Isaac.GetCardIdByName("MagpieEye")
 mod.CARDS.MAGPIE_EYE_BOON = Isaac.GetCardIdByName("MagpieEyeBoon")
 mod.CARDS.KNIGHT_OF_DIAMONDS = Isaac.GetCardIdByName("KnightOfDiamonds")

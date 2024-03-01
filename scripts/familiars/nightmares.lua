@@ -16,7 +16,7 @@ easyBottomSprite:Load("gfx/familiar_sw_nightmare.anm2")
 easyBottomSprite:Play("AttackBody")
 
 local damage = 2
-local snapbackFrames, lerpframes = 3, 6
+local snapbackFrames, lerpframes = 3, 12
 local fOffset = Vector(0,-18)
 local offsetTable = {
     [0] = 0,
@@ -29,10 +29,8 @@ local offsetTable = {
 function SomethingWicked:SpawnNightmare(player, pos, subtype)
     subtype = subtype or 0
 
-    local scrunkly = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, subtype, pos, Vector.Zero, player)      
-    scrunkly:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
-
-    sfx:Play(SoundEffect.SOUND_CANDLE_LIGHT)
+    local familiar = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, subtype, pos, Vector.Zero, player)      
+    familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 end
 
 local orbit = Vector(60, 60)
@@ -61,7 +59,10 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
             familiar.Position = position familiar.Velocity = Vector.Zero
         else
             if f_data.sw_nightmareLerpFrames then
-                position = mod:Lerp(position, familiar.Position, math.min(1, 0.58 + (lerpframes-f_data.sw_nightmareLerpFrames*0.06)))
+                print(f_data.sw_nightmareLerpFrames)
+                local lerp = math.min(1, 0.18 + (lerpframes-f_data.sw_nightmareLerpFrames)*0.06)
+                print(lerp)
+                position = mod:Lerp(familiar.Position, position, lerp)
 
                 f_data.sw_nightmareLerpFrames = f_data.sw_nightmareLerpFrames - 1
                 if f_data.sw_nightmareLerpFrames == 0 then
@@ -100,8 +101,7 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
                 tear.Height = tear.Height * 0.68
 
                 tear.CollisionDamage = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and damage*2 or damage
-                tear.Scale = tear.Scale * 0.6
-                tear.Color = Color(0.3, 0.3, 0.3, 0.55, -0.1, -0.1, -0.1)
+                tear.Color = Color(0, 0, 0)--Color(0.3, 0.3, 0.3, 0.55, -0.1, -0.1, -0.1)
                 tear.FallingSpeed = -30
                 tear.FallingAcceleration = 0.9
                 tear:AddTearFlags(TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_HOMING)
@@ -115,6 +115,12 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
 
     if familiar.FireCooldown > 0 then
         familiar.FireCooldown = familiar.FireCooldown - 1
+    end
+    if familiar.FrameCount == 2 then
+        sfx:Play(SoundEffect.SOUND_BLACK_POOF)
+        local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
+        poof.Color = Color(0.1, 0.1, 0.1)
+        poof.SpriteScale = Vector(0.5, 0.5)
     end
 end, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE)
 
@@ -172,6 +178,14 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, familiar)
         sfx:Play(SoundEffect.SOUND_BLACK_POOF)
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, familiar.Position, Vector.Zero, familiar)
         poof.Color = Color(0.1, 0.1, 0.1)
-        poof.SpriteScale = Vector(0.5, 0.5)
+        poof.SpriteScale = Vector(0.75, 0.75)
+
+        if familiar.SubType == mod.NightmareSubTypes.NIGHTMARE_TRINKET then
+            local p = familiar.Player
+            if p then
+                local p_data = p:GetData()
+                p_data.sw_nightmaresDiedToday = (p_data.sw_nightmaresDiedToday or 0) - 1
+            end
+        end
     end
 end, EntityType.ENTITY_FAMILIAR)

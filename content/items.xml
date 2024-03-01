@@ -1,15 +1,15 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener, Sample Box
+  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener, Sample Box, Dis, Reliquary, Fruit Milk, Star Treat
 
   Changes:
   - Major general changes
     - Now uses Repentogon for some stuff, you need the mod now
     - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
-      - White Robe's effect is now that of the new trinket "Indulgence print". White robe itself will maybe come back some day with a cool new effect, maybe.
+      - White Robe's effect is now that of the new trinket "Indulgence print"
       - Band of Regeneration might also come back but as it is now it's nigh identical to a retribution item and it's not good compared to it either
-    - (Cards, teratoma orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back)
+    - (Thoth cards, teratoma orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back very soon)
     - General nearly entire code rework, a lot of stuff probably changed without me realising
     - Large EID do-over
 
@@ -106,6 +106,9 @@
   - Planchette
     - Now doubles the collision damage from wisps also
 
+  - The Game (Card)
+    - Can now spawn The Joker, baby
+
   - Minor Misc. 
     - Added status effect icons for curse
     - Electro-stun and curse will no longer apply to enemies immune to status effects
@@ -114,7 +117,7 @@
     - Some itempools definitely got changed
     - Animation and sound changes for a bunch of items
     - Fixed a bunch of inconsistent stuff with orbitals (Devilsknife moves faster, swords of light blocks projectiles)
-    - Mod now uses it's own enum for item ids instead of the vanilla enum
+    - Mod now uses it's own enum for item ids, trinket ids and card ids instead of the vanilla enum
 
   Fixes:
   - Ticket Roll's slot machines will no longer spawn in spots obviously unreachable by the player
@@ -144,8 +147,8 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 74, 82, 83, 100, 103, 110, 119, 133, 141, 142
-  and trinket id 15 and 38-->
+  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 74, 79, 87, 100, 103, 105, 106, 108, 110, 119, 133, 141, 142
+  and trinket id 15, 22, 29, 31 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="3" tags="offensive"/>
@@ -234,10 +237,11 @@
   <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
   <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
-  <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="SNffffff..." quality="2" tags="offensive summonable"/>
+  <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="Smells good..." quality="2" tags="offensive summonable"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
-  <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="" tags="offensive"/>
+  <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Power up!" quality="2" tags="offensive"/>
+  <passive id="154" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
 
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true" tags="noeden"/>
@@ -250,7 +254,6 @@
   <active id="98" name="Magic Clay" hidden="true" tags="noeden"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true" tags="noeden"/>
   <familiar id="104" name="Ms. Gonorrhea" hidden="true" tags="noeden"/>
-  <passive id="106" name="Black Moon Medallion" hidden="true" tags="noeden"/>
   <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive noeden"/> <!--code done, needs testing-->
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true" tags="noeden"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true" tags="noeden"/>
@@ -278,10 +281,9 @@
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
-  <passive id="148" name=" Ganymede " description="Titan's pull" gfx="ganymede.png" quality="3" tags="offensive summonable" cache="shotspeed"/>
-  <active id="152" name = "Seed of Eden"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
-  <passive id="153" name=" Seed of Eden " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
-  <passive id="154" name="Dis" devilprice="2" gfx="dis.png" tags="offensive" quality="3"/>
+  <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
+  <active id="82" name = "Seed of Eden"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
+  <passive id="83" name=" Seed of Eden " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="155" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
 
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true" tags="noeden"/> <!--slot-->
@@ -318,7 +320,6 @@
   <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
   <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png"/>
 
-  <trinket id="22" name="Virtue" hidden="true" cache="familiars"/>
   <trinket id="23" name="Meal Coupon" hidden="true"/> <!-- code done-->
   <trinket id="25" name="Red Keychain" hidden="true"/> <!--code done-->
   <trinket id="26" name="Lucky Button" hidden="true"/> <!--better fortune machines-->

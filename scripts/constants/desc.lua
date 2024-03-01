@@ -64,7 +64,7 @@ mod.GENERIC_DESCRIPTIONS = {
     TERATOMAS = "",
 
     CARDDRAW = "Cannot use The Fool? The Lovers?, The Stars? or Wheel of Fortune?#Teleport cards will only be rarely used, and cannot be drawn during boss fights",
-    SOULTRINKETSTATS = "#↑{{Damage}} +0.3 Damage up#↑{{FireDelay}} +0.5 Tears up#↑{{Luck}} +1 Luck up"..
+    SOULTRINKETSTATS = "#↑{{Damage}} +0.3 Damage up#↑{{Tears}} +0.5 Tears up#↑{{Luck}} +1 Luck up"..
     "#↑{{Speed}} +0.15 Speed up#↑{{ShotSpeed}} +0.1 Shot Speed#↑{{Range}} +0.75 Range up"
 }
 local soulMetadataFunc = function (item)
@@ -94,7 +94,7 @@ local collectibles = {
         },
     },
     [mod.ITEMS.WHITE_ROSE] = {
-        desc = "↑ {{Tears}} +0.4 Tears up#1 soul heart#↑ Spawns four {{Collectible584}} Book of Virtues wisps on pickup",
+        desc = "↑ {{Tears}} +0.4 Tears up#{{SoulHeart}} +1 Soul Heart#↑ Spawns four {{Collectible584}} Book of Virtues wisps on pickup",
         pools = {
             encyclopediaLootPools.POOL_BOSS,
             encyclopediaLootPools.POOL_GREED_BOSS,
@@ -613,6 +613,20 @@ local collectibles = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_GREED_TREASURE,
         },
+    },
+    [mod.ITEMS.RELIQUARY] = {
+        desc = "{{Heart}} Items that give heart containers also give +2 {{SoulHeart}} Soul Hearts and {{Tears}} +0.5 Tears up#{{SoulHeart}} +1 Soul Heart",
+        pools = {
+            encyclopediaLootPools.POOL_ANGEL,
+            encyclopediaLootPools.POOL_GREED_ANGEL
+        }
+    },
+    [mod.ITEMS.DIS] = {
+        desc = "Picking up an item will grant a temporary copy of another item for a minute",
+        pools = {
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL
+        }
     }
 }
 
@@ -756,6 +770,21 @@ end
 local cards = {
     [mod.CARDS.STONE_OF_THE_PIT] = {
         desc = "{{Trinket}} Smelts one random trinket onto you."
+    },
+    [mod.CARDS.KNIGHT_OF_CLUBS] = {
+        desc = "{{Bomb}} Spawns 4 bombs worth of pickups on use"
+    },
+    [mod.CARDS.KNIGHT_OF_HEARTS] = {
+        desc = "{{Heart}} Spawns 6 hearts worth of pickups on use"
+    },
+    [mod.CARDS.KNIGHT_OF_SPADES] = {
+        desc = "{{Key}} Spawns 4 keys worth of pickups on use"
+    },
+    [mod.CARDS.KNIGHT_OF_DIAMONDS] = {
+        desc = "{{Coin}} Spawns 12 coins worth of pickups on use"
+    },
+    [mod.CARDS.THE_GAME] = {
+        desc = "{{Card}} Spawns 3 playing cards on use"
     }
 }
 for index, value in pairs(cards) do

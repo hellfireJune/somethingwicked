@@ -20,10 +20,6 @@ function mod:PreUseD4(_, _, player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.PreUseD4, CollectibleType.COLLECTIBLE_D4)
-print("hi")
-print("hi") 
-
-print("hi")
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
     local p_data = player:GetData()
     if p_data.WickedPData.trackedItems ~= nil then
@@ -34,7 +30,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
     end
 end, CollectibleType.COLLECTIBLE_D4)
 
-print("hi")
+
 function SomethingWicked:AddItemToTrack(player, id, index)
     local p_data = player:GetData()
     p_data.WickedPData.trackedItems = p_data.WickedPData.trackedItems or {}

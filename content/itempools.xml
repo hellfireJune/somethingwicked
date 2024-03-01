@@ -122,6 +122,7 @@
 		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Wicked Ring" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Dis" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	
@@ -133,6 +134,7 @@
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lourdes Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chrismatory" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
@@ -327,6 +329,7 @@
 		<Item Name="Boline" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="0.8" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wicked Ring" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Dis" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
@@ -341,6 +344,7 @@
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="White Rose" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Chrismatory" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

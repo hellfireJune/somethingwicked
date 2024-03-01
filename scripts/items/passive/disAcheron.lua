@@ -2,10 +2,6 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 local game = Game()
 
-local orbitalSprite = Sprite()
-orbitalSprite:Load("gfx/effect_wisp_trail.anm2", true)
-orbitalSprite:Play("Idle")
-
 local time = 60
 time=time*30
 function mod:AddDisItem(player, isActuallyDis, pool, pos)
@@ -40,7 +36,7 @@ local function PickupItem(_, type, _, firstTime, _, _, player)
     mod:AddDisItem(player)
 end
 
-local maxDisOrbitals, disOrbitSpeed, orbitDistance, groundOffset = 10, 2, 50, Vector(0, -16)
+local maxDisOrbitals, disOrbitSpeed, orbitDistance, groundOffset = 10, 2, 80, Vector(0, -16)
 local disYellow = Color(1, 1, 0) local disRed = Color(1, 0, 0)
 local disOffsetYellow = Color(1, 1, 1, 0.635, 0.5, 0.5) local disOffsetRed = Color(1, 1, 1, 0.635, 0.5)
 local function PlayerUpdate(_, player)
@@ -65,7 +61,7 @@ local function PlayerUpdate(_, player)
                                     tab.renderIdx = j
 
                                     effect = mod:SpawnStandaloneItemPopup(tab.id, mod.ItemPopupSubtypes.DIS_FUNNY_MOMENTS, player.Position, player)
-                                    effect.SpriteScale = Vector(0.66, 0.66)
+                                    --effect.SpriteScale = Vector(0.66, 0.66)
                                     effect.SpriteOffset = groundOffset
                                     local colorLerp = rng:RandomFloat()
                                     effect.Color = Color.Lerp(disOffsetYellow, disOffsetRed, colorLerp)
@@ -74,12 +70,13 @@ local function PlayerUpdate(_, player)
                                         gainEffect = effect,
                                         color = Color.Lerp(disYellow, disRed, colorLerp),
                                         orbitOffset = 36 * (j-1),
-                                        shouldRender = false
+                                        mainIdx = i
                                     }
                                     p_data.WickedPData.disRenderData[j] = renderTab
                                     effect:GetData().sw_disTargetPos = (Vector.FromAngle(renderTab.orbitOffset + (p_data.sw_disRenderOrbit or 0)):Resized(orbitDistance) + player.Position)
 
                                     tab.gainEffect = effect
+                                    sfx:Play(SoundEffect.SOUND_SOUL_PICKUP)
                                     goto finishedUnProcess
                                 end
 
@@ -98,7 +95,7 @@ local function PlayerUpdate(_, player)
                         game:GetHUD():ShowItemText(player, iConfig:GetCollectible(tab.id))
                         if tab.dis then
                             if tab.renderIdx then
-
+                                sfx:Play(SoundEffect.SOUND_DEATH_CARD)
                             end
                         else
 
@@ -112,15 +109,24 @@ local function PlayerUpdate(_, player)
                     table.remove(p_data.WickedPData.disItems, i)
                     i = i - 1
 
-                    if not tab.dis then
-                        mod:QueueItemPopUp(player, tab.id)
+                    mod:QueueItemPopUp(player, tab.id)
+                    if tab.dis then
+                        if tab.renderIdx then
+                            local effect = p_data.WickedPData.disRenderData[tab.renderIdx].effect
+                            local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, effect.Position + effect.PositionOffset, Vector.Zero, effect)
+                            explode.DepthOffset = 20
+                            sfx:Play(SoundEffect.SOUND_DEMON_HIT, 0.8, 0)
+                            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, effect.Position+effect.PositionOffset, Vector.Zero, effect)
+                            poof.Color = p_data.WickedPData.disRenderData[tab.renderIdx].color
+                            poof.SpriteScale = Vector(0.5, 0.5)
+                            effect:Remove()
+                            p_data.WickedPData.disRenderData[tab.renderIdx] = nil
+                        end
+                    else
+
                         if not madeFunnySoundThisFrame then
                             madeFunnySoundThisFrame = true
                             sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0)
-                        end
-                    else
-                        if tab.renderIdx then
-                            p_data.WickedPData.disRenderData[tab.renderIdx] = nil
                         end
                     end
                 else
@@ -132,20 +138,44 @@ local function PlayerUpdate(_, player)
         p_data.sw_disRenderOrbit = (p_data.sw_disRenderOrbit or 0) + disOrbitSpeed
         for key, renderTab in pairs(p_data.WickedPData.disRenderData) do
             if not renderTab.orbitVector then
-                renderTab.orbitVector = Vector.FromAngle(renderTab.orbitOffset + p_data.sw_disRenderOrbit):Resized(orbitDistance)
+                renderTab.orbitVector = Vector.FromAngle(renderTab.orbitOffset + p_data.sw_disRenderOrbit):Resized(orbitDistance + (rng:RandomFloat()*45))
             else
                 renderTab.orbitVector = renderTab.orbitVector:Rotated(disOrbitSpeed)
             end
-            renderTab.renderPos = player.Position + renderTab.orbitVector + groundOffset
+            renderTab.renderPos = player.Position + renderTab.orbitVector
 
             if renderTab.gainEffect and renderTab.gainEffect:Exists() then
                 local e_data = renderTab.gainEffect:GetData()
                 e_data.sw_disTargetPos = renderTab.renderPos - groundOffset
             else
+
+                if renderTab.effect == nil or not renderTab.effect:Exists() then
+                    
+                local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, 
+                EffectVariant.SOMETHINGWICKED_DIS_WISP, 0, renderTab.renderPos+groundOffset, Vector.Zero, nil)
+                effect.Color = renderTab.color
+                effect:GetSprite():Play("Idle")
+                effect.SpriteOffset = groundOffset
+                renderTab.effect = effect
+
                 if renderTab.gainEffect then
                     renderTab.gainEffect = nil
+                    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, effect.Position, Vector.Zero, effect)
+                    poof.Color = renderTab.color
+                    poof.SpriteScale = Vector(0.75, 0.75)
                 end
-                renderTab.shouldRender = true
+                end
+            end
+
+            if renderTab.effect then
+                local effect = renderTab.effect
+                effect.Position = renderTab.renderPos
+                
+                local mainTab = p_data.WickedPData.disItems[renderTab.mainIdx]
+                if mainTab and mainTab.time > time-(2*30) then
+                    effect.Visible = mainTab.time % 4 > 1
+
+                end
             end
             p_data.WickedPData.disRenderData[key] = renderTab
         end
@@ -170,20 +200,6 @@ end
 mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, PickupItem) --FUUUUUTUUUUUUUUUUUUUURE
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, EnemyDies)
-
-mod:AddCallback(ModCallbacks.MC_POST_PLAYER_RENDER, function (_, player)
-    local p_data = player:GetData()
-    if p_data.WickedPData.disRenderData then
-        for key, renderTab in pairs(p_data.WickedPData.disRenderData) do
-            renderTab.renderPos = player.Position + renderTab.orbitVector + groundOffset
-
-            if renderTab.shouldRender then
-                orbitalSprite.Color = renderTab.color
-                orbitalSprite:Render(Isaac.WorldToScreen(renderTab.renderPos))
-            end
-        end
-    end
-end)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
     if data.WickedPData.disItems then

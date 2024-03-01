@@ -24,11 +24,11 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_COINSHOT, {
             t_data.sw_ultracoinHit = 2
             tear:AddTearFlags(TearFlags.TEAR_PIERCING)
 
-            local trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPRITE_TRAIL, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear):ToEffect()
+            --[[local trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPRITE_TRAIL, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear):ToEffect()
             trail.MinRadius = 0.2
             trail:FollowParent(tear)
             trail.ParentOffset = tear.PositionOffset
-            t_data.sw_coinTrail = trail
+            t_data.sw_coinTrail = trail]]
             
             trail:Update()
             tear:Update()
@@ -62,7 +62,7 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_COINSHOT, {
                 return
             end
         t_data.sw_ultracoinHit = t_data.sw_ultracoinHit - 1
-        t_data.sw_coinTrail.ParentOffset = tear.PositionOffset
+        mod:SetEasyTearTrail(tear)
     end
 })
 

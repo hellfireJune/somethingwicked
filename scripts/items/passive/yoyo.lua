@@ -3,7 +3,7 @@ local angVariance = 20
 local maxSpeed = 20
 local wantedDistance = 120
 
-function this:YoYoCheck(player)
+local function YoYoCheck(_, player)
     if not player:HasCollectible(mod.ITEMS.THE_YOYO) then return end
 
     local p_data = player:GetData()
@@ -11,8 +11,8 @@ function this:YoYoCheck(player)
         local aim = player:GetAimDirection()
         p_data.sw_yoyoDirection = aim
 
-        local est = this:getEstimatedyoyos(player)
-        local tab, cur = this:checkFamiliars(p_data)
+        local est = getEstimatedyoyos(player)
+        local tab, cur = checkFamiliars(p_data)
         p_data.WickedPData.YoYos = tab
 
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.THE_YOYO)
@@ -30,7 +30,7 @@ function this:YoYoCheck(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.YoYoCheck)
 
-function this:YoYoCollide(familiar, other)
+local function YoYoCollide(_, familiar, other)
     other = other:ToNPC()
     if not other or not other:IsVulnerableEnemy() then
         return
@@ -44,10 +44,10 @@ function this:YoYoCollide(familiar, other)
         other:AddVelocity(knockBackAngle*-0.8)
     end
 end
-mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, this.YoYoCollide, FamiliarVariant.SOMETHINGWICKED_YOYO)
+mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, YoYoCollide, FamiliarVariant.SOMETHINGWICKED_YOYO)
 
 local deathTick = 5
-function this:YoYoUpdate(familiar)
+local function YoYoUpdate(_, familiar)
     local room = mod.game:GetRoom()
     if room:GetFrameCount() == 0 then
         familiar:Remove()
@@ -88,9 +88,9 @@ function this:YoYoUpdate(familiar)
     local color = Color.Lerp(Color(1, 1, 1, 1), Color(1, 1, 1, 0), f_data.sw_yoyoDeathTick/deathTick)
     familiar.Color = color
 end
-mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.YoYoUpdate, FamiliarVariant.SOMETHINGWICKED_YOYO)
+mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, YoYoUpdate, FamiliarVariant.SOMETHINGWICKED_YOYO)
 
-function this:checkFamiliars(p_data)
+local function checkFamiliars(p_data)
     local tab = p_data.WickedPData.YoYos
     local newTab = {}
     if tab then
@@ -104,14 +104,6 @@ function this:checkFamiliars(p_data)
     return newTab, #newTab
 end
 
-function this:getEstimatedyoyos(player)
-    return mod.FamiliarHelpers:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
+local function getEstimatedyoyos(player)
+    return mod:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
 end
-
-this.EIDEntries = {
-    [mod.ITEMS.THE_YOYO] = {
-        desc = "He just kept on yo-ing",
-        Hide = true,
-    }
-}
-return this

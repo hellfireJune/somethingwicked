@@ -18,6 +18,7 @@ function SomethingWicked:SpawnStandaloneItemPopup(item, type, pos, player)
     local sprite = effect:GetSprite()
     sprite:ReplaceSpritesheet(0, gfx)
     sprite.LoadGraphics(sprite)
+    effect.DepthOffset = 20
     --effect:Update()
     return effect
 end
@@ -39,9 +40,9 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     end
 end)
 
-local startOffset,endOffest = Vector(0, -20), Vector(0, -45)
+local startOffset,endOffest = Vector(0, -40), Vector(0, -65)
 local moveSpeed, timeToRampUp, turnSpeed, minRadius, maxRadius = 24, 16, 32, 10, 160
-local disHopDuration, heightOffGround = 24, -30
+local disHopDuration, heightOffGround = 20, -40
 
 local color = Color(1, 1, 1, 0.835) local whitenedColour = Color(1, 1, 1, 0.835, 1, 1, 1)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
@@ -102,13 +103,21 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
         if lerp > 1 then
             effect:Remove()
         else
-            effect.Position = mod:Lerp(p.Position, e_data.sw_disTargetPos, lerp)
+            local pos = mod:Lerp(p.Position, e_data.sw_disTargetPos, lerp)
+            effect.Velocity = pos - effect.Position
             
             e_data.sw_lastOffGroundThing = e_data.sw_lastOffGroundThing or Vector(0, 0)
             local hop = math.sin(lerp/(1/math.pi))
             local v = Vector(0, heightOffGround*hop)
             effect.SpriteOffset = effect.SpriteOffset + (v-e_data.sw_lastOffGroundThing)
             e_data.sw_lastOffGroundThing = v
+            if lerp > 0.33 then
+                local col = Color(1, 1, 1, 1, 1, 1, 1)
+                effect.Color = Color.Lerp(effect.Color, col, 0.33)
+                effect.SpriteScale = mod:Lerp(Vector(1, 1), Vector(0.66, 0.66), (lerp-0.33)/0.66)
+            end
+            local trail = e_data.sw_itemNotifTrail
+            trail.ParentOffset = effect.SpriteOffset + Vector(0, -16)
         end
         return
     end
@@ -118,7 +127,7 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, function (_, effect)
     --if effect.SubType == mod.ItemPopupSubtypes.STANDARD then
         effect.Color = color
     --end
-    if effect.SubType == mod.ItemPopupSubtypes.MOVE_TO_PLAYER then
+    if effect.SubType == mod.ItemPopupSubtypes.MOVE_TO_PLAYER or effect.SubType == mod.ItemPopupSubtypes.DIS_FUNNY_MOMENTS then
         effect.Velocity = RandomVector()*10
         
         local e_data = effect:GetData()

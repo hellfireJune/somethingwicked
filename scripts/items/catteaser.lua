@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 local function TearWobble(tear, angle)
     local t_data = tear:GetData()

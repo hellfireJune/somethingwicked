@@ -1,9 +1,11 @@
 local mod = SomethingWicked
+local sfx = SFXManager()
 
-local fireNeeded = 3
-local volleyNum = 1
+local fireNeeded = 5
+local volleyNum = 4
 local minSpread = 37.5
 local additionalSpread = 90
+local color = Color (1, 1, 1, 1, 1)
 function OnFirePure(_, shooter, vector, scalar, player)
     if not player:HasCollectible(mod.ITEMS.GANYMEDE) then
         return
@@ -12,7 +14,7 @@ function OnFirePure(_, shooter, vector, scalar, player)
     local p_data = player:GetData()
     p_data.sw_ganymedeTick = p_data.sw_ganymedeTick or 0
     if shooter.Type == EntityType.ENTITY_PLAYER then
-        if p_data.sw_ganymedeTick >= fireNeeded then
+        if p_data.sw_ganymedeTick > fireNeeded then
             p_data.sw_ganymedeTick = 0
         end
         p_data.sw_ganymedeTick = p_data.sw_ganymedeTick + 1
@@ -30,14 +32,16 @@ function OnFirePure(_, shooter, vector, scalar, player)
             v:Resize(v:Length()--[[^(1/dv.X)]] / (1.15 + (c_rng:RandomFloat()-0.5)*0.15) *1.5)
             local t = player:FireTear(shooter.Position - v, v, false, false, false, nil, scalar)
 
-            t:AddTearFlags(TearFlags.TEAR_SPECTRAL)
             mod:ClearMovementModifyingTearFlags(t)
-            t:ChangeVariant(TearVariant.SOMETHINGWICKED_REALLY_GOOD_PLACEHOLDER)
+            mod:ChangeTearVariant(t, TearVariant.SOMETHINGWICKED_GANYSPARK)
             t.Height = t.Height*3
+            t.Scale = t.Scale * 0.66
+            t.Color = color
 
             local t_data = t:GetData()
             t_data.sw_gany = {faller = player.MaxFireDelay/10}
             mod:AddToTearUpdateList("sw_ganymede", t, mod.ganymedeTearUpdate)
+            sfx:Play(SoundEffect.SOUND_SCYTHE_BREAK)
         end
     end
 end
@@ -46,6 +50,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, OnFirePure)
 local noCollideFrames = 8
 local noFallFrames = 94
 local maxSpinSpeed = 30
+local flashColour = Color(1, 1, 1, 1, 1, 0.4, 0.4)
 function mod:ganymedeTearUpdate(tear)
     local t_data = tear:GetData()
     local g = t_data.sw_gany
@@ -59,10 +64,14 @@ function mod:ganymedeTearUpdate(tear)
     if not gp and not vel and tear.FrameCount > noCollideFrames
     and tear.FrameCount % 2 == 1 then -- my life fears for the performance of this
         --tears, and also hopefully bombs
-        local tears = Isaac.FindInRadius(tear.Position, tear.Size*1.2+10)
+        local t, b
+        local tears = Isaac.FindInRadius(tear.Position, tear.Size+48)
         for _, nt in ipairs(tears) do
-            local isBomb = (nt:ToBomb() and nt:ToBomb().IsFetus)
-            if nt.Type == EntityType.ENTITY_TEAR or isBomb then                
+            b = nt:ToBomb()
+            local isBomb = (b and b.IsFetus)
+
+            t = nt:ToTear()
+            if t or isBomb then                
                 local ntd = nt:GetData()
                 if not ntd.sw_gany then
                     g.parent = nt
@@ -77,7 +86,15 @@ function mod:ganymedeTearUpdate(tear)
 
         ::newParent::
         if gp or vel then
-            
+            if gp then
+                if t then
+                    t:AddTearFlags(TearFlags.TEAR_HOMING)
+                else
+                    b:AddTearFlags(TearFlags.TEAR_HOMING)
+                end
+
+                gp:SetColor(flashColour, 4, 3, true, false)
+            end
         end
     end
     g.olOrbVec = g.olOrbVec or Vector.Zero
@@ -90,10 +107,10 @@ function mod:ganymedeTearUpdate(tear)
             gp = nil
 
             tear:AddTearFlags(TearFlags.TEAR_HOMING) -- generosity
+            --tear.HomingFriction = tear.HomingFriction * 2
             if g.isBomb then
                 tear.Velocity:Resize(20)
                 dontFall = false
-                tear.HomingFriction = tear.HomingFriction * 2
             end
         else -- otherwise, continue on
             vel = (gp.Position + gp.Velocity) - g.olOrbVec - tear.Position
@@ -110,6 +127,9 @@ function mod:ganymedeTearUpdate(tear)
     --setting the velocity if it has, or had, a parent
     if vel then
         if gp == nil then
+            if tear.Target then
+                goto endofline
+            end
             if g.isBomb then
                 g.bombless = (g.bombless or 0)+1
                 tear.Velocity = tear.Velocity:Rotated(g.orbSpeed)
@@ -120,9 +140,13 @@ function mod:ganymedeTearUpdate(tear)
             g.savedPos = (g.savedPos or tear.Position) + g.savedVel
             vel = (g.savedPos + g.savedVel) - g.olOrbVec - tear.Position
         end
+        g.velFrames = (g.velFrames or 0)
         local ov = g.olOrbVec
         local pos = (tear.Position-ov)
-        local nPos = pos+vel -- make this a lerp :3
+
+        local lerp = mod:Clamp(1-1/g.velFrames*4, 0.1, 1)
+        local nPos = mod:Lerp(pos, pos+vel, lerp) -- make this a lerp :3
+        local uPos = mod:Lerp(Vector.Zero, vel, 1-lerp)
 
         local dis = tear.Position - pos
         local ang = mod:GetAngleDegreesButGood(dis) local len = dis:Length()
@@ -130,10 +154,15 @@ function mod:ganymedeTearUpdate(tear)
 
         g.orbSpeed = g.orbSpeed or 0
         g.orbSpeed = mod:Clamp((g.orbSpeed*1.5)+1, 1.1, maxSpinSpeed)
-        ang = ang + (g.orbSpeed * mod:GetAllMultipliedTearVelocity(tear))
+        ang = ang + (g.orbSpeed * mod:GetAllMultipliedTearVelocity(tear) * 0.66)
 
+        g.allUPos = (g.allUPos or Vector.Zero) + uPos
         local orbVec = Vector.FromAngle(ang)*len
-        tear.Velocity = nPos+orbVec - tear.Position
+
+        local catchupVel = g.allUPos * lerp
+        g.allUPos = g.allUPos - catchupVel
+        tear.Velocity = (nPos+catchupVel)+orbVec - tear.Position
+        g.lastCatchupVel = catchupVel
         g.olOrbVec = orbVec
         
         if tear.FrameCount > noFallFrames*g.faller*2 then
@@ -151,6 +180,12 @@ function mod:ganymedeTearUpdate(tear)
         tear.FallingSpeed = 0
     end
 
+    local trail, init = mod:SetEasyTearTrail(tear)
+    if init then
+        trail.SpriteScale = Vector.One*tear.Scale*2
+        trail.MinRadius = 0.075
+        trail.Color = Color(1, 0.4, 0.4)
+    end
     t_data.sw_gany = g
 end
 

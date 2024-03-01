@@ -218,6 +218,7 @@ local earlyLoad = {
 
   "effects/__core",
   "familiars/nightmares",
+  "familiars/teratomas",
 }
 
 for index, value in ipairs(earlyLoad) do
@@ -230,6 +231,7 @@ local a_ = i_.."active/"
 local f_ = i_.."familiars/"
 local m_ = i_.."misc/"
 local t_ = i_.."trinkets/"
+local c_ = "cards/"
 
 local midLoad = {
   m_.."itemPopup",
@@ -296,6 +298,7 @@ local midLoad = {
   p_.."disAcheron",
   p_.."reliquary",
   a_.."bookOfInsanity",
+  p_.."blackSalt",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -310,6 +313,8 @@ local midLoad = {
   t_.."bobsHeart",
   t_.."ticketRoll",
   t_.."demonCore",
+
+  c_.."bourgeoisTarot",
 }
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
   ApplyLogic = function (_, p, tear)
@@ -396,7 +401,6 @@ function mod:EvaluateGenericStatItems(player, flags)
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
-      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.GANYMEDE)))
       player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
   end
   if flags == CacheFlag.CACHE_RANGE then
@@ -417,6 +421,9 @@ function mod:EvaluateGenericStatItems(player, flags)
 
         --print(p_data.WickedPData.FruitMilkFlags)
         player.TearFlags = player.TearFlags | p_data.WickedPData.FruitMilkFlags
+    end
+    if player:HasCollectible(mod.ITEMS.GANYMEDE) then
+      player.TearFlags = player.TearFlags | TearFlags.TEAR_SPECTRAL
     end
 
     if player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
@@ -444,7 +451,6 @@ function mod:EvaluateGenericStatItems(player, flags)
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.JUSTICE_AND_SPLENDOR)
     if player:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR) then
-        local p_data = player:GetData()
         if p_data.WickedPData.isSplendorful
         or player:GetHearts() >= player:GetEffectiveMaxHearts() then
             stacks = stacks + 1
@@ -460,6 +466,10 @@ function mod:EvaluateGenericStatItems(player, flags)
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
+
+    stacks = mod:BoolToNum(player:HasTrinket(mod.TRINKETS.NIGHTMARE_FUEL)) rng = player:GetTrinketRNG(mod.TRINKETS.NIGHTMARE_FUEL)
+    source = Isaac.GetItemConfig():GetTrinket(mod.TRINKETS.NIGHTMARE_FUEL)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, stacks+(p_data.sw_nightmaresDiedToday or 0), rng, source, mod.NightmareSubTypes.NIGHTMARE_TRINKET)
   end
 
   if flags == CacheFlag.CACHE_SIZE then
@@ -468,7 +478,7 @@ function mod:EvaluateGenericStatItems(player, flags)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
 
-print("hi")
+
 function mod:EvaluateLateStats(player, flags)
   local shouldBoost = player:GetData().sw_shouldEdithBoost
   if flags == CacheFlag.CACHE_FIREDELAY then
@@ -593,27 +603,31 @@ function mod:GenericPostPurchase(player, pickup, isDevil, coinsLost)
     end
 
     if --[[player:HasTrinket(mod.TRINKETS.SAMPLE_BOX) and ]]pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
-        local idToRemove = mod:GetItemFromTrack(player, "sampleBox")
+        local idToRemove = mod:GetItemFromTrack(player, "sampleBox", true)
         if idToRemove then
           if not player:HasCollectible(idToRemove) then
             for index, value in ipairs(Isaac.FindByType(5, 100, idToRemove)) do
-              if value.FrameCount <= 1 then
+              if value.FrameCount > 1 then
+    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, value.Position, Vector.Zero, value)
                 value:Remove()
-                goto dontSkip
+                sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
+                goto skipSkipSkip
               end
+              value:Remove()
+              goto dontSkip
             end
             goto skipSkipSkip
           end
           ::dontSkip::
           player:RemoveCollectible(idToRemove)
           mod:QueueItemPopUp(player, idToRemove, 1, 1)
-    
+
           sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
         end
     end
     ::skipSkipSkip::
     if pickup.Price == PickupPrice.PRICE_FREE or pickup.Price == 0 then
-      if --[[player:HasTrinket(mod.TRINKETS.SAMPLE_BOX) and ]]pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
+      if player:HasTrinket(mod.TRINKETS.SAMPLE_BOX) and pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE then
         p_data.WickedPData.queueNextItemBox = true --
         return
       end
@@ -773,6 +787,13 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
   local abyssLocusts = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST)
   for _, player in ipairs(mod:UtilGetAllPlayers()) do
     mod:DestroyCrownLocustsWithInitSeeds(nil, abyssLocusts, player)
+
+    if player:HasTrinket(mod.TRINKETS.NIGHTMARE_FUEL) then
+      local p_data = player:GetData()
+      p_data.sw_nightmaresDiedToday = 0
+      player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+      player:EvaluateItems()
+    end
   end
 end)
 
@@ -952,7 +973,6 @@ mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, Bo
   "darkness",
   "ganymede",
   
-  %-"yellowshard",
   "phobosanddeimos",
   "littleattractor",
   "msgonorrhea",
@@ -960,7 +980,6 @@ mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, Bo
   "fatwisp",
   "jokerbaby",
 
-  %-"bookofinsanity",
   %-"fetusinfetu",
   "facestabber",
   "fearstalkstheland",
