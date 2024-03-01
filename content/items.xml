@@ -1,139 +1,5 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
-  Additions:
-  - Added Assist Trophy, Bottle of Shampoo, Item Box, Indulgence Print, Wicked Ring, Golden Watch, Air Freshener, Sample Box, Dis, Reliquary, Fruit Milk, Star Treat
-
-  Changes:
-  - Major general changes
-    - Now uses Repentogon for some stuff, you need the mod now
-    - Removed Possum's Ear, Possum's Head, Band of Regeneration and White Robe
-      - White Robe's effect is now that of the new trinket "Indulgence print"
-      - Band of Regeneration might also come back but as it is now it's nigh identical to a retribution item and it's not good compared to it either
-    - (Thoth cards, teratoma orbitals, and anything related to them, are temp removed, just wait a seccy they'll be back very soon)
-    - General nearly entire code rework, a lot of stuff probably changed without me realising
-    - Large EID do-over
-
-  - Lourdes Water
-    - No longer repels bombs
-
-  - Star Spawn
-    - Math much better, will no longer give absolutely abyssmal stats
-
-  - Apollyon's Crown
-    - Now has a chance to grant locusts from specific items upon entering a new room
-    - Spawns 2-4 locusts now, which changes on a per room basis
-  
-  - Gachapon:
-    - Now grants an all stats up if broken, instead of random pickups
-    - Properly does effect if rerolled by Wooden Dice
-    
-  - Glitchcity
-    - Damage from individual tiles nerfed from 80->60
-    - Spawning speed changed to be less fast and have less of an additional flat bonus from having just one or more copies of the item
-    - Less generously spawns on top of enemies
-
-  - Encyclopedia
-    - Increased chance to spawn a library from a 20% chance to a 33% chance
-    - For some reason, if you have multiple encyclopedias in your inventory, they'll all be charged if a library's present
-    - Also added BoV and BoB synergies
-
-  - Sacrificial Effigy
-    - Now called "Wickerman", and resprited
-    - Always spawns just two red hearts now, instead of hearts equal to two full red hearts
-
-  - Nightmares
-    - Entirely reworked. New nightmares will orbit around the player, invulnerable, but will pause in place and fire if the player is firing. Also visually redesigned to match
-    - Nightmare-Centric items have received some slight changes too
-      - Book of Insanity is now called "King in Yellow"
-      - Yellow Sigil now spawns invulnerable nightmares that last the entire floor
-
-  - Red
-    - Resprited
-    - Now spawns 1-3 cracked keys on pickup (i think thats new?)
-
-  - D-Stock:
-    - Now also restocks devil deals and angel shops
-
-  - Two of Coins:
-    - Now does appropriate VFX on heart pickup
-    - Scales with heart worth and trinket multipliers
-
-  - Nightshade
-    - The wisps spawned now also dissapear after a couple seconds
-
-  - Stone Key:
-    - Now actually properly refunds bombs from opening secret rooms
-    - Scales with trinket multipliers
-
-  - Wrath
-    - Ghosts no longer linger around for way too long if they have piercing
-    - Damage no longer scales with broken hearts given, now ghosts just have a flat 0.33x damage multiplier. I'm keeping the item giving broken hearts for now though
-
-  - 3D Glasses:
-    - Brimstone lasers will now be aptly interrupted if the main laser is interrupted, and soy milk lasers will keep firing for the duration of the main laser
-    - Cool new tech x synergy (Behaves how you think)
-
-  - Trinket Smasher:
-    - Now 10 coins in the shop
-    - Passively increases the chance for trinkets to spawn (same as smelter)
-
-  - Dice Roller
-    - Will also use dice if the player used an item that consumes resources instead of charge
-    - Using an item with time based charge will treat it as if its less than 1 charge now, not more than 12
-
-  - Wooden Dice and Book of Exodus
-    - Both will now grant +1 luck while held
-
-  - Blank Book
-    - Golden Blank Book will now grant two items worth of progress towards Bookworm (Doesn't work with Mom's Box)
-
-  - Tiamat's Dice
-    - Wider range of coin prices (from 7-53 to 7-93)
-    - Random pool now vaguely follows Chaos logic, more likely to roll larger pools
-
-  - Biretta
-    - Now spawns confessionals at the start of the floor, instead of at the end
-
-  - Boline
-    - Increased the thickness of maw of the void ring
-
-  - Lover's Mask
-    - No longer triggers fake damage when damage is blocked, for visual clarity
-
-  - Void Bombs
-    - Ring radius and thickness now scales with bomb explosion size
-    
-  - Planchette
-    - Now doubles the collision damage from wisps also
-
-  - The Game (Card)
-    - Can now spawn The Joker, baby
-
-  - Minor Misc. 
-    - Added status effect icons for curse
-    - Electro-stun and curse will no longer apply to enemies immune to status effects
-    - Performance hopefully generally improved with tear update effects
-    - Item pickup effects now use the repentogon callback - giving yourself the item through the console will do the pickup effect
-    - Some itempools definitely got changed
-    - Animation and sound changes for a bunch of items
-    - Fixed a bunch of inconsistent stuff with orbitals (Devilsknife moves faster, swords of light blocks projectiles)
-    - Mod now uses it's own enum for item ids, trinket ids and card ids instead of the vanilla enum
-
-  Fixes:
-  - Ticket Roll's slot machines will no longer spawn in spots obviously unreachable by the player
-  - Hellfire, Curse and Electro-Stun will now work with enemies that have had their AI overriden (eg. Reworked Foes enemies) or frozen
-  - Finger will no longer do funny things with 3D glasses
-  - FiendFolio electrum synergies and stackable item compat now actually works
-  - Electro-Stun is now a lot better coded; no longer deals double the damage its meant to do, and will no longer sometimes damage it's host
-  - Old dice's overhead vfx no longer lingers on forevermore
-  - Void Bombs no longer crashes the game instantly with hot bombs, excelsior or glitter bombs
-  - Swords of Light no longer snaps back and forth when entering new rooms, and no longer is offset from eachother incorrectly
-  - Lourdes Water is no longer hidden from Encyclopedia
-  - I'm not sure if Red was broken before this update but if so i fixed it. it was definitely broken when i tested it
-  - Fixed weird interactions with Old Dice not stopping some certain on pickup effects
-  - Devilsknife is no longer unavailable from death certificate
-  - Eden can no longer start with any of the littany of currently unfinished items
-
   -->
 
   <!--planned qol :333
@@ -141,7 +7,6 @@
   *resprite 3d glasses, spider nest, void bombs
   *costume for spider nest, apollyon's crown, hellfire
   *literally redo all of devilstail? i hate it?
-  *curse status effect icon
   * make teratomas "grisly"
   * make chaos heart -> medkit (in shop)
   
@@ -159,6 +24,7 @@
   <passive id="7" name="Star of the Bottomless Pit" description = "Bearer of the key" gfx="starofthebottomlessredux.png" quality="3" devilprice="2" tags="offensive devil summonable" achievement="340"/>
   <passive id="8" name="Void Bombs" description="Abyssal bombs +5 bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
   <passive id="9" name="Cat Food" description="HP up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
+  <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
   <!--<passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> Needs costume-->
   <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
@@ -220,8 +86,11 @@
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
   <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/>
   <passive id="93" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
+  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
+  <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
   <passive id="101" name="Hellfire" gfx="hellfire.png" description="Satan's siren" devilprice="2" quality="3" tags="offensive summonable"/>
   <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
+  <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="111" name="Lanky Mushroom" description="DMG + range up + tears down" gfx="lankymushroom.png" cache="damage range firedelay size" quality="2" tags="mushroom offensive summonable"/>
   <familiar id="112" name="Swords of Light" description="Justice comes forth" gfx="swordoflight.png" quality="2" tags="offensive summonable"/>
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
@@ -231,11 +100,6 @@
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
   <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
-  
-  <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
-  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
-  <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
-  <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
   <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="Smells good..." quality="2" tags="offensive summonable"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
@@ -316,7 +180,6 @@
   <trinket id="35" name="Cellphone Battery" gfx="cellphonebattery.png" description="More charge, explosive batteries"/>
   <trinket id="37" name="Dice Roller" gfx="diceroller.png" description="Bonus rolls"/>
   <trinket id="39" name="Poppet" description="Ghouly shots" gfx="poppet.png"/>
-
   <trinket id="40" name="Indulgence Print" description="Prayer of penance" gfx="indulgenceprint.png"/>
   <trinket id="41" name="Sample Box" description="Take one!" gfx="samplebox.png"/>
 

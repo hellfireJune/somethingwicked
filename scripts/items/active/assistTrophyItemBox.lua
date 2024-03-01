@@ -69,7 +69,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, c_rng, player)
     end
 
     local p_data = player:GetData()
-    p_data.assistWisp = c
+    p_data.sw_assistItem = c
 
     sfx:Play(SoundEffect.SOUND_POWERUP1, 1, 0)
     player:AnimateCollectible(c, "UseItem")
