@@ -134,4 +134,4 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, function (_, effect)
         e_data.sw_itemNotifTrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPRITE_TRAIL, 0, effect.Position, Vector.Zero, effect):ToEffect()
         e_data.sw_itemNotifTrail:FollowParent(effect)
     end
-end)
+end, EffectVariant.SOMETHINGWICKED_ITEMPOPUP)

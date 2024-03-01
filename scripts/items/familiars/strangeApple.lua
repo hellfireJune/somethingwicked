@@ -96,14 +96,38 @@ local function Visuals(_, familiar, player)
     familiar.SpriteScale = (hasBFFs and Vector(0.8, 0.8) or Vector(1, 1))-- * sizeMult
 end
 
+local function StartOfRoomAlignPosition(familiar, position, room)
+    local sub = getSubIndex(position, room)%4
+
+    local roomCenter = room:GetCenterPos()
+    local xAlign = position.X < roomCenter.X local yAlign = position.Y < roomCenter.Y
+    local differencePos = Vector(xAlign and 20 or 40, yAlign and 20 or 40)
+
+    local subX = sub % 2 == 1 local subY = sub > 2
+    local subPos = Vector(subX and 20 or 40, subY and 20 or 40)
+    return position + differencePos-subPos
+end
+
 local function MoveAnyBodyPiecesRecursive(parent, familiar, newPos, isStuck)
     if familiar == nil then
+        return
+    end
+    if game:GetRoom():GetFrameCount() == 0 then
+        if parent == nil then
+            familiar.Position = newPos
+        else
+            familiar.Position = parent.Position
+        end
+        if familiar.Child then
+            MoveAnyBodyPiecesRecursive(familiar, familiar.Child)
+        end
         return
     end
 
     if familiar.Child then
         MoveAnyBodyPiecesRecursive(familiar, familiar.Child)
     end
+
 
     if not newPos then
         newPos = parent.Position
@@ -139,7 +163,12 @@ local function HeadUpdate(_, familiar)
 
     familiar.Position = mod:GridAlignPosition(familiar.Position, gridScalar)+offset
     familiar.Velocity = Vector.Zero
-    if familiar.FrameCount % frameCountShit == 1 then
+    local room = game:GetRoom()
+    local newRoom = room:GetFrameCount() == 0
+    if newRoom then
+        familiar.Position = StartOfRoomAlignPosition(familiar, familiar.Position, room)
+        MoveAnyBodyPiecesRecursive(nil, familiar, familiar.Position)
+    elseif familiar.FrameCount % frameCountShit == 1 then
         local target = familiar.Target
         local targetPos = (target and target:Exists() and target.Position) or player.Position
 
@@ -175,7 +204,7 @@ local function SnakeCollideWithEnemy(familiar, enemy, head)
             head = familiar
         end
         local f_data = head:GetData()
-        f_data.sw_rsEnemiesCollided = {}
+        f_data.sw_rsEnemiesCollided = f_data.sw_rsEnemiesCollided or {}
 
         if f_data.sw_rsEnemiesCollided[enemy.InitSeed] then
            return 
