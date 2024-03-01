@@ -11,7 +11,7 @@ local roomTables = {
     {2060, 2063}, --pride
 }
 
-local function UseItem(_, _, player)
+local function UseItem(_, _, _, player)
     --[[local p_data = player:GetData()
     p_data.WickedPData.boLuciferBuff = (p_data.WickedPData.boLuciferBuff or 0) + 1]]
     sfx:Play(SoundEffect.SOUND_DEVIL_CARD, 1, 0)
