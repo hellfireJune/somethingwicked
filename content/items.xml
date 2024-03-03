@@ -1,5 +1,12 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
+
+  Changes:
+  - Lasers can now do something wicked tear effects
+
+  Fixes:
+  - No more errors when picking up blended hearts
+  - No errors with glitch city, toybox or book of lucifer
   -->
 
   <!--planned qol :333
@@ -105,7 +112,7 @@
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Power up!" quality="2" tags="offensive"/>
-  <passive id="154" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
+  <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
 
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true" tags="noeden"/>
@@ -124,7 +131,7 @@
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable noeden" hidden="true"/>
   <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true" tags="noeden"/> <!--also make-->
   <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true" tags="noeden"/>
-  <passive id="118" name="Black Salt" hidden="true" tags="noeden"/>
+  <passive id="118" name="Witch's Salt" hidden="true" tags="noeden"/>
   <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="3" tags="offensive summonable noeden" hidden="true"/>
   <passive id="122" name="Tombstone" hidden="true" tags="noeden"/>
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true" tags="noeden"/>
@@ -148,7 +155,7 @@
   <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
   <active id="82" name = "Seed of Eden"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="83" name=" Seed of Eden " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
-  <passive id="155" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
+  <passive id="153" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
 
   <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true" tags="noeden"/> <!--slot-->
   <active name="  Magic Clay  " gfx="hellfire.png" hidden="true" tags="noeden"/> <!--fortune-->
@@ -192,7 +199,6 @@
   <trinket id="33" name="Busted Battery" hidden="true"/> <!-- code done-->
   <trinket id="36" name="Card Graveyard" hidden="true"/> <!-- code done :3 -->
   
-  <!--<passive id="705" name="[sw] lust dummy helper" description="also tell june if u see this" hidden="true" cache="speed"/>-->
   <passive name="[sw] bookworm dummy item" description="tell june if u see this" hidden="true" tags="book noeden"/>
   <passive name="[sw] golden bookworm dummy item" description="tell june if u see this" hidden="true" tags="book noeden"/>
 </items>

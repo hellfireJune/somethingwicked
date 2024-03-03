@@ -1,4 +1,3 @@
-local this = {}
 local mod = SomethingWicked
 SomethingWicked.TearFlagData = {}
 
@@ -116,7 +115,7 @@ local function FireTear(_, tear)
 
         local t_variant = GetTearVariantFromFlags(flags)
         if not mod:UtilTableHasValue(variantBlacklist, tear.Variant) and t_variant then
-            tear:ChangeVariant(t_variant)
+            mod:ChangeTearVariant(t_variant)
         end
         local t_color = GetTearColorFromFlags(flags)
         if t_color then
@@ -171,7 +170,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, TearRemove, EntityType.ENTITY_TEAR)
 
 function mod:__callStatusEffects(collider, tear)
-    if not tear or tear.Type ~= EntityType.ENTITY_TEAR then
+    if not tear then
         return
     end
     local t_data = tear:GetData()
@@ -187,7 +186,7 @@ function mod:__callStatusEffects(collider, tear)
     end
 end
 
-function this:OnTearHit(tear, collider)
+local function OnTearHit(_, tear, collider)
     local t_data = tear:GetData()
     if not t_data.somethingWicked_customTearFlags then return end
     for key, value in pairs(SomethingWicked.TearFlagData) do
@@ -200,7 +199,7 @@ function this:OnTearHit(tear, collider)
         end
     end
 end
-SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, CallbackPriority.EARLY, this.OnTearHit)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, CallbackPriority.EARLY, OnTearHit)
 --SomethingWicked:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, this.OnTearHit)
 
 --[[function this:OnTearUpdate(tear)
@@ -247,46 +246,56 @@ local function absVector(vector)
     --return Vector(X, y)
     return vector
 end
-local laserWidth = 30
-local shouldDoLaserTestStuff = true
-function this:LaserUpdate(laser)
-    if not shouldDoLaserTestStuff then
-        return
+
+--lazars :)
+local function LaserHitEnemy(_, laser, enemy)
+    mod:__callStatusEffects(enemy, laser)
+end
+mod:AddCallback(ModCallbacks.MC_POST_LASER_COLLISION, LaserHitEnemy)
+
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_LASER, function (_, laser)
+    local player = mod:UtilGetPlayerFromTear(laser)
+    if player then
+        local l_data = laser:GetData()
+
+        local oldFlags = l_data.somethingWicked_customTearFlags
+        local flags = GetTearFlagsToApply(player, laser)
+        l_data.somethingWicked_customTearFlags = flags
+        if oldFlags then flags = flags | oldFlags end
+
+        local t_color = GetTearColorFromFlags(flags)
+        if t_color then
+            laser.Color = laser.Color * t_color
+        end
     end
+end)
+
+--[[local function LaserUpdate(_, laser) i wrote this all before i found out there is literally a laser collision callback LOL
+    print(laser.FrameCount)
     local player = SomethingWicked:UtilGetPlayerFromTear(laser)
     if not player then
         return
     end
-    local enemies = Isaac.FindInRadius(Vector.Zero, 80000, EntityPartition.ENEMY)
-    
-    local vector = Vector.FromAngle(laser.Angle)
-    local lengthVector = vector:Normalized()
-    local widthVector = lengthVector:Rotated(-90)
-    local endPoint = laser:GetEndPoint()
-
-    for _, enemy in ipairs(enemies) do
-        if enemy.Type == 964 then
-            
-            local relativePos = enemy.Position - laser.Position
-            local posRelativeHeight = (relativePos * lengthVector)
-            local posRelativeWidth = relativePos * widthVector
-            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, laser.Position + posRelativeHeight, Vector.Zero, nil)
-            poof.Color = Color(1, 0, 0)
-            local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, laser.Position + posRelativeWidth, Vector.Zero, nil)
-        
-            local disHeight = (posRelativeHeight):Length()
-            local disWidth = (posRelativeWidth):Length()
-            --print(laser.Position*widthVector)
-            local laserLength = laser.Position:Distance(endPoint)
-
-            print(relativePos, "-", posRelativeHeight, "-", posRelativeWidth)
-            print(disHeight, disWidth)
-            print(lengthVector, widthVector)
-            if disHeight > 0 and disHeight < laserLength
-            and disWidth > -laserWidth and disWidth < laserWidth then
-                print("found the enemies ^_^")
-            end
-        end
+    if laser.FrameCount ~= 1 then
+        return
     end
+    
+    local samples = laser:GetSamples()
+    for i=0, #samples-2 do
+    local capsule = Capsule(samples:Get(i), samples:Get(i+1), laser.Size)--laser:GetCollisionCapsule(Vector(200, 0))
+    if not capsule then
+        print("btw, it's null capsule")
+        capsule = laser:GetNullCapsule()
+    end
+
+    local enemies = Isaac.FindInCapsule(capsule, EntityPartition.ENEMY)
+    for index, value in ipairs(enemies) do
+        --local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, value.Position, Vector.Zero, player)
+        print("Def hit enemy")
+        value:TakeDamage(0.1, 0, EntityRef(laser), 0)--value:SetColor(Color(0, 0, 1), 2, 99999, false, false)
+    end
+    end
+    --[[local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, capsule:GetVec3(), Vector.Zero, player)
+    local poof2 = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, capsule:GetVec2(), Vector.Zero, player)
 end
---SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_LASER_UPDATE, CallbackPriority.LATE, this.LaserUpdate)
+SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_LASER_UPDATE, CallbackPriority.LATE, LaserUpdate)]]

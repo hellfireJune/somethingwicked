@@ -24,7 +24,7 @@ local function PlayerUpdate(_, player)
                 if target and target.Position:Distance(player.Position) > 240 then
                     target = nil
                 elseif target then
-                    randomPos = mod.EnemyHelpers:Lerp(randomPos,
+                    randomPos = mod:Lerp(randomPos,
                     target.Position + (math.max((rng:RandomFloat()*target.Size)-28, 00)*(RandomVector()+Vector(0, -1))), rng:RandomFloat())
                 end
 

@@ -298,7 +298,7 @@ local midLoad = {
   p_.."disAcheron",
   p_.."reliquary",
   a_.."bookOfInsanity",
-  p_.."blackSalt",
+  p_.."witchsSalt",
 
   t_.."twoOfCoins",
   t_.."stoneKey",

@@ -10,13 +10,13 @@ local heartMults = {
 }
 
 local function PickupCollision(_, heart, player)
-    if heartMults[heart.SubType] == nil
-    or (heart.SubType == HeartSubType.HEART_BLENDED and player:GetHearts() >= player:GetEffectiveMaxHearts()) then
+    if heartMults[heart.SubType] == nil then
         return
     end
 
     player = player:ToPlayer()
-    if player and mod:WillHeartBePickedUp(heart, player) then
+    if player and mod:WillHeartBePickedUp(heart, player)
+    and (heart.SubType ~ HeartSubType.HEART_BLENDED or player:GetHearts() >= player:GetEffectiveMaxHearts()) then
         local t_mult = player:GetTrinketMultiplier(mod.TRINKETS.TWO_OF_COINS)
         if t_mult <= 0 then
             return

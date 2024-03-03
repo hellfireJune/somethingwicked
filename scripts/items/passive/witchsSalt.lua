@@ -27,10 +27,10 @@ local function HitEnemy(_, tear, enemy, p)
     end
 end
 
-mod:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BLACK_SALT, {
+mod:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_WITCHS_SALT, {
     ApplyLogic = function (_, player)
-        if player:HasCollectible(mod.ITEMS.BLACK_SALT) then
-            local c_rng = player:GetCollectibleRNG(mod.ITEMS.BLACK_SALT)
+        if player:HasCollectible(mod.ITEMS.WITCHS_SALT) then
+            local c_rng = player:GetCollectibleRNG(mod.ITEMS.WITCHS_SALT)
             if c_rng:RandomFloat() < procChance(player) then
                 return true
             end

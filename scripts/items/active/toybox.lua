@@ -24,7 +24,7 @@ local function PEffectUpdate(_, player)
 
     if stacks ~= nil and stacks.Count > 0
     and (p_data.WickedPData.toyboxTrinket == nil) then
-        local trinket = SomethingWicked.game:GetItemPool():GetTrinket()
+        local trinket = game:GetItemPool():GetTrinket()
         p_data.WickedPData.toyboxTrinket = trinket
         player:AnimateTrinket(trinket, "UseItem")
         tempEffects:RemoveCollectibleEffect(mod.ITEMS.TOYBOX)
