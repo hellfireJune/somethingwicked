@@ -1249,7 +1249,6 @@ function mod:CollisionKnockback(mainPos, otherPos, currVelocity)
     local velAng = mod:GetAngleDegreesButGood(-currVelocity)
     local disAng = mod:GetAngleDegreesButGood(normal)
     local knockBackAngle = (velAng + 2 * (disAng - velAng))%360
-    print(velAng, disAng, knockBackAngle)   
 
     return Vector.FromAngle(knockBackAngle)
 end

@@ -53,7 +53,8 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_CRITCHARGE, {
         end
         updatePlayersProgress(p)
     end,
-    TearColor = Color(50, 50, 50, 1, 0)
+    TearColor = Color(50, 50, 50, 1, 0),
+    LaserColor = Color(50, 50, 50, 1, 0)
 })
 
 mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, function (_, player)

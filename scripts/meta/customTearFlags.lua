@@ -50,10 +50,12 @@ local tearsWithFlags = {}
 local tearRefs = {}
 
 local function PostApply(player, tear, flag)
-    tearsWithFlags[tear.Index] = (tearsWithFlags[tear.Index] or {})
-    table.insert(tearsWithFlags[tear.Index], flag)
+    if tear.Type == EntityType.ENTITY_TEAR then        
+        tearsWithFlags[tear.Index] = (tearsWithFlags[tear.Index] or {})
+        table.insert(tearsWithFlags[tear.Index], flag)
 
-    tearRefs[tear.Index] = tear
+        tearRefs[tear.Index] = tear
+    end
 end
 
 local function GetTearFlagsToApply(player, tear)
@@ -82,12 +84,13 @@ local function GetTearVariantFromFlags(tflags)
     return nil
 end
 
-local function GetTearColorFromFlags(tflags)
+local function GetTearColorFromFlags(tflags, isLaser)
     local color = Color(1, 1, 1)
+    local idx = isLaser and "LaserColor" or "TearColor"
     if tflags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
-            if value.TearColor and tflags & key > 0 then
-                color = color * value.TearColor
+            if value[idx] and tflags & key > 0 then
+                color = color * value[idx]
             end
         end
     end
@@ -249,26 +252,28 @@ end
 
 --lazars :)
 local function LaserHitEnemy(_, laser, enemy)
-    mod:__callStatusEffects(enemy, laser)
+    if not enemy:IsVulnerableEnemy() then
+        mod:__callStatusEffects(enemy, laser)
+    end
 end
 mod:AddCallback(ModCallbacks.MC_POST_LASER_COLLISION, LaserHitEnemy)
 
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_LASER, function (_, laser)
+local function PostFireLaser(_, laser)
     local player = mod:UtilGetPlayerFromTear(laser)
     if player then
         local l_data = laser:GetData()
-
-        local oldFlags = l_data.somethingWicked_customTearFlags
         local flags = GetTearFlagsToApply(player, laser)
-        l_data.somethingWicked_customTearFlags = flags
-        if oldFlags then flags = flags | oldFlags end
+        l_data.somethingWicked_customTearFlags = (l_data.somethingWicked_customTearFlags or 0) | flags
 
-        local t_color = GetTearColorFromFlags(flags)
+        local t_color = GetTearColorFromFlags(flags, true)
         if t_color then
             laser.Color = laser.Color * t_color
         end
     end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_BRIMSTONE, PostFireLaser)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_LASER, PostFireLaser)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_X_LASER, PostFireLaser)
 
 --[[local function LaserUpdate(_, laser) i wrote this all before i found out there is literally a laser collision callback LOL
     print(laser.FrameCount)

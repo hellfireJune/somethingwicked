@@ -59,9 +59,7 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
             familiar.Position = position familiar.Velocity = Vector.Zero
         else
             if f_data.sw_nightmareLerpFrames then
-                print(f_data.sw_nightmareLerpFrames)
                 local lerp = math.min(1, 0.18 + (lerpframes-f_data.sw_nightmareLerpFrames)*0.06)
-                print(lerp)
                 position = mod:Lerp(familiar.Position, position, lerp)
 
                 f_data.sw_nightmareLerpFrames = f_data.sw_nightmareLerpFrames - 1
