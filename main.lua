@@ -467,7 +467,6 @@ function mod:EvaluateGenericStatItems(player, flags)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
-    print((stacks * 2) + (stacks > 0 and 2 - stacks or 0))
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
 
