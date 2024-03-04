@@ -9,7 +9,7 @@ local SOTBPAnimations = {
     [5] = "LocustConquest"
 }
 
-local function FlyInit(familiar)
+local function FlyInit(_, familiar)
     if --[[familiar.SubType == LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD then
         this:InitWormwoodLocust(familiar)
     elseif familiar.SubType == LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST then
@@ -43,6 +43,7 @@ local function FlyInit(familiar)
             end
         end
         flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
+        print(flag, player)
         if flag and player then
             local myRNG = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 
@@ -59,7 +60,7 @@ local function FlyInit(familiar)
     end
 end
 
-local function enemyDeath(enemy)
+local function enemyDeath(_, enemy)
     local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
     if flag and player then
         local rng = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)

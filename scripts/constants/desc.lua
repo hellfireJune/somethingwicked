@@ -104,8 +104,7 @@ local collectibles = {
         },
     },
     [mod.ITEMS.WICKED_SOUL] = {
-        desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up
-        #↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
+        desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up#↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
         pools = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_CURSE,
@@ -358,7 +357,7 @@ local collectibles = {
         }
     },
     [mod.ITEMS.RED_CAP] = {
-        desc = "Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#↑ {{Heart}} +2 Health up#+Heals 3 hearts on pickup#↓ {{Shotspeed}} -0.15 Shot Speed down#↓ {{Range}} -0.8 Range down",
+        desc = "{{SoulHeart}} Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#↑ {{Heart}} +2 Health up#+Heals 3 hearts on pickup#↓ {{Shotspeed}} -0.15 Shot Speed down#↓ {{Range}} -0.8 Range down",
         pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET, encyclopediaLootPools.POOL_ULTRA_SECRET }
     },
     [mod.ITEMS.DADS_WALLET] = {
@@ -370,7 +369,7 @@ local collectibles = {
         },
     },
     [mod.ITEMS.WICKED_RING] = {
-        desc = "Chance to shoot tears with increased damage that add charge to active items after doing enough damage#Damage needed per charge increases each floor#{{Luck}} Scales with luck",
+        desc = "{{Battery}} Chance to shoot tears with increased damage that add charge to active items after doing enough damage#Damage needed per charge increases each floor#{{Luck}} Scales with luck",
         pools = {
             encyclopediaLootPools.POOL_DEVIL,
             encyclopediaLootPools.POOL_CURSE,

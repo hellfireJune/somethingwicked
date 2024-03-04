@@ -219,6 +219,7 @@ local earlyLoad = {
   "effects/__core",
   "familiars/nightmares",
   "familiars/teratomas",
+  "compat/main",
 }
 
 for index, value in ipairs(earlyLoad) do
@@ -299,6 +300,7 @@ local midLoad = {
   p_.."reliquary",
   a_.."bookOfInsanity",
   p_.."witchsSalt",
+  p_.."boltsOfLight",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -402,6 +404,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
       player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
+      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT)))
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
@@ -464,6 +467,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
+    print((stacks * 2) + (stacks > 0 and 2 - stacks or 0))
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
 
@@ -481,9 +485,13 @@ mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, 
 
 function mod:EvaluateLateStats(player, flags)
   local shouldBoost = player:GetData().sw_shouldEdithBoost
+  local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT) and not player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK)
   if flags == CacheFlag.CACHE_FIREDELAY then
     if shouldBoost then
       player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1.5)
+    end
+    if boltsOfLight then
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 4/5.5)
     end
   end
   if flags == CacheFlag.CACHE_DAMAGE then
@@ -501,6 +509,9 @@ function mod:EvaluateLateStats(player, flags)
     end
     if player:HasCollectible(mod.ITEMS.TECH_MODULO) then
         player.Damage = player.Damage * 2/3
+    end
+    if boltsOfLight then
+      player.Damage = player.Damage * 0.25/0.2
     end
   end
   mod:StarSpawnEval(player, flags)

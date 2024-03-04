@@ -6,7 +6,9 @@
 
   Fixes:
   - No more errors when picking up blended hearts
-  - No errors with glitch city, toybox or book of lucifer
+  - No errors with glitch city, toybox, star of the bottomless pit, or book of lucifer
+  - FF stackable items, references and electrum synergies work again again
+  - More internal things you dont have to worry about
   -->
 
   <!--planned qol :333
@@ -19,7 +21,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 74, 79, 87, 100, 103, 105, 106, 108, 110, 119, 133, 141, 142
+  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 73, 74, 79, 87, 90, 100, 108, 110, 119, 133, 141, 142
   and trinket id 15, 22, 29, 31 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -32,7 +34,6 @@
   <passive id="8" name="Void Bombs" description="Abyssal bombs +5 bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
   <passive id="9" name="Cat Food" description="HP up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
   <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
-  <!--<passive id="13" name="White Robe" description="Cleaned in The Lamb's blood" gfx="whiterobe.png" quality="3" tags="nolostbr summonable"/> Needs costume-->
   <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" passivecache="true"/> 
@@ -83,7 +84,6 @@
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1" gfx="edenshead.png"/>
   <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable"/>
-  <active id="73" name="Prismatic Mushroom" description="Rainbow room effects" hidden="true" tags="noeden"/> <!--code done-->
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true" tags="noeden"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
   <passive id="77" name="Naga Viper" gfx="nagaviper.png" description="Poison fire shot" quality="3" tags="offensive summonable"/>
@@ -111,7 +111,7 @@
   <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="Smells good..." quality="2" tags="offensive summonable"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
-  <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Power up!" quality="2" tags="offensive"/>
+  <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Loot get!" quality="2" tags="offensive"/>
   <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
 
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
@@ -119,12 +119,11 @@
   <active id="85" name="Baby Mandrake" maxcharges="2" gfx="lilmandrake.png" description="Radial stun scream" hidden="true" tags="noeden"/> <!--radial petrify-->
   <active id="88" name="  Book of Leviathan  " hidden="true" tags="noeden" maxcharges="4" chargetype="special" cache="damage"/>
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive noeden" hidden="true"/> <!--add charg-->
-  <passive id="90" name="Red Queen" hidden="true" tags="noeden"/>
   <familiar id="94" name="Little Attractor" hidden="true" tags="noeden"/> 
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive noeden"/>
-  <active id="98" name="Magic Clay" hidden="true" tags="noeden"/>
+  <familiar id="98" name="Ms. Gonorrhea" hidden="true" tags="noeden"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true" tags="noeden"/>
-  <familiar id="104" name="Ms. Gonorrhea" hidden="true" tags="noeden"/>
+  <active id="103" name="Magic Clay" hidden="true" tags="noeden"/>
   <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive noeden"/> <!--code done, needs testing-->
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true" tags="noeden"/>
   <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true" tags="noeden"/>
@@ -152,14 +151,15 @@
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
+  <passive id="142" name="Bolts of Light" tags="noeden" hidden="true" quality="4" achievement="Wicked - Bolts of Light"/>
   <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
-  <active id="82" name = "Seed of Eden"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
-  <passive id="83" name=" Seed of Eden " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
+  <active id="82" name = "Earth of Adam"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
+  <passive id="83" name=" Earth of Adam " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="153" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
 
-  <active name=" Magic Clay " gfx="schlagenheim.png" hidden="true" tags="noeden"/> <!--slot-->
-  <active name="  Magic Clay  " gfx="hellfire.png" hidden="true" tags="noeden"/> <!--fortune-->
-  <active name="   Magic Clay   " gfx="lilmandrake.png" hidden="true" tags="noeden"/> <!--blood-->
+  <active id="104" name=" Magic Clay " gfx="schlagenheim.png" hidden="true" tags="noeden"/> <!--slot-->
+  <active id="105" name="  Magic Clay  " gfx="hellfire.png" hidden="true" tags="noeden"/> <!--fortune-->
+  <active id="106" name="   Magic Clay   " gfx="lilmandrake.png" hidden="true" tags="noeden"/> <!--blood-->
 
   <trinket id="1" name="Cat's Eye" description="Sunny moon" gfx="catseye.png"/>
   <trinket id="2" name="Stone Key" description="Stone opener" gfx="stonekey.png"/> 

@@ -1,3 +1,4 @@
+local mod = SomethingWicked
 local stackableItems = {
     mod.ITEMS.BOOSTER_BOX,
     mod.ITEMS.APOLLYONS_CROWN,

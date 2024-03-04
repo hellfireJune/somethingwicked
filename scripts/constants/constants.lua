@@ -165,7 +165,7 @@ SomethingWicked.CustomTearFlags = {
     FLAG_STICKER_BOOK = 1 << 11,
     FLAG_SCREW_ATTACK = 1 << 12,
     FLAG_CAT_TEASER = 1 << 13,
-    FLAG_UNRAVEL = 1 << 14,
+    FLAG_ULTRAHOMING = 1 << 14,
     FLAG_DARKNESS = 1 << 15,
     FLAG_CRITCHARGE = 1 << 16,
 }

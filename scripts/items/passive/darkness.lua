@@ -1,6 +1,6 @@
 local mod = SomethingWicked
 
-local otherSpeedMult = 0.15
+local otherSpeedMult = 0.1 local scaleMult = 1.2
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(mod.ITEMS.DARKNESS) then
@@ -22,7 +22,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
         local frames = math.max(0, tear.FrameCount-3)
         expMult = math.max(1-((0.25*frames^2)/12.5), expMult)
 
-        t_data.sw_drknessLastMult = mod:MultiplyTearVelocity(tear, "sw_darkness", expMult)
+        t_data.sw_drknessLastMult = mod:MultiplyTearVelocity(tear, "sw_darkness", expMult, true)
         t_data.sw_drknessPhase = phase
          
     end,
@@ -34,6 +34,12 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
             end
 
             return true
+        end
+    end,
+    PostApply = function (_, player, tear)
+        if tear.Type == EntityType.ENTITY_TEAR then
+            tear.Scale = tear.Scale * scaleMult
+            tear:ResetSpriteScale()
         end
     end
 })

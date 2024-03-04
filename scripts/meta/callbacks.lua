@@ -382,7 +382,6 @@ local function RemoveDevilWisp(player, amount, type)
 	end
 end
 function mod:SetItemWisps(player, amount, type)
-    
 	amount = amount or 1
 	local wispRefs = mod:GetWispRefs()
     local data = mod:GetWispData(player)
@@ -443,6 +442,9 @@ function mod:__devilWispUpdate(wisp)
 	wisp.Position = Vector(-100, -50)
 	wisp.Velocity = Vector.Zero
 	if not mod:GetWispRefs()[""..wisp.InitSeed] or not isWispNeeded(wisp, wisp.Player) then
+        if mod:GetWispRefs()[""..wisp.InitSeed] then
+            mod:GetWispRefs()[""..wisp.InitSeed] = nil
+        end
 		-- This disc wisp should no longer exist.
 		suppressWispDeathEffects = true
 		wisp:Kill()

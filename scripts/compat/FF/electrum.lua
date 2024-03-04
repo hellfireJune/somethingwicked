@@ -13,7 +13,7 @@ local synergies = {
     [mod.ITEMS.BALROGS_HEAD] = function ()
         --add me elsewhere :3
     end,
-    [mod.ITEMS.WOODEN_DICE] = function ()
+    --[[[mod.ITEMS.WOODEN_DICE] = function ()
         
     end,
     [mod.ITEMS.BOOK_OF_LUCIFER] = function ()
@@ -72,6 +72,6 @@ local synergies = {
     end,
     [mod.ITEMS.BOLINE] = function ()
         
-    end,
+    end,]]
 }
 return synergies

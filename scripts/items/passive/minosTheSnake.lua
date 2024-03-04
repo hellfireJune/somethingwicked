@@ -84,7 +84,7 @@ local function HandlePositionFramesTable(familiar, roomFrame, fTable)
 end
 
 --https://cdn.discordapp.com/attachments/907577522403803197/973850950261420052/attachment.gif
-local function HeadUpdate(familiar)
+local function HeadUpdate(_, familiar)
     local f_data = familiar:GetData()
     f_data.somethingwicked_visFrame = 3
 
@@ -157,7 +157,7 @@ local function HandleVisFrame(familiar, f_data, frame)
     end
 end
 
-local function BodyUpdate(familiar)
+local function BodyUpdate(_, familiar)
     local heads = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD)
     if heads[1] == nil or not heads[1]:Exists() then
         familiar:Kill()
@@ -194,7 +194,7 @@ local function BodyUpdate(familiar)
     end
 end
 
-local function BodyInit(familiar)
+local function BodyInit(_, familiar)
     familiar.Visible = false
     familiar:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
 end

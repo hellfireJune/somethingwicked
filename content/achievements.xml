@@ -1,0 +1,4 @@
+<achievements gfxroot="gfx/ui/achievement/">
+    <!--play 5 runs with wicked installed-->
+    <achievement name="Wicked - Bolts of Light" text='"Bolts of Light" has appeared in the basement' hidden="true"/>
+</achievements>

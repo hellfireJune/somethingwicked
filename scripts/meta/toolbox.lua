@@ -1237,14 +1237,23 @@ function SomethingWicked:AngularMovementFunction(familiar, target, speed, varian
     if angularDiff < variance and angularDiff > -variance then
         newAng = angularDiff
     else
-        local m = (angularDiff < 0 and -1 or 1)
+        local m = mod:MathSign(angularDiff)
         newAng = variance * m
     end
     familiar.Velocity = mod:Lerp(minosVel, minosVel:Rotated(newAng), lerpMult):Resized(speed)
 end
 
+function SomethingWicked:MathSign(number)
+    --[[in my search to see if such a function exists in the base lua math class, i find this post on reddit
+    https://www.reddit.com/r/lua/comments/e11dsl/does_mathsign_exists_in_lua_or_alternative_for_it/
+    thank you u/ResponsibleMirror for saving me from having to do this myself]]
+
+    return number > 0 and 1 or (number == 0 and 0 or -1)
+end
+
 function mod:CollisionKnockback(mainPos, otherPos, currVelocity)
     --stolen from gungeon LMAO
+    --(sorry dodge rell)
     local normal = (otherPos - mainPos):Normalized()
     local velAng = mod:GetAngleDegreesButGood(-currVelocity)
     local disAng = mod:GetAngleDegreesButGood(normal)
@@ -1293,7 +1302,8 @@ function SomethingWicked:ShouldMultiplyTearVelocity(tear)
     local t_data = tear:GetData()
     return t_data.sw_gany == nil or (t_data.sw_gany.isBomb and not t_data.sw_gany.gp)
 end
-function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult)
+
+function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult, bool)
     local t_data = tear:GetData()
     t_data.sw_velMults = t_data.sw_velMults or {}
     t_data.sw_velMults[index] = t_data.sw_velMults[index] or 1
@@ -1306,6 +1316,28 @@ function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult)
         tear.HomingFriction = tear.HomingFriction * multiplier
         t_data.sw_velMults[index] = wantedMult
     end
+    if bool then
+        mod:MultiplyTearFall(tear, index, wantedMult)
+    end
+    return lastMult
+end
+
+--Spam-changing this can lead to inconsistent projectile flight distances
+function SomethingWicked:MultiplyTearFall(tear, index, wantedMult)
+    local t_data = tear:GetData()
+    if t_data.sw_initialFallSpeed == nil then
+        t_data.sw_initialFallSpeed = tear.FallingSpeed
+    end
+    t_data.sw_fallMults = t_data.sw_fallMults or {}
+    t_data.sw_fallMults[index] = t_data.sw_fallMults[index] or 1
+
+    local lastMult = t_data.sw_fallMults[index]
+    t_data.sw_lastFallSpeed = t_data.sw_lastFallSpeed or 0
+
+    local diff = math.max(t_data.sw_initialFallSpeed, tear.FallingSpeed) - t_data.sw_lastFallSpeed
+    tear.FallingSpeed = t_data.sw_lastFallSpeed + diff*lastMult - (tear.FallingAcceleration*(1-lastMult))
+    t_data.sw_fallMults[index] = wantedMult
+    
     return lastMult
 end
 

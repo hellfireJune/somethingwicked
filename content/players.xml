@@ -1,7 +1,0 @@
-<players root="gfx/characters/costumes/" 
-         portraitroot="gfx/ui/stage/" 
-         nameimageroot="gfx/ui/boss/">
-
-        <player name="Wormwood" skinColor="-1" armor="2" black="4"
-        hidden="true"/>
-</players>

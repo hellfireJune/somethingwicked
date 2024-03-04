@@ -38,7 +38,7 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PickupCollision, PickupVariant.PICKUP_HEART)
 
-function WispTearUpdate(_, tear)
+local function WispTearUpdate(_, tear)
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR
     or tear.SpawnerVariant ~= FamiliarVariant.WISP
     or tear.SpawnerEntity.SubType ~= mod.ITEMS.VOID_EGG then
