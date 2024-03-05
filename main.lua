@@ -352,6 +352,8 @@ function mod:EvaluateGenericStatItems(player, flags)
   local soulId = ((game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE) and mod.TRINKETS.VIRTUOUS_SOUL or mod.TRINKETS.DAMNED_SOUL)
   local curseSoulMult = player:GetTrinketMultiplier(soulId)
 
+  local bolts = mod:BoolToNum(player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT))
+
   local p_data = player:GetData()
   local lourdesBuff = p_data.sw_shouldEdithBoost
 
@@ -404,7 +406,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
       player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
-      player.ShotSpeed = player.ShotSpeed - (0.2 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT)))
+      player.ShotSpeed = player.ShotSpeed - (0.16 * bolts)
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
@@ -440,6 +442,9 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_TEARCOLOR then
     if lourdesBuff then
       player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
+    end
+    if bolts > 0 then
+      player.TearColor = player.TearColor * Color(1/1.5, 0.5, 0.5)
     end
   end
   if  flags == CacheFlag.CACHE_FAMILIARS then
@@ -481,7 +486,6 @@ function mod:EvaluateGenericStatItems(player, flags)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
 
-
 function mod:EvaluateLateStats(player, flags)
   local shouldBoost = player:GetData().sw_shouldEdithBoost
   local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT) and not player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK)
@@ -490,7 +494,7 @@ function mod:EvaluateLateStats(player, flags)
       player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1.5)
     end
     if boltsOfLight then
-      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 4/5.5)
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 3.6/5.5)
     end
   end
   if flags == CacheFlag.CACHE_DAMAGE then
@@ -510,7 +514,7 @@ function mod:EvaluateLateStats(player, flags)
         player.Damage = player.Damage * 2/3
     end
     if boltsOfLight then
-      player.Damage = player.Damage * 0.25/0.2
+      player.Damage = player.Damage * 0.2777776/0.2
     end
   end
   mod:StarSpawnEval(player, flags)
@@ -534,6 +538,9 @@ function mod:useItemGeneric(id, rng, player, flags)
   if mod:UtilTableHasValue(quickThrowables, id) then
     return mod:HoldItemUseHelper(player, flags, id)
   end
+  if id == mod.ITEMS.IPECAC_ITEM then
+    return true
+  end
   if id == mod.ITEMS.EVIL_PIGGYBANK
   or id == mod.ITEMS.DADS_WALLET then
       return { Discharge = false, ShowAnim = true}
@@ -543,6 +550,13 @@ function mod:useItemGeneric(id, rng, player, flags)
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
+
+mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player)
+  local pEffects = player:GetEffects()
+  if pEffects:HasCollectibleEffect (mod.ITEMS.IPECAC_ITEM) then
+    mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_IPECAC)
+  end
+end)
 
 function mod:useCardGeneric(id, player)
   if id == mod.CARDS.STONE_OF_THE_PIT then    

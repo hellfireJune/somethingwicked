@@ -14,6 +14,7 @@ EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider 
 EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
 EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 EffectVariant.SOMETHINGWICKED_DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
+EffectVariant.SOMETHINGWICKED_BLACK_SALT = Isaac.GetEntityVariantByName("Black salt effect")
 
 TearVariant.SOMETHINGWICKED_GANYSPARK = Isaac.GetEntityVariantByName("Ganymede Spark Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")

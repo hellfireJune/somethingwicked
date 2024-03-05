@@ -626,6 +626,13 @@ local collectibles = {
             encyclopediaLootPools.POOL_DEVIL,
             encyclopediaLootPools.POOL_GREED_DEVIL
         }
+    },
+    [mod.ITEMS.ACTIVATED_CHARCOAL] = {
+        desc = "{{Collectible149}} Grants the effect of Ipecac for the current room",
+        pools = {
+            encyclopediaLootPools.POOL_TREASURE,
+            encyclopediaLootPools.POOL_GREED_TREASURE,
+        }
     }
 }
 

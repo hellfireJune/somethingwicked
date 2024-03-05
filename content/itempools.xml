@@ -43,6 +43,7 @@
 		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -283,6 +284,7 @@
 		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">

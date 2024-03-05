@@ -37,6 +37,7 @@ local function YoYoCollide(_, familiar, other)
     end
 
     --PUT COOL KNOCKBACK FUNCTION HERE
+    mod:CollisionKnockback(familiar.Position, other.Position, familiar.Velocity)
 
     familiar:GetData()["sw_yoknockback"] = (thing*maxSpeed*1.5)
     

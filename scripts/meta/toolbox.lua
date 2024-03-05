@@ -1325,17 +1325,23 @@ end
 --Spam-changing this can lead to inconsistent projectile flight distances
 function SomethingWicked:MultiplyTearFall(tear, index, wantedMult)
     local t_data = tear:GetData()
-    if t_data.sw_initialFallSpeed == nil then
-        t_data.sw_initialFallSpeed = tear.FallingSpeed
-    end
     t_data.sw_fallMults = t_data.sw_fallMults or {}
     t_data.sw_fallMults[index] = t_data.sw_fallMults[index] or 1
 
     local lastMult = t_data.sw_fallMults[index]
-    t_data.sw_lastFallSpeed = t_data.sw_lastFallSpeed or 0
+    --t_data.sw_lastFallSpeed = t_data.sw_lastFallSpeed or 0
 
-    local diff = math.max(t_data.sw_initialFallSpeed, tear.FallingSpeed) - t_data.sw_lastFallSpeed
-    tear.FallingSpeed = t_data.sw_lastFallSpeed + diff*lastMult - (tear.FallingAcceleration*(1-lastMult))
+    t_data.sw_lastFallSpeed = t_data.sw_lastFallSpeed or tear.Height
+    local bounce = tear:HasTearFlags(TearFlags.TEAR_HYDROBOUNCE) and t_data.sw_lastFallSpeed > -6
+    
+    local diff = tear.Height - t_data.sw_lastFallSpeed
+    if diff > 0 and tear.FallingSpeed >= 0 and not bounce and (t_data.sw_fakeStoneBounces or 0)< 3/wantedMult then
+        tear.Height = t_data.sw_lastFallSpeed + diff*lastMult
+    elseif bounce then
+        t_data.sw_fakeStoneBounces = (t_data.sw_fakeStoneBounces or -1) + 1
+        tear.FallingSpeed = math.min(0, (-18+2*t_data.sw_fakeStoneBounces)*1-wantedMult)
+    end
+    t_data.sw_lastFallSpeed = tear.Height
     t_data.sw_fallMults[index] = wantedMult
     
     return lastMult

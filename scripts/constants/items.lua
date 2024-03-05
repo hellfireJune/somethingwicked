@@ -133,6 +133,7 @@ SomethingWicked.ITEMS.SEED_OF_EDEN_PASSIVE = Isaac.GetItemIdByName(" Earth of Ad
 SomethingWicked.ITEMS.DIS = Isaac.GetItemIdByName("Dis")
 SomethingWicked.ITEMS.ACHERON = Isaac.GetItemIdByName("Acheron")
 SomethingWicked.ITEMS.BOLTS_OF_LIGHT = Isaac.GetItemIdByName("Bolts of Light")
+SomethingWicked.ITEMS.IPECAC_ITEM = Isaac.GetItemIdByName("Activated Charcoal")
 
 --trinkets
 SomethingWicked.TRINKETS = {}

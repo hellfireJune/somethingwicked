@@ -1,4 +1,3 @@
-local this = {}
 
 SomethingWicked.TFCore:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_PROVIDENCE, {
     EnemyHitEffect = function (_, tear, pos, enemy)
@@ -43,6 +42,3 @@ function this:CacheEval(player, flags)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, this.CacheEval, CacheFlag.CACHE_TEARFLAG)
-
-this.EIDEntries = {}
-return this

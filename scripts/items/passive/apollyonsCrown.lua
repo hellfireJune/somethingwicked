@@ -77,7 +77,11 @@ local function FamiliarCache(_, player)
             if not shouldBeSpecial then
                 
             else
-                local randLocust = mod:GetRandomElement(mod.CrownSpecialLocusts, rng)
+                local randTable = mod.CrownSpecialLocusts
+                if mod.FiendFolioCrownLocusts and rng:RandomFloat()<0.5 then
+                    randTable=mod.FiendFolioCrownLocusts
+                end
+                local randLocust = mod:GetRandomElement(randTable, rng)
                 type = randLocust[1] count = randLocust[2]
             end
 

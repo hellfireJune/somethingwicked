@@ -43,7 +43,7 @@ local function FlyInit(_, familiar)
             end
         end
         flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
-        print(flag, player)
+        
         if flag and player then
             local myRNG = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 

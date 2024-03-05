@@ -1,12 +1,16 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
 
+  Additions:
+  - Added Activated Charcoal
+
   Changes:
+  - Apollyon's crown now has a 50% chance to spawn Fiend Folio locusts if Fiend Folio is enabled
   - Lasers can now do something wicked tear effects, how impressive
 
   Fixes:
   - No more errors when picking up blended hearts
-  - No errors with glitch city, toybox, star of the bottomless pit, or book of lucifer
+  - No errors with glitch city, toybox, star of the bottomless pit, minos, or book of lucifer
   - FF stackable items, references and electrum synergies work again again
   - More internal things you dont have to worry about
   -->
@@ -21,7 +25,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 71, 73, 74, 79, 87, 90, 100, 108, 110, 119, 133, 141, 142
+  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 73, 74, 79, 87, 90, 100, 108, 110, 119, 133, 141, 142
   and trinket id 15, 22, 29, 31 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -83,6 +87,7 @@
   <passive id="68" name="Crying Minotaur"  hidden="true" tags="noeden"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1" gfx="edenshead.png"/>
+  <active id="71" name="Activated Charcoal" maxcharges="3" quality="2" gfx="activatedcharcoal.png" description="Vomit on demand!" tags="offensive"/>
   <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable"/>
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true" tags="noeden"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
@@ -151,7 +156,7 @@
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
-  <passive id="142" name="Bolts of Light" tags="noeden" hidden="true" quality="4" achievement="Wicked - Bolts of Light"/>
+  <passive id="142" name="Bolts of Light" tags="noeden" hidden="true" quality="3" cache="shotspeed" achievement="Wicked - Bolts of Light"/>
   <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
   <active id="82" name = "Earth of Adam"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="83" name=" Earth of Adam " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
