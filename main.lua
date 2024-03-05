@@ -538,7 +538,7 @@ function mod:useItemGeneric(id, rng, player, flags)
   if mod:UtilTableHasValue(quickThrowables, id) then
     return mod:HoldItemUseHelper(player, flags, id)
   end
-  if id == mod.ITEMS.IPECAC_ITEM then
+  if id == mod.ITEMS.ACTIVATED_CHARCOAL then
     return true
   end
   if id == mod.ITEMS.EVIL_PIGGYBANK
@@ -553,7 +553,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player)
   local pEffects = player:GetEffects()
-  if pEffects:HasCollectibleEffect (mod.ITEMS.IPECAC_ITEM) then
+  if pEffects:HasCollectibleEffect (mod.ITEMS.ACTIVATED_CHARCOAL) then
     mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_IPECAC)
   end
 end)
