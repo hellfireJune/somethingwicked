@@ -113,7 +113,7 @@
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Loot get!" quality="2" tags="offensive"/>
   <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
   
-  <passive id="129" name="Light Shard" gfx="lightshard.png" quality="2" description="Divine shot" tags="noeden nolostbr summonable"/>
+  <passive id="129" name="Light Shard" gfx="lightshard.png" quality="3" description="Divine shot" tags="noeden nolostbr summonable"/>
   <passive id="130" name="Dark Shard" gfx="darkshard.png" quality="2" description="Sin shot" tags="noeden nolostbr summonable" blackhearts="2"/>
 
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
