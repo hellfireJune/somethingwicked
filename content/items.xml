@@ -1,18 +1,12 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
-
   Additions:
-  - Added Activated Charcoal
-
-  Changes:
-  - Apollyon's crown now has a 50% chance to spawn Fiend Folio locusts if Fiend Folio is enabled
-  - Lasers can now do something wicked tear effects, how impressive
+  - Added Light Shard and Dark Shard
 
   Fixes:
-  - No more errors when picking up blended hearts
-  - No errors with glitch city, toybox, star of the bottomless pit, minos, or book of lucifer
-  - FF stackable items, references and electrum synergies work again again
-  - More internal things you dont have to worry about
+  - Made absolutely sure that the currently cut cards cant spawn rn
+  - Stone key works again
+  - Apollyon crown doesnt error anymore, i fixed it forever
   -->
 
   <!--planned qol :333
@@ -25,7 +19,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 14, 30, 32, 35, 37, 39, 40, 73, 74, 79, 87, 90, 100, 108, 110, 119, 133, 141, 142
+  <!--also make item id 11, 12, 13, 14, 30, 32, 35, 37, 39, 40, 73, 74, 79, 87, 90, 100, 108, 110, 119, 141, 142
   and trinket id 15, 22, 29, 31 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -38,14 +32,14 @@
   <passive id="8" name="Void Bombs" description="Abyssal bombs +5 bombs" gfx="voidbomb.png" bombs="5" quality="3" tags="offensive summonable"/> 
   <passive id="9" name="Cat Food" description="HP up + HP drops (Again!)" gfx="catfood.png" maxhearts="2" hearts="4" quality="2" tags="nolostbr summonable"/> <!--Needs costume-->
   <passive id="10" name="Star Treat" gfx="startreat.png" description="HP + shot speed up" quality="2" tags="nolostbr" maxhearts="2" hearts="4" cache="shotspeed"/>
-  <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="1" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
+  <passive id="15" name="Wooden Horn" description="DMG + evil up" gfx="woodenhorn.png" quality="2" tags="offensive summonable" cache="damage" blackhearts="2"/> <!--Needs costume-->
   <passive id="16" name="Silver Ring" description="DMG up" gfx="silverring.png" quality="3" tags="offensive summonable" cache="damage"/> <!--Needs costume-->
   <active id="17" name="Wooden Dice" gfx="woodendice.png" description="Stronger plentiful trinkets" quality="1" tags="offensive" maxcharges="6" cache="luck" passivecache="true"/> 
   <passive id="18" name="Nightshade" gfx="nightshade2.png" description="Spirits of night" quality="3" tags="mushroom offensive summonable"/> <!--Needs costume-->
   <active id="19" name="Book of Lucifer" gfx="bookoflucifer3.png" description="Long lasting DMG Up" quality="2" tags="offensive book" cache="damage" maxcharges="4" persistent="true"/> 
   <active id="20" name="Toybox" gfx="toybox.png" description="Full of trinkets!" quality="2" tags="offensive nocantrip" persistent="true"/>
   <passive id="21" name="Fitus Fortunus" gfx="fitusfortunusreal.png" description="More champion drops" quality="2" tags="offensive summonable"/> <!--Needs costume-->
-  <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="3" tags="offensive" achievement="618"/> 
+  <passive id="22" name="Old Urn" gfx="oldurn.png" description="Soulkeeper" quality="2" tags="offensive" achievement="618"/> 
   <active id="23" name="Tiamat's Dice" gfx="tiamatsdice2.png" description="Chaos reroll" quality="4" maxcharges="6" tags="offensive" achievement="29"/>
   <familiar id="24" name="Apollyon's Crown" gfx="apollyonscrown2.png" description="Abyssal buddies" quality="3" tags="offensive devil summonable" cache="familiars" achievement="597"/> <!--Needs costume-->
   <active id="25" name="Book of Exodus" gfx="bookofexodus.png" description="More better trinkets" quality="1" tags="offensive book" maxcharges="8" achievement="617" cache="luck" passivecache="true"/> 
@@ -87,7 +81,7 @@
   <passive id="68" name="Crying Minotaur"  hidden="true" tags="noeden"/>
   <active id ="69" name="Abandoned Box" gfx="abandonedbox.png" description="Buddy inside!" quality="3" tags="offensive nocantrip"/>
   <active id="70" name="Eden's Head" description="Ranged random throwable" quality="1" tags="offensive" maxcharges="1" gfx="edenshead.png"/>
-  <active id="71" name="Activated Charcoal" maxcharges="3" quality="2" gfx="activatedcharcoal.png" description="Vomit on demand!" tags="offensive"/>
+  <active id="71" name="Activated Charcoal" maxcharges="3" quality="2" gfx="activatedcharcoal.png" description="Vomit on demand" tags="offensive"/>
   <familiar id="72" name="Devilsknife" gfx="jokersknife.png" description="Spinning, spinning" quality="2" tags="offensive summonable"/>
   <passive id="75" name="Balrog's Heart" gfx="balrogsheart.png" description="Pyre tears" quality="1" tags="offensive summonable" hidden="true" tags="noeden"/>
   <passive id="76" name="Carolina Reaper" gfx="carolinareaper.png" description="Wicked fire shot" quality="2" tags="offensive summonable"/>
@@ -115,7 +109,7 @@
   <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
   <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="Smells good..." quality="2" tags="offensive summonable"/>
   <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
-  <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive"/>
+  <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive" quality="2"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Loot get!" quality="2" tags="offensive"/>
   <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
 
@@ -136,29 +130,29 @@
   <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true" tags="noeden"/> <!--also make-->
   <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true" tags="noeden"/>
   <passive id="118" name="Witch's Salt" hidden="true" tags="noeden"/>
-  <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="3" tags="offensive summonable noeden" hidden="true"/>
+  <familiar id="120" name="Joker Baby" gfx="jesterbaby.png" description="Heart of the cards" quality="2" tags="offensive summonable noeden" hidden="true"/>
   <passive id="122" name="Tombstone" hidden="true" tags="noeden"/>
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true" tags="noeden"/>
   <active id="125" name="Doubling Cherry" cache="familiars" maxcharges="3" quality="3" description="Double yourself!" hidden="true" tags="noeden"/>
   <active id="127" name="Last Prism" description="In tune" quality="4" maxcharges="12" hidden="true" tags="noeden" persistent="true" cooldown="900"/>
 
   <familiar id="128" name="Fuzzy Fly" description="Tear dizzy-er" hidden="true" tags="noeden"/>
-  <passive id="129" name="Light Shard" hidden="true" tags="noeden"/>
-  <passive id="130" name="Dark Shard" hidden="true" tags="noeden"/>
+  <passive id="129" name="Light Shard" gfx="lightshard.png" hidden="true" quality="2" description="Divine shot" tags="noeden nolostbr summonable"/>
+  <passive id="130" name="Dark Shard" gfx="darkshard.png" hidden="true" quality="2" description="Sin shot" tags="noeden nolostbr summonable" blackhearts="2"/>
   <passive id="131" name="Screw Attack" hidden="true" tags="noeden"/>
+  <passive id="133" name="Living Water" hidden="true" tags="noeden"/>
   <passive id="135" name="Void's Call" hidden="true" tags="noeden" description="Cycle of blood" quality="3" maxcharges="1"/>
   <passive id="137" name="Pressure Valve" hidden="true" quality="1" cache="firedelay" tags="offensive summonable tearsup noeden"/>
   <passive id="138" name="Cat Teaser" hidden="true" tags="noeden" quality="0"/>
   <passive id="139" name="Martyral Baptism" description="Baptism through blood" hidden="true" tags="noeden"/>
-
   <passive id="142" name="Pendulum" description="" gfx="goldenwatch.png" hidden="true" tags="noeden"/>
-  <passive id="143" name="The Yo-Yo!" hidden="true" tags="noeden" gfx="sw_yoyo.png"/>
+  <passive id="143" name="The Yo-Yo!" quality="1" hidden="true" tags="noeden" gfx="sw_yoyo.png"/>
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
-  <passive id="142" name="Bolts of Light" tags="noeden" hidden="true" quality="3" cache="shotspeed" achievement="Wicked - Bolts of Light"/>
+  <passive id="142" name="Bolts of Light" tags="noeden offensive summonable" hidden="true" quality="3" cache="shotspeed" achievement="Wicked - Bolts of Light"/>
   <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
-  <active id="82" name = "Earth of Adam"  hidden="true" tags="noeden" gfx="lilmandrake.png"/>
+  <active id="82" name = "Earth of Adam"  hidden="true" tags="noeden offensive" gfx="lilmandrake.png"/>
   <passive id="83" name=" Earth of Adam " hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="153" name="Acheron" devilprice="2" hidden="true" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
 

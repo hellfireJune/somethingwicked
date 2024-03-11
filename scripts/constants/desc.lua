@@ -633,6 +633,20 @@ local collectibles = {
             encyclopediaLootPools.POOL_TREASURE,
             encyclopediaLootPools.POOL_GREED_TREASURE,
         }
+    },
+    [mod.ITEMS.LIGHT_SHARD] = {
+        desc = "Fire an additional homing tear at a faster rate but with reduced damage if Isaac has no damaged heart containers#{{EternalHeart}} +1 Eternal Heart",
+        pools = {
+            encyclopediaLootPools.POOL_ANGEL,
+            encyclopediaLootPools.POOL_GREED_ANGEL,
+        }
+    },
+    [mod.ITEMS.DARK_SHARD] = {
+        desc = "Fire an additional homing tear at a faster rate but with reduced damage if Isaac has no red hearts#{{BlackHeart}} +1 Black Heart",
+        pools = {
+            encyclopediaLootPools.POOL_ANGEL,
+            encyclopediaLootPools.POOL_GREED_ANGEL,
+        }
     }
 }
 

@@ -1,4 +1,6 @@
 <achievements gfxroot="gfx/ui/achievement/">
+    <achievement name="Wicked - Don't unlock me" text="Please dont unlock me, I exist for technical reasons!" hidden="true"/>
+
     <!--play 5 runs with wicked installed-->
     <achievement name="Wicked - Bolts of Light" text='"Bolts of Light" has appeared in the basement' hidden="true"/>
 </achievements>

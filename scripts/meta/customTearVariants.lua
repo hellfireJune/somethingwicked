@@ -51,6 +51,7 @@ local tPriority = {
 
 	--wicked
 	[TearVariant.SOMETHINGWICKED_GANYSPARK] = 2,
+	[TearVariant.SOMETHINGWICKED_LIGHT_SHARD] = 0.9,
 }
 function SomethingWicked:ChangeTearVariant(tear, variant)
 	local priority = tPriority[variant] or 0
@@ -61,8 +62,8 @@ function SomethingWicked:ChangeTearVariant(tear, variant)
 	end
 end
 
-local function GetTearAnimPath(tear, animated)
-	local scale = tear.Scale
+function mod:GetTearAnimPath(tear, animated)
+	local scale = type(tear) == "number" and tear or tear.Scale
 	local array = animated and animArray or staticArray
 	for index, scalar in ipairs(array) do
 		if scale <= scalar then
@@ -73,12 +74,14 @@ local function GetTearAnimPath(tear, animated)
 end
 
 local wickedTears = {
-	TearVariant.SOMETHINGWICKED_GANYSPARK
+	TearVariant.SOMETHINGWICKED_GANYSPARK,
+	TearVariant.SOMETHINGWICKED_LIGHT_SHARD
 }
 local anims = {
 	TearVariant.SOMETHINGWICKED_GANYSPARK
 }
 local rotatesWithVelocity = {
+	TearVariant.SOMETHINGWICKED_LIGHT_SHARD
 	--TearVariant.SOMETHINGWICKED_GANYSPARK
 }
 mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
@@ -88,7 +91,7 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 	end
 	local animated, rotates = mod:UtilTableHasValue(anims, var), mod:UtilTableHasValue(rotatesWithVelocity, var)
 	
-	local animPath = GetTearAnimPath(tear, animated)
+	local animPath = mod:GetTearAnimPath(tear, animated)
 
 	local sprite = tear:GetSprite()
 	local anim = sprite:GetAnimation()
@@ -106,17 +109,43 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 
 	if rotates then
 		local vel = tear.Velocity + Vector(0, tear.FallingSpeed)
-		tear.SpriteRotation = mod:GetAngleDegreesButGood(vel)
+		tear.SpriteRotation = mod:GetAngleDegreesButGood(vel) + 90
 	end
 	local t_data = tear:GetData()
 	t_data.sw_savedScale = tear.Scale
+
+	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD then
+		local light = t_data.sw_tearLight
+		if not light or not light:Exists() then
+			light = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA, 1, tear.Position, Vector.Zero, tear):ToEffect()
+			light.Parent = tear
+			light:FollowParent(tear)
+			t_data.sw_tearLight = light
+		end
+
+		light.SpriteScale = tear.Scale * 0.4 * Vector.One
+		light.Color = tear.Color*Color(1,1,1,1,-0.2,-0.2,-0.2)
+		light.ParentOffset = tear.SpriteOffset
+	end
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
 	if tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then
         local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
-		explode.SpriteScale = Vector.One*tear:GetData().sw_savedScale*1.2
+		explode.SpriteScale = Vector.One*(tear:GetData().sw_savedScale or 1) *1.2
 
 		sfx:Play(SoundEffect.SOUND_FREEZE_SHATTER)
+	end
+
+	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD then
+        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.IMPACT, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+		explode.SpriteScale = Vector.One*(tear:GetData().sw_savedScale or 1)*0.8
+		explode.Color = tear.Color
+
+		local light = tear:GetData().sw_tearLight
+		if light then
+			light:Remove()
+		end
+		--sfx:Play(SoundEffect.SOUND_SCYTHE_BREAK)
 	end
 end, EntityType.ENTITY_TEAR)

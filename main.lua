@@ -301,6 +301,8 @@ local midLoad = {
   a_.."bookOfInsanity",
   p_.."witchsSalt",
   p_.."boltsOfLight",
+  p_.."livingWater",
+  p_.."lightShardDarkShard",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -487,7 +489,10 @@ end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
 
 function mod:EvaluateLateStats(player, flags)
-  local shouldBoost = player:GetData().sw_shouldEdithBoost
+  local p_data = player:GetData()
+
+  local shouldBoost = p_data.sw_shouldEdithBoost
+  local waterBoosts = p_data.sw_currentWaterAuras or 0
   local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT) and not player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK)
   if flags == CacheFlag.CACHE_FIREDELAY then
     if shouldBoost then
@@ -496,6 +501,7 @@ function mod:EvaluateLateStats(player, flags)
     if boltsOfLight then
       player.MaxFireDelay = mod:TearsUp(player, 0, 0, 3.6/5.5)
     end
+    player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1+(waterBoosts/5))
   end
   if flags == CacheFlag.CACHE_DAMAGE then
     if player:HasCollectible(mod.ITEMS.SILVER_RING) then
@@ -507,7 +513,7 @@ function mod:EvaluateLateStats(player, flags)
     if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
       player.Damage = player.Damage * 0.2
     end
-    if shouldBoost then
+    if shouldBoost or waterBoosts > 0 then
       player.Damage = player.Damage * 1.2
     end
     if player:HasCollectible(mod.ITEMS.TECH_MODULO) then
@@ -978,24 +984,19 @@ mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, Bo
   "minotaur",
   "balrogsheart",
   "cursemask",
-  "bananamilk",
   "safetymasktemperance",
   "redqueen",
   "brokenbell",
   "saintshead",
   "eyeofprovidence",
   "tombstone",
-  "blacksalt",
   "bloodhail",
   "voidscall",
   "screwattack",
   "pressurevalve",
-  "lightsharddarkshard",
   "pendulum",
   "yoyo",
   "pieceofsilver",
-  "darkness",
-  "ganymede",
   
   "phobosanddeimos",
   "littleattractor",

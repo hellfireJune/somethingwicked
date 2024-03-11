@@ -33,7 +33,7 @@ function mod.compat:FFInit()
             {itemTab.DEVILS_UMBRELLA, 1},
             {itemTab.EMOJI_GLASSES, 1},
             {itemTab.FAMILIAR_FLY, 1},
-            {itemTab.GORGONEION, 1},
+            {itemTab.GORGON, 1},
             --{itemTab.STORE_WHISTLE, 1},
             {itemTab.HYPNO_RING, 1},
             {itemTab.INFINITY_VOLT, 1},

@@ -15,6 +15,7 @@ EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glit
 EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
 EffectVariant.SOMETHINGWICKED_DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
 EffectVariant.SOMETHINGWICKED_BLACK_SALT = Isaac.GetEntityVariantByName("Black salt effect")
+EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA = Isaac.GetEntityVariantByName("Tiny Holy Aura")
 
 TearVariant.SOMETHINGWICKED_GANYSPARK = Isaac.GetEntityVariantByName("Ganymede Spark Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
@@ -22,6 +23,7 @@ TearVariant.SOMETHINGWICKED_WISP = Isaac.GetEntityVariantByName("Wrath Wisp Tear
 TearVariant.SOMETHINGWICKED_STICKERBOOK_STICKER = Isaac.GetEntityVariantByName("Sticker Tear")
 TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestabber")
 TearVariant.SOMETHINGWICKED_VOIDSBLADE = Isaac.GetEntityVariantByName("Call of the Void Tear")
+TearVariant.SOMETHINGWICKED_LIGHT_SHARD = Isaac.GetEntityVariantByName("Light Shard Tear")
 
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 
@@ -157,7 +159,7 @@ SomethingWicked.CustomTearFlags = {
     FLAG_KNAVE_OF_HEARTS = 1 << 1,
     FLAG_DREAD = 1 << 2,
     FLAG_BALROG_HEART = 1 << 3,
-    FLAG_BITTER = 1 << 4,
+    FLAG_GODSTICKY = 1 << 4,
     FLAG_ELECTROSTUN = 1 << 5,
     FLAG_COINSHOT = 1 << 6,
     FLAG_PROVIDENCE = 1 << 8,
@@ -187,4 +189,10 @@ SomethingWicked.ItemPopupSubtypes = {
     
     MOVE_TO_PLAYER = 11,
     DIS_FUNNY_MOMENTS = 12,
+}
+SomethingWicked.MOTVHelperSubtypes = {
+    STANDARD = 0,
+    MOVELERP = 1,
+    DARKNESSTRAIL = 2,
+    LOURDESWATER = 4,
 }
