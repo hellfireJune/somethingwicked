@@ -4,9 +4,11 @@
   - Added Light Shard and Dark Shard
 
   Fixes:
+  - Added several missing EID entries
   - Made absolutely sure that the currently cut cards cant spawn rn
   - Stone key works again
   - Apollyon crown doesnt error anymore, i fixed it forever
+  - I feel like there was something else broken that i fixed? But i can't say for the life of me
   -->
 
   <!--planned qol :333
@@ -75,7 +77,7 @@
   <passive id="61" name="GLITCHCITY" description="Error Safari" gfx="glitchcity2.png" tags="offensive" quality="3"/>
   <passive id="62" name="Crossed Heart" gfx="crossedheart.png" description="DMG up + you feel healthier" cache="damage" quality="2" tags="offensive summonable"/> <!--costume-->
   <passive id="63" name="Devil's Tail" gfx="smoketail.png" description="Pain inflicts suffering" quality="2" tags="nolostbr devil" achievement="597"/> <!--costume-->
-  <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" tags="offensive" hidden="true" tags="noeden"/>
+  <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="247" chargetype="timed" quality="1" hidden="true" tags="noeden"/>
   <passive id="65" name="The Black Death" hidden="true" tags="noeden"/>
   <passive id="67" name="Snake" gfx="thesnake.png" description="Rattling Tears" quality="2" tags="offensive summonable"/>
   <passive id="68" name="Crying Minotaur"  hidden="true" tags="noeden"/>
@@ -92,23 +94,23 @@
   <passive id="91" name="Plasma Globe" description="Electro-stun tears" gfx="plasmaglobe.png" quality="2" tags="offensive summonable"/> <!--needs costume-->
   <active id="92" name="Golden Card" gfx="goldencard.png" quality="1" description="Eternal card" tags="offensive" maxcharges="6"/>
   <passive id="93" name="Star Spawn" gfx="starspawnemissary.png" description="DMG + tears up...?" cache="damage firedelay tearcolor" quality="3" tags="offensive summonable"/>
-  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="3" description="DMG down + rainbow tears" cache="damage tearflag"/>  
-  <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="3" tags="summonable offensive" cache="speed firedelay"/>
+  <passive id="95" name="Fruit Milk" gfx="fruitmilk.png" quality="2" description="DMG down + rainbow tears" cache="damage tearflag"/>  
+  <passive id="97" name="Bottle of Shampoo" gfx="shampoo.png" description="Tears + speed up" quality="2" tags="summonable offensive" cache="speed firedelay"/>
   <passive id="101" name="Hellfire" gfx="hellfire.png" description="Satan's siren" devilprice="2" quality="3" tags="offensive summonable"/>
   <passive id="102" name="Chrismatory" gfx="chrismatory.png" quality="3" description="Sacred tears" tags="offensive summonable"/>
   <passive id="107" name="Reliquary" gfx="reliquary.png" soulhearts="2" quality="2" description="Better HP items" tags="summonable"/>
   <passive id="111" name="Lanky Mushroom" description="DMG + range up + tears down" gfx="lankymushroom.png" cache="damage range firedelay size" quality="2" tags="mushroom offensive summonable"/>
   <familiar id="112" name="Swords of Light" description="Justice comes forth" gfx="swordoflight.png" quality="2" tags="offensive summonable"/>
-  <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="3" maxcharges="2"/>
+  <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="2" maxcharges="2"/>
   <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <!--<passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>-->
   <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
-  <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="2" tags="offensive summonable"/>
+  <passive id="140" name="Booster Box" gfx="boosterbox.png" description="Draw-pile" quality="3" tags="offensive summonable"/>
   <passive id="144" name="Wicked Ring" gfx="wickedring.png" description="Siphoning wicked" quality="3" devilprice="2" tags="offensive summonable"/>
   <passive id="145" name="Air Freshener" gfx="airfreshener.png" description="Smells good..." quality="2" tags="offensive summonable"/>
-  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="2" tags="offensive" cache="all"/>
+  <passive id="149" name="Golden Watch" gfx="goldenwatch.png" description="All stats up, aids the miserly" quality="1" tags="offensive" cache="all"/>
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive" quality="2"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Loot get!" quality="2" tags="offensive"/>
   <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
@@ -119,7 +121,7 @@
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true" tags="noeden"/>
   <active id="85" name="Baby Mandrake" maxcharges="2" gfx="lilmandrake.png" description="Radial stun scream" hidden="true" tags="noeden"/> <!--radial petrify-->
-  <active id="88" name="  Book of Leviathan  " hidden="true" tags="noeden" maxcharges="4" chargetype="special" cache="damage"/>
+  <active id="88" name="  Book of Leviathan  " hidden="true" tags="noeden" maxcharges="4" cache="damage"/>
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive noeden" hidden="true"/> <!--add charg-->
   <familiar id="94" name="Little Attractor" hidden="true" tags="noeden"/> 
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive noeden"/>

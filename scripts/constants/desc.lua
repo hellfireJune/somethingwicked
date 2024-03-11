@@ -644,9 +644,28 @@ local collectibles = {
     [mod.ITEMS.DARK_SHARD] = {
         desc = "Fire an additional homing tear at a faster rate but with reduced damage if Isaac has no red hearts#{{BlackHeart}} +1 Black Heart",
         pools = {
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_GREED_ANGEL,
+            encyclopediaLootPools.POOL_DEVIL,
+            encyclopediaLootPools.POOL_GREED_DEVIL,
         }
+    },
+    [mod.ITEMS.DISCIPLES_EYE] = {
+        desc = "{{UltraSecretRoom}} Reveals the Ultra Secret room#{{Card78}} 33% chance to spawn a cracked key upon using sacrifice rooms#{{Card78}} Spawns a cracked key on pickup",
+        pools = {
+            encyclopediaLootPools.POOL_CURSE,
+            encyclopediaLootPools.POOL_SECRET,
+            encyclopediaLootPools.POOL_ULTRA_SECRET,
+        },
+    },
+    [mod.ITEMS.CAROLINA_REAPER] = {
+        desc = "Chance to shoot a cursing purple fire, which gives enemies the cursed status effect#Cursed enemies take 1.5x damage#{{Luck}} 50% chance to fire at 10 luck",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+    },
+    [mod.ITEMS.NAGA_VIPER] = {
+        desc = "Chance to shoot green fires, which explode on contact#{{Luck}} 50% chance to fire at 10 luck",
+        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_RED_CHEST}
+    },
+    [mod.ITEMS.GOLDEN_WATCH] = {
+        desc = "!!! Buying anything from the shop will destroy this item#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up"
     }
 }
 
@@ -737,6 +756,9 @@ local trinkets = {
             EID:addGoldenTrinketMetadata(item, nil, 33)
         end
     },
+    [mod.TRINKETS.EMPTY_BOOK] = {
+        desc = "{{Bookworm}} While held, counts as 1 item towards the Bookworm transformation",
+    },
     [mod.TRINKETS.DEMONIUM_PAGE] = {
         desc = "!!! {{Damage}} While held, the only {{BossRoom}} Boss Room items that can appear are ones that modify damage",
     },
@@ -766,6 +788,9 @@ local trinkets = {
     },
     [mod.TRINKETS.SAMPLE_BOX] = {
         desc = "{{Shop}} All items in the shop are free, but buying an item will remove any previous items bought with this item"
+    },
+    [mod.TRINKETS.NIGHTMARE_FUEL] = {
+        desc = "Spawns a nightmare familiar"..mod.GENERIC_DESCRIPTIONS.NIGHTMARES.."#Respawns every room"
     }
 }
 

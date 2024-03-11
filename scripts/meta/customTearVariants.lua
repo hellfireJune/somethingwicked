@@ -120,6 +120,7 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 			light = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA, 1, tear.Position, Vector.Zero, tear):ToEffect()
 			light.Parent = tear
 			light:FollowParent(tear)
+			light.DepthOffset = -20
 			t_data.sw_tearLight = light
 		end
 

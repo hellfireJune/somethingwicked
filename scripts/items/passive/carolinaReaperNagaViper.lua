@@ -54,13 +54,5 @@ end
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_FIRE_PURE, FirePure)
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnEnemyTakeDMG)
 --[[this.EIDEntries = {
-    [mod.ITEMS.CAROLINA_REAPER] = {
-        desc = "Chance to shoot a cursing purple fire, which gives enemies the cursed status effect#Cursed enemies take 1.5x damage#50% chance to fire at 10 luck",
-        --pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE}
-    },
-    [mod.ITEMS.NAGA_VIPER] = {
-        desc = "Chance to shoot green fires, which explode on contact#50% chance to fire at 10 luck",
-        --pools = { SomethingWicked.encyclopediaLootPools.POOL_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_GREED_TREASURE, SomethingWicked.encyclopediaLootPools.POOL_RED_CHEST}
-    }
 }
 --return this]]
