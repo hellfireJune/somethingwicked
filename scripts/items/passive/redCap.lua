@@ -42,7 +42,7 @@ mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, pickup)
-    if mod:GlobalPlayerHasCollectible(mod.ITEMS.RED_CAP)
+    if PlayerManager.AnyoneHasCollectible(mod.ITEMS.RED_CAP)
     and sHeartValues[pickup.SubType] ~= nil then
         local red = ((math.sin(pickup.FrameCount / 20)+1)/10)
         pickup:SetColor(Color(1, 0.9, 0.9, 1, red), 2, 1, false, false)

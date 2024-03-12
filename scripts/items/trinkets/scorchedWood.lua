@@ -1,8 +1,8 @@
 local mod = SomethingWicked
 
 local function OnKill(_, enemy)
-    local flag, player = mod:GlobalPlayerHasTrinket(mod.TRINKETS.SCORCHED_WOOD)
-    if flag and player then
+    local  player = PlayerManager.FirstTrinketOwner(mod.TRINKETS.SCORCHED_WOOD)
+    if  player then
         local myRNG = RNG()
         myRNG:SetSeed(Random() + 1, 1)
         if myRNG:RandomInt(3 - math.min(3, -1 + player:GetTrinketMultiplier(mod.TRINKETS.SCORCHED_WOOD))) == 0 then

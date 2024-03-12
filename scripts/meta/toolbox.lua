@@ -3,22 +3,22 @@ local mod = SomethingWicked
 local game = Game()
 local sfx = SFXManager()
 
-function mod:GlobalPlayerHasCollectible(type, ignoreModifs)
+--[[function mods:GlobalPlayerHasCollectible(type, ignoreModifs)
     for index, value in ipairs(mod:UtilGetAllPlayers()) do
         if value:HasCollectible(type, ignoreModifs) then
             return true, value
         end
     end
     return false
-end 
+end ]]
 
-function mod:GlobalGetCollectibleNum(type, ignoreModifs)
+--[[function wicked:GlobalGetCollectibleNum(type, ignoreModifs)
     local num = 0
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
             num = num + value:GetCollectibleNum(type)
     end
     return num
-end
+end]]
 
 function mod:GlobalGetCollectibleRNG(type)
     local players = SomethingWicked:UtilGetAllPlayers()
@@ -40,14 +40,14 @@ function mod:AllPlayersWithCollectible(type, ignoreModifs)
     return t
 end
 
-function mod:GlobalPlayerHasTrinket(type, ignoreModifs)
+--[[function modd:GlobalPlayerHasTrinket(type, ignoreModifs)
     for index, value in ipairs(SomethingWicked:UtilGetAllPlayers()) do
         if value:HasTrinket(type, ignoreModifs) then
             return true, value
         end
     end
     return false
-end 
+end ]]
 
 function mod:GlobalGetTrinketNum(type, ignoreModifs)
     local num = 0

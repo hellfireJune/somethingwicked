@@ -1,3 +1,6 @@
+local mod = SomethingWicked
+local game = Game()
+
 local frameCooldown = 15
 local maxGhosts = 7
 function this:OnEnemyDMGGeneric(tear, collider, player, proc)
@@ -48,7 +51,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, this.UseItem, mod.ITEMS.DU
 local moveSpeed = 40
 local distanceTillIdle = 80
 function this:FamiliarUpdate(familiar)
-    if SomethingWicked.game:GetRoom():GetFrameCount() == 0 then
+    if game:GetRoom():GetFrameCount() == 0 then
         familiar:Remove()
         return
     end
@@ -62,7 +65,11 @@ function this:FamiliarUpdate(familiar)
     local targetPos = familiar.Target.Position
     local fPos = familiar.Position
     if familiar.State ~= 1 then
-        local direction = familiar.State == 0 and (fPos - targetPos):Normalized() or (targetPos - fPos):Normalized()
+        local direction = (fPos - targetPos)
+        if familiar.State == 2 then
+            direction = direction*-1
+        end
+        direction:Normalized()
         if fPos:Distance(targetPos) < distanceTillIdle or familiar.State == 2 then
             familiar.Velocity = SomethingWicked.EnemyHelpers:Lerp(familiar.Velocity, direction * moveSpeed, 0.1)
             return
@@ -75,16 +82,16 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, this.FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST)
 
 function this:FamiliarCollision(familiar, collider)
+    collider = collider:ToNPC()
+    if not collider then
+        return false
+    end
+
     if familiar.State == 2 then
-        collider = collider:ToNPC()
-        if not collider then
-            return
-        end
 
         if GetPtrHash(familiar.Target) == GetPtrHash(collider) then
             --make this user explode
             local player = familiar.Player
-            local game = SomethingWicked.game
             game:BombExplosionEffects(familiar.Position, player.Damage * 3, TearFlags.TEAR_NORMAL, Color(1, 0, 0, 1, 0.5), familiar, 0.5)
             familiar:BloodExplode()
             familiar:Remove()
@@ -95,6 +102,3 @@ function this:FamiliarCollision(familiar, collider)
     end
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, this.FamiliarCollision, FamiliarVariant.SOMETHINGWICKED_DUDAEL_GHOST)
-
-this.EIDEntries = {}
-return this

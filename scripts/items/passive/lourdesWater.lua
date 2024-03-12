@@ -47,7 +47,7 @@ local function NewRoomLogic()
     if not mod.save.runData.CoE_rooms[idx] then
         local newData = {}
         
-        local stacks = mod:GlobalGetCollectibleNum(mod.ITEMS.LOURDES_WATER)
+        local stacks = PlayerManager.GetNumCollectibles(mod.ITEMS.LOURDES_WATER)
         local rng = mod:GlobalGetCollectibleRNG(mod.ITEMS.LOURDES_WATER)
 
         local rocks = {}

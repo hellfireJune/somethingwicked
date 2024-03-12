@@ -345,6 +345,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   if not player then
     return
   end
+  local effects = player:GetEffects()
   local wickedSoulMult = player:GetCollectibleNum(mod.ITEMS.WICKED_SOUL)
   local goldenWatchMult = player:GetCollectibleNum(mod.ITEMS.GOLDEN_WATCH)
   local lankyMushMult = player:GetCollectibleNum(mod.ITEMS.LANKY_MUSHROOM)
@@ -371,10 +372,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.Damage = mod:DamageUp(player, p_data.WickedPData.EncycloBelialBuff or 0)
     player.Damage = mod:DamageUp(player, (0.7 * player:GetCollectibleNum(mod.ITEMS.CROSSED_HEART)))
     player.Damage = mod:DamageUp(player, 0.7 * player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD))
-    
-    if player:GetEffects():GetCollectibleEffect(mod.ITEMS.BOOK_OF_LUCIFER) then  
-      player.Damage = mod:DamageUp(player, 0.6 * player:GetEffects():GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LUCIFER))
-    end
+    player.Damage = mod:DamageUp(player, 0.4 * effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LUCIFER))
     
     if p_data.WickedPData.inverterdmgToAdd then
         player.Damage = mod:DamageUp(player, 0, p_data.WickedPData.inverterdmgToAdd)
@@ -392,6 +390,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(mod.ITEMS.WHITE_ROSE))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO))
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD) * 0.5)
+    player.MaxFireDelay = mod:TearsUp(player, 0.4 * effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LEVIATHAN))
     if p_data.WickedPData.reliqBuff then
         player.MaxFireDelay = mod:TearsUp(player, 0, p_data.WickedPData.reliqBuff*0.25)
     end
@@ -404,6 +403,11 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MoveSpeed = player.MoveSpeed + (0.15 * curseSoulMult)
 
     player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO)*0.3
+
+    local leviathanBuff = effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LEVIATHAN)
+    leviathanBuff = math.min(leviathanBuff, 4)
+    leviathanBuff = ((2^leviathanBuff)-1)/(2^leviathanBuff)/0.9375
+    player.MoveSpeed = player.MoveSpeed + leviathanBuff*0.4
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
@@ -552,7 +556,7 @@ function mod:useItemGeneric(id, rng, player, flags)
       return { Discharge = false, ShowAnim = true}
   end
   if id == mod.ITEMS.VOID_EGG then
-    mod:AddLocusts(player, rng:RandomInt(2) + 1, rng) return
+    mod:AddLocusts(player, rng:RandomInt(3) + 2, rng) return true
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
@@ -561,6 +565,9 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, pl
   local pEffects = player:GetEffects()
   if pEffects:HasCollectibleEffect (mod.ITEMS.ACTIVATED_CHARCOAL) then
     mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_IPECAC)
+  end
+  if pEffects:HasCollectibleEffect(mod.ITEMS.THE_SHRINKS) then
+    mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_PLUTO)
   end
 end)
 
@@ -665,7 +672,7 @@ function mod:GenericPostPurchase(player, pickup, isDevil, coinsLost)
       
         local charge, slot = mod:CheckPlayerForActiveData(player, id)
         if slot == -1 then
-            local _, np = mod:GlobalPlayerHasCollectible(id)
+            local np = PlayerManager.FirstCollectibleOwner(id)
             if not np then
                 return
             end
@@ -689,12 +696,12 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_POST_PURCHASE_PICKUP, mod.GenericPos
   local p_data = pickup:GetData()
   
   --[[if pickup:IsShopItem() then
-    if mod:GlobalPlayerHasCollectible(mod.ITEMS.DADS_WALLET) then
+    if PlayerManager.AnyoneHasCollectible(mod.ITEMS.DADS_WALLET) then
       if pickup.Price > 0 then
         pickup.Price = PickupPrice.PRICE_FREE
       end
     end
-    if mod:GlobalPlayerHasCollectible(mod.ITEMS.EVIL_PIGGYBANK)
+    if PlayerManager.AnyoneHasCollectible(mod.ITEMS.EVIL_PIGGYBANK)
     and pickup.Price ~= PickupPrice.PRICE_FREE then
       if pickup.Price < 0 then
         pickup.Price = PickupPrice.PRICE_FREE
@@ -705,7 +712,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_POST_PURCHASE_PICKUP, mod.GenericPos
       p_data.somethingWicked_isMammonItem = false
     end
     
-    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.MEAL_COUPON) then
+    if PlayerManager.AnyoneHasTrinket(mod.TRINKETS.MEAL_COUPON) then
       if pickup.Price > 0 then
           pickup.Price = PickupPrice.PRICE_FREE
       end
@@ -716,13 +723,13 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, CallbackPriority.LAT
 
 mod:AddCallback(ModCallbacks.MC_GET_SHOP_ITEM_PRICE, function (_, variant, id, shop, price)
   
-  if mod:GlobalPlayerHasCollectible(mod.ITEMS.DADS_WALLET) or (variant == PickupVariant.PICKUP_HEART and mod:GlobalPlayerHasTrinket(mod.TRINKETS.MEAL_COUPON))
-  or (variant == PickupVariant.PICKUP_COLLECTIBLE and mod:GlobalPlayerHasTrinket(mod.TRINKETS.SAMPLE_BOX)) then
+  if PlayerManager.AnyoneHasCollectible(mod.ITEMS.DADS_WALLET) or (variant == PickupVariant.PICKUP_HEART and PlayerManager.AnyoneHasTrinket(mod.TRINKETS.MEAL_COUPON))
+  or (variant == PickupVariant.PICKUP_COLLECTIBLE and PlayerManager.AnyoneHasTrinket(mod.TRINKETS.SAMPLE_BOX)) then
     if price > 0 then
       return PickupPrice.PRICE_FREE
     end
   end
-  if mod:GlobalPlayerHasCollectible(mod.ITEMS.EVIL_PIGGYBANK)
+  if PlayerManager.AnyoneHasCollectible(mod.ITEMS.EVIL_PIGGYBANK)
   and price ~= PickupPrice.PRICE_FREE then
     if price < 0 then
       return PickupPrice.PRICE_FREE
@@ -799,9 +806,9 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     end
   end
   
-  local glitch = mod:GlobalPlayerHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET)
-  local curse = mod:GlobalPlayerHasTrinket(mod.TRINKETS.CURSED_KEY)
-  local treasure = mod:GlobalPlayerHasTrinket(mod.TRINKETS.TREASURERS_KEY)
+  local glitch = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET)
+  local curse = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.CURSED_KEY)
+  local treasure = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.TREASURERS_KEY)
 
   for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
     local door = room:GetDoor(i)
@@ -863,6 +870,17 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
       end
     end
 
+    local ceffects = p:GetEffects()
+    ceffects:RemoveCollectibleEffect(mod.ITEMS.BOOK_OF_LEVIATHAN, -1)
+    if p:HasCollectible(mod.ITEMS.THE_SHRINKS) then
+      if not ceffects:HasCollectibleEffect(mod.ITEMS.THE_SHRINKS) then
+        local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, p.Position, Vector.Zero, p)
+        poof.SpriteScale = Vector(0.75, 0.75)
+        sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
+      end
+      ceffects:AddCollectibleEffect(mod.ITEMS.THE_SHRINKS)
+    end
+
     return
   end
 
@@ -877,7 +895,7 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
     return
   end
 end
-mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, mod.PostEntityTakeDMG)
+mod:AddCallback(ModCallbacks.MC_POST_ENTITY_TAKE_DMG, mod.PostEntityTakeDMG)
 
 function mod:OnUsePill(effect, player)
   if player:HasTrinket(mod.TRINKETS.SUGAR_COATED_PILL) then
@@ -965,9 +983,9 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
 
 
 local function BossRoomClear(pos)
-  local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.CAT_FOOD)
-  if flag and player then
-      local numCatFood = mod:GlobalGetCollectibleNum(mod.ITEMS.CAT_FOOD)
+  local player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.CAT_FOOD)
+  if player then
+      local numCatFood = PlayerManager.GetNumCollectibles(mod.ITEMS.CAT_FOOD)
       for i = 1, numCatFood * 5, 1 do
           Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF, pos, RandomVector() * 5, player)
       end

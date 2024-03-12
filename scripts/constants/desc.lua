@@ -665,7 +665,16 @@ local collectibles = {
         pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_RED_CHEST}
     },
     [mod.ITEMS.GOLDEN_WATCH] = {
-        desc = "!!! Buying anything from the shop will destroy this item#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up"
+        desc = "!!! Buying anything from the shop will destroy this item#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up",
+        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_GREED_SHOP }
+    },
+    [mod.ITEMS.ACHERON] = {
+        Hide = true,
+        desc = "",
+    },
+    [mod.ITEMS.BOOK_OF_LEVIATHAN] = {
+        desc = "",
+        Hide = true,
     }
 }
 

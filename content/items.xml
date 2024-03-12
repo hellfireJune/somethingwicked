@@ -1,14 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
-  Additions:
-  - Added Light Shard and Dark Shard
-
-  Fixes:
-  - Added several missing EID entries
-  - Made absolutely sure that the currently cut cards cant spawn rn
-  - Stone key works again
-  - Apollyon crown doesnt error anymore, i fixed it forever
-  - I feel like there was something else broken that i fixed? But i can't say for the life of me
+  Changes:
+  - Further internal repentogon integration
   -->
 
   <!--planned qol :333
@@ -21,7 +14,7 @@
   
   also try implementing void's call already and doubling cherry and legion-->
 
-  <!--also make item id 11, 12, 13, 14, 30, 32, 35, 37, 39, 40, 73, 74, 79, 87, 90, 100, 108, 110, 119, 141, 142
+  <!--also make item id 11, 12, 13, 14, 30, 32, 35, 37, 39, 40, 73, 74, 79, 87, 90, 100, 108, 110, 119
   and trinket id 15, 22, 29, 31 and 38-->
 
   <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
@@ -104,6 +97,8 @@
   <active id="121" name="Boline" gfx="boline.png" description="Tear through perception" quality="2" maxcharges="2"/>
   <familiar id="124" name="Strange Apple" gfx="strangeapple2.png" description="Retro Buddy" quality="3" tags="offensive summonable"/>
   <!--<passive id="126" name="Band of Regeneration" quality="2" description="Heal after damaging" tags="nolostbr" gfx="ringofregen.png" hearts="276"/>-->
+  <passive id="129" name="Light Shard" gfx="lightshard.png" quality="3" description="Divine shot" tags="nolostbr summonable"/>
+  <passive id="130" name="Dark Shard" gfx="darkshard.png" quality="2" description="Sin shot" tags="nolostbr summonable" blackhearts="2"/>
   <passive id="132" name="Lourdes Water" gfx="lourdeswater.png" description="Weeping rocks" quality="2" tags="offensive summonable"/> 
   <passive id="134" name="Red Cap" gfx="redcap.png" description="HP up + range down + more healing" maxhearts="4" hearts="6" cache="shotspeed range" quality="2" tags="summonable mushroom"/>
   <passive id="136" name="Tech-Modulo" description="Bonus laser burst" gfx="techmodulo.png" quality="3" tags="offensive summonable" cache="damage"/>
@@ -114,23 +109,20 @@
   <active id="150" name="Assist Trophy" description="Who's inside?" gfx="assisttrophy.png" maxcharges="1" tags="offensive" quality="2"/>
   <active id="151" name="Item Box" gfx="sw_itembox.png" maxcharges="6" description="Loot get!" quality="2" tags="offensive"/>
   <passive id="152" name="Dis" devilprice="2" gfx="dis.png" description="City of hell" tags="offensive" quality="3"/>
-  
-  <passive id="129" name="Light Shard" gfx="lightshard.png" quality="3" description="Divine shot" tags="nolostbr summonable"/>
-  <passive id="130" name="Dark Shard" gfx="darkshard.png" quality="2" description="Sin shot" tags="nolostbr summonable" blackhearts="2"/>
 
   <passive id="81" name="Curse Mask" description="Curse admission free" hidden="true" tags="noeden"/> <!--code done-->
   <active id="84" name="Dudael" hidden="true" tags="noeden"/>
   <active id="85" name="Baby Mandrake" maxcharges="2" gfx="lilmandrake.png" description="Radial stun scream" hidden="true" tags="noeden"/> <!--radial petrify-->
-  <active id="88" name="  Book of Leviathan  " hidden="true" tags="noeden" maxcharges="4" cache="damage"/>
+  <active id="88" name="  Book of Leviathan  " hidden="true" tags="noeden" maxcharges="5" cache="firedelay speed" persistent="true"/>
   <active id="89" name="Facestabber" gfx="flyingguillotine.png" description="Reuseable Flying Cleaver" maxcharges="1" tags="offensive noeden" hidden="true"/> <!--add charg-->
   <familiar id="94" name="Little Attractor" hidden="true" tags="noeden"/> 
   <passive id="96" name="Sticker Book" quality="3" hidden="true" tags="offensive noeden"/>
-  <familiar id="98" name="Ms. Gonorrhea" hidden="true" tags="noeden"/>
+  <familiar id="98" name="Ms. Gonorrhea" quality="1" hidden="true" tags="noeden"/>
   <passive id="99" name="Temperance" description="Save for later" hidden="true" tags="noeden"/>
   <active id="103" name="Magic Clay" hidden="true" tags="noeden"/>
   <active id="109" name="Ice Wand" gfx="icerod.png" description="Ranged ice magic" maxcharges="2" hidden="true" quality="2" tags="offensive noeden"/> <!--code done, needs testing-->
   <passive id="113" name="Saint's Head" description="Baptism through water" hidden="true" tags="noeden"/>
-  <familiar id="114" name="Cutie Fly" description="Charming friend" hidden="true" tags="noeden"/>
+  <familiar id="114" name="Cutie Fly" quality="2" description="Charming friend" hidden="true" tags="noeden"/>
   <familiar id="115" name="Lighthouse" description="Big wisp friend" gfx="lighthouse.png" quality="2" tags="offensive summonable noeden" hidden="true"/>
   <passive id="116" name="Blood Hail" description="Red as all hellfire" hidden="true" tags="noeden"/> <!--also make-->
   <passive id="117" name="Eye of Providence" cache="tearflag" hidden="true" tags="noeden"/>
@@ -153,7 +145,8 @@
   <passive id="146" name="Darkness" cache="damage shotspeed range" hidden="true" tags="noeden"/>
   <passive id="147" name="Piece of Silver" hidden="true" tags="noeden"/>
 
-  <passive id="142" name="Bolts of Light" tags="noeden offensive summonable" hidden="true" quality="3" cache="shotspeed" achievement="Wicked - Bolts of Light"/>
+  <passive id="119" name="The Shrinks" hidden="true" tags="noeden"/>
+  <passive id="141" name="Bolts of Light" tags="noeden offensive summonable" hidden="true" quality="3" cache="shotspeed" achievement="Wicked - Bolts of Light"/>
   <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="shotspeed" hidden="true"/>
   <active id="82" name = "Earth of Adam"  hidden="true" tags="noeden offensive" gfx="lilmandrake.png"/>
   <passive id="83" name=" Earth of Adam " hidden="true" tags="noeden" gfx="lilmandrake.png"/>

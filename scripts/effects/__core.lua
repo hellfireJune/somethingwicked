@@ -35,7 +35,7 @@ local function getStatusEffectDuration(ent, time, string)
         end
     end
 
-    if mod:GlobalPlayerHasTrinket(TrinketType.TRINKET_SECOND_HAND) then
+    if PlayerManager.AnyoneHasTrinket(TrinketType.TRINKET_SECOND_HAND) then
         time = time * 2
     end
     return time

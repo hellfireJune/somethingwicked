@@ -42,14 +42,15 @@ local function PlayerUpdate(_, player)
             if float < chanceToTurn then
                 --based off of the code for that one DDLC item in fiendfolio
                 local iconfig = Isaac.GetItemConfig()
-                local allItemIds = iconfig:GetCollectibles().Size - 1
+                --local allItemIds = iconfig:GetCollectibles().Size - 1
 
+                local allItemsHeld = player:GetCollectiblesList() 
                 local items = {}
-                for i = 1, allItemIds, 1 do
+                for i,v in pairs(allItemsHeld) do
                     local item = iconfig:GetCollectible(i)
                     if item ~= nil and not item.Hidden and not item:HasTags(ItemConfig.TAG_QUEST) and item.Type ~= ItemType.ITEM_ACTIVE
                     and not mod:UtilTableHasValue(blacklist, i) then
-                        for ii = 1, player:GetCollectibleNum(i), 1 do
+                        for ii = 1, v, 1 do
                             table.insert(items, i)
                         end
                     end
@@ -71,8 +72,7 @@ local function PlayerUpdate(_, player)
                     game:GetHUD():ShowItemText(player, conf)
                     sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK)
 
-                    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 1, player.Position, Vector.Zero, player)
-                    local poof2 = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF02, 2, player.Position, Vector.Zero, player)
+                    player:MakeGroundPoof ()
                 end, 13)
             end
         end

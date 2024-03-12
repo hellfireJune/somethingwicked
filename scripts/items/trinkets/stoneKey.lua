@@ -14,7 +14,7 @@ local oldSecret = {}
 local function Update()
     local t_mult = mod:GlobalGetTrinketNum(mod.TRINKETS.STONE_KEY)
 
-    if t_mult < 0 then
+    if t_mult <= 0 then
         oldSecret = {}
         return
     end

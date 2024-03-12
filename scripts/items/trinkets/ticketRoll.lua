@@ -19,8 +19,8 @@ local function OnRoomClear()
         if flag and player then
             this:ezSpawn(this.BirettaPosition, SomethingWicked.MachineVariant.MACHINE_CONFESSIONAL, player)
         end]]
-        flag, player = mod:GlobalPlayerHasTrinket(mod.TRINKETS.TICKET_ROLL)
-        if flag and player then
+        player = PlayerManager.FirstTrinketOwner(mod.TRINKETS.TICKET_ROLL)
+        if player then
             mod:SpawnMachineQuick(ScratchTicketPosition, mod.MachineVariant.MACHINE_SLOT, player)
         end
     end

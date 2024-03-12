@@ -135,6 +135,7 @@ SomethingWicked.ITEMS.ACHERON = Isaac.GetItemIdByName("Acheron")
 SomethingWicked.ITEMS.BOLTS_OF_LIGHT = Isaac.GetItemIdByName("Bolts of Light")
 SomethingWicked.ITEMS.ACTIVATED_CHARCOAL = Isaac.GetItemIdByName("Activated Charcoal")
 SomethingWicked.ITEMS.LIVING_WATER = Isaac.GetItemIdByName("Living Water")
+SomethingWicked.ITEMS.THE_SHRINKS = Isaac.GetItemIdByName("The Shrinks")
 
 --trinkets
 SomethingWicked.TRINKETS = {}

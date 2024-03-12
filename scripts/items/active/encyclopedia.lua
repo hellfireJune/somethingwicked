@@ -6,8 +6,8 @@ local function NewLevel()
     local libraryExists
     local level = game:GetLevel()
 
-    local itemflag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.ENCYCLOPEDIA)
-    if itemflag and player then
+    local player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.ENCYCLOPEDIA)
+    if player then
         local rng = player:GetCollectibleRNG(mod.ITEMS.ENCYCLOPEDIA)
         libraryExists = mod:RoomTypeCurrentlyExists(RoomType.ROOM_LIBRARY, level, rng)
 

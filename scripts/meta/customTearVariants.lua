@@ -1,6 +1,9 @@
 local mod = SomethingWicked
 local sfx = SFXManager()
 
+local backSprite = Sprite()
+backSprite:Load("gfx/effect_wickedtearbacks.anm2", true)
+
 local staticArray = {
 	0.3,
 	0.55,
@@ -115,18 +118,9 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 	t_data.sw_savedScale = tear.Scale
 
 	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD then
-		local light = t_data.sw_tearLight
-		if not light or not light:Exists() then
-			light = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA, 1, tear.Position, Vector.Zero, tear):ToEffect()
-			light.Parent = tear
-			light:FollowParent(tear)
-			light.DepthOffset = -20
-			t_data.sw_tearLight = light
-		end
-
-		light.SpriteScale = tear.Scale * 0.4 * Vector.One
-		light.Color = tear.Color*Color(1,1,1,1,-0.2,-0.2,-0.2)
-		light.ParentOffset = tear.SpriteOffset
+		t_data.sw_tearBackScale = tear.Scale * 0.4 * Vector.One
+		t_data.sw_tearBackColor = tear.Color*Color(1,1,1,1,-0.2,-0.2,-0.2)
+		t_data.sw_tearBackAnim = "ShardBack"
 	end
 end)
 
@@ -143,10 +137,20 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
 		explode.SpriteScale = Vector.One*(tear:GetData().sw_savedScale or 1)*0.8
 		explode.Color = tear.Color
 
-		local light = tear:GetData().sw_tearLight
+		--[[local light = tear:GetData().sw_tearLight
 		if light then
 			light:Remove()
-		end
+		end]]
 		--sfx:Play(SoundEffect.SOUND_SCYTHE_BREAK)
 	end
 end, EntityType.ENTITY_TEAR)
+
+mod:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_RENDER, CallbackPriority.LATE, function (_, tear)
+	local t_data = tear:GetData()
+	if t_data.sw_tearBackAnim then
+		backSprite:Play(t_data.sw_tearBackAnim)
+		backSprite.Color = t_data.sw_tearBackColor
+		backSprite.Scale = t_data.sw_tearBackScale
+		backSprite:Render(tear.Position)
+	end
+end)

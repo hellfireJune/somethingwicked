@@ -26,14 +26,14 @@ local function OnTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     elseif not e_data.sw_hellfirePrimedFrames and ent.HitPoints < 0.1 then
         return
     end
-    local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.HELLFIRE)
-    if flag and player then
+    local player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.HELLFIRE)
+    if player then
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.HELLFIRE)
         if e_data.sw_isHellfireMarked == nil then
             e_data.sw_isHellfireMarked = c_rng:RandomFloat() < procChance(player)
         end
     end
-    if mod:GlobalPlayerHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
+    if PlayerManager.AnyoneHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) and e_data.sw_crownOfBloodMarked == nil then
         e_data.sw_crownOfBloodMarked = true
     end
     if e_data.sw_isHellfireMarked or e_data.sw_crownOfBloodMarked then
@@ -105,7 +105,7 @@ end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_NPC_EFFECT_TICK, mod.HellfireCOBUpdate)
 
 mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
-    if not mod:GlobalPlayerHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) then
+    if not PlayerManager.AnyoneHasCollectible(mod.ITEMS.CROWN_OF_BLOOD) then
         return
     end
 

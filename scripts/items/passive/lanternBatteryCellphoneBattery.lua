@@ -45,7 +45,7 @@ local BatteryConvertTable = {
     [BatterySubType.BATTERY_MICRO] = BombSubType.BOMB_TROLL
 }
 local function InitBattery(_, battery)
-    if mod:GlobalPlayerHasTrinket(mod.TRINKETS.CELLPHONE_BATTERY) then
+    if PlayerManager.AnyoneHasTrinket(mod.TRINKETS.CELLPHONE_BATTERY) then
         local bombType = BatteryConvertTable[battery.SubType] or BombSubType.BOMB_NORMAL
         battery:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, bombType, true, true, true)
         --battery:ClearEntityFlags(EntityFlag.FLAG_APPEAR)

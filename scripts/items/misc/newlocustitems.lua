@@ -33,8 +33,8 @@ local function FlyInit(_, familiar)
                 return
             end
         end]]
-        flag, player = mod:GlobalPlayerHasTrinket(mod.TRINKETS.OWL_FEATHER)
-        if flag and player then
+        player = PlayerManager.FirstTrinketOwner(mod.TRINKETS.OWL_FEATHER)
+        if player then
             local t_rng = player:GetTrinketRNG(mod.TRINKETS.OWL_FEATHER)
             if t_rng:RandomFloat() < 0.2 * player:GetTrinketMultiplier(mod.TRINKETS.OWL_FEATHER) then
                 familiar.SubType = LocustSubtypes.LOCUST_OF_WRATH
@@ -42,9 +42,9 @@ local function FlyInit(_, familiar)
                 return
             end
         end
-        flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
+        player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
         
-        if flag and player then
+        if player then
             local myRNG = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 
             local subtype = myRNG:RandomInt(5) + 1
@@ -61,8 +61,8 @@ local function FlyInit(_, familiar)
 end
 
 local function enemyDeath(_, enemy)
-    local flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
-    if flag and player then
+    local player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
+    if player then
         local rng = player:GetCollectibleRNG(mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT)
 
         local luck = player.Luck + (player:HasTrinket(TrinketType.TRINKET_TEARDROP_CHARM) and 3 or 0)
@@ -73,7 +73,7 @@ local function enemyDeath(_, enemy)
     end
 
     --[[local e_data = enemy:GetData()
-    flag, player = mod:GlobalPlayerHasCollectible(mod.ITEMS.PLAGUE_OF_WORMWOOD)
+    flag, player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.PLAGUE_OF_WORMWOOD)
     if flag and e_data.somethingWicked_bitterParent then
         local wf = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD, enemy.Position, Vector.Zero, e_data.somethingWicked_bitterParent)
         wf.Parent = e_data.somethingWicked_bitterParent
