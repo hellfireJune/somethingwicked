@@ -176,7 +176,7 @@ mod.TRINKETS.VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 mod.TRINKETS.ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
 mod.TRINKETS.PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print")
 mod.TRINKETS.SAMPLE_BOX = Isaac.GetTrinketIdByName("Sample Box")
-mod.TRINKETS.FLUKE_WORM = Isaac.GetItemIdByName("Fluke Worm")
+mod.TRINKETS.FLUKE_WORM = Isaac.GetTrinketIdByName("Fluke Worm")
 
 --CARDS
 SomethingWicked.CARDS = {}
