@@ -25,7 +25,7 @@ mod.addedCards = {
     }
 }
 local cardSpawnRules = {
-    [cType.CARDTYPE_THOTH] = 0--[[.4]],
+    [cType.CARDTYPE_THOTH] = 0.4,
     [cType.CARDTYPE_THOTH_REVERSED] = 0.6,
     [cType.CARDTYPE_FRENCH_PLAYING] = 0.6,
     [cType.CARDTYPE_RUNE_WICKEDMISC] = 1,
@@ -180,8 +180,9 @@ function mod:UseBoonCard(startID, targetID, player, useflags)
     end
     local slot = -1
     for i = 0, 1, 1 do
-        if player:GetCard(i) == startID then
+        if player:GetCard(i) == startID or player:GetCard(i) == 0 then
             slot = i
+            break
         end
     end
 
@@ -189,3 +190,9 @@ function mod:UseBoonCard(startID, targetID, player, useflags)
         player:SetCard(slot, targetID)
     end
 end
+
+--boon init
+function mod:AddBoon(card)
+    table.insert(mod.BoonIDs, card)
+end
+mod:AddBoon(mod.CARDS.MAGPIE_EYE_BOON)

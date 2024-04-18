@@ -42,6 +42,8 @@
     <!--bombs-->
     <entity anm2path="items/pick ups/bombs/void2.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="6" 
     collisionRadius="16" friction="1" id="4" name="Maw Bomb" numGridCollisionPoints="12" shadowSize="18" stageHP="0" variant="2761"/>
+    <entity anm2path="items/pick ups/bombs/void2.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="6" 
+    collisionRadius="16" friction="1" id="4" name="Blank Bomb" numGridCollisionPoints="12" shadowSize="18" stageHP="0" variant="2762"/>
 
     <!--effects-->
     <entity anm2path="effect_cursedfire.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="16" friction="1" id="1000" subtype="23" name="Cursed Flame" numGridCollisionPoints="12" shadowSize="0" stageHP="0" variant="10">
@@ -73,6 +75,9 @@
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
     </entity>
     <entity anm2path="effect_mandrakescreamlarge.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Mandrake Scream (Large)" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
+    </entity>
+    <entity anm2path="effect_mandrakescreamlarge.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Wicked Blank" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />    
     </entity>
     <entity anm2path="effect_tombstone_fog.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Tombstone Fog" numGridCollisionPoints="0" shadowSize="0" stageHP="0">
@@ -158,7 +163,7 @@
     <entity anm2path="familiar_devilsknife.anm2" baseHP="0" boss="0" champion="0" collisionDamage="15" collisionInterval="4" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Devilsknife" numGridCollisionPoints="12" shadowSize="10" stageHP="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
-    <entity anm2path="003.035_Sacrificial Dagger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="5" collisionInterval="4" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Little Attractor Familiar" numGridCollisionPoints="12" shadowSize="10" stageHP="0" tags="cansacrifice fly">
+    <entity anm2path="familiar_flyscreen.anm2" baseHP="0" boss="0" champion="0" collisionDamage="2" collisionInterval="2" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Fly Screen Familiar" numGridCollisionPoints="12" shadowSize="10" stageHP="0" tags="cansacrifice fly">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
     <entity anm2path="003.035_Sacrificial Dagger.anm2" baseHP="0" boss="0" champion="0" collisionDamage="5" collisionInterval="4" collisionMass="3" collisionRadius="10" friction="1" id="3" name="Cutie Fly" numGridCollisionPoints="12" shadowSize="10" stageHP="0" tags="cansacrifice fly">

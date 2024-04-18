@@ -5,4 +5,10 @@
         <rule includeFlags="22" back="wide_flame.anm2" />		
         <rule includeFlags="35" overlay="glitter_sparkle.anm2" />
     </bomb>
+    <bomb variant="2762"> <!--brimstone bombs-->
+		<rule body="void.anm2" />				
+        <rule includeFlags="125" suffix2="_gold" />
+        <rule includeFlags="22" back="wide_flame.anm2" />		
+        <rule includeFlags="35" overlay="glitter_sparkle.anm2" />
+    </bomb>
 </bombcostumes>

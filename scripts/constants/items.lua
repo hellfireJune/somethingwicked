@@ -35,7 +35,6 @@ SomethingWicked.ITEMS.BRAVERY = Isaac.GetItemIdByName("Bravery")
 SomethingWicked.ITEMS.NAGA_VIPER = Isaac.GetItemIdByName("Naga Viper")
 SomethingWicked.ITEMS.CAROLINA_REAPER = Isaac.GetItemIdByName("Carolina Reaper")
 SomethingWicked.ITEMS.CAT_FOOD = Isaac.GetItemIdByName("Cat Food") -- retouch
-SomethingWicked.ITEMS.CAT_TEASER = Isaac.GetItemIdByName("Cat Teaser")
 SomethingWicked.ITEMS.FUZZY_FLY = Isaac.GetItemIdByName("Fuzzy Fly") --unfinished
 SomethingWicked.ITEMS.CHAOS_HEART = Isaac.GetItemIdByName("Chaos Heart") -- entire redesign now
 SomethingWicked.ITEMS.CHASM = Isaac.GetItemIdByName("Chasm") --retouch
@@ -79,7 +78,7 @@ SomethingWicked.ITEMS.LEGION_ITEM = Isaac.GetItemIdByName("Legion") --unfinished
 SomethingWicked.ITEMS.DOUBLING_CHERRY = Isaac.GetItemIdByName("Doubling Cherry") -- unfinished, just needs item sprites and some minor anm2 stuff
 SomethingWicked.ITEMS.LIGHT_SHARD = Isaac.GetItemIdByName("Light Shard") -- unfinished, retouch maybe
 SomethingWicked.ITEMS.DARK_SHARD = Isaac.GetItemIdByName("Dark Shard") --same as above
-SomethingWicked.ITEMS.LITTLE_ATTRACTOR_ITEM = Isaac.GetItemIdByName("Little Attractor") -- unfinished
+SomethingWicked.ITEMS.FLY_SCREEN_ITEM = Isaac.GetItemIdByName("Fly Screen") -- unfinished
 SomethingWicked.ITEMS.LOURDES_WATER = Isaac.GetItemIdByName("Lourdes Water") -- fix two bugs
 SomethingWicked.ITEMS.LOVERS_MASK = Isaac.GetItemIdByName("Lover's Mask") -- retouch
 SomethingWicked.ITEMS.MAGIC_CLAY = Isaac.GetItemIdByName("Magic Clay") -- unfinished, i really like this one though finish it
@@ -95,7 +94,7 @@ SomethingWicked.ITEMS.PENDULUM = Isaac.GetItemIdByName("Pendulum") -- so close t
 SomethingWicked.ITEMS.PIECE_OF_SILVER = Isaac.GetItemIdByName("Piece of Silver") -- so close to finished
 SomethingWicked.ITEMS.PLANCHETTE = Isaac.GetItemIdByName("Planchette") -- maybe retouch
 SomethingWicked.ITEMS.PLASMA_GLOBE = Isaac.GetItemIdByName("Plasma Globe")
-SomethingWicked.ITEMS.PRESSURE_VALVE = Isaac.GetItemIdByName("Pressure Valve") -- unfinished. release with costume or die
+SomethingWicked.ITEMS.ASTIGMATISM = Isaac.GetItemIdByName("Astigmatism") -- unfinished. release with costume or die
 SomethingWicked.ITEMS.RAMS_HEAD = Isaac.GetItemIdByName("Ram's Head") -- add costume for the love of god
 SomethingWicked.ITEMS.RED_NIGHTMARE = Isaac.GetItemIdByName("Red") -- resprite and retouch
 SomethingWicked.ITEMS.RED_CAP = Isaac.GetItemIdByName("Red Cap") -- retouch, probably. maybe just costume
@@ -136,6 +135,8 @@ SomethingWicked.ITEMS.BOLTS_OF_LIGHT = Isaac.GetItemIdByName("Bolts of Light")
 SomethingWicked.ITEMS.ACTIVATED_CHARCOAL = Isaac.GetItemIdByName("Activated Charcoal")
 SomethingWicked.ITEMS.LIVING_WATER = Isaac.GetItemIdByName("Living Water")
 SomethingWicked.ITEMS.THE_SHRINKS = Isaac.GetItemIdByName("The Shrinks")
+SomethingWicked.ITEMS.ADDER_STONE = Isaac.GetItemIdByName("Adder Stone")
+SomethingWicked.ITEMS.STAR_OF_PROVIDENCE = Isaac.GetItemIdByName("Mazzaroth")
 
 --trinkets
 SomethingWicked.TRINKETS = {}
@@ -175,6 +176,7 @@ mod.TRINKETS.VOID_HEART = Isaac.GetTrinketIdByName("Void Heart") -- retouch rn
 mod.TRINKETS.ZZZZZZ_MAGNET = Isaac.GetTrinketIdByName("ZZZZZZ Magnet") -- unfinished
 mod.TRINKETS.PRINT_OF_INDULGENCE = Isaac.GetTrinketIdByName("Indulgence Print")
 mod.TRINKETS.SAMPLE_BOX = Isaac.GetTrinketIdByName("Sample Box")
+mod.TRINKETS.FLUKE_WORM = Isaac.GetItemIdByName("Fluke Worm")
 
 --CARDS
 SomethingWicked.CARDS = {}
@@ -194,6 +196,9 @@ mod.CARDS.THOTH_FORTUNE = Isaac.GetCardIdByName("Fortune")
 mod.CARDS.THOTH_LUST = Isaac.GetCardIdByName("Lust")
 mod.CARDS.THOTH_THE_MAGUS = Isaac.GetCardIdByName("TheMagus")
 
+mod.NULL = {}
+mod.NULL.LUSTEFFECT = Isaac.GetNullItemIdByName("lust null item")
+mod.NULL.VIATHAN = Isaac.GetNullItemIdByName("nullviathan")
 
 local itemPoolEnum = mod.ItemPools
 mod.CONST.POOLS = {
@@ -204,7 +209,6 @@ mod.CONST.POOLS = {
 }
 
 mod.CONST.DUMMYITEMS = {
-    LUST_NULLITEM = Isaac.GetItemIdByName("[sw] lust dummy helper"),
     BLANKBOOK_BOOKWORM = Isaac.GetItemIdByName("[sw] bookworm dummy item"),
     BLANKBOOK_GOLDEN = Isaac.GetItemIdByName("[sw] golden bookworm dummy item")
 }

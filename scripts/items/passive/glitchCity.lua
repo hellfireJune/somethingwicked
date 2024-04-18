@@ -19,7 +19,7 @@ local function PlayerUpdate(_, player)
         local rng = player:GetCollectibleRNG(mod.ITEMS.GLITCHCITY)
         if p_data.sw_glitchCityTimer < 0 then
             while p_data.sw_glitchCityTimer < 0 do
-                local target = mod.FamiliarHelpers:FindNearestVulnerableEnemy(player.Position)
+                local target = mod:FindNearestVulnerableEnemy(player.Position)
                 local randomPos = player.Position + RandomVector()*rng:RandomFloat()*200
                 if target and target.Position:Distance(player.Position) > 240 then
                     target = nil
@@ -115,7 +115,7 @@ local function EffectUpdate(_, effect)
         if pos:Distance(value.Position + value.Velocity) < 35 then
             value:Die()
         end
-        print(value.PositionOffset)
+        
         if pos:Distance(value.Position + value.PositionOffset + value.Velocity) < 35 then
             value:Die()
         end

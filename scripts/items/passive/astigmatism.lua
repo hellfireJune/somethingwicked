@@ -1,20 +1,13 @@
-local this = {}
 local mod = SomethingWicked
-
-mod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, function (_, player, flags)
-    if flags == CacheFlag.CACHE_FIREDELAY then
-        player.MaxFireDelay = mod.StatUps:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.PRESSURE_VALVE)* 0.4)
-    end
-end)
 
 local function ModifyVelocity(tear)
     local player = mod:UtilGetPlayerFromTear(tear)
-    if not player or not player:HasCollectible(mod.ITEMS.PRESSURE_VALVE) then
+    if not player or not player:HasCollectible(mod.ITEMS.ASTIGMATISM) then
         return
     end
 
-    local c_rng = player:GetCollectibleRNG(mod.ITEMS.PRESSURE_VALVE)
-    local speedMult = math.max(1, c_rng:RandomFloat() + (0.4*player:GetCollectibleNum(mod.ITEMS.PRESSURE_VALVE)))
+    local c_rng = player:GetCollectibleRNG(mod.ITEMS.ASTIGMATISM)
+    local speedMult = math.max(1, c_rng:RandomFloat() + (0.4*player:GetCollectibleNum(mod.ITEMS.ASTIGMATISM)))
     tear.Velocity = tear.Velocity * speedMult
     if tear.Type == EntityType.ENTITY_TEAR then
         tear.Height = tear.Height * (1 / speedMult)
@@ -37,10 +30,10 @@ local function FastenBombs(_, bomb)
 end
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, FastenBombs)
 
-this.EIDEntries = {
-    [mod.ITEMS.PRESSURE_VALVE] = {
-        desc = "+0.4 tears up#Tears will sometimes move faster",
+--[[this.EIDEntries = {
+    [mod.ITEMS.ASTIGMATISM] = {
+        desc = "+0.35 tears up#Tears will sometimes move faster",
         Hide = true,
     }
 }
-return this
+return this]]

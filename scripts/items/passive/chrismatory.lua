@@ -1,4 +1,5 @@
 local mod = SomethingWicked
+local sfx = SFXManager()
 
 local wisps = 8
 local angleOffset = 15
@@ -34,7 +35,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
                 t_data.sw_homingSpeed = 15*(c_rng:RandomFloat()/2+0.75)
                 t_data.sw_isChrisWisp = true
     
-                SomethingWicked:UtilAddTrueHoming(wisp, mod.FamiliarHelpers:FindNearestVulnerableEnemy(wisp.Position), 35, false)
+                SomethingWicked:UtilAddTrueHoming(wisp, mod:FindNearestVulnerableEnemy(wisp.Position), 35, false)
             end
             local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE, 0, shooter.Position + Vector(0, -(shooter.Size/2)), Vector.Zero, nil):ToEffect()
             fire.SpriteRotation = vector:GetAngleDegrees()
@@ -47,7 +48,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
                 player.Velocity = player.Velocity - (vector*(math.max(player.MaxFireDelay*0.5, 0)^0.8))
                 local color = Color(1, 1, 1, 1, 0.8, 0.8, 0.8)
                 player:SetColor(color, 10, 5, true, false)
-                mod.sfx:Play(SoundEffect.SOUND_JELLY_BOUNCE, 1, 0)
+                sfx:Play(SoundEffect.SOUND_JELLY_BOUNCE, 1, 0)
             end
         elseif isPlayer and c_rng:RandomFloat() < procChance(player) then
             p_data.sw_chrismatoryTick = 150

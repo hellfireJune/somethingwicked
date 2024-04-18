@@ -9,7 +9,7 @@ mod:AddNewTearFlag(SomethingWicked.CustomTearFlags.FLAG_BALROG_HEART, {
     ApplyLogic = function (_, player, tear) 
         return this:FireTear(player, tear)
     end,
-    AnyHitEffect = function (_, tear, pos)
+    EndHitEffect = function (_, tear, pos)
         this:TearOnHit(tear, pos)
     end,
     PostApply = function (_, tear)

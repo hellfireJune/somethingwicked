@@ -40,8 +40,9 @@ function mod:ElectroStunStatusUpdate(npc)
             --lightning:Update()
             --[[mod:UtilScheduleForUpdate(function ()
                 
-                print("init")
-            for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_LASER)) do
+            
+            for in
+            alue in ipairs(Isaac.FindByType(EntityType.ENTITY_LASER)) do
                 print(value.FrameCount)
                 if value.FrameCount <= 1 then
                     local l_data = laser:GetData()

@@ -6,13 +6,10 @@ SomethingWicked.TearFlagData = {}
     
     ApplyLogic: function
     EnemyHitEffect: function
-    AnyHitEffect: function
+    EndHitEffect: function
     PostApply: function
 
     OverrideGenericExplosion: function
-    isBombExclusiveTearFlag: boolean
-    bombSpritesheet:
-    drFetusChance:
 
     OverrideTearUpdate: function
         OverrideTearCollision: function
@@ -25,6 +22,7 @@ SomethingWicked.TearFlagData = {}
     TearVariant
     TearColor
     LaserColor
+    DontAddKnifeColor
     AquariusSpritesheet
 ]]
 function SomethingWicked:AddNewTearFlag(enumeration, initData)
@@ -89,8 +87,12 @@ local function GetTearColorFromFlags(tflags, isLaser)
     local idx = isLaser and "LaserColor" or "TearColor"
     if tflags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
-            if value[idx] and tflags & key > 0 then
-                color = color * value[idx]
+            local c = value[idx]
+            if c == nil and isLaser then
+                c = value.TearColor
+            end
+            if c and tflags & key > 0 then
+                color = color * c
             end
         end
     end
@@ -141,8 +143,8 @@ local function TearRemove(_, tear)
     end
     if t_data.somethingWicked_customTearFlags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
-            if value.AnyHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
-                value:AnyHitEffect(tear, tear.Position)
+            if value.EndHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
+                value:EndHitEffect(tear, tear.Position)
             end
         end
     end
@@ -172,18 +174,27 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, TearRemove, EntityType.ENTITY_TEAR)
 
-function mod:__callStatusEffects(collider, tear)
+function mod:__callStatusEffects(collider, tear, flags, pos, p)
     if not tear then
         return
     end
-    local t_data = tear:GetData()
-    if t_data.somethingWicked_customTearFlags == nil then
-        return
+    if not flags then
+        local t_data = tear:GetData()
+        if t_data.somethingWicked_customTearFlags == nil then
+            return
+        end
+        flags = t_data.somethingWicked_customTearFlags
     end
-    if t_data.somethingWicked_customTearFlags > 0 then
+    if not pos then
+        pos = tear.Position
+    end
+    if not p then
+        p = mod:UtilGetPlayerFromTear(tear)
+    end
+    if flags > 0 then
         for key, value in pairs(SomethingWicked.TearFlagData) do
-            if value.EnemyHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
-                value:EnemyHitEffect(tear, tear.Position, collider, mod:UtilGetPlayerFromTear(tear))
+            if value.EnemyHitEffect and flags & key > 0 then
+                value:EnemyHitEffect(tear, pos, collider, p)
             end
         end
     end
@@ -238,42 +249,64 @@ mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function ()
     end
 end)
 
-local function absVector(vector)
-    local X = math.abs(vector.X) local y = math.abs(vector.Y)
-    --[[if X > 0 then
-       X = math.ceil(X) 
-    end
-    if y > 0 then
-        y = math.ceil(y) 
-    end]]
-    --return Vector(X, y)
-    return vector
-end
-
 --lazars :)
 local function LaserHitEnemy(_, laser, enemy)
-    if not enemy:IsVulnerableEnemy() then
+    if enemy:IsVulnerableEnemy() then
         mod:__callStatusEffects(enemy, laser)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_LASER_COLLISION, LaserHitEnemy)
 
-local function PostFireLaser(_, laser)
+local function PostFireMisc(_, laser)
     local player = mod:UtilGetPlayerFromTear(laser)
     if player then
         local l_data = laser:GetData()
         local flags = GetTearFlagsToApply(player, laser)
         l_data.somethingWicked_customTearFlags = (l_data.somethingWicked_customTearFlags or 0) | flags
 
-        local t_color = GetTearColorFromFlags(flags, true)
+        local t_color = GetTearColorFromFlags(flags, laser.Type == EntityType.ENTITY_LASER)
         if t_color then
             laser.Color = laser.Color * t_color
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_BRIMSTONE, PostFireLaser)
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_LASER, PostFireLaser)
-mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_X_LASER, PostFireLaser)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_BRIMSTONE, PostFireMisc)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_LASER, PostFireMisc)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_TECH_X_LASER, PostFireMisc)
+mod:AddCallback(ModCallbacks.MC_POST_FIRE_BOMB, PostFireMisc)
+
+function mod:CheckEnemiesInExplosion(bomb, p)
+    if bomb.IsFetus then
+        local pos = bomb.Position
+        local flags = bomb:GetData().somethingWicked_customTearFlags
+        
+        mod:UtilScheduleForUpdate(function ()        
+            local explosions = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION)
+
+            local explosion
+            for index, value in ipairs(explosions) do
+                if value.FrameCount <= 1 and (pos - value.Position):Length() <= 1 then
+                explosion = value
+                    break
+                end
+            end
+
+            --i ctrl f'd explosion radius in the isaac discord because i knew if i tried to find it myself it would be slow, painful, and i would end up with an innacurate result
+            --https://discord.com/channels/123641386921754625/123961790529929218/946888588073775125 thank you kittenchilly
+            if explosion then
+                local bombScale = explosion.SpriteScale
+                local capsule = Capsule(pos, bombScale, 0, 75)
+
+                for index, value in ipairs(Isaac.FindInCapsule(capsule, EntityPartition.ENEMY)) do
+                    if value:IsVulnerableEnemy() then
+                        mod:__callStatusEffects(value, bomb, flags, pos, p)
+                    end
+                end
+                --print(explosion.SpriteScale, "is the size btw")
+            end
+        end, 1, ModCallbacks.MC_POST_UPDATE)
+    end
+end
 
 --[[local function LaserUpdate(_, laser) i wrote this all before i found out there is literally a laser collision callback LOL
     print(laser.FrameCount)

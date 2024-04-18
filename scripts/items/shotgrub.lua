@@ -13,7 +13,7 @@ mod.TFCore:AddNewTearFlag(mod.CustomTearFlags.FLAG_SHOTGRUB, {
             return true
         end
     end,
-    AnyHitEffect = function (_, tear, pos)
+    EndHitEffect = function (_, tear, pos)
         this:HitEnemy(tear, pos)
     end,
     TearColor = Color(0.4, 1, 0.4, 1)

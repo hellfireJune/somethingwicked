@@ -4,7 +4,7 @@ local sfx = SFXManager()
 
 local function PlayerUpdate(_, player)
     if mod:HoldItemUpdateHelper(player, mod.ITEMS.BALROGS_HEAD) then
-        local tear = player:FireTear(player.Position, (mod:GetUseDirection(player)), false, true, false)
+        local tear = player:FireTear(player.Position, (mod:UtilGetFireVector(player)), false, true, false)
         tear.Velocity = tear.Velocity * 1.5
         tear:ChangeVariant(head)
         local t_data = tear:GetData()

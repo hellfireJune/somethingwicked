@@ -29,7 +29,7 @@ local function PlayerUpdate(_, player)
 end
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
 
-function EffectUpdate(_, effect)
+local function EffectUpdate(_, effect)
     if effect.SubType == 1 then
         effect.Velocity = mod:Lerp(effect.Velocity, Vector.Zero, 0.2)
     end

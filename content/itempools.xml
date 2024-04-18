@@ -44,6 +44,8 @@
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fly Screen" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="The Shrinks" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -72,6 +74,7 @@
 		<Item Name="King in Yellow" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
 		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="curse">
@@ -84,6 +87,7 @@
 		<Item Name="Planchette" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wicked Ring" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="boss">
@@ -114,7 +118,7 @@
 		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
@@ -243,10 +247,11 @@
 		<Item Name="Apollyon's Crown" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Rogue planet" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Swords of Light" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fly Screen" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<!--Greed/Greedier mode-->
@@ -287,6 +292,8 @@
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fly Screen" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="The Shrinks" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -325,7 +332,7 @@
 		<Item Name="Book of Lucifer" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Void Egg" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Minos" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Solomon" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Solomon" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Void Bombs" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<!--<Item Name="Devil's Tail" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>-->
@@ -335,12 +342,14 @@
 		<Item Name="Wicked Ring" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Dis" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Dark Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
 		<Item Name="Void Egg" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Wrath" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<Item Name="Planchette" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedAngel">

@@ -8,7 +8,7 @@ local function genericWikiTable(id, desc)
     }
 end
 --not writing 99 null checks forgive me
-local encyclopediaLootPools = {
+local pools = {
   POOL_TREASURE = Encyclopedia and Encyclopedia.ItemPools.POOL_TREASURE or -1,
   POOL_SHOP = Encyclopedia and Encyclopedia.ItemPools.POOL_SHOP or -1,
   POOL_BOSS = Encyclopedia and Encyclopedia.ItemPools.POOL_BOSS or -1,
@@ -53,6 +53,9 @@ if EID then
     local curseIcon = Sprite()
     curseIcon:Load("gfx/somethingwicked_status_effects.anm2", true)
     EID:addIcon("SWCurseStatusIcon", "Curse", 0, 14, 14, 6, 4, curseIcon)
+
+    --[[local cardsSprite = Sprite()
+    cardsSprite:Load()]]
 end
 mod.GENERIC_DESCRIPTIONS = {
     CURSE = "#{{SWCurseStatusIcon}} Cursed enemies will take 1.5x damage, and will gain a slight slowing effect",
@@ -74,78 +77,78 @@ local collectibles = {
     [mod.ITEMS.AVENGER_EMBLEM] = {
         desc = "↑ {{Damage}} +1 Damage up",
         pools = {
-            encyclopediaLootPools.POOL_BOSS,
-            encyclopediaLootPools.POOL_GREED_BOSS
+            pools.POOL_BOSS,
+            pools.POOL_GREED_BOSS
         }
     },
     [mod.ITEMS.WOODEN_HORN] = {
         desc = "↑ {{Damage}} +0.5 Damage up#{{BlackHeart}} +1 Black Heart",
         pools = {
-            encyclopediaLootPools.POOL_BOSS,
-            encyclopediaLootPools.POOL_GREED_BOSS,
-            encyclopediaLootPools.POOL_WOODEN_CHEST
+            pools.POOL_BOSS,
+            pools.POOL_GREED_BOSS,
+            pools.POOL_WOODEN_CHEST
         }
     },
     [mod.ITEMS.SILVER_RING] = {
         desc = "↑ {{Damage}} +0.3 Damage up#↑ {{Damage}} +10% Damage Multiplier",
         pools = {
-            encyclopediaLootPools.POOL_GOLDEN_CHEST,
-            encyclopediaLootPools.POOL_CRANE_GAME,
+            pools.POOL_GOLDEN_CHEST,
+            pools.POOL_CRANE_GAME,
         },
     },
     [mod.ITEMS.WHITE_ROSE] = {
         desc = "↑ {{Tears}} +0.4 Tears up#{{SoulHeart}} +1 Soul Heart#↑ Spawns four {{Collectible584}} Book of Virtues wisps on pickup",
         pools = {
-            encyclopediaLootPools.POOL_BOSS,
-            encyclopediaLootPools.POOL_GREED_BOSS,
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_GREED_ANGEL
+            pools.POOL_BOSS,
+            pools.POOL_GREED_BOSS,
+            pools.POOL_TREASURE,
+            pools.POOL_ANGEL,
+            pools.POOL_GREED_ANGEL
         },
     },
     [mod.ITEMS.WICKED_SOUL] = {
         desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up#↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_CURSE,
+            pools.POOL_GREED_TREASURE,
         },
     },
     [mod.ITEMS.BOTTLE_OF_SHAMPOO] = {
         desc = "↑ {{Tears}} +0.5 Tears up#↑ {{Speed}} +0.3 Speed up",
         pools = {
-            encyclopediaLootPools.POOL_BOSS,
-            encyclopediaLootPools.POOL_GOLDEN_CHEST,
-            encyclopediaLootPools.POOL_GREED_BOSS
+            pools.POOL_BOSS,
+            pools.POOL_GOLDEN_CHEST,
+            pools.POOL_GREED_BOSS
         }
     },
     [mod.ITEMS.D_STOCK] = {
         desc = "{{Shop}} Restocks the current shop if used inside a shop#Will also similarly restock {{DevilRoom}} Devil Deals and {{Collectible586}} Stairway shops",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
         },
     },
     [mod.ITEMS.LANKY_MUSHROOM] = {
         desc = "↑ {{Damage}} +0.7 Damage up#↓ {{Tears}} -0.4 Tears down#↑ {{Range}} 0.75 Range up#Makes Isaac 50% taller and 25% thinner",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
-            encyclopediaLootPools.POOL_GREED_BOSS
+            pools.POOL_TREASURE,
+            pools.POOL_SECRET,
+            pools.POOL_GREED_TREASURE,
+            pools.POOL_GREED_BOSS
         }
     },
     [mod.ITEMS.ELECTRIC_DICE] = {
         desc = "↑ Has a chance to use an active item 1-2 more times on use",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP
         },
     },
     [mod.ITEMS.HELLFIRE] = {
         desc = "{{Collectible118}} On death, enemies have a chance to stay alive for slightly longer, then explode and fire 4 brimstone lasers in the cardinal directions#{{Luck}} Scales with luck",
-        pools = { encyclopediaLootPools.POOL_DEVIL, encyclopediaLootPools.POOL_ULTRA_SECRET,
-            encyclopediaLootPools.POOL_GREED_DEVIL}
+        pools = { pools.POOL_DEVIL, pools.POOL_ULTRA_SECRET,
+            pools.POOL_GREED_DEVIL}
     },
     [mod.ITEMS.CROWN_OF_BLOOD] = {
         desc = "!!! Enemies respawn at half health on death#↑ Room clear rewards will run twice#↑ +2 luck",
@@ -154,534 +157,557 @@ local collectibles = {
     [mod.ITEMS.OLD_URN] = {
         desc = "{{Card81}} Spawns 3 soul stones on pickup#{{Rune}} Will spawn runes if no soul stones are unlocked",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_GREED_SHOP,
-            encyclopediaLootPools.POOL_GREED_SECRET
+            pools.POOL_SHOP,
+            pools.POOL_SECRET,
+            pools.POOL_GREED_SHOP,
+            pools.POOL_GREED_SECRET
         }
     },
     [mod.ITEMS.RED_LOCKBOX] = {
         desc = "{{SoulHeart}} Spawns 4-6 soul hearts on pickup",
         pools = {
-            encyclopediaLootPools.POOL_RED_CHEST,
-            encyclopediaLootPools.POOL_DEMON_BEGGAR,
-            encyclopediaLootPools.POOL_KEY_MASTER,
-            encyclopediaLootPools.POOL_ULTRA_SECRET,
+            pools.POOL_RED_CHEST,
+            pools.POOL_DEMON_BEGGAR,
+            pools.POOL_KEY_MASTER,
+            pools.POOL_ULTRA_SECRET,
         },
     },
     [mod.ITEMS.ITEM_BOX] = {
         desc = "\1 Grants the effect of 4 random items for the current room",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_SECRET }
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_SECRET }
     },
     [mod.ITEMS.CURSED_MUSHROOM] = {
         desc = "Upon use, curses all enemies in the room for 7 seconds"..mod.GENERIC_DESCRIPTIONS.CURSE,
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_GREED_TREASURE,
         },
     },
     [mod.ITEMS.TRINKET_SMASHER] = {
         desc = "{{Trinket}} Destroys any held trinkets on use#Spawns 3-4 random pickups on trinket destroy#Increases the spawn rate of trinkets",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP
         }
     },
     [mod.ITEMS.STAR_SPAWN] = {
         desc = "↑ {{Damage} 1.2x Damage#↑ {{Tears}} 1.2x Tears#\1 On damage, applies a random multiplier to both tears and damage#Lowest multipler can be 0.5x, Highest multipler can be 2.4x",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_ULTRA_SECRET, encyclopediaLootPools.POOL_GREED_TREASURE }
+        pools = { pools.POOL_TREASURE, pools.POOL_CRANE_GAME,
+            pools.POOL_ULTRA_SECRET, pools.POOL_GREED_TREASURE }
     },
     [mod.ITEMS.BRAVERY] = {
         desc = "↑ 1.5x damage against bosses and champion enemies",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GOLDEN_CHEST,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_GOLDEN_CHEST,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_GREED_TREASURE,
         }
     },
     [mod.ITEMS.PLANCHETTE] = {
         desc = "↑ {{Collectible163}} All Wisps, Nightmares, and other ghost-like familiars have double HP and deal double damage#"
         .."{{Collectible584}} Spawns four unique Book of Virtues wisps on pickup#{{BlackHeart}} +1 Black Heart",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_GREED_CURSE
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
+            pools.POOL_CURSE,
+            pools.POOL_GREED_CURSE
         }
     },
     [mod.ITEMS.AIR_FRESHENER] = {
         desc = "While in combat, spawns tears around you which home onto nearby enemies",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
         }
     },
         [mod.ITEMS.ENCYCLOPEDIA] = {
             desc = "↑ Bonus 33% chance to spawn a {{Library}} Library on new floor entry while held#{{Library}} Teleports the player to the Library on use# !!! Only charged if there is a library on the floor",
             pools = {
-                encyclopediaLootPools.POOL_LIBRARY,
-                encyclopediaLootPools.POOL_TREASURE
+                pools.POOL_LIBRARY,
+                pools.POOL_TREASURE
             }
         },
     [mod.ITEMS.PLASMA_GLOBE] = {
         desc = "{{Confusion}} Tears have a chance to confuse enemies for 2 seconds and cause them to shoot lightning out in random directions#{{Luck}} 100% chance at 14 Luck",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_GREED_TREASURE
         }
     },
     [mod.ITEMS.VOID_BOMBS] = {
         desc = "{{Bomb}} +5 bombs #{{Collectible399}} Isaac's bombs spawn a Maw of The Void ring upon exploding",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_BOMB_BUM
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_BOMB_BUM
         }
     },
     [mod.ITEMS.BOLINE] = {
         desc = "{{Collectible399}} Throws a Maw of the Void ring on use#Will also recharge on taking damage",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
         }
     }, 
     [mod.ITEMS.LOURDES_WATER] = {
         desc = "↑ Every room, a random rock will turn into an angellic statue#Standing inside the statue's aura grants:#↑ {{Damage}} +20% Damage#↑ {{Tears}} +150% Tears Multiplier#Homing tears#↑ Enemies that try to enter the aura will be damaged and repelled",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_ANGEL,
+            pools.POOL_TREASURE,
+            pools.POOL_ANGEL,
         }
     },
     [mod.ITEMS.BOOK_OF_EXODUS] = {
         desc = "{{Trinket}} Converts any trinkets to golden trinkets on use↑ While held, doubles all trinket spawns#↑ {{Luck}} +1 Luck while held",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
-            encyclopediaLootPools.POOL_LIBRARY
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
+            pools.POOL_LIBRARY
         }
     },
     [mod.ITEMS.WOODEN_DICE] = {
         desc = "{{Trinket}} Rerolls any trinkets on you, smelted or not, upon use#↑ While held, smelts one trinket upon entering a new floor#↑ {{Luck}} +1 Luck while held",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
         }
     },
     [mod.ITEMS.WICKERMAN] = {
         desc = "↑ Every floor will spawn a {{SacrificeRoom}} Sacrifice Room if possible#Spawns 2 red hearts on pickup",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_CRANE_GAME
+            pools.POOL_SHOP,
+            pools.POOL_CRANE_GAME
         }
     },
     [mod.ITEMS.APOLLYONS_CROWN] = {
         desc = "{{Collectible706}}Spawns 2-4 permanent abyss locusts as companions#Can rarely spawn unique locusts with the effects of other item's locusts",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_BABY_SHOP,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_DEVIL,
+            pools.POOL_BABY_SHOP,
+            pools.POOL_GREED_TREASURE
         }
     },
     [mod.ITEMS.TECH_MODULO] = {
         desc = "Firing a tear will fire two perpendicular half damage lasers at wherever the tear would land#↓ {{Damage}} -33.3% damage down",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_CRANE_GAME}
     },
     [mod.ITEMS.STRANGE_APPLE] = {
         desc = [[↑ Spawns a snake familiar that takes up half a grid of position and moves along the grid every 6 frames#
             Deals 10 damage from the head, 5 damage from the body, and does individual damage from every segment colliding]],
         pools = {
-            encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_ULTRA_SECRET, encyclopediaLootPools.POOL_BABY_SHOP,
-            encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_GREED_SECRET
+            pools.POOL_TREASURE, pools.POOL_SECRET,
+            pools.POOL_ULTRA_SECRET, pools.POOL_BABY_SHOP,
+            pools.POOL_GREED_TREASURE, pools.POOL_GREED_SECRET
         }
     },
     [mod.ITEMS.TIAMATS_DICE] = {
         desc = "Rerolls items into items from a random item pool, with a random cost",
         pools = {
-            encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_GREED_SECRET
+            pools.POOL_SECRET,
+            pools.POOL_GREED_SECRET
         }
     },
     [mod.ITEMS.CURSED_CREDIT_CARD] = {
         desc = "{{DevilRoom}} Buying a devil deal Item has a 50% chance to not cost hearts#Has less of a chance to activate on items with a bigger heart price#{{BlackHeart}} +1 Black Heart",
         pools = {
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_ULTRA_SECRET,
+            pools.POOL_CURSE,
+            pools.POOL_ULTRA_SECRET,
         },
         --encycloDesc = SomethingWicked:UtilGenerateWikiDesc({"Buying a Devil Deal Item has a "..(this.ProcChance * 100).."% chance to not cost hearts","Items which cost more hearts have less of a chance to work","Adds 1 black heart on pickup"})
     },
     [mod.ITEMS.RED_NIGHTMARE] = {
         desc = "Adds an extra {{UltraSecretRoom}} Ultra Secret Room to each floor#{{Card78}} Spawns 1-3 Cracked Keys",
-        pools = { encyclopediaLootPools.POOL_ULTRA_SECRET}
+        pools = { pools.POOL_ULTRA_SECRET}
     },
     [mod.ITEMS.FRUIT_MILK] = {
         desc = "Each one of Isaac's tears gets four different effects#↓ {{Damage}} x0.2 Damage multiplier",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE }
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
     },
     [mod.ITEMS.LANTERN_BATTERY] = {
         desc = "{{Battery}} 25% chance to give bonus charge on room clear or wave clear#Spawns a battery on pickup",
-        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_GREED_SHOP}
+        pools = { pools.POOL_SHOP, pools.POOL_GREED_SHOP}
     },
     [mod.ITEMS.OLD_DICE] = {
         desc = [[Upon use, rerolls the current item being picked up into a random passive item
             #Does nothing if you are not picking up an item
             #If dropped to pick up another active, can be used while you are picking up the active]],
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_SHOP,
-            encyclopediaLootPools.POOL_CRANE_GAME
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_SHOP,
+            pools.POOL_CRANE_GAME
         },
     },
     [mod.ITEMS.EDENS_HEAD] = {
         desc = "Uses a random throwable active item on use",
         encycloDesc = "Uses a random throwable active item on use",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE}
     },
     [mod.ITEMS.CURSED_CANDLE] = {
         desc = "Throws a flame on use which curses enemies for 6 seconds on contact"..mod.GENERIC_DESCRIPTIONS.CURSE,
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
         },
     },
     [mod.ITEMS.ABANDONED_BOX] = {
         desc = "{{Warning}} SINGLE USE {{Warning}}#Spawns a random familiar from the current room's item pool",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP
         }
     },
     [mod.ITEMS.RED_CAP] = {
         desc = "{{SoulHeart}} Picking up a soul heart with empty red hearts will convert it to red hearts, at a 2x rate#↑ {{Heart}} +2 Health up#+Heals 3 hearts on pickup#↓ {{Shotspeed}} -0.15 Shot Speed down#↓ {{Range}} -0.8 Range down",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET, encyclopediaLootPools.POOL_ULTRA_SECRET }
+        pools = { pools.POOL_TREASURE, pools.POOL_SECRET, pools.POOL_ULTRA_SECRET }
     },
     [mod.ITEMS.DADS_WALLET] = {
         desc = "{{Shop}} Allows Isaac to take 4 shop items for free#Charge corresponds to items left to take",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
-            encyclopediaLootPools.POOL_OLD_CHEST,
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
+            pools.POOL_OLD_CHEST,
         },
     },
     [mod.ITEMS.WICKED_RING] = {
         desc = "{{Battery}} Chance to shoot tears with increased damage that add charge to active items after doing enough damage#Damage needed per charge increases each floor#{{Luck}} Scales with luck",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_GREED_DEVIL
+            pools.POOL_DEVIL,
+            pools.POOL_CURSE,
+            pools.POOL_GREED_DEVIL
         }
     },
     [mod.ITEMS.WRATH] = {
         desc = "↑ Damaging an enemy will send out a tear that homes onto that enemy and deals 1/3 of your damage#{{BrokenHeart}} +3 Broken Hearts",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_GREED_CURSE,
-            encyclopediaLootPools.POOL_ULTRA_SECRET,
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_CURSE,
+            pools.POOL_GREED_CURSE,
+            pools.POOL_ULTRA_SECRET,
         },
     },
     [mod.ITEMS.ASSIST_TROPHY] = {
         desc = "\1 Grants the effect of a random familiar item for the current room",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_CRANE_GAME }
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_CRANE_GAME }
     },
     [mod.ITEMS.NIGHTSHADE] = {
         desc = "Spawns wisps with homing tears upon killing an enemy#These wisps are removed upon entering a new room, or after 4 seconds",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
+            pools.POOL_CRANE_GAME,
         }
     },
     [mod.ITEMS.LOVERS_MASK] = {
         desc = "{{Heart}} 30% chance to block any red heart damage#↑ Prevents the devil deal chance damage penalty",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE }
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
     },
     [mod.ITEMS.THREED_GLASSES] = {
+        name = "3D Glasses",
         desc = "↑ 25% chance to shoot 2 additional tears that deal half of your damage",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_GREED_TREASURE,
         }
     },
     [mod.ITEMS.STAR_OF_THE_BOTTOMLESS_PIT] = {
-        desc =  "↑ Converts all blue flies into locusts#↑ Chance to spawn a blue fly upon killing enemies",
+        desc =  "↑ Converts all blue flies into locusts#↑ Chance to spawn a blue fly upon killing enemies#{{Luck}} Scales with Luck",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_GREED_ANGEL
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_ANGEL,
+            pools.POOL_GREED_ANGEL
         }
     },
     [mod.ITEMS.CHRISMATORY] = {
         desc = "Firing a tear has a chance to shoot out nine ghost tears that home in on enemies#Applies knockback and a greater tear cooldown after firing#Isaac will glow white if the next shot will shoot ghosts",
-        pools = { encyclopediaLootPools.POOL_ANGEL, encyclopediaLootPools.POOL_GREED_ANGEL }
+        pools = { pools.POOL_ANGEL, pools.POOL_GREED_ANGEL }
     },
     [mod.ITEMS.FITUS_FORTUNUS] = {
         desc = "↑ 33% chance to spawn a random pickup upon killing a champion",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GREED_SHOP,
+            pools.POOL_SHOP,
+            pools.POOL_GREED_SHOP,
         },
     },
     [mod.ITEMS.CROSSED_HEART] = {
         desc = "↑ {{Damage}} +0.7 Damage up#{{Heart}} Picking up a red heart has a 50% chance to heal for a bonus half red heart",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
+            pools.POOL_CRANE_GAME
         }
     },
     [mod.ITEMS.SUPERIORITY] = {
         desc = "↑ {{Damage}} +0.7 Damage for every enemy alive in the room, minus one#Caps at 7 enemies.",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
+            pools.POOL_CRANE_GAME,
         },
     },
     [mod.ITEMS.BOOK_OF_LUCIFER] = {
         desc = "↑ {{Damage}} +0.6 Damage for the current floor#↑ A bonus sin miniboss will appear on every floor outside of greed mode",
         
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_LIBRARY,
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_LIBRARY,
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_GREED_TREASURE
         },
     },
     [mod.ITEMS.CHASM] = {
         desc = "↑ Destroys all items in the rooms and gives the user a 10% chance to deal 2.6x damage on anything they fire# !!! No bonus for destroying over 10 items",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE
         }
     },
     [mod.ITEMS.CAT_FOOD] = {
         desc = "↑ {{Heart}} +1 Health#{{Heart}} Heals 1 heart#Boss rooms drop 5 half red hearts upon defeating the boss",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_BEGGAR,
+            pools.POOL_TREASURE,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_BEGGAR,
         }
     },
     [mod.ITEMS.CHAOS_HEART] = {
         desc = "{{Heart}} Heal 1 red heart#!!! After 5 uses, has a chance to do a {{Collectible483}} Mama Mega explosion for the current room, and remove the item#Guaranteed to explode at 9 uses",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_ULTRA_SECRET,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_ULTRA_SECRET,
+            pools.POOL_GREED_TREASURE,
         },
     },
     [mod.ITEMS.GOLDEN_CARD] = {
         desc = "Uses 1-2 random tarot cards#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW,
-        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_SECRET, 
-        encyclopediaLootPools.POOL_GREED_SHOP}
+        pools = { pools.POOL_SHOP, pools.POOL_SECRET, 
+        pools.POOL_GREED_SHOP}
     },
     [mod.ITEMS.BOOSTER_BOX] = {
         desc = "Killing an enemy has a chance to use a random tarot cards effect#Reduces the chance to use a card for the next 5 rooms on activation#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW,
-        pools = {encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_SECRET,
-        encyclopediaLootPools.POOL_GREED_TREASURE}
+        pools = {pools.POOL_TREASURE, pools.POOL_SECRET,
+        pools.POOL_GREED_TREASURE}
     },
     [mod.ITEMS.BIRETTA] = {
         desc = "A confessional spawns upon entering a new floor",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_ULTRA_SECRET
+            pools.POOL_SHOP,
+            pools.POOL_ANGEL,
+            pools.POOL_ULTRA_SECRET
         },
     },
     [mod.ITEMS.RAMS_HEAD] = {
         desc = "↑  {{Tears}} +0.5 Tears up#↑ {{Damage}} +0.7 Damage up",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_CRANE_GAME,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
-            encyclopediaLootPools.POOL_GREED_BOSS,
+            pools.POOL_TREASURE,
+            pools.POOL_CRANE_GAME,
+            pools.POOL_GREED_TREASURE,
+            pools.POOL_GREED_BOSS,
         }
     },
     [mod.ITEMS.TOYBOX] = {
         desc = "{{Warning}} SINGLE USE {{Warning}}#{{Trinket}} Smelts four random trinkets onto you",
         pools = {
-            encyclopediaLootPools.POOL_SHOP,
-            encyclopediaLootPools.POOL_GOLDEN_CHEST,
-            encyclopediaLootPools.POOL_KEY_MASTER,
-            encyclopediaLootPools.POOL_GREED_SHOP,
+            pools.POOL_SHOP,
+            pools.POOL_GOLDEN_CHEST,
+            pools.POOL_KEY_MASTER,
+            pools.POOL_GREED_SHOP,
         },
     },
     [mod.ITEMS.BALROGS_HEAD] = {
         desc = "Throwable fire bomb#Spawns 4 fires which do 23 damage, and 1 fire which does 50 damage",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE
         },
     },
     [mod.ITEMS.MINOS_ITEM] = {
         desc = "Spawns a snake familiar which charges at enemies you fire in the direction of",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_BABY_SHOP,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_ULTRA_SECRET
+            pools.POOL_DEVIL,
+            pools.POOL_BABY_SHOP,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_ULTRA_SECRET
         },
     },
     [mod.ITEMS.HYDRUS] = {
         desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE}
     },
     [mod.ITEMS.DEVILSKNIFE_ITEM] = {
         desc = "Spawns an orbiting knife familiar which will deal heavy contact damage and will oscillate in distance from the player",
-        pools = {encyclopediaLootPools.POOL_DEVIL, encyclopediaLootPools.POOL_GREED_DEVIL, 
-        encyclopediaLootPools.POOL_CURSE, encyclopediaLootPools.POOL_ULTRA_SECRET, 
-        encyclopediaLootPools.POOL_BABY_SHOP},
+        pools = {pools.POOL_DEVIL, pools.POOL_GREED_DEVIL, 
+        pools.POOL_CURSE, pools.POOL_ULTRA_SECRET, 
+        pools.POOL_BABY_SHOP},
     },
     [mod.ITEMS.VOID_EGG] = {
         desc = "Spawns 1-3 locusts on use# !!! Picking up a red heart while this item is uncharged will instead charge this item",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
-            encyclopediaLootPools.POOL_DEMON_BEGGAR,
-            encyclopediaLootPools.POOL_GREED_CURSE,
-            encyclopediaLootPools.POOL_CRANE_GAME
+            pools.POOL_DEVIL,
+            pools.POOL_CURSE,
+            pools.POOL_GREED_DEVIL,
+            pools.POOL_DEMON_BEGGAR,
+            pools.POOL_GREED_CURSE,
+            pools.POOL_CRANE_GAME
         }
     },
     [mod.ITEMS.SOLOMON_ITEM] = {
         desc = "{{Collectible712}} Spawns 1 Lemegeton wisp every 8 rooms",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_BABY_SHOP,
-            encyclopediaLootPools.POOL_GREED_DEVIL
+            pools.POOL_DEVIL,
+            pools.POOL_BABY_SHOP,
+            pools.POOL_GREED_DEVIL
         },
     },
     [mod.ITEMS.JUSTICE_AND_SPLENDOR] = {
         desc = "↑ Every 3 seconds, spawns 2 sword familiars that orbit the player that deal 45 contact damage per second#The swords will remain for 4 seconds after spawn#"..
         "The swords will stay permanently if Isaac has no damaged red heart containers, but will move slower when they would be gone",
-        pools = { encyclopediaLootPools.POOL_ANGEL, encyclopediaLootPools.POOL_BABY_SHOP, encyclopediaLootPools.POOL_GREED_ANGEL}
+        pools = { pools.POOL_ANGEL, pools.POOL_BABY_SHOP, pools.POOL_GREED_ANGEL}
     },
     [mod.ITEMS.GLITCHCITY] = {
         desc = "Periodically spawns \"Glitched Tiles\" while held, which destroy rocks, block projectiles and damage enemies"..
         "#!!! While held, every minute and a half, another random item held will turn into GLITCHCITY",
         pools = {
-            encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_GREED_SECRET
+            pools.POOL_SECRET,
+            pools.POOL_GREED_SECRET
         }
     },
     [mod.ITEMS.SPIDER_EGG] = {
         desc = "↑ Will spawn a spider egg every 5 seconds while Isaac is firing, which spawns a blue spider on landing",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_ROTTEN_BEGGAR,
-            encyclopediaLootPools.POOL_KEY_MASTER,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_ROTTEN_BEGGAR,
+            pools.POOL_KEY_MASTER,
+            pools.POOL_GREED_TREASURE,
         }
     },
     [mod.ITEMS.ROGUE_PLANET_ITEM] = {
         desc = "↑ {{Range}} +13 Range up#Spawns a planetoid orbital that your tears will orbit",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_BABY_SHOP,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_BABY_SHOP,
+            pools.POOL_GREED_TREASURE
         }
     },
     [mod.ITEMS.STAR_TREAT] = {
         desc = "↑ {{Heart}} +1 Health#{{Heart}} Heals 1 heart#↑ {{ShotSpeed}} +0.14 Shot Speed up",
         pools = {
-            encyclopediaLootPools.POOL_BOSS,
-            encyclopediaLootPools.POOL_GREED_BOSS,
+            pools.POOL_BOSS,
+            pools.POOL_GREED_BOSS,
         }
     },
     [mod.ITEMS.BOOK_OF_INSANITY] = {
         desc = "Spawns a Nightmare familiar upon use"..mod.GENERIC_DESCRIPTIONS.NIGHTMARES,
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_LIBRARY,
-            encyclopediaLootPools.POOL_GREED_TREASURE
+            pools.POOL_TREASURE,
+            pools.POOL_LIBRARY,
+            pools.POOL_GREED_TREASURE
         },
     },
     [mod.ITEMS.YELLOW_SIGIL] = {
         desc = "{{Collectible"..mod.ITEMS.BOOK_OF_INSANITY.."}} 50% chance to spawn a nightmare familiar for the current floor on damage"..mod.GENERIC_DESCRIPTIONS.NIGHTMARES,
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
         },
     },
     [mod.ITEMS.RELIQUARY] = {
         desc = "{{Heart}} Items that give heart containers also give +2 {{SoulHeart}} Soul Hearts and {{Tears}} +0.5 Tears up#{{SoulHeart}} +1 Soul Heart",
         pools = {
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_GREED_ANGEL
+            pools.POOL_ANGEL,
+            pools.POOL_GREED_ANGEL
         }
     },
     [mod.ITEMS.DIS] = {
-        desc = "Picking up an item will grant a temporary copy of another item for a minute",
+        desc = "Picking up an item will grant another temporary item for a minute",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL
         }
     },
     [mod.ITEMS.ACTIVATED_CHARCOAL] = {
         desc = "{{Collectible149}} Grants the effect of Ipecac for the current room",
         pools = {
-            encyclopediaLootPools.POOL_TREASURE,
-            encyclopediaLootPools.POOL_GREED_TREASURE,
+            pools.POOL_TREASURE,
+            pools.POOL_GREED_TREASURE,
         }
     },
     [mod.ITEMS.LIGHT_SHARD] = {
         desc = "Fire an additional homing tear at a faster rate but with reduced damage if Isaac has no damaged heart containers#{{EternalHeart}} +1 Eternal Heart",
         pools = {
-            encyclopediaLootPools.POOL_ANGEL,
-            encyclopediaLootPools.POOL_GREED_ANGEL,
+            pools.POOL_ANGEL,
+            pools.POOL_GREED_ANGEL,
         }
     },
     [mod.ITEMS.DARK_SHARD] = {
         desc = "Fire an additional homing tear at a faster rate but with reduced damage if Isaac has no red hearts#{{BlackHeart}} +1 Black Heart",
         pools = {
-            encyclopediaLootPools.POOL_DEVIL,
-            encyclopediaLootPools.POOL_GREED_DEVIL,
+            pools.POOL_DEVIL,
+            pools.POOL_GREED_DEVIL,
         }
     },
     [mod.ITEMS.DISCIPLES_EYE] = {
         desc = "{{UltraSecretRoom}} Reveals the Ultra Secret room#{{Card78}} 33% chance to spawn a cracked key upon using sacrifice rooms#{{Card78}} Spawns a cracked key on pickup",
         pools = {
-            encyclopediaLootPools.POOL_CURSE,
-            encyclopediaLootPools.POOL_SECRET,
-            encyclopediaLootPools.POOL_ULTRA_SECRET,
+            pools.POOL_CURSE,
+            pools.POOL_SECRET,
+            pools.POOL_ULTRA_SECRET,
         },
     },
     [mod.ITEMS.CAROLINA_REAPER] = {
         desc = "Chance to shoot a cursing purple fire, which gives enemies the cursed status effect#Cursed enemies take 1.5x damage#{{Luck}} 50% chance to fire at 10 luck",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE}
     },
     [mod.ITEMS.NAGA_VIPER] = {
         desc = "Chance to shoot green fires, which explode on contact#{{Luck}} 50% chance to fire at 10 luck",
-        pools = { encyclopediaLootPools.POOL_TREASURE, encyclopediaLootPools.POOL_GREED_TREASURE, encyclopediaLootPools.POOL_RED_CHEST}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_RED_CHEST}
     },
     [mod.ITEMS.GOLDEN_WATCH] = {
         desc = "!!! Buying anything from the shop will destroy this item#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up",
-        pools = { encyclopediaLootPools.POOL_SHOP, encyclopediaLootPools.POOL_GREED_SHOP }
+        pools = { pools.POOL_SHOP, pools.POOL_GREED_SHOP }
     },
     [mod.ITEMS.ACHERON] = {
         Hide = true,
         desc = "",
     },
     [mod.ITEMS.BOOK_OF_LEVIATHAN] = {
-        desc = "",
+        name = "Book of Leviathan",
+        desc = "{{CurseBlind}} Cannot be used on floors without curses#{{BlackHeart}} +1 Black Heart#\1 {{Tears}} +0.5 Tears up for the current floor#\1 {{Speed}} +0.1 Speed up for the current floor",
+        pools = { pools.POOL_CURSE, pools.POOL_LIBRARY, pools.POOL_GREED_DEVIL, pools.POOL_GREED_CURSE},
+    },
+    [mod.ITEMS.GANYMEDE] = {
+        name = "Ganymede",
         Hide = true,
-    }
+        desc = "",
+    },
+    [mod.ITEMS.FLY_SCREEN_ITEM] = {
+        desc = "Bounces around the room#Deals contact damage and attracts enemies and pickups",
+        pools = {pools.POOL_TREASURE, pools.POOL_BABY_SHOP, pools.POOL_GREED_TREASURE }
+    },
+    [mod.ITEMS.THE_SHRINKS] = {
+        desc = "{{Collectible598}} Grants the effect of Pluto for the current room upon taking damage",
+        pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
+    },
+    [mod.ITEMS.CURSE_MASK] = {
+        desc = "{{CursedRoom}} Blocks all damage from Curse Rooms#{{Heart}} Curse Rooms heal upon entering for the first time",
+        Hide = true,
+    },
+    [mod.ITEMS.ADDER_STONE] = {
+        desc = "\1 {{Luck}} +1 Luck up#Spawns a Stone of the Pit",
+        Hide = true,
+    },
 }
 
 for index, value in pairs(collectibles) do
     --print(index, value.desc)
     if EID then
-        EID:addCollectible(index, value.desc)
+        EID:addCollectible(index, value.desc, value.name)
     end
 
     if Encyclopedia and Encyclopedia.EIDtoWiki then --/shrug
@@ -839,6 +865,15 @@ local cards = {
     },
     [mod.CARDS.THE_GAME] = {
         desc = "{{Card}} Spawns 3 playing cards on use"
+    },
+    [mod.CARDS.MAGPIE_EYE] = {
+        desc = "!!! Upon using this card, this card will become undroppable, and cannot be swapped out#While holding the used card, grants the effects of both {{Collectible414}}More Options and {{Collectible249}}There's Options#Using the card again will remove it"
+    },
+    [mod.CARDS.MAGPIE_EYE_BOON] = {
+        desc = "Grants the effects of both {{Collectible414}} More Options and {{Collectible249}} There's Options while held#Cannot be dropped or swapped out"
+    },
+    [mod.CARDS.THOTH_LUST] = {
+        desc = "{{Collectible313}} Grants the effect of Holy Mantle for 6 rooms"
     }
 }
 for index, value in pairs(cards) do

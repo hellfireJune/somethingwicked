@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 local game = Game()
 
-local function GetFamiliarFromPool(_, pool, room)
+local function GetFamiliarFromPool(pool, room)
     local itemConfig = Isaac.GetItemConfig()
     
     local poolType = pool:GetPoolForRoom(room:GetType(), room:GetAwardSeed())

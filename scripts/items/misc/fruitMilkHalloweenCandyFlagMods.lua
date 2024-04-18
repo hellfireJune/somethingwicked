@@ -14,10 +14,16 @@ local flagsBlacklist = {
     --removed because theyre annoying and nobody likes them, didnt want to do this soz
     TearFlags.TEAR_ORBIT,
     TearFlags.TEAR_BIG_SPIRAL,
+    --blame sin (he's right though)
+    TearFlags.TEAR_CARD_DROP_DEATH,
+    TearFlags.TEAR_RUNE_DROP_DEATH,
+    TearFlags.TEAR_MIDAS,
+    TearFlags.TEAR_COIN_DROP_DEATH
 }
 local rarerFlags = {
     TearFlags.TEAR_NEEDLE,
-    TearFlags.TEAR_LASERSHOT
+    TearFlags.TEAR_LASERSHOT,
+    TearFlags.TEAR_GREED_COIN
 }
 mod.quickTearFlagAdders = {
     [mod.TRINKETS.HALLOWEEN_CANDY] = {

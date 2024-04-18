@@ -4,7 +4,7 @@ local sfx = SFXManager()
 
 local thingsToCheck = {}
 
-local function OnUpdate(pickup)
+local function OnUpdate()
     local frameCount = game:GetRoom():GetFrameCount()
     local pickingUp = false
     local allPlayers = mod:UtilGetAllPlayers()

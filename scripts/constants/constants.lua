@@ -16,6 +16,8 @@ EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitch
 EffectVariant.SOMETHINGWICKED_DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
 EffectVariant.SOMETHINGWICKED_BLACK_SALT = Isaac.GetEntityVariantByName("Black salt effect")
 EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA = Isaac.GetEntityVariantByName("Tiny Holy Aura")
+EffectVariant.SOMETHINGWICKED_BLANK = Isaac.GetEntityVariantByName("Wicked Blank")
+EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE = Isaac.GetEntityVariantByName("Mandrake Scream (Large)")
 
 TearVariant.SOMETHINGWICKED_GANYSPARK = Isaac.GetEntityVariantByName("Ganymede Spark Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
@@ -32,6 +34,7 @@ mod.CurseStatusColor = Color(1, 1, 1, 1, 0.1, 0, 0.3)
 mod.BitterStatusColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
 mod.DreadStatusColor = Color(1, 1, 1, 1, 0.4)
 mod.ElectroStunStatusColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
+SomethingWicked.SlowColour = Color(1.2,1.2,1.2,1,0.1,0.1,0.1)
 
 mod.ElectroStunTearColor = Color(1, 1, 1, 1, 0.4, 0.656, 0.8)
 mod.PlasmaGlobeBaseProc = 0.125
@@ -49,7 +52,7 @@ FamiliarVariant.SOMETHINGWICKED_PRISM_HELPER = Isaac.GetEntityVariantByName("Pri
 FamiliarVariant.SOMETHINGWICKED_LEGION = Isaac.GetEntityVariantByName("Legion Familiar") -- unfinished
 FamiliarVariant.SOMETHINGWICKED_LEGION_B = Isaac.GetEntityVariantByName("Legion Familiar B")
 FamiliarVariant.SOMETHINGWICKED_ALMOST_ISAAC = Isaac.GetEntityVariantByName("Cherry Isaac Familiar") -- unfinished
-FamiliarVariant.SOMETHINGWICKED_LITTLE_ATTRACTOR = Isaac.GetEntityVariantByName("Little Attractor Familiar") --unfinished
+FamiliarVariant.SOMETHINGWICKED_FLY_SCREEN = Isaac.GetEntityVariantByName("Fly Screen Familiar") --unfinished
 FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD = Isaac.GetEntityVariantByName("Minos (Head)")
 FamiliarVariant.SOMETHINGWICKED_MINOS_BODY = Isaac.GetEntityVariantByName("Minos (Body)")
 FamiliarVariant.SOMETHINGWICKED_MS_GONORRHEA = Isaac.GetEntityVariantByName("Ms. Gonorrhea") --unfinished

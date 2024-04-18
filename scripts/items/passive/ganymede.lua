@@ -145,20 +145,15 @@ function mod:ganymedeTearUpdate(tear)
         local pos = (tear.Position-ov)
 
         local lerp = mod:Clamp(1-1/g.velFrames*4, 0.1, 1)
-        local nPos = mod:Lerp(pos, pos+vel, lerp) -- make this a lerp :3
+        local nPos = mod:Lerp(pos, pos+vel, lerp)
         local uPos = mod:Lerp(Vector.Zero, vel, 1-lerp)
-
-        local dis = tear.Position - pos
-        local ang = mod:GetAngleDegreesButGood(dis) local len = dis:Length()
-        len = mod:Lerp(len, tear.Size+10, 0.1)
 
         g.orbSpeed = g.orbSpeed or 0
         g.orbSpeed = mod:Clamp((g.orbSpeed*1.5)+1, 1.1, maxSpinSpeed)
-        ang = ang + (g.orbSpeed * mod:GetAllMultipliedTearVelocity(tear) * 0.66)
+        g.orbSpeed = (g.orbSpeed * mod:GetAllMultipliedTearVelocity(tear) * 0.66)
+        local orbVec = mod:SmoothOrbitVec(tear, pos, tear.Size+10, g.orbSpeed)
 
         g.allUPos = (g.allUPos or Vector.Zero) + uPos
-        local orbVec = Vector.FromAngle(ang)*len
-
         local catchupVel = g.allUPos * lerp
         g.allUPos = g.allUPos - catchupVel
         tear.Velocity = (nPos+catchupVel)+orbVec - tear.Position

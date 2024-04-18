@@ -237,6 +237,7 @@ local c_ = "cards/"
 local midLoad = {
   m_.."itemPopup",
   m_.."d4TrackingAgain",
+  m_.."blanks",
 
   p_.."wickedSoul",
   a_.."dStock",
@@ -303,6 +304,11 @@ local midLoad = {
   p_.."boltsOfLight",
   p_.."livingWater",
   p_.."lightShardDarkShard",
+  a_.."bookOfLeviathan",
+  p_.."astigmatism",
+  p_.."curseMask",
+  p_.."starOfProvidence",
+  m_.."catTeaserFuzzyFly",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -390,13 +396,16 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(mod.ITEMS.WHITE_ROSE))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO))
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD) * 0.5)
-    player.MaxFireDelay = mod:TearsUp(player, 0.4 * effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LEVIATHAN))
+    player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.ASTIGMATISM)* 0.35)
+
+    player.MaxFireDelay = mod:TearsUp(player, 0.5 * effects:GetNullEffectNum(mod.NULL.VIATHAN))
     if p_data.WickedPData.reliqBuff then
         player.MaxFireDelay = mod:TearsUp(player, 0, p_data.WickedPData.reliqBuff*0.25)
     end
   end
   if flags == CacheFlag.CACHE_LUCK then
     player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult+goldenWatchMult+curseSoulMult))
+    player.Luck = player.Luck + player:GetCollectibleNum(mod.ITEMS.ADDER_STONE)
   end
   if flags == CacheFlag.CACHE_SPEED then
     player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult+goldenWatchMult))
@@ -404,7 +413,7 @@ function mod:EvaluateGenericStatItems(player, flags)
 
     player.MoveSpeed = player.MoveSpeed + player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO)*0.3
 
-    local leviathanBuff = effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LEVIATHAN)
+    local leviathanBuff = effects:GetNullEffectNum(mod.NULL.VIATHAN)
     leviathanBuff = math.min(leviathanBuff, 4)
     leviathanBuff = ((2^leviathanBuff)-1)/(2^leviathanBuff)/0.9375
     player.MoveSpeed = player.MoveSpeed + leviathanBuff*0.4
@@ -476,6 +485,9 @@ function mod:EvaluateGenericStatItems(player, flags)
     
     _, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.ROGUE_PLANET_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
+    
+    stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.FLY_SCREEN_ITEM)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_FLY_SCREEN, stacks, rng, source)
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
@@ -558,6 +570,13 @@ function mod:useItemGeneric(id, rng, player, flags)
   if id == mod.ITEMS.VOID_EGG then
     mod:AddLocusts(player, rng:RandomInt(3) + 2, rng) return true
   end
+
+  if id == mod.ITEMS.BABY_MANDRAKE then
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE, 0, player.Position, Vector.Zero, player)
+    sfx:Play(SoundEffect.SOUND_MULTI_SCREAM)
+
+    return true
+  end
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, mod.useItemGeneric)
 
@@ -569,14 +588,33 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, pl
   if pEffects:HasCollectibleEffect(mod.ITEMS.THE_SHRINKS) then
     mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_PLUTO)
   end
+  if pEffects:HasNullEffect(mod.NULL.LUSTEFFECT) then
+    mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+  end
+
+  if (player:GetCard(0) == mod.CARDS.MAGPIE_EYE_BOON or player:GetCard(1) == mod.CARDS.MAGPIE_EYE_BOON) then
+    mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_THERES_OPTIONS)
+    mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS)
+  end
 end)
 
-function mod:useCardGeneric(id, player)
+function mod:useCardGeneric(id, player, useflags)
   if id == mod.CARDS.STONE_OF_THE_PIT then    
     sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
     local trinket = game:GetItemPool():GetTrinket()
     player:AnimateTrinket(trinket, "Pickup")
     mod:UtilAddSmeltedTrinket(trinket, player)
+    return
+  end
+  if id == mod.CARDS.MAGPIE_EYE then
+    mod:UseBoonCard(mod.CARDS.MAGPIE_EYE, mod.CARDS.MAGPIE_EYE_BOON, player, useflags)
+    return
+  end
+  
+  local pEffects = player:GetEffects()
+  if id == mod.CARDS.THOTH_LUST then
+    --player:AddSoulHearts(1)
+    pEffects:AddNullEffect(mod.NULL.LUSTEFFECT, 6)
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_CARD, mod.useCardGeneric)
@@ -596,6 +634,8 @@ function mod:peffectGenericUpdate(player)
   if p_data.WickedPData.queueNextItemBox and player.QueuedItem.Item == nil then
     p_data.WickedPData.queueNextItemBox = false
   end
+
+  mod:SOPPlayerUpdate(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.peffectGenericUpdate)
 
@@ -606,17 +646,24 @@ function mod:GenericOnPickups(player, room, id)
     end
     return
   end
+  local getPos = function ()
+    room:FindFreePickupSpawnPosition(player.Position)
+  end
   if id == mod.ITEMS.RED_LOCKBOX then
     local c_rng = player:GetCollectibleRNG(mod.ITEMS.RED_LOCKBOX)
     for i = 1, 4 + c_rng:RandomInt(3), 1 do
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)  
+        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, getPos(), Vector.Zero, player)  
     end
     return
   end
   if id == mod.ITEMS.WICKERMAN then
     for i = 1, 2, 1 do
-      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player)
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_FULL, getPos(), Vector.Zero, player)
     end
+    return
+  end
+  if id == mod.ITEMS.ADDER_STONE then
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, mod.CARDS.STONE_OF_THE_PIT, getPos(), Vector.Zero, player)
     return
   end
   mod:OldUrnPickup(player, room, id)
@@ -750,6 +797,7 @@ function mod:OnNewRoom()
       
       local hasSpawnedBirettaYet, hasSpawnedWickermanYet, shouldGenRoom = false, false, mod:GenericShouldGenerateRoom(level, game)
       for _, player in ipairs(mod:UtilGetAllPlayers()) do
+        player:GetData().WickedPData.CurseRoomsHealedOff = {}
         if player:HasCollectible(mod.ITEMS.WOODEN_DICE) then
           player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
         end
@@ -780,6 +828,8 @@ function mod:OnNewRoom()
             end
           end
         end
+        local ceffects = player:GetEffects()
+        ceffects:RemoveNullEffect(mod.NULL.VIATHAN, -1)
       end
 
       for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, mod.NightmareSubTypes.NIGHTMARE_FLOORONLY)) do
@@ -823,6 +873,9 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
 
   local abyssLocusts = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ABYSS_LOCUST)
   for _, player in ipairs(mod:UtilGetAllPlayers()) do
+    local pEffects = player:GetEffects()
+    pEffects:RemoveNullEffect(mod.NULL.LUSTEFFECT, 1)
+
     mod:DestroyCrownLocustsWithInitSeeds(nil, abyssLocusts, player)
 
     if player:HasTrinket(mod.TRINKETS.NIGHTMARE_FUEL) then
@@ -871,7 +924,11 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
     end
 
     local ceffects = p:GetEffects()
-    ceffects:RemoveCollectibleEffect(mod.ITEMS.BOOK_OF_LEVIATHAN, -1)
+    --mod:BookOfLeviathanOnDamage(p, ceffects)
+    if ceffects:HasNullEffect(mod.NULL.LUSTEFFECT) then
+      sfx:Play(SoundEffect.SOUND_THUMBS_DOWN)
+      ceffects:RemoveNullEffect(mod.NULL.LUSTEFFECT, -1)
+    end
     if p:HasCollectible(mod.ITEMS.THE_SHRINKS) then
       if not ceffects:HasCollectibleEffect(mod.ITEMS.THE_SHRINKS) then
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, p.Position, Vector.Zero, p)
@@ -897,13 +954,26 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_TAKE_DMG, mod.PostEntityTakeDMG)
 
+function mod:PreEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
+  if not ent then
+    return
+  end
+  local p = ent:ToPlayer()
+  if p then
+    if p:HasCollectible(mod.ITEMS.STAR_OF_PROVIDENCE) and flags & DamageFlag.DAMAGE_EXPLOSION ~= 0 then
+      return false
+    end
+  end
+end
+mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.PreEntityTakeDMG)
+
 function mod:OnUsePill(effect, player)
   if player:HasTrinket(mod.TRINKETS.SUGAR_COATED_PILL) then
     mod.save.runData.sugarCoatedPillEffect = effect
     player:TryRemoveTrinket(mod.TRINKETS.SUGAR_COATED_PILL)
 
     sfx:Play(SoundEffect.SOUND_VAMP_GULP)
-end
+  end
 end
 mod:AddCallback(ModCallbacks.MC_USE_PILL, mod.OnUsePill)
 
@@ -916,7 +986,8 @@ end
 mod:AddCallback(ModCallbacks.MC_GET_PILL_EFFECT, mod.GetPillEffect)
 
 local bombVariants = {
-  [2761] = { mod.ITEMS.VOID_BOMBS, "sw_isVoidBomb" }
+  [2761] = { mod.ITEMS.VOID_BOMBS, "sw_isVoidBomb" },
+  [2762] = { mod.ITEMS.STAR_OF_PROVIDENCE, "sw_isBlankBomb" }
 }
 function mod:BombInit(bomb)
   local p = bomb.SpawnerEntity
@@ -954,9 +1025,10 @@ function mod:BombUpdate(bomb)
     local b_s = bomb:GetSprite()
     if b_s:IsPlaying("Explode") then
       --void bombs
+      mod:CheckEnemiesInExplosion(bomb, p)
       if b_data.sw_isVoidBomb then
         local c_rng = p:GetCollectibleRNG(mod.ITEMS.VOID_BOMBS)
-        if not bomb.IsFetus or (c_rng:RandomFloat() > 0.2 + (0.026 * p.Luck)) then
+        if not bomb.IsFetus or (c_rng:RandomFloat() < 0.15 + (0.026 * p.Luck)) then
           local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, p)
           local void = Isaac.Spawn(EntityType.ENTITY_LASER, LaserVariant.THICK_RED, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, p)
           void=void:ToLaser()
@@ -977,12 +1049,19 @@ function mod:BombUpdate(bomb)
           sfx:Play(SoundEffect.SOUND_MAW_OF_VOID, 1, 0)
         end
       end
+      if b_data.sw_isBlankBomb then
+        mod:SoPBombExplode(bomb, p)
+      end   
+    else
+      if b_data.sw_isBlankBomb then
+        mod:SoPBombUpdate(bomb, p)
+      end
     end
   end
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, mod.BombUpdate)
 
 
-local function BossRoomClear(pos)
+local function BossRoomClear(_, pos)
   local player = PlayerManager.FirstCollectibleOwner(mod.ITEMS.CAT_FOOD)
   if player then
       local numCatFood = PlayerManager.GetNumCollectibles(mod.ITEMS.CAT_FOOD)
@@ -993,6 +1072,14 @@ local function BossRoomClear(pos)
 end
 
 mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, BossRoomClear)
+
+--flyscreen
+SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
+  familiar:MoveDiagonally(1)
+  game:UpdateStrangeAttractor(familiar.Position)
+end, FamiliarVariant.SOMETHINGWICKED_FLY_SCREEN)
+
+--baby mandrake
 
 --[[local itemsToLoad = {
   "legion",
@@ -1011,7 +1098,6 @@ mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, Bo
   "bloodhail",
   "voidscall",
   "screwattack",
-  "pressurevalve",
   "pendulum",
   "yoyo",
   "pieceofsilver",
@@ -1026,7 +1112,6 @@ mod:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_BOSS_ROOM_CLEARED, Bo
   %-"fetusinfetu",
   "facestabber",
   "fearstalkstheland",
-  "bookofleviathan",
   "marblesprouttaskmanager",
   "babymandrake",
   "icewand",

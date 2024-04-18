@@ -20,7 +20,7 @@ local function HeadInit(familiar)
 end
 
 
-local function HeadMovementFunc(familiar, state, target, player)
+local function MinosHeadMovementFunc(familiar, state, target, player)
     local f_data = familiar:GetData()
     local f_rng = familiar:GetDropRNG()
     f_data.somethingWicked_SpeedMult = f_data.somethingWicked_SpeedMult or 1
@@ -90,7 +90,7 @@ local function HeadUpdate(_, familiar)
 
     local player = familiar.Player
     local f_sprite = familiar:GetSprite()
-    familiar.State = HeadMovementFunc(familiar, familiar.State, familiar.Target, player)
+    familiar.State = MinosHeadMovementFunc(familiar, familiar.State, familiar.Target, player)
     if familiar.State == 0 or familiar.State == 1 then
         familiar.State = ((familiar.Target ~= nil and familiar.Target:Exists()) and 2 or 1)
     elseif familiar.State == 3 then 
@@ -205,8 +205,9 @@ SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, BodyInit, FamiliarVar
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, BodyUpdate, FamiliarVariant.SOMETHINGWICKED_MINOS_BODY)
 
 SomethingWicked.SnakeTearType = {
-    SNAKE_HYDRUS = 1,
-    SNAKE_HYDRA = 2,
+    SNAKE_ITEM = 1,
+    SNAKE_STANDALONE_PLAYER = 2,
+    SNAKE_STANDALONE_NONPLAYER = 3,
 }
 --Hydrus
 local function GetHead(tear)
@@ -238,67 +239,24 @@ local function GetSnakeTearLength(tear, alsoGetHead)
     end
 end
 
-local minHydraSnakes = 1
-local maxHydraSnakes = 4
-local hydraLength = 5
-local flagsToClearIfOnBody = TearFlags.TEAR_WIGGLE | TearFlags.TEAR_SPIRAL | TearFlags.TEAR_ORBIT| TearFlags.TEAR_SQUARE| TearFlags.TEAR_BIG_SPIRAL|
- TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_TURN_HORIZONTAL| TearFlags.TEAR_LUDOVICO
-local function MakeTearSnake(player, p_data, type, dmgMult, length, lastTear)
-    local pos = player.Position
-    if lastTear then
-        if not lastTear:Exists() then
-            return
-        end
-        pos = lastTear.Position
+local function SnakeMovementFunc(tear, player)
+    mod:WibbleWobbleTearUpdate(tear, true)
+    local t_data = tear:GetData()
+    tear.Velocity = tear.Velocity - t_data.sw_wobbleLastVector
+    --print(tear.Velocity)
+    if tear.Target ~= nil then
+        
     else
-        if type == SomethingWicked.SnakeTearType.SNAKE_HYDRA and #p_data.somethingwicked_HydraTears > maxHydraSnakes then
-            return
-        end 
+        local oVec = mod:SmoothOrbitVec(tear, player.Position, 60, tear.Velocity:Length())
+        mod:AngularMovementFunction(tear, player.Position+oVec, MoveSpeed*mod:GetAllMultipliedTearVelocity(tear), 30, 0.7)
     end
-    local newLength = 0
-    
-    local nt = player:FireTear(pos, Vector(1, 0), false, false, false, nil, dmgMult)
-    nt.Scale = nt.Scale * 1.25
-    nt:AddTearFlags(TearFlags.TEAR_SPECTRAL)
-    nt:ClearTearFlags(TearFlags.TEAR_PIERCING)
-
-    local ntd = nt:GetData()
-    ntd.snakeTearData = {}
-    ntd.snakeTearData.type = type
-    if lastTear then
-        nt.Position = nt.Position - lastTear.Velocity
-        nt.Parent = lastTear
-        lastTear.Child = nt
-        nt:ClearTearFlags(flagsToClearIfOnBody)
-        if type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
-            nt:AddTearFlags(TearFlags.TEAR_SHIELDED)
-        end
-    else
-        nt.Parent = nil
-        ntd.snakeTearData.isHead = true
-        if type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
-            p_data.somethingwicked_HydrusTear = nt 
-            nt:AddTearFlags(TearFlags.TEAR_HOMING)
-        else
-            table.insert(p_data.somethingwicked_HydraTears, nt) 
-            nt:AddTearFlags(TearFlags.TEAR_ORBIT_ADVANCED)
-        end
-    end
-
-    newLength = GetSnakeTearLength(nt, true)
-    if newLength < length then
-        SomethingWicked:UtilScheduleForUpdate(function ()
-            MakeTearSnake(player, p_data, type, dmgMult, length, nt)
-        end, 3, ModCallbacks.MC_POST_UPDATE)
-    end
+    tear.Velocity = tear.Velocity + t_data.sw_wobbleLastVector
 end
+
+local headFlags = TearFlags.TEAR_HOMING-- | TearFlags.TEAR_WIGGLE
 local function HydrusTearUpdate(_, tear)
     local t_data = tear:GetData()
-    if t_data.snakeTearData == nil then
-        return
-    end
     local s = tear.SpawnerEntity
-    local s_data = s:GetData()
     local ret = Retribution
     if ret and ret.HasRetributionTearFlags(tear, ret.TEARFLAG.MILK_TOOTH) then
         ret.ClearRetributionTearFlags(tear, ret.TEARFLAG.MILK_TOOTH)
@@ -313,26 +271,23 @@ local function HydrusTearUpdate(_, tear)
         end
         t_data.snakeTearData.isHead = true
 
-        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
-            tear:AddTearFlags(TearFlags.TEAR_HOMING)
-        else
-            if #s_data.somethingwicked_HydraTears > maxHydraSnakes then
-                tear:Remove()
-            end
-            table.insert(s_data.somethingwicked_HydraTears, tear)
+        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_ITEM then
+            tear:AddTearFlags(headFlags)
         end
+    end
+    if tear.FrameCount >= 2 then
+        t_data.snakeTearData.render = true
     end
 
     CachedRoom = CachedRoom or game:GetRoom()
     local rf = CachedRoom:GetFrameCount()
     if t_data.snakeTearData.isHead then
-        t_data.snakeTearData.state = HeadMovementFunc(tear, t_data.snakeTearData.state, tear.Target, tear.SpawnerEntity)
+        SnakeMovementFunc(tear, s)
         if tear.Velocity:Length() == 0 then
             tear.Velocity = Vector(0,1)
         end
-        tear.Velocity = tear.Velocity:Resized(MoveSpeed)
 
-        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRA then
+        --[[if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRA then
             local length, lastTear = GetSnakeTearLength(tear)
             if lastTear ~= nil then
                 t_data.snakeTearData.hydraRegenCooldown = (t_data.snakeTearData.hydraRegenCooldown or 15) - 1
@@ -340,11 +295,11 @@ local function HydrusTearUpdate(_, tear)
                 and t_data.snakeTearData.hydraRegenCooldown <= 0 then
                     t_data.snakeTearData.hydraRegenCooldown = nil
 
-                    MakeTearSnake(s:ToPlayer(), s_data, SomethingWicked.SnakeTearType.SNAKE_HYDRA, 0.5, length + 1, lastTear)
+                    mod:MakeTearSnake(s:ToPlayer(), s_data, SomethingWicked.SnakeTearType.SNAKE_HYDRA, 0.5, length + 1, lastTear)
                 end
 
             end
-        end
+        end]]
     else
         local p_data = tear.Parent:GetData()
         if p_data.snakeTearData and p_data.snakeTearData.posFramesTable then
@@ -353,13 +308,74 @@ local function HydrusTearUpdate(_, tear)
     end
     t_data.snakeTearData.posFramesTable = HandlePositionFramesTable(tear, rf, t_data.snakeTearData.posFramesTable)
 
-    if tear.FrameCount == 1 then
+    if t_data.snakeTearData.queueFrames then
+        t_data.snakeTearData.queueFrames = t_data.snakeTearData.queueFrames - 1
+        if t_data.snakeTearData.queueFrames == 0 then
+            t_data.snakeTearData.queueFrames = nil
+            if t_data.snakeTearData.makeOrder then
+                local order = t_data.snakeTearData.makeOrder
+                mod:MakeTearSnake(order.p, order.p_data, t_data.snakeTearData.type, order.dmgMult, order.l, tear, order.currL)
+            end
+        end
+    end
+
+    --[[if tear.FrameCount == 1 then
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, tear.Position, Vector.Zero, tear)
         poof.Color = Color(0, 0.2, 1)
         poof.SpriteScale = Vector(0.5, 0.5)
-    end
+    end]]
     tear.FallingSpeed = 0
     tear.Height = -20
+end
+
+local flagsToClearIfOnBody = TearFlags.TEAR_WIGGLE | TearFlags.TEAR_SPIRAL | TearFlags.TEAR_ORBIT| TearFlags.TEAR_SQUARE| TearFlags.TEAR_BIG_SPIRAL|
+ TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_TURN_HORIZONTAL| TearFlags.TEAR_LUDOVICO
+function mod:MakeTearSnake(player, p_data, type, dmgMult, length, lastTear, currLength)
+    local pos = player.Position
+    if lastTear then
+        if not lastTear:Exists() then
+            return
+        end
+        pos = lastTear.Position
+    end
+    if currLength ~= nil and currLength >= length then
+        return
+    end
+    currLength = (currLength or 0) + 1
+    
+    local nt = player:FireTear(pos, Vector(1, 0), false, false, false, nil, dmgMult)
+    nt.Scale = nt.Scale * 1.25
+    nt:AddTearFlags(TearFlags.TEAR_SPECTRAL)
+    nt:ClearTearFlags(TearFlags.TEAR_PIERCING)
+    nt:SetColor(Color(1,1,1,-2), 10, 20, true, false)
+
+    local ntd = nt:GetData()
+    ntd.snakeTearData = {}
+    ntd.snakeTearData.type = type
+    nt:AddTearFlags(TearFlags.TEAR_SHIELDED)
+    if lastTear then
+        nt.Position = nt.Position - lastTear.Velocity
+        nt.Parent = lastTear
+        lastTear.Child = nt
+        nt:ClearTearFlags(flagsToClearIfOnBody)
+    else
+        nt.Parent = nil
+        ntd.snakeTearData.isHead = true
+        nt:AddTearFlags(headFlags)
+        if type == SomethingWicked.SnakeTearType.SNAKE_ITEM then
+            p_data.somethingwicked_HydrusTear = nt
+        end
+    end
+    mod:AddToTearUpdateList("sw_snakeTear", nt, HydrusTearUpdate)
+    ntd.snakeTearData.makeOrder = {
+        currL = currLength,
+        l = length,
+        p = player,
+        p_data = p_data,
+        dmgMult = dmgMult
+    }
+    ntd.snakeTearData.queueFrames = 3
+    --nt:Update()
 end
 
 local function HydrusPlayerUpdate(_, player)
@@ -370,7 +386,7 @@ local function HydrusPlayerUpdate(_, player)
         if (not p_data.somethingwicked_HydrusTear or
         not p_data.somethingwicked_HydrusTear:Exists())
         and p_data.somethingwicked_HydrusTearRespawnTime == 0 then
-            MakeTearSnake(player, p_data, SomethingWicked.SnakeTearType.SNAKE_HYDRUS, 1.1, 7)
+            mod:MakeTearSnake(player, p_data, SomethingWicked.SnakeTearType.SNAKE_ITEM, 1.1, 7)
             p_data.somethingwicked_HydrusTearMaxRespawnTime = 300
         end
 
@@ -378,29 +394,6 @@ local function HydrusPlayerUpdate(_, player)
            p_data.somethingwicked_HydrusTearRespawnTime = p_data.somethingwicked_HydrusTearRespawnTime - 1
         end
     end
-
-    --[[if player:HasCollectible(mod.ITEMS.HYDRA) then
-        p_data.somethingwicked_HydraTearRespawnTime = p_data.somethingwicked_HydraTearRespawnTime or 0
-        p_data.somethingwicked_HydraTears = p_data.somethingwicked_HydraTears or {}
-
-        if #p_data.somethingwicked_HydraTears < minHydraSnakes
-        and p_data.somethingwicked_HydraTearRespawnTime == 0  then
-            MakeTearSnake(player, p_data, SomethingWicked.SnakeTearType.SNAKE_HYDRA, 0.5, hydraLength)
-            p_data.somethingwicked_HydraTearRespawnTime = 30
-        end
-
-        local nt = {}
-        for index, value in ipairs(p_data.somethingwicked_HydraTears) do
-            if value and value:Exists() then
-                table.insert(nt, value)
-            end
-        end
-        p_data.somethingwicked_HydraTears = nt
-        
-        if p_data.somethingwicked_HydraTearRespawnTime > 0 then
-            p_data.somethingwicked_HydraTearRespawnTime = p_data.somethingwicked_HydraTearRespawnTime - 1
-         end
-    end]]
 end
 
 local function HydrusTearRemove(_, tear)
@@ -414,7 +407,7 @@ local function HydrusTearRemove(_, tear)
     end
     local s_data = spwnr:GetData()
     if tear.Child then
-        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
+        if t_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_ITEM then
             s_data.somethingwicked_HydrusTear = tear.Child
         end
         return
@@ -425,7 +418,7 @@ local function HydrusTearRemove(_, tear)
             and nt:Exists() then
                 local n_data = nt:GetData()
                 if n_data.snakeTearData
-                and n_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_HYDRUS then
+                and n_data.snakeTearData.type == SomethingWicked.SnakeTearType.SNAKE_ITEM then
                     s_data.somethingwicked_HydrusTear = nt
                     return
                 end
@@ -445,24 +438,9 @@ local function NewRoom()
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, HydrusPlayerUpdate)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, HydrusTearUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, HydrusTearRemove, EntityType.ENTITY_TEAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, NewRoom)
 
-function SomethingWicked:DebugSpliceHydraTears()
-    local player = Isaac.GetPlayer(0)
-    local p_data = player:GetData()
-    for key, value in pairs(p_data.somethingwicked_HydraTears) do
-        local length = GetSnakeTearLength(value)
-        length = math.floor(length / 2)
-
-        local tearToKill = value
-        for i = 1, length, 1 do
-            tearToKill = tearToKill.Child
-        end
-        tearToKill:Die()
-    end
-end
 function SomethingWicked:DebugSpliceHydrusTears()
     local player = Isaac.GetPlayer(0)
     local p_data = player:GetData()
@@ -478,3 +456,10 @@ function SomethingWicked:DebugSpliceHydrusTears()
         end
         tearToKill:Die()
 end
+
+mod:AddCallback(ModCallbacks.MC_PRE_TEAR_RENDER, function (_, tear)
+    local t_data = tear:GetData()
+    if t_data.snakeTearData and not t_data.snakeTearData.render then
+        return false
+    end
+end)

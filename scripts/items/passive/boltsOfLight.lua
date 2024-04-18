@@ -12,18 +12,6 @@ local function GetFunkyVelocityAngle(tearPos, tearVel, enemyPos)
     return mod:GetAngleDifference(perpVel, tearVel)
 end
 
---[[local function EasySpeedFunction(frames, frameCap, minSpeed, bonusSpeed)
-    --[[local lerp = (FramesToGoRealFast-t_data.sw_lightHomingFrames)
-    lerp = (lerp / FramesToGoRealFast)^2
-
-    mod:MultiplyTearVelocity(tear, "sw_boltOfLight", 1+permBonusSpeed+(lerp*tempBonusSpeed))
-    local lerp = math.max(0, (frameCap-frames))
-    lerp = (lerp / frameCap)^2
-    print(lerp)
-    
-    return minSpeed + ((1-lerp)*bonusSpeed)
-end]]
-
 local homingRadius = 100
 local permBonusSpeed, maxNewSpeed = 0.3, 2.1
 local variance, lerp = 15, 0.9

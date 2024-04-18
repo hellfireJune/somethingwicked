@@ -114,9 +114,6 @@ local function updateRenderEffect(_,effect)
                     curr = math.min(curr, final)
                 end]]
             end
-            if #positions == 1 then
-                print(start, final, curr)
-            end
             table.insert(beamPos, positions)
         end
         e_data.sw_drknessRender = beamPos

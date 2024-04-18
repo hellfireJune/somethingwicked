@@ -6,7 +6,7 @@ local function ItemUse(_, id, _, player, flags)
         return
     end
     local charge, slot = mod:CheckPlayerForActiveData(player, id)
-    if charge == 0 or slot ~= -1
+    if charge == 0 or slot == -1
     or SomethingWicked:UtilTableHasValue(blacklist, id) then
         return
     end
@@ -22,10 +22,12 @@ local function ItemUse(_, id, _, player, flags)
         end
     end
                 
+    local offset = Vector(0,-30)
     for i = 1, timesToUseBonus, 1 do
-        player:UseActiveItem(id, flags | 1 << 5)
+        player:UseActiveItem(id, flags | UseFlag.USE_CARBATTERY)
 
-        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position + ((i + 0.5) * Vector(0, -50)), Vector.Zero, player)
+        local effect =  Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position + offset + ((i + 0.5) * Vector(0, -20)), Vector.Zero, player)
+        effect.DepthOffset = 500
     end
 end
 

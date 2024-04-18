@@ -11,7 +11,7 @@ local function UseItem(_, id, _, player, flags)
     end
     
     local p_data = player:GetData()
-    local charge, slot = mod.ItemHelpers:CheckPlayerForActiveData(player, id)
+    local charge, slot = mod:CheckPlayerForActiveData(player, id)
 
     if slot ~= -1 then
         local iconfig = Isaac.GetItemConfig()
@@ -26,7 +26,7 @@ local function UseItem(_, id, _, player, flags)
         local d = { slot = slot, charge = charge, id = id }
         d.coins = player:GetNumCoins()
         d.bombs = player:GetNumBombs()
-        d.keys = player:GetNumKeys() 
+        d.keys = player:GetNumKeys()
         d.hearts = player:GetHearts()
         d.shearts = player:GetSoulHearts()
 
