@@ -715,7 +715,7 @@ local collectibles = {
         pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
     },
     [mod.ITEMS.FEAR_STALKS_THE_LAND] = {
-        desc = "Any enemies who take damage gain dread temporarily"..mod.GENERIC_DESCRIPTIONS,
+        desc = "Any enemies who take damage gain dread temporarily"..mod.GENERIC_DESCRIPTIONS.DREAD,
         pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_LIBRARY }
     },
     [mod.ITEMS.MONOKUMA] = {
