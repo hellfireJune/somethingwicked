@@ -3,6 +3,7 @@ local mod = SomethingWicked
 
 EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
 EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
+EffectVariant.SOMETHINGWICKED_ONERENDERHELPER = Isaac.GetEntityVariantByName("[SW] tear back helper")
 EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
 EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
 EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
@@ -27,12 +28,18 @@ TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestab
 TearVariant.SOMETHINGWICKED_VOIDSBLADE = Isaac.GetEntityVariantByName("Call of the Void Tear")
 TearVariant.SOMETHINGWICKED_LIGHT_SHARD = Isaac.GetEntityVariantByName("Light Shard Tear")
 
+SomethingWicked.ACHIEVEMENTS = {}
+SomethingWicked.ACHIEVEMENTS.TECHNICALACHIEVEMENT = Isaac.GetAchievementIdByName("Wicked - Don't Unlock Me!")
+SomethingWicked.ACHIEVEMENTS.BOLTS_OF_LIGHT = Isaac.GetAchievementIdByName("Wicked - Bolts of Light")
+SomethingWicked.ACHIEVEMENTS.ADDER_STONE = Isaac.GetAchievementIdByName("Wicked - Adder Stone")
+
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 
 mod.ColourGold = Color(0.9, 0.8, 0, 1, 0.85, 0.75)
 mod.CurseStatusColor = Color(1, 1, 1, 1, 0.1, 0, 0.3)
 mod.BitterStatusColor = Color(0.5, 0.5, 0, 1, 0.6, 0.3, 0)
-mod.DreadStatusColor = Color(1, 1, 1, 1, 0.4)
+mod.DreadStatusColor = Color(1, 1, 1, 1, 0.2)
+mod.DreadTearColor = Color(1, 0.3, 0.3, 1, 0.1)
 mod.ElectroStunStatusColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 SomethingWicked.SlowColour = Color(1.2,1.2,1.2,1,0.1,0.1,0.1)
 
@@ -94,6 +101,16 @@ mod.edensHeadthrowables = {
     CollectibleType.COLLECTIBLE_DOCTORS_REMOTE,
     CollectibleType.COLLECTIBLE_BLACK_HOLE
 }
+mod.magicEyeItems = {
+    CollectibleType.COLLECTIBLE_TREASURE_MAP,
+    CollectibleType.COLLECTIBLE_BLUE_MAP,
+    CollectibleType.COLLECTIBLE_COMPASS,
+}
+mod.optionTrinketsItem = {
+    CollectibleType.COLLECTIBLE_MORE_OPTIONS,
+    CollectibleType.COLLECTIBLE_THERES_OPTIONS,
+    CollectibleType.COLLECTIBLE_OPTIONS,
+}
 SomethingWicked.MachineVariant = {
     MACHINE_SLOT = 1,
     MACHINE_BLOOD = 2,
@@ -153,12 +170,13 @@ SomethingWicked.CustomCallbacks = {
     SWCB_ON_ITEM_SHOULD_CHARGE = 9,
     SWCB_EVALUATE_TEMP_WISPS = 10,
     SWCB_ON_NPC_EFFECT_TICK = 11,
+    SWCB_POST_DEAL_DOOR_INIT = 12,
 }
 SomethingWicked.ItemPools = {
     TERATOMA_BEGGAR = 1
 }
 SomethingWicked.CustomTearFlags = {
-    FLAG_SHOTGRUB = 1 << 0,
+    FLAG_ULTRASPLIT = 1 << 0,
     FLAG_KNAVE_OF_HEARTS = 1 << 1,
     FLAG_DREAD = 1 << 2,
     FLAG_BALROG_HEART = 1 << 3,
@@ -174,6 +192,7 @@ SomethingWicked.CustomTearFlags = {
     FLAG_ULTRAHOMING = 1 << 14,
     FLAG_DARKNESS = 1 << 15,
     FLAG_CRITCHARGE = 1 << 16,
+    FLAG_PING = 1 << 17,
 }
 SomethingWicked.CustomCardTypes = {
     CARDTYPE_THOTH = 1,

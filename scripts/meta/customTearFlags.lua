@@ -45,30 +45,39 @@ function mod:HasFlags(ent, flag)
 end
 
 local tearsWithFlags = {}
-local tearRefs = {}
+mod.tearRefs = {}
 
 local function PostApply(player, tear, flag)
     if tear.Type == EntityType.ENTITY_TEAR then        
         tearsWithFlags[tear.Index] = (tearsWithFlags[tear.Index] or {})
         table.insert(tearsWithFlags[tear.Index], flag)
 
-        tearRefs[tear.Index] = tear
+        mod.tearRefs[tear.Index] = tear
     end
 end
 
 local function GetTearFlagsToApply(player, tear)
     local flagsToReturn = 0
+    local colorBlacklist = 0
     for enum, value in pairs(SomethingWicked.TearFlagData) do
-        if value:ApplyLogic(player, tear) then
+        local apply, skipColor = value:ApplyLogic(player, tear)
+        if apply then
             flagsToReturn = flagsToReturn | enum
 
-            if value.PostApply then
-                value:PostApply(player, tear)
+            local t_data = tear:GetData()
+            if not t_data.somethingWicked_customTearFlags or enum & t_data.somethingWicked_customTearFlags == 0 then
+                if value.PostApply then
+                    value:PostApply(player, tear)
+                end
+                PostApply(player, tear, enum)
             end
-            PostApply(player, tear, enum)
+
+            if skipColor then
+                colorBlacklist = colorBlacklist | enum
+            end
         end
     end
-    return flagsToReturn
+    return flagsToReturn, colorBlacklist
 end
 
 local function GetTearVariantFromFlags(tflags)
@@ -82,7 +91,7 @@ local function GetTearVariantFromFlags(tflags)
     return nil
 end
 
-local function GetTearColorFromFlags(tflags, isLaser)
+local function GetTearColorFromFlags(tflags, isLaser, colorBlacklist)
     local color = Color(1, 1, 1)
     local idx = isLaser and "LaserColor" or "TearColor"
     if tflags > 0 then
@@ -91,7 +100,7 @@ local function GetTearColorFromFlags(tflags, isLaser)
             if c == nil and isLaser then
                 c = value.TearColor
             end
-            if c and tflags & key > 0 then
+            if c and tflags & key > 0 and not (tflags & colorBlacklist > 0) then
                 color = color * c
             end
         end
@@ -114,7 +123,7 @@ local function FireTear(_, tear)
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player then
         local oldFlags = t_data.somethingWicked_customTearFlags
-        local flags = GetTearFlagsToApply(player, tear)
+        local flags, colorBlacklist = GetTearFlagsToApply(player, tear)
         t_data.somethingWicked_customTearFlags = flags
         if oldFlags then flags = flags | oldFlags end
 
@@ -122,11 +131,21 @@ local function FireTear(_, tear)
         if not mod:UtilTableHasValue(variantBlacklist, tear.Variant) and t_variant then
             mod:ChangeTearVariant(t_variant)
         end
-        local t_color = GetTearColorFromFlags(flags)
+        local t_color = GetTearColorFromFlags(flags, nil, colorBlacklist)
         if t_color then
             tear.Color = tear.Color * t_color
         end
     end
+end
+
+function mod:addWickedTearFlag(tear, flag)
+    local t_data = tear:GetData()
+    if mod.TearFlagData[flag].PostApply then
+        local p = mod:UtilGetPlayerFromTear(tear)
+        mod.TearFlagData[flag]:PostApply(p, tear)
+        PostApply(p, tear, flag)
+    end
+    t_data.somethingWicked_customTearFlags = (t_data.somethingWicked_customTearFlags or 0) | flag
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, FireTear)
@@ -141,34 +160,38 @@ local function TearRemove(_, tear)
     if t_data.somethingWicked_customTearFlags == nil then
         return
     end
+    tear = tear:ToTear()
     if t_data.somethingWicked_customTearFlags > 0 then
+        local p = mod:UtilGetPlayerFromTear(tear)
         for key, value in pairs(SomethingWicked.TearFlagData) do
             if value.EndHitEffect and t_data.somethingWicked_customTearFlags & key > 0 then
-                value:EndHitEffect(tear, tear.Position)
+                value:EndHitEffect(tear, tear.Position, p)
             end
         end
     end
-    if tear:ToTear():HasTearFlags(TearFlags.TEAR_BURSTSPLIT) then
+    if tear:HasTearFlags(TearFlags.TEAR_BURSTSPLIT) then
         for index, value in ipairs(Isaac.FindByType(2)) do
             local v_data = value:GetData()
             local player = mod:UtilGetPlayerFromTear(value)
             if value.FrameCount == 0 and value.Parent == nil and v_data.somethingWicked_customTearFlags == nil and player then
+                value = value:ToTear()
+                v_data.sw_isHaemoSplitShot = true
                 v_data.somethingWicked_customTearFlags = t_data.somethingWicked_customTearFlags
 
                 for key, flag in pairs(SomethingWicked.TearFlagData) do
                 
                     if t_data.somethingWicked_customTearFlags & key > 0 and flag.PostApply then
-                        flag:PostApply(player, tear)
+                        flag:PostApply(player, value)
+                        PostApply(player, value, key)
                     end
-                    PostApply(player, tear, key)
                 end
             end
         end
     end
 
-    if tearsWithFlags[tear.Index] or tearRefs[tear.Index] then
+    if tearsWithFlags[tear.Index] or mod.tearRefs[tear.Index] then
         tearsWithFlags[tear.Index] = nil
-        tearRefs[tear.Index] = nil
+        mod.tearRefs[tear.Index] = nil
     end
 end
 
@@ -236,7 +259,7 @@ end
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_TEAR_UPDATE, CallbackPriority.LATE, this.OnTearUpdate)]]
 
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function ()
-    for idx, tear in pairs(tearRefs) do
+    for idx, tear in pairs(mod.tearRefs) do
         if tear and tear:Exists()  then
             local flags = tearsWithFlags[idx]
             for _, flag in pairs(flags) do

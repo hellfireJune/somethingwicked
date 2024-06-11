@@ -1,7 +1,26 @@
 local mod = SomethingWicked
+local game = Game()
 local angVariance = 20
 local maxSpeed = 20
 local wantedDistance = 120
+
+local function checkFamiliars(p_data)
+    local tab = p_data.WickedPData.YoYos
+    local newTab = {}
+    if tab then
+        for key, value in pairs(tab) do
+            if value and value:Exists() then
+                newTab[#newTab+1] = value
+            end
+        end
+    end
+    
+    return newTab, #newTab
+end
+
+local function getEstimatedyoyos(player)
+    return mod:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
+end
 
 local function YoYoCheck(_, player)
     if not player:HasCollectible(mod.ITEMS.THE_YOYO) then return end
@@ -28,7 +47,7 @@ local function YoYoCheck(_, player)
         p_data.sw_yoyoDirection = nil
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.YoYoCheck)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, YoYoCheck)
 
 local function YoYoCollide(_, familiar, other)
     other = other:ToNPC()
@@ -49,7 +68,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, YoYoCollide, FamiliarVar
 
 local deathTick = 5
 local function YoYoUpdate(_, familiar)
-    local room = mod.game:GetRoom()
+    local room = game:GetRoom()
     if room:GetFrameCount() == 0 then
         familiar:Remove()
         return
@@ -81,7 +100,7 @@ local function YoYoUpdate(_, familiar)
         familiar.Velocity = familiar.Velocity + f_data.sw_yoknockback
         f_data.sw_yoknockback = nil
     end
-    familiar.Velocity = mod.EnemyHelpers:Lerp(familiar.Velocity, (vel), 0.2)
+    familiar.Velocity = mod:Lerp(familiar.Velocity, (vel), 0.2)
     if familiar.Velocity:Length() > maxSpeed then
         familiar.Velocity:Resize(maxSpeed)
     end
@@ -90,21 +109,3 @@ local function YoYoUpdate(_, familiar)
     familiar.Color = color
 end
 mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, YoYoUpdate, FamiliarVariant.SOMETHINGWICKED_YOYO)
-
-local function checkFamiliars(p_data)
-    local tab = p_data.WickedPData.YoYos
-    local newTab = {}
-    if tab then
-        for key, value in pairs(tab) do
-            if value and value:Exists() then
-                newTab[#newTab+1] = value
-            end
-        end
-    end
-    
-    return newTab, #newTab
-end
-
-local function getEstimatedyoyos(player)
-    return mod:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
-end

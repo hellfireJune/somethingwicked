@@ -5,7 +5,7 @@ function mod:PreUseD4(_, _, player)
     if p_data.WickedPData.trackedItems ~= nil then
         local quickTab = p_data.WickedPData.trackedItems
 
-        local history = player:GetHistory():GetcollectiblesHistory()
+        local history = player:GetHistory():GetCollectiblesHistory()
         for index, id in ipairs(history) do
             
             for key, data in pairs(quickTab) do
@@ -23,7 +23,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_USE_ITEM, mod.PreUseD4, CollectibleType.COLL
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
     local p_data = player:GetData()
     if p_data.WickedPData.trackedItems ~= nil then
-        local history = player:GetHistory():GetcollectiblesHistory()
+        local history = player:GetHistory():GetCollectiblesHistory()
         for key, value in pairs(p_data.WickedPData.trackedItems) do
             value.id = history[value.tempTrackerID]:GetItemID()
         end

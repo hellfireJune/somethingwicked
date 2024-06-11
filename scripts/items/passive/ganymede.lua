@@ -5,7 +5,16 @@ local fireNeeded = 5
 local volleyNum = 4
 local minSpread = 37.5
 local additionalSpread = 90
-local color = Color (1, 1, 1, 1, 1)
+local colors = {
+    Color (1, 1, 1, 1, 1),
+    Color (1, 1, 1, 1, 0, 1),
+    Color (1, 1, 1, 1, 0, 0.2, 1),
+    Color (1, 1, 1, 1, 1, 0, 1),
+    Color (1, 1, 1, 1, 1, 1, 0),
+}
+local function getColor(rng)
+    return mod:GetRandomElement(colors, rng)
+end
 function OnFirePure(_, shooter, vector, scalar, player)
     if not player:HasCollectible(mod.ITEMS.GANYMEDE) then
         return
@@ -36,7 +45,8 @@ function OnFirePure(_, shooter, vector, scalar, player)
             mod:ChangeTearVariant(t, TearVariant.SOMETHINGWICKED_GANYSPARK)
             t.Height = t.Height*3
             t.Scale = t.Scale * 0.66
-            t.Color = color
+            t.Color = getColor(c_rng)
+            t.FlipX = c_rng:RandomInt(2)==1
 
             local t_data = t:GetData()
             t_data.sw_gany = {faller = player.MaxFireDelay/10}
@@ -50,7 +60,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, OnFirePure)
 local noCollideFrames = 8
 local noFallFrames = 94
 local maxSpinSpeed = 30
-local flashColour = Color(1, 1, 1, 1, 1, 0.4, 0.4)
+local flashColour = Color(0,0,0,0, 0.4, 0.4, 0.4)
 function mod:ganymedeTearUpdate(tear)
     local t_data = tear:GetData()
     local g = t_data.sw_gany
@@ -93,7 +103,7 @@ function mod:ganymedeTearUpdate(tear)
                     b:AddTearFlags(TearFlags.TEAR_HOMING)
                 end
 
-                gp:SetColor(flashColour, 4, 3, true, false)
+                gp:SetColor(tear.Color*flashColour, 4, 3, true, false)
             end
         end
     end
@@ -179,7 +189,7 @@ function mod:ganymedeTearUpdate(tear)
     if init then
         trail.SpriteScale = Vector.One*tear.Scale*2
         trail.MinRadius = 0.075
-        trail.Color = Color(1, 0.4, 0.4)
+        trail.Color = Color(tear.Color.R, tear.Color.G, tear.Color.B, 0.4, tear.Color.RO*0.4,tear.Color.GO*0.4,tear.Color.BO*0.4)
     end
     t_data.sw_gany = g
 end

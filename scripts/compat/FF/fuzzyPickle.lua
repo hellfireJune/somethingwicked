@@ -8,12 +8,14 @@ local references = {
         {ID = mod.ITEMS.ITEM_BOX, Reference = "Mario Kart"},
         {ID = mod.ITEMS.BOOK_OF_INSANITY, Reference = "The King in Yellow"},
         {ID = mod.ITEMS.BOLINE, Reference = "King Gizzard and the Lizard Wizard", Partial=true},
+        {ID = mod.ITEMS.FEAR_STALKS_THE_LAND, Reference="Radiohead"},
 
         --currently unused
         {ID = mod.ITEMS.ICE_WAND, Reference = "Terraria"},
         {ID = mod.ITEMS.LAST_PRISM, Reference = "Terraria"},
         {ID = mod.ITEMS.DOUBLING_CHERRY, Reference = "Super Mario 3D World"},
-        {ID = mod.ITEMS.FLYING_GUILLOTINE, Reference = "Thee Oh Sees, Team Fortress 2"}
+        {ID = mod.ITEMS.FLYING_GUILLOTINE, Reference = "Thee Oh Sees, Team Fortress 2"},
+        {ID = mod.ITEMS.PENDULUM, Reference = "That Handsome Devil", Partial=true },
     },
     Passives = {
         {ID = mod.ITEMS.AVENGER_EMBLEM, Reference = "Terraria"},
@@ -39,16 +41,24 @@ local references = {
         {ID = mod.ITEMS.STAR_TREAT, Reference = "Bee Swarm Simulator"},
         {ID = mod.ITEMS.DARK_SHARD, Reference = "Terraria" },
         {ID = mod.ITEMS.LIGHT_SHARD, Reference = "Terraria"},
+        {ID = mod.ITEMS.THE_SHRINKS, Reference = "The Twits"},
+        {ID = mod.ITEMS.MONOKUMA, Reference = "Danganronpa: Trigger Happy Havoc"},
 
         --currently unused items
         {ID = mod.ITEMS.BOLTS_OF_LIGHT, Reference = "Bloons TD 6"},
         {ID = mod.ITEMS.GANYMEDE, Reference = "Planetside of Gunymede" },
         {ID = mod.ITEMS.SCREW_ATTACK, Reference = "Metroid" },
-        {ID = mod.ITEMS.ACHERON, Reference = "Geometry Dash" },
+        {ID = mod.ITEMS.ACHERON, Reference = "Geometry Dash", Partial=true },
         {ID = mod.ITEMS.BLOOD_HAIL, Reference = "black midi", Partial=true },
         {ID = mod.ITEMS.CALL_OF_THE_VOID, Reference = "MACHINEGIRL", Partial=true },
         {ID = mod.ITEMS.CURSE_MASK, Reference = "Ring of Pain" },
         {ID = mod.ITEMS.MS_GONORRHEA, Reference = "black midi"},
+        {ID = mod.ITEMS.STAR_OF_PROVIDENCE, Reference = "Star of Providence"},
+        {ID = mod.ITEMS.PIECE_OF_SILVER, Reference = "ULTRAKILL"},
+        {ID = mod.ITEMS.DARKNESS, Reference = "Chainsaw Man"},
+        {ID = mod.ITEMS.FUZZY_FLY, Reference = "Yoshi's Island" },
+        {ID = mod.ITEMS.TOMBSTONE, Reference = "Terraria" },
+        {ID = mod.ITEMS.SUDARIUM, Reference = "Risk of Rain Returns", Partial = true}
     },
     Trinkets = {
         {ID = mod.TRINKETS.CATS_EYE, Reference = "The Cat Empire"},
@@ -57,6 +67,10 @@ local references = {
         {ID = mod.TRINKETS.TREASURERS_KEY, Reference = "Super Mario Maker"},
         {ID = mod.TRINKETS.CURSED_KEY, Reference = "Super Mario Maker"},
         {ID = mod.TRINKETS.NIGHTMARE_FUEL, Reference = "Don't Starve"},
+        {ID = mod.TRINKETS.SUGAR_COATED_PILL, Reference = "King Gizzard and the Lizard Wizard" },
+        {ID = mod.TRINKETS.DEMON_CORE, Reference = "Memes" },
+        {ID = mod.TRINKETS.CELLPHONE_BATTERY, Reference = "Samsung Galaxy Note 7" },
+        {ID = mod.TRINKETS.VICODIN, Reference = "House M.D."},
 
         --currently unused
         {ID = mod.TRINKETS.ZZZZZZ_MAGNET, Reference = "Spelunky", Partial=true},

@@ -116,9 +116,3 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ULTRAHOMING, {
         end
     end
 })
-
-mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)
-    if player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT) then
-        mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_SOY_MILK, 1)
-    end
-end)

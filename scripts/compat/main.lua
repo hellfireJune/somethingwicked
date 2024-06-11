@@ -1,11 +1,11 @@
 local mod = SomethingWicked
-mod.compat = {}
 local directory = "scripts/compat/"
 local game = Game()
 
-include(directory.."__fiendfolio")
-include(directory.."__retribution")
-include(directory.."__tainted")
+local ffInit = include(directory.."fiendfolio")
+include(directory.."retribution")
+include(directory.."tainted")
+local milkshakeInit = include(directory.."milkshake")
 
 local moddedThrowables = {
     "Cursed Candle",
@@ -18,11 +18,16 @@ local moddedThrowables = {
     "D2",
     "Sanguine Hook",
     "Grappling Hook",
+
+    --milkshake
+    "Shattered Orb",
+
+    --ret
+    "Puffstool"
 }
-function mod.compat:Init()
-
-        mod.compat:FFInit()
-
+function mod:CompatInit()
+        ffInit()
+        milkshakeInit()
         
         for _, cardHud in ipairs(moddedThrowables) do
             local card = Isaac.GetItemIdByName(cardHud)
@@ -32,5 +37,5 @@ function mod.compat:Init()
         end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, mod.compat.Init)
+mod:AddCallback(ModCallbacks.MC_POST_MODS_LOADED, mod.CompatInit)
 

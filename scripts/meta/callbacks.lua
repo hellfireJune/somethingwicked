@@ -17,6 +17,7 @@ mod.__callbacks = {
     [ccabEnum.SWCB_ON_NPC_EFFECT_TICK] = {},
     [ccabEnum.SWCB_ON_FIRE_PURE] = {},
     [ccabEnum.SWCB_POST_PURCHASE_PICKUP] = {},
+    [ccabEnum.SWCB_POST_DEAL_DOOR_INIT] = {},
 }
 
 function mod:AddCustomCBack(type, funct, id)
@@ -615,4 +616,25 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PurchaseItem)]]
 mod:AddCallback(ModCallbacks.MC_POST_PICKUP_SHOP_PURCHASE, function (_, pickup, player, coins)
     mod:CallCustomCback(ccabEnum.SWCB_POST_PURCHASE_PICKUP, player, pickup, coins<0 and coins ~= PickupPrice.PRICE_FREE, coins)
+end)
+
+--dorespawn
+
+function mod:IsDevilDoor(door)
+    if door and (door:IsRoomType(RoomType.ROOM_ANGEL) or door:IsRoomType(RoomType.ROOM_DEVIL) or door.TargetRoomIndex == GridRooms.ROOM_DEVIL_IDX) then
+        mod:CallCustomCback(ccabEnum.SWCB_POST_DEAL_DOOR_INIT, door)
+        return true
+    end
+    return false
+end
+local function CheckForDealDoors()
+    local room = game:GetRoom()
+
+    for i = 0, DoorSlot.NUM_DOOR_SLOTS - 1, 1 do
+        local door = room:GetDoor(i)
+        mod:IsDevilDoor(door)
+    end
+end
+mod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, function ()
+    mod:UtilScheduleForUpdate(CheckForDealDoors, 0, ModCallbacks.MC_POST_UPDATE)
 end)

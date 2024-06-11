@@ -5,20 +5,38 @@ local CurseDuration = 15
 local WispCurseRadius = 100
 local function OnCurse(ent)
     
-    if ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) ~= true then
         mod:UtilAddCurse(ent, CurseDuration)
             
         local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, ent.Position, Vector.Zero, ent)
         poof.Color = Color(0.4, 0.1, 0.4)
-    end
 end
 
-local function UseItem(_, rng, player, flags)
-    sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
+local function OnDread(ent)
+    local e_data = ent:GetData()
+    e_data.sw_minotaurPrimed = true
+    
+    local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, ent.Position, Vector.Zero, ent)
+    poof.Color = Color(1,1,1,1,0.3,0.3,0.3)
+end
+
+local function UseItem(_, id, rng, player, flags)
+    local dread = true
+    if id == mod.ITEMS.CURSED_MUSHROOM then
+        dread = false
+        sfx:Play(SoundEffect.SOUND_VAMP_GULP, 1, 0)
+    elseif id ~= mod.ITEMS.FEAR_STALKS_THE_LAND then 
+        return
+    end
 
     local allEnemies = Isaac.FindInRadius(Vector.Zero, 80000, 8)
     for key, ent in pairs(allEnemies) do
-        OnCurse(ent)
+        if ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) ~= true then
+            if dread then
+                OnDread(ent)
+            else
+                OnCurse(ent)
+            end
+        end
     end
     
     return true
@@ -56,4 +74,4 @@ end
 
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, LocustDidDamage)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, OnWispDie, EntityType.ENTITY_FAMILIAR)
-SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.CURSED_MUSHROOM)
+SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)

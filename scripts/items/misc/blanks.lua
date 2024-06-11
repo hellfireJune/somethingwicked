@@ -2,9 +2,21 @@ local mod = SomethingWicked
 local game = Game()
 
 local blankSprite = Sprite()
+blankSprite:Load("gfx/sw_blank.anm2", true)
+blankSprite:Play("Idle")
 
-local function realblankSlow(e, p)
-    e:AddSlowing(EntityRef(p), 45, 0.7, mod.SlowColour)
+local beamSprite = Sprite()
+beamSprite:Load("gfx/effect_blankconnector.anm2", true)
+beamSprite:Play("Idle", false)
+
+local beamLayer = beamSprite:GetLayer("beam")
+beamLayer:SetWrapSMode(1)
+beamLayer:SetWrapTMode(0)
+
+local snapBeam = Beam(beamSprite, "beam", false, false)
+
+local function realblankSlow(e, p,m)
+    e:AddSlowing(EntityRef(p), 45*(m or 1), 0.8, mod.SlowColour)
 end
 
 function mod:microSilencerInstanceUpdate(effect)
@@ -47,7 +59,8 @@ function mod:microSilencerInstanceUpdate(effect)
     end
 end
 
-local speed = 40
+local speed = 30
+local flatxmult = 1.8
 function mod:fullSilencerInstanceUpdate(effect)
     local player = effect.Parent
     local e_data = effect:GetData()
@@ -71,7 +84,8 @@ function mod:fullSilencerInstanceUpdate(effect)
                 newPos = newPos + rightWidth
             end
 
-            currWorstDistance = math.max(currWorstDistance, effect.Position:Distance(newPos))
+            local dis = (effect.Position - newPos)*Vector(1/flatxmult, 1)
+            currWorstDistance = math.max(currWorstDistance, dis:Length())
         end
 
         e_data.sw_cachedFinalCornerDiff = currWorstDistance
@@ -82,13 +96,15 @@ function mod:fullSilencerInstanceUpdate(effect)
     if oset < e_data.sw_cachedFinalCornerDiff then
         e_data.sw_previouslyHitEnemies = e_data.sw_previouslyHitEnemies or {}
         local allProjectiles = Isaac.FindInRadius(effect.Position, 80000, EntityPartition.ENEMY | EntityPartition.BULLET)
+        local borderOset = oset-speed*4
         for index, ent in ipairs(allProjectiles) do
             local pos = ent.Position
             local dis = effect.Position-pos
-            if dis.X < oset or dis.Y < oset then -- the people need a square radius
+            if (dis.X < oset*flatxmult or dis.Y < oset) and (dis.X > borderOset*flatxmult or dis.Y > borderOset or ent:ToProjectile()) then -- the people need a square (rectangular) radius
                 if ent:IsVulnerableEnemy() then
-                    if ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
-                        realblankSlow(ent, player)
+                    if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) and not mod:UtilTableHasValue(e_data.sw_previouslyHitEnemies, ""..ent.InitSeed) then
+                        table.insert(e_data.sw_previouslyHitEnemies, ""..ent.InitSeed)
+                        realblankSlow(ent, player, 3)
                     end
                 elseif ent:ToProjectile() then
                     ent:Die()
@@ -97,11 +113,64 @@ function mod:fullSilencerInstanceUpdate(effect)
         end
 
         e_data.sw_currentBlankCornerOffset = oset + speed
+        e_data.sw_dontboostoset = true
     else
         effect:Remove()
     end
 end
 
+local function megaBlankRender(_, effect)
+    local e_data = effect:GetData()
+    if e_data.sw_currentBlankCornerOffset then
+
+        for j = 1, 2, 1 do
+            local color = j == 1 and Color(1, 1, 1, 0.4) or Color(1,1,1)
+            blankSprite.Color = color
+            beamSprite.Color = color
+            local unflippedY = {} local flippedY = {} local unflippedX = {} local flippedX = {}
+            for i = 1, 4, 1 do
+                local oset = e_data.sw_currentBlankCornerOffset
+                if not e_data.sw_dontboostoset then
+                    oset = oset+(speed/2)
+                end
+                if j == 1 then
+                    oset = math.max(0, oset-speed*2)
+                end
+                e_data.sw_dontboostoset = false
+                local flipX = i % 2 == 0
+                local flipY = i > 2
+
+                blankSprite.FlipX = flipX
+                blankSprite.FlipY = flipY
+
+                local xmult = flipX and 1 or -1
+                local ymult = flipY and 1 or -1
+                local pos = Vector(oset*xmult*flatxmult, oset*ymult)
+                pos = pos + effect.Position
+                
+                local rpos = Isaac.WorldToRenderPosition(pos)
+                blankSprite:Render(rpos)
+
+                local yCorner = blankSprite:GetNullFrame("connector1")
+                local xCorner = blankSprite:GetNullFrame("connector2")
+                local xPos = xCorner:GetPos() + rpos
+                local yPos = yCorner:GetPos() + rpos
+                if flipX then
+                    
+                else
+
+                end
+                if flipY then
+                    
+                else
+
+                end
+            end
+        end
+    end
+end
+
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, megaBlankRender, EffectVariant.SOMETHINGWICKED_BLANK)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.microSilencerInstanceUpdate, EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_,effect)
     if effect.SubType == 0 then
@@ -126,4 +195,4 @@ end
 
 function mod:DoMegaBlank(position, player)
     SpawnBlankInternal(position, player, 1)
-end
+end 

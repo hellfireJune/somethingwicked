@@ -32,7 +32,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_USE_BOMB, function (_, player, bomb)
 
         local ready = p_data.sw_superProviBombTimer == nil
         if ready then
-            p_data.sw_superProviBombReady = 15*30
+            --p_data.sw_superProviBombReady = 15*30
             local b_data = bomb:GetData()
             b_data.sw_superProviBomb = true
         end
@@ -49,4 +49,4 @@ function mod:SOPPlayerUpdate(player)
             end
         end
     end
-end
+end 

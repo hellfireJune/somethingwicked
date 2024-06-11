@@ -11,19 +11,18 @@ local flagsBlacklist = {
     TearFlags.TEAR_GHOST_BOMB,
     TearFlags.TEAR_BUTT_BOMB,
     TearFlags.TEAR_CREEP_TRAIL,
-    --removed because theyre annoying and nobody likes them, didnt want to do this soz
-    TearFlags.TEAR_ORBIT,
-    TearFlags.TEAR_BIG_SPIRAL,
     --blame sin (he's right though)
     TearFlags.TEAR_CARD_DROP_DEATH,
     TearFlags.TEAR_RUNE_DROP_DEATH,
     TearFlags.TEAR_MIDAS,
-    TearFlags.TEAR_COIN_DROP_DEATH
+    TearFlags.TEAR_COIN_DROP_DEATH,
+    TearFlags.TEAR_ECOLI
 }
 local rarerFlags = {
     TearFlags.TEAR_NEEDLE,
     TearFlags.TEAR_LASERSHOT,
-    TearFlags.TEAR_GREED_COIN
+    TearFlags.TEAR_GREED_COIN,
+    TearFlags.TEAR_HORN
 }
 mod.quickTearFlagAdders = {
     [mod.TRINKETS.HALLOWEEN_CANDY] = {
@@ -37,7 +36,7 @@ mod.quickTearFlagAdders = {
     }
 }
 
-local flagsToGive = 5
+local flagsToGive = 3
 function mod:GenerateFruitFlag(rng)
     local newFlags = TearFlags.TEAR_NORMAL
     for i = 1, flagsToGive, 1 do

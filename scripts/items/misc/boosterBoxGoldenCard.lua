@@ -100,7 +100,7 @@ local function OnDMG(_, ent)
     end
 
     local t_rng = ent:GetTrinketRNG(mod.TRINKETS.CARD_GRAVEYARD)
-    if t_rng:RandomFloat() < 0.2*math.max(1, ent:GetTrinketMultiplier(mod.TRINKETS.CARD_GRAVEYARD)) then
+    if t_rng:RandomFloat() < 0.5*math.max(1, ent:GetTrinketMultiplier(mod.TRINKETS.CARD_GRAVEYARD)) then
         local p_data = ent:GetData()
         p_data.WickedPData.FortuneR_Stacks = (p_data.WickedPData.FortuneR_Stacks or 0)+1
     end

@@ -10,6 +10,7 @@ mod.AssistTrophyBlacklist = {
     CollectibleType.COLLECTIBLE_LOST_SOUL,
     CollectibleType.COLLECTIBLE_BUM_FRIEND,
     CollectibleType.COLLECTIBLE_CHARGED_BABY,
+    CollectibleType.COLLECTIBLE_DARK_BUM,
 }
 
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
@@ -29,7 +30,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     local tempEffects = player:GetEffects()
     local s = tempEffects:GetCollectibleEffect(mod.ITEMS.ITEM_BOX)
 
-    if s ~= nil and s.Count > 0 then
+    while s ~= nil and s.Count > 0 do
         tempEffects:RemoveCollectibleEffect(mod.ITEMS.ITEM_BOX)
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.ITEM_BOX)
 
@@ -50,10 +51,10 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
             p_data.sw_mysteryWisps[c] = (p_data.sw_mysteryWisps[c] or 0) + 1
         end
 
-        sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
+        --[[sfx:Play(SoundEffect.SOUND_SHELLGAME, 1, 0)
         if player:IsExtraAnimationFinished() then
             player:AnimateCollectible(c, "UseItem")
-        end
+        end]]
     end
 end)
 

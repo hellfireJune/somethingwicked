@@ -1,7 +1,4 @@
 local this = {}
-this.formSlot = Isaac.GetItemIdByName(" Magic Clay ")
-this.formFortune = Isaac.GetItemIdByName("  Magic Clay  ")
-this.formBlood = Isaac.GetItemIdByName("   Magic Clay   ")
 local itemSpriteToMachine = {
     [this.formSlot] = SomethingWicked.MachineVariant.MACHINE_SLOT,
     [this.formFortune] = SomethingWicked.MachineVariant.MACHINE_FORTUNE,

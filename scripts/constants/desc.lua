@@ -53,15 +53,15 @@ if EID then
     local curseIcon = Sprite()
     curseIcon:Load("gfx/somethingwicked_status_effects.anm2", true)
     EID:addIcon("SWCurseStatusIcon", "Curse", 0, 14, 14, 6, 4, curseIcon)
+    EID:addIcon("SWDreadStatusIcon", "Dread", 0, 14, 14, 6, 4, curseIcon)
 
     --[[local cardsSprite = Sprite()
     cardsSprite:Load()]]
 end
 mod.GENERIC_DESCRIPTIONS = {
     CURSE = "#{{SWCurseStatusIcon}} Cursed enemies will take 1.5x damage, and will gain a slight slowing effect",
-    DREAD = "",
-    BITTER = "",
     ELECTROSTUN = "",
+    DREAD = "#{{SWDreadStatusIcon}} Enemies with dread take damage over time, damaging more frequently as the effect goes on",
 
     NIGHTMARES = "#Nightmares will orbit the player invulnerable, but will stop moving and lose invulnerability to fire homing tears while Isaac is firing tears",
     TERATOMAS = "",
@@ -702,6 +702,30 @@ local collectibles = {
         desc = "\1 {{Luck}} +1 Luck up#Spawns a Stone of the Pit",
         Hide = true,
     },
+    [mod.ITEMS.TWO_DOLLAR_COIN] = {
+        desc = "Spawns a Golden Penny on pickup",
+        pools = { pools.POOL_BOSS, pools.POOL_GREED_BOSS}
+    },
+    [mod.ITEMS.TEFILIN] = {
+        desc = "{{AngelRoom}} Guarantees an Angel Room will spawn at the next possible opportunity",
+        pools = { pools.POOL_SHOP, pools.POOL_GREED_SHOP}
+    },
+    [mod.ITEMS.DOUBLES] = {
+        desc = "Isaac shoots 1-6 tears at once#↓ {{Tears}} Tears down, increasing with the number of tears fired",
+        pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
+    },
+    [mod.ITEMS.FEAR_STALKS_THE_LAND] = {
+        desc = "Any enemies who take damage gain dread temporarily"..mod.GENERIC_DESCRIPTIONS,
+        pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_LIBRARY }
+    },
+    [mod.ITEMS.MONOKUMA] = {
+        desc = "Dread tears"..mod.GENERIC_DESCRIPTIONS.DREAD,
+        pools = {pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
+    },
+    [mod.ITEMS.MAGIC_EYE] = {
+        desc = "Grants the effect of a random mapping item every floor",
+        pools = { pools.POOL_SHOP }
+    },
 }
 
 for index, value in pairs(collectibles) do
@@ -826,6 +850,12 @@ local trinkets = {
     },
     [mod.TRINKETS.NIGHTMARE_FUEL] = {
         desc = "Spawns a nightmare familiar"..mod.GENERIC_DESCRIPTIONS.NIGHTMARES.."#Respawns every room"
+    },
+    [mod.TRINKETS.VICODIN] = {
+        desc = "{{Pill}} Using a pill will additionally use a Percs pill"
+    },
+    [mod.TRINKETS.VICODIN] = {
+        desc = "{{Card}} 50% chance to use a random card on damage"..mod.GENERIC_DESCRIPTIONS.CARDDRAW
     }
 }
 

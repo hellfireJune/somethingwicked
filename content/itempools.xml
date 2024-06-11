@@ -40,12 +40,15 @@
 		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
-		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Pink Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fly Screen" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="The Shrinks" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Doubles!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -67,6 +70,8 @@
 		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
 		<Item Name="Lantern Battery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Watch" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Tefillin" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Magic Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="library">
@@ -74,6 +79,7 @@
 		<Item Name="King in Yellow" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
 		<Item Name="Book of Exodus" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
@@ -96,6 +102,7 @@
 		<Item Name="Avenger Emblem" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Bottle of Shampoo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star Treat" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Two Dollar Coin" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool> 
 
 	<Pool Name="secret">
@@ -288,12 +295,15 @@
 		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 		<Item Name="Tech-Modulo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Item Box" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Fruit Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Pink Milk" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Air Freshener" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Assist Trophy" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Activated Charcoal" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fly Screen" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="The Shrinks" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Doubles!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -315,6 +325,7 @@
 		<Item Name="Lanky Mushroom" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Lantern Battery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Watch" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Tefillin" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool name="greedBoss">
@@ -325,6 +336,7 @@
 		<!--<Item Name="Teratoma Chunk" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>-->
 		<Item Name="Bottle of Shampoo" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Star Treat" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Two Dollar Coin" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedDevil">

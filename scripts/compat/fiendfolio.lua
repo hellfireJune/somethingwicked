@@ -12,7 +12,7 @@ local function TableConcat(t1,t2)
 
 local fuzzy = include(directory.."fuzzyPickle")
 local stacks = include(directory.."stackableItems")
-function mod.compat:FFInit()
+return function()
     if ff then
         ff.ReferenceItems.Actives = TableConcat(ff.ReferenceItems.Actives, fuzzy.Actives)
         ff.ReferenceItems.Passives = TableConcat(ff.ReferenceItems.Passives, fuzzy.Passives)
@@ -45,5 +45,7 @@ function mod.compat:FFInit()
             {itemTab.TOY_PIANO, 1},
 
         }
+
+        table.insert(mod.optionTrinketsItem, ff.ITEM.TOO_MANY_OPTIONS)
     end
 end

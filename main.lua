@@ -208,6 +208,7 @@ local earlyLoad = {
   "constants/items",
   "constants/desc",
   "meta/toolbox",
+  "meta/unlocks",
   "meta/savedata",
   "meta/callbacks",
   "meta/customslots",
@@ -246,7 +247,7 @@ local midLoad = {
   p_.."oldUrn",
   a_.."assistTrophyItemBox",
   a_.."trinketSmasher",
-  a_.."cursedMushroom",
+  a_.."cursedMushroomFearStalksTheLand",
   p_.."starSpawn",
   p_.."bravery",
   p_.."planchette",
@@ -309,6 +310,11 @@ local midLoad = {
   p_.."curseMask",
   p_.."starOfProvidence",
   m_.."catTeaserFuzzyFly",
+  p_.."sudariumOfOviedo",
+  p_.."tefelin",
+  p_.."doublesFullHouse",
+  p_.."19inchrack",
+  p_.."ultrachancesplititemthing",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -337,11 +343,28 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
           return true
       end
   end,
-  EnemyHitEffect = function (_, tear, pos, enemy)
-      local p = mod:UtilGetPlayerFromTear(tear)
+  EnemyHitEffect = function (_, tear, pos, enemy, p)
       mod:UtilAddElectrostun(enemy, p, 60)
   end,
   TearColor = mod.ElectroStunTearColor
+})
+mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DREAD, {
+  ApplyLogic = function (_, p, tear)
+    if p:HasCollectible(mod.ITEMS.MONOKUMA) then
+      return true, true
+    end
+    if p:HasCollectible(mod.ITEMS.MALEDICTION) then
+        local rng = p:GetCollectibleRNG(mod.ITEMS.MALEDICTION) 
+        local proc = 1/(4-(p.Luck*0.25))
+        if rng:RandomFloat() < proc then
+            return true
+        end
+    end
+  end,
+  EnemyHitEffect = function (_, tear, pos, enemy, p)
+      mod:UtilAddDread(enemy, 2, p)
+  end,
+  TearColor = mod.DreadTearColor
 })
 
 for index, value in ipairs(midLoad) do
@@ -397,8 +420,15 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO))
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD) * 0.5)
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.ASTIGMATISM)* 0.35)
+    player.MaxFireDelay = mod:TearsUp(player, player:GetTrinketMultiplier(mod.TRINKETS.FLUKE_WORM)* 0.46)
 
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * effects:GetNullEffectNum(mod.NULL.VIATHAN))
+    if p_data.WickedPData.sudariumRooms then
+      player.MaxFireDelay = mod:TearsUp(player, 0, (p_data.WickedPData.sudariumRooms/6)*2)
+    end
+    if p_data.sw_mantleSudariumFrames then
+      player.MaxFireDelay = mod:TearsUp(player, 0, (p_data.sw_mantleSudariumFrames)/60)
+    end
     if p_data.WickedPData.reliqBuff then
         player.MaxFireDelay = mod:TearsUp(player, 0, p_data.WickedPData.reliqBuff*0.25)
     end
@@ -442,7 +472,7 @@ function mod:EvaluateGenericStatItems(player, flags)
         --print(p_data.WickedPData.FruitMilkFlags)
         player.TearFlags = player.TearFlags | p_data.WickedPData.FruitMilkFlags
     end
-    if player:HasCollectible(mod.ITEMS.GANYMEDE) then
+    if player:HasCollectible(mod.ITEMS.GANYMEDE) or player:HasTrinket(mod.TRINKETS.FLUKE_WORM) then
       player.TearFlags = player.TearFlags | TearFlags.TEAR_SPECTRAL
     end
 
@@ -460,6 +490,9 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
     if bolts > 0 then
       player.TearColor = player.TearColor * Color(1/1.5, 0.5, 0.5)
+    end
+    if player:HasCollectible(mod.ITEMS.MONOKUMA) then
+      player.TearColor = player.TearColor * mod.DreadTearColor
     end
   end
   if  flags == CacheFlag.CACHE_FAMILIARS then
@@ -509,13 +542,16 @@ function mod:EvaluateLateStats(player, flags)
 
   local shouldBoost = p_data.sw_shouldEdithBoost
   local waterBoosts = p_data.sw_currentWaterAuras or 0
-  local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT) and not player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK)
+  local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT)
   if flags == CacheFlag.CACHE_FIREDELAY then
     if shouldBoost then
       player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1.5)
     end
+    if player:HasCollectible(mod.ITEMS.DOUBLES) then
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 0.456)
+    end
     if boltsOfLight then
-      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 3.6/5.5)
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 3.6)
     end
     player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1+(waterBoosts/5))
   end
@@ -527,7 +563,7 @@ function mod:EvaluateLateStats(player, flags)
       player.Damage = player.Damage * 1.3
     end
     if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
-      player.Damage = player.Damage * 0.2
+      player.Damage = player.Damage * 0.25
     end
     if shouldBoost or waterBoosts > 0 then
       player.Damage = player.Damage * 1.2
@@ -536,7 +572,7 @@ function mod:EvaluateLateStats(player, flags)
         player.Damage = player.Damage * 2/3
     end
     if boltsOfLight then
-      player.Damage = player.Damage * 0.2777776/0.2
+      player.Damage = player.Damage * 0.2777776
     end
   end
   mod:StarSpawnEval(player, flags)
@@ -596,6 +632,14 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, pl
     mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_THERES_OPTIONS)
     mod:AddItemWispForEval(player, CollectibleType.COLLECTIBLE_MORE_OPTIONS)
   end
+
+  local p_data = player:GetData()
+  if player:HasTrinket(mod.TRINKETS.OPTIONS_TRINKET) and p_data.thatOneTrinketItem then
+    mod:AddItemWispForEval(player, p_data.thatOneTrinketItem)
+  end
+  if player:HasCollectible(mod.ITEMS.MAGIC_EYE) and p_data.magicEyeItem then
+    mod:AddItemWispForEval(player, p_data.magicEyeItem)
+  end
 end)
 
 function mod:useCardGeneric(id, player, useflags)
@@ -604,6 +648,7 @@ function mod:useCardGeneric(id, player, useflags)
     local trinket = game:GetItemPool():GetTrinket()
     player:AnimateTrinket(trinket, "Pickup")
     mod:UtilAddSmeltedTrinket(trinket, player)
+    mod:IncrementStonesOfThePitUsed()
     return
   end
   if id == mod.CARDS.MAGPIE_EYE then
@@ -636,6 +681,7 @@ function mod:peffectGenericUpdate(player)
   end
 
   mod:SOPPlayerUpdate(player)
+  mod:sudariumPeffectUpdate(player)
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.peffectGenericUpdate)
 
@@ -647,7 +693,7 @@ function mod:GenericOnPickups(player, room, id)
     return
   end
   local getPos = function ()
-    room:FindFreePickupSpawnPosition(player.Position)
+    return room:FindFreePickupSpawnPosition(player.Position)
   end
   if id == mod.ITEMS.RED_LOCKBOX then
     local c_rng = player:GetCollectibleRNG(mod.ITEMS.RED_LOCKBOX)
@@ -666,9 +712,19 @@ function mod:GenericOnPickups(player, room, id)
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, mod.CARDS.STONE_OF_THE_PIT, getPos(), Vector.Zero, player)
     return
   end
+  if id == mod.ITEMS.TWO_DOLLAR_COIN then
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_GOLDEN, getPos(), Vector.Zero, player)
+    return
+  end
+  local p_data = player:GetData()
+  if id == mod.ITEMS.TEFILIN then
+    p_data.WickedPData.tefilinUp = true
+    local level = game:GetLevel()
+    level:AddAngelRoomChance(276)
+    return
+  end
   mod:OldUrnPickup(player, room, id)
 
-  local p_data = player:GetData()
   if p_data.WickedPData.queueNextItemBox then
     mod:AddItemToTrack(player, id, "sampleBox")
     p_data.WickedPData.queueNextItemBox = false
@@ -797,7 +853,8 @@ function mod:OnNewRoom()
       
       local hasSpawnedBirettaYet, hasSpawnedWickermanYet, shouldGenRoom = false, false, mod:GenericShouldGenerateRoom(level, game)
       for _, player in ipairs(mod:UtilGetAllPlayers()) do
-        player:GetData().WickedPData.CurseRoomsHealedOff = {}
+        local p_data = player:GetData()
+        p_data.WickedPData.CurseRoomsHealedOff = {}
         if player:HasCollectible(mod.ITEMS.WOODEN_DICE) then
           player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
         end
@@ -810,8 +867,8 @@ function mod:OnNewRoom()
           mod:RedGenerate(game, level, player)
         end
         
-        if player:GetData().WickedPData.demonCoreFlag ~= nil then 
-          player:GetData().WickedPData.demonCoreFlag = false
+        if p_data.WickedPData.demonCoreFlag ~= nil then 
+          p_data.WickedPData.demonCoreFlag = false
         end
         
         if not hasSpawnedBirettaYet and player:HasCollectible(mod.ITEMS.BIRETTA) then
@@ -819,6 +876,10 @@ function mod:OnNewRoom()
         end
         
         mod:BookOfLuciferNewFloor(player, shouldGenRoom)
+        mod:tefilinNewFloorPlayer(player)
+
+        p_data.magicEyeItem = mod:GetRandomElement(mod.magicEyeItems, player:GetCollectibleRNG(mod.ITEMS.MAGIC_EYE))
+        p_data.thatOneTrinketItem = mod:GetRandomElement(mod.optionTrinketsItem, player:GetTrinketRNG(mod.TRINKETS.OPTIONS_TRINKET))
 
         if shouldGenRoom then
           if not hasSpawnedWickermanYet and player:HasCollectible(mod.ITEMS.WICKERMAN) then
@@ -831,6 +892,7 @@ function mod:OnNewRoom()
         local ceffects = player:GetEffects()
         ceffects:RemoveNullEffect(mod.NULL.VIATHAN, -1)
       end
+      mod.tef_removeNextFloor = nil
 
       for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_NIGHTMARE, mod.NightmareSubTypes.NIGHTMARE_FLOORONLY)) do
         value:Remove()
@@ -856,7 +918,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     end
   end
   
-  local glitch = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET)
+ -- local glitch = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.ZZZZZZ_MAGNET)
   local curse = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.CURSED_KEY)
   local treasure = PlayerManager.AnyoneHasTrinket(mod.TRINKETS.TREASURERS_KEY)
 
@@ -864,10 +926,11 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
     local door = room:GetDoor(i)
     if door then
       mod:CurseKeyTreasurersKeyDoorChecks(door, currIdx, curse, treasure)
+      mod:IsDevilDoor(door)
 
-      if glitch then
-        mod:ZZZZZZConvertDoor(door)
-      end
+      --if glitch then
+        --mod:ZZZZZZConvertDoor(door)
+      --end
     end
   end
 
@@ -884,6 +947,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, function ()
       player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
       player:EvaluateItems()
     end
+    mod:sudariumNewRoom(player)
   end
 end)
 
@@ -937,6 +1001,7 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
       end
       ceffects:AddCollectibleEffect(mod.ITEMS.THE_SHRINKS)
     end
+    mod:sudariumPostDMG(p)
 
     return
   end
@@ -951,6 +1016,8 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
 
     return
   end
+
+  mod:PostDreadNormalDMG(ent, amount, flags, source, dmgCooldown)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_TAKE_DMG, mod.PostEntityTakeDMG)
 
@@ -967,12 +1034,19 @@ function mod:PreEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
 end
 mod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, mod.PreEntityTakeDMG)
 
-function mod:OnUsePill(effect, player)
+function mod:OnUsePill(effect, player, flags)
+  if flags & UseFlag.USE_NOANIM > 0 then
+    return
+  end
+
   if player:HasTrinket(mod.TRINKETS.SUGAR_COATED_PILL) then
     mod.save.runData.sugarCoatedPillEffect = effect
     player:TryRemoveTrinket(mod.TRINKETS.SUGAR_COATED_PILL)
 
     sfx:Play(SoundEffect.SOUND_VAMP_GULP)
+  end
+  if player:HasTrinket(mod.TRINKETS.VICODIN) and effect ~= PillEffect.PILLEFFECT_PERCS then
+    player:UsePill(PillEffect.PILLEFFECT_PERCS, 0, UseFlag.USE_NOANIM | UseFlag.USE_NOANNOUNCER | UseFlag.USE_NOHUD)
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_PILL, mod.OnUsePill)

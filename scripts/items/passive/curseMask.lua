@@ -31,6 +31,6 @@ local function OnDamage(_, player, amount, flag)
         
         return false
     end
-end
+end 
 
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, OnDamage, EntityType.ENTITY_PLAYER)

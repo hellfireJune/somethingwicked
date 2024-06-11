@@ -70,10 +70,10 @@ function mod:GetTearAnimPath(tear, animated)
 	local array = animated and animArray or staticArray
 	for index, scalar in ipairs(array) do
 		if scale <= scalar then
-			return "Tear"..index, scalar
+			return "Tear"..index, scalar, index
 		end
 	end
-	return "Tear"..#array+1, array[#array]
+	return "Tear"..#array+1, array[#array], #array
 end
 
 local wickedTears = {

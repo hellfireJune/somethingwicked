@@ -39,6 +39,7 @@ end
 
 local function ClearRunData(_, continue)
     if continue ~= true then
+        mod:PostStartGame()
         SomethingWicked.save.runData = nil
         SomethingWicked.save.runData = {}
         SomethingWicked.save.runData.playersData = {}

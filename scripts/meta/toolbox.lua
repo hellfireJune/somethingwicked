@@ -1009,7 +1009,7 @@ function mod:GetCurrentDamageMultiplier(player)
     if type(charMult) == "function" then charMult = charMult(player) end
     if charMult ~= nil then mult = charMult end
     
-    --Also, stolen from the damage multiplier stat mod. Thanks to "FainT" so so so much
+    --Also, taken from the damage multiplier stat mod. Thanks to "FainT" so so so much
     for collectible, multiplier in pairs(DamageMultiplers) do
         if player:HasCollectible(collectible) then
             if type(multiplier) == "function" then multiplier = multiplier(player) end
@@ -1347,4 +1347,23 @@ function SomethingWicked:SetEasyTearTrail(tear)
     end
     t_data.sw_tearTrail.ParentOffset = tear.PositionOffset
     return t_data.sw_tearTrail, init
+end
+
+function SomethingWicked:SpawnTearSplit(tear, player, pos, vel, mult)
+    local t_data = tear:GetData()
+    local haemoDowngrade = t_data.sw_isHaemoSplitShot
+    mult = mult or 1
+
+    local nt = player:FireTear(pos, vel, false, true, false, nil, math.min(tear.CollisionDamage / player.Damage,1)*mult)
+    nt.Scale = tear.Scale*(mult^0.5)
+    nt.Parent = nil
+    if haemoDowngrade then
+        nt:ClearTearFlags(TearFlags.TEAR_BURSTSPLIT)
+        nt:ChangeVariant(tear.Variant) --not using the custom function here because the custom function wont override haemolacria. iirc
+        nt.FallingAcceleration = 1.3
+        local rng = nt:GetDropRNG()
+        local fallSpeed = rng:RandomInt(-12, -4)
+        nt.FallingSpeed = fallSpeed
+    end
+    return nt
 end
