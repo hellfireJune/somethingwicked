@@ -60,7 +60,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, OnFirePure)
 local noCollideFrames = 8
 local noFallFrames = 94
 local maxSpinSpeed = 30
-local flashColour = Color(0,0,0,0, 0.4, 0.4, 0.4)
+local flashColour = Color(1,1,1,1, 0.4, 0.4, 0.4)
 function mod:ganymedeTearUpdate(tear)
     local t_data = tear:GetData()
     local g = t_data.sw_gany
@@ -103,7 +103,7 @@ function mod:ganymedeTearUpdate(tear)
                     b:AddTearFlags(TearFlags.TEAR_HOMING)
                 end
 
-                gp:SetColor(tear.Color*flashColour, 4, 3, true, false)
+                gp:SetColor(tear.Color*flashColour, 8, 3, true, false)
             end
         end
     end

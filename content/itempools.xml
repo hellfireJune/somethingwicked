@@ -185,7 +185,7 @@
 	</Pool>
 
 	<Pool Name="planetarium">
-
+		<Item Name=" Ganymede " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="ultraSecret">

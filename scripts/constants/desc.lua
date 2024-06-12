@@ -683,8 +683,8 @@ local collectibles = {
     },
     [mod.ITEMS.GANYMEDE] = {
         name = "Ganymede",
-        Hide = true,
-        desc = "",
+        desc = "\1 Every 5 tears fired, fire a burst of 4 stationary tears#If these tears are in range of other tears, they will orbit the tears and gain homing#Spectral tears",
+        pools = { pools.POOL_PLANETARIUM }
     },
     [mod.ITEMS.FLY_SCREEN_ITEM] = {
         desc = "Bounces around the room#Deals contact damage and attracts enemies and pickups",

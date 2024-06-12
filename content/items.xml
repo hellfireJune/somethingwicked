@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-    - Added Book of Leviathan, Fly Screen, The Shrinks, Two Dollar Coin, Vicodin, Tefillin, Card Graveyard, Doubles!, Toy Bear, Fear Stalks The Land, Magic Eye,
+    - Added Book of Leviathan, Fly Screen, The Shrinks, Two Dollar Coin, Vicodin, Tefillin, Card Graveyard, Doubles!, Toy Bear, Fear Stalks The Land, Magic Eye, Planetside
     - Boon of the Magpie's Eye is back and buffed
 
   Changes:
@@ -135,6 +135,7 @@
   <passive id="90" name="Toy Bear" description="Despair shot" gfx="sw_monokuma.png" tags="offensive summonable" cache="tearcolor" quality="3"/>
   <passive id="35" name="Magic Eye" description="Change your perception" tags="offensive summonable nogreed" gfx="magiceye2t.png" quality="2"/>
   <active id="64" name="Fear Stalks The Land!" gfx="fearstalkstheland.png" maxcharges="3" quality="2" tags="offensive"/>
+  <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable" cache="tearflag"/>
 
   <passive id="81" name="Curse Mask" quality="1" description="Curse damage heals" hidden="true" tags="noeden nolostbr summonable"/> <!--code done-->
   <active id="84" name="Dudael" quality="3" hidden="true" tags="noeden"/>
@@ -170,7 +171,6 @@
   <passive id="11" name="Adder Stone" quality="1" description="Luck up, " hidden="true" tags="noeden offensive" cache="luck" achievement="Wicked - Adder Stone"/>
   <passive id="133" name="Living Water" quality="3" hidden="true" tags="noeden offensive summonable"/>
   <passive id="141" name="Bolts of Light" tags="noeden offensive summonable" hidden="true" quality="3" cache="shotspeed tearcolor" achievement="Wicked - Bolts of Light"/>
-  <passive id="148" name=" Ganymede " description="Heaven's call" gfx="ganymede.png" quality="3" tags="offensive summonable noeden" cache="tearflag" hidden="true"/>
   <active id="82" name = "Earth of Adam"  quality="3" hidden="true" tags="noeden offensive" gfx="lilmandrake.png"/>
   <passive id="83" name=" Earth of Adam " quality="3" hidden="true" tags="noeden" gfx="lilmandrake.png"/>
   <passive id="153" name="Acheron" devilprice="2" hidden="true" quality="4" tags="noeden offensive summonable" gfx="lilmandrake.png"/>
