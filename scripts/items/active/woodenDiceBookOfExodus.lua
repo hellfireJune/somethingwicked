@@ -53,7 +53,7 @@ end]]
 
 function mod:GetSmeltedTrinkets(player)
     local history = player:GetHistory()
-    local historyItems = history:GetcollectiblesHistory()
+    local historyItems = history:GetCollectiblesHistory()
 
     local trinks = {}
     for index, value in ipairs(historyItems) do
