@@ -82,7 +82,7 @@ function MenuProvider.SaveMenusPoppedUp(var)
     mod.save.MenusPoppedUp = var
 end
 
-local dssmenucore = include("scripts/misc/dss/dssmenucore")
+local dssmenucore = include("scripts/deadseascrolls/dssmenucore")
 
 -- This function returns a table that some useful functions and defaults are stored on.
 local dssmod = dssmenucore.init(DSSName, MenuProvider)
@@ -97,7 +97,7 @@ local exampledirectory = {
     -- The keys in this table are used to determine button destinations.
     main = {
         -- "title" is the big line of text that shows up at the top of the page!
-        title = 'example mod!',
+        title = 'something wicked',
         -- "buttons" is a list of objects that will be displayed on this page. The meat of the menu!
         buttons = {
             -- The simplest button has just a "str" tag, which just displays a line of text.

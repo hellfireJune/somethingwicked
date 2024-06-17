@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
   Additions:
-    - Added Book of Leviathan, Fly Screen, The Shrinks, Two Dollar Coin, Vicodin, Tefillin, Card Graveyard, Doubles!, Toy Bear, Fear Stalks The Land, Magic Eye, Planetside
+    - Added Book of Leviathan, Fly Screen, The Shrinks, Two Dollar Coin, Vicodin, Tefillin, Card Graveyard, Doubles!, Toy Bear, Fear Stalks The Land, Magic Eye, Ganymede
     - Boon of the Magpie's Eye is back and buffed
 
   Changes:
@@ -18,7 +18,8 @@
   - Dr. fetus synergies with most tear effects
   - Further internal repentogon integration
   - Compat with reshaken and retribution (retribution compat very minor rn still needs a lot)
-  - Electric dice, balrog's head, abandoned box, chrismatory, glitchcity, dice roller, and several more items have all had some awful item breaking bugs with them fixed
+  - Electric dice, balrog's head, abandoned box, chrismatory, glitchcity, dice roller, wooden dice, book of exodus and several more items have all had some awful item breaking bugs with them fixed
+  - lots of changes i forgot to write down, teehee
   -->
 
   <!--planned qol :333
@@ -156,7 +157,7 @@
   <passive id="122" name="Tombstone" hidden="true" tags="noeden"/>
   <active id="123" name="Mammon's Piggybank" maxcharges="3" chargetype="special" hidden="true" tags="noeden"/>
   <active id="125" name="Doubling Cherry" cache="familiars" maxcharges="3" quality="3" description="Double yourself!" hidden="true" tags="noeden"/>
-  <active id="127" name="Last Prism" description="In tune" quality="4" maxcharges="12" hidden="true" tags="noeden" persistent="true" cooldown="900"/> <!--WE'RE BACK -->
+  <active id="127" name="Last Prism" description="In tune" quality="4" maxcharges="12" hidden="true" tags="noeden" persistent="true" cooldown="900" gfx="lastprismthebest.png"/> <!--WE'RE BACK -->
 
   <familiar id="128" name="Fuzzy Fly" quality="0" description="Tear dizzy-er" hidden="true" tags="noeden"/>
   <passive id="131" name="Screw Attack" quality="3" hidden="true" tags="noeden"/>

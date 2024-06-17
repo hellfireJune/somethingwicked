@@ -315,6 +315,7 @@ local midLoad = {
   p_.."doublesFullHouse",
   p_.."19inchrack",
   p_.."ultrachancesplititemthing",
+  p_.."yoyo",
 
   t_.."twoOfCoins",
   t_.."stoneKey",

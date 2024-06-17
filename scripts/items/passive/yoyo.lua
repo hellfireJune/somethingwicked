@@ -56,12 +56,12 @@ local function YoYoCollide(_, familiar, other)
     end
 
     --PUT COOL KNOCKBACK FUNCTION HERE
-    mod:CollisionKnockback(familiar.Position, other.Position, familiar.Velocity)
+    local ang = mod:CollisionKnockback(familiar.Position, other.Position, familiar.Velocity)
 
-    familiar:GetData()["sw_yoknockback"] = (thing*maxSpeed*1.5)
+    familiar:GetData()["sw_yoknockback"] = (ang*maxSpeed*1.5)
     
     if not other:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
-        other:AddVelocity(knockBackAngle*-0.8)
+        other:AddVelocity(ang*-0.8)
     end
 end
 mod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, YoYoCollide, FamiliarVariant.SOMETHINGWICKED_YOYO)
@@ -97,7 +97,7 @@ local function YoYoUpdate(_, familiar)
     currSpeed = math.min(currSpeed, trgt:Distance(familiar.Position))
     local vel = (trgt-familiar.Position):Normalized()*currSpeed
     if f_data.sw_yoknockback then
-        familiar.Velocity = familiar.Velocity + f_data.sw_yoknockback
+        familiar.Velocity = f_data.sw_yoknockback
         f_data.sw_yoknockback = nil
     end
     familiar.Velocity = mod:Lerp(familiar.Velocity, (vel), 0.2)
