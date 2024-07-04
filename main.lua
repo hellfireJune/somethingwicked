@@ -216,6 +216,7 @@ local earlyLoad = {
   "meta/customTearFlags",
   "meta/customTearVariants",
   "meta/redkeyLevelGen",
+  "meta/multishotcallbackfix",
 
   "effects/__core",
   "familiars/nightmares",
@@ -309,7 +310,7 @@ local midLoad = {
   p_.."astigmatism",
   p_.."curseMask",
   p_.."starOfProvidence",
-  m_.."catTeaserFuzzyFly",
+  m_.."catTeaser",
   p_.."sudariumOfOviedo",
   p_.."tefelin",
   p_.."doublesFullHouse",
@@ -478,7 +479,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
 
     if player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
-      player.TearFlags = player.TearFlags | (TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_SPECTRAL)
+      player.TearFlags = player.TearFlags | (TearFlags.TEAR_ORBIT | TearFlags.TEAR_SPECTRAL)
     end
 
     if p_data.WickedPData.BonusVanillaFlags then
@@ -490,7 +491,7 @@ function mod:EvaluateGenericStatItems(player, flags)
       player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
     end
     if bolts > 0 then
-      player.TearColor = player.TearColor * Color(1/1.5, 0.5, 0.5)
+      player.TearColor = player.TearColor * Color(1,1,1)
     end
     if player:HasCollectible(mod.ITEMS.MONOKUMA) then
       player.TearColor = player.TearColor * mod.DreadTearColor

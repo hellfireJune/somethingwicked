@@ -117,9 +117,12 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 	local t_data = tear:GetData()
 	t_data.sw_savedScale = tear.Scale
 
-	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD then
+	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD or tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then
 		t_data.sw_tearBackScale = tear.Scale * 0.4 * Vector.One
 		t_data.sw_tearBackColor = tear.Color*Color(1,1,1,1,-0.2,-0.2,-0.2)
+		if tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then
+			t_data.sw_tearBackColor =t_data.sw_tearBackColor* Color(1,1,1,0.25 	)
+		end
 		t_data.sw_tearBackAnim = "ShardBack"
 	end
 end)
@@ -145,12 +148,12 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
 	end
 end, EntityType.ENTITY_TEAR)
 
-mod:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_RENDER, CallbackPriority.LATE, function (_, tear)
+mod:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_RENDER, CallbackPriority.LATE, function (_, tear, oset)
 	local t_data = tear:GetData()
 	if t_data.sw_tearBackAnim then
 		backSprite:Play(t_data.sw_tearBackAnim)
 		backSprite.Color = t_data.sw_tearBackColor
 		backSprite.Scale = t_data.sw_tearBackScale
-		backSprite:Render(tear.Position)
+		backSprite:Render( Isaac.WorldToRenderPosition(tear.Position+tear.PositionOffset)+oset)
 	end
 end)

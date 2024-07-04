@@ -68,7 +68,7 @@ mod.GENERIC_DESCRIPTIONS = {
 
     CARDDRAW = "Cannot use The Fool? The Lovers?, The Stars? or Wheel of Fortune?#Teleport cards will only be rarely used, and cannot be drawn during boss fights",
     SOULTRINKETSTATS = "#↑{{Damage}} +0.3 Damage up#↑{{Tears}} +0.5 Tears up#↑{{Luck}} +1 Luck up"..
-    "#↑{{Speed}} +0.15 Speed up#↑{{ShotSpeed}} +0.1 Shot Speed#↑{{Range}} +0.75 Range up"
+    "#↑{{Speed}} +0.15 Speed up#↑{{Shotspeed}} +0.1 Shot Speed#↑{{Range}} +0.75 Range up"
 }
 local soulMetadataFunc = function (item)
     EID:addGoldenTrinketMetadata(item, nil, { 0.3, 0.5, 1, 0.15, 0.1, 0.75 } )
@@ -107,7 +107,7 @@ local collectibles = {
         },
     },
     [mod.ITEMS.WICKED_SOUL] = {
-        desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up#↑ {{ShotSpeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
+        desc = [[↑ {{Damage}} +30% Damage Multiplier#↑ {{Damage}} +0.5 Damage#↑ {{Luck}} +1 Luck up #↑ {{Speed}} +0.2 Speed up#↑ {{Shotspeed}} +0.1 Shot Speed up #↑ {{Range}} +1.2 Range up#!!! A bonus curse will be added every floor]],
         pools = {
             pools.POOL_TREASURE,
             pools.POOL_CURSE,
@@ -854,8 +854,8 @@ local trinkets = {
     [mod.TRINKETS.VICODIN] = {
         desc = "{{Pill}} Using a pill will additionally use a Percs pill"
     },
-    [mod.TRINKETS.VICODIN] = {
-        desc = "{{Card}} 50% chance to use a random card on damage"..mod.GENERIC_DESCRIPTIONS.CARDDRAW
+    [mod.TRINKETS.CARD_GRAVEYARD] = {
+        desc = "{{Card}} 50% chance to use a random card on damage#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW
     }
 }
 

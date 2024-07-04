@@ -92,6 +92,7 @@ local function GetTearVariantFromFlags(tflags)
 end
 
 local function GetTearColorFromFlags(tflags, isLaser, colorBlacklist)
+    colorBlacklist = colorBlacklist or 0
     local color = Color(1, 1, 1)
     local idx = isLaser and "LaserColor" or "TearColor"
     if tflags > 0 then
@@ -284,10 +285,10 @@ local function PostFireMisc(_, laser)
     local player = mod:UtilGetPlayerFromTear(laser)
     if player then
         local l_data = laser:GetData()
-        local flags = GetTearFlagsToApply(player, laser)
+        local flags, blacklist = GetTearFlagsToApply(player, laser)
         l_data.somethingWicked_customTearFlags = (l_data.somethingWicked_customTearFlags or 0) | flags
 
-        local t_color = GetTearColorFromFlags(flags, laser.Type == EntityType.ENTITY_LASER)
+        local t_color = GetTearColorFromFlags(flags, laser.Type == EntityType.ENTITY_LASER, blacklist)
         if t_color then
             laser.Color = laser.Color * t_color
         end

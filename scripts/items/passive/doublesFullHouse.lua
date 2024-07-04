@@ -39,7 +39,7 @@ local function pEffectUpdate(_, player)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, pEffectUpdate)
-
+ 
 local function getVolleySize(_, player)
     local weapon = player:GetWeapon(1)
     if weapon then

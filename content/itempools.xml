@@ -162,6 +162,7 @@
 		<Item Name="Red Lockbox" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 <!-- 		<Item Name="Possum's Ear" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/> -->
 		<Item Name="Naga Viper" Weight="0.5" DecreaseBy="0.2" RemoveOn="0.05"/>
+		<Item Name="Cursed Credit Card" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="beggar">

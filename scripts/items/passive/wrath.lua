@@ -43,7 +43,7 @@ local function TearFire(_, tear)
                     tear:Die()
                 end
             else
-                if t_data.sw_collideMap and t_data.sw_collideMap[""..t_data.somethingWicked_trueHoming.target] then
+                if t_data.sw_collideMap and t_data.sw_collideMap[""..t_data.somethingWicked_trueHoming.target.InitSeed] then
                     t_data.somethingWicked_trueHoming.backupPos = t_data.somethingWicked_trueHoming.target.Position
                     t_data.somethingWicked_trueHoming.target = nil
                 end

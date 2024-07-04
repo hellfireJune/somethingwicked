@@ -96,6 +96,7 @@ local function EffectUpdate(_, effect)
         end
         for index, ent in ipairs(nearbyEnemies) do
             ent:TakeDamage(damage, DamageFlag.DAMAGE_IGNORE_ARMOR, EntityRef(effect), 1)
+            --mod:DoKnifeDamage(effect, ent, Isaac.GetPlayer(1), damage)
             
             local veloc = (ent.Position - pos):Normalized()
             local pf = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_GLITCH_POOF, 0, pos+(veloc*40), Vector.Zero, nil)

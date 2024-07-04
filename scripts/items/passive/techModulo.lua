@@ -4,7 +4,7 @@ local function FirePerpendicularLasers(_, player, tear, dmgmult, dir)
     if not player:HasCollectible(mod.ITEMS.TECH_MODULO) then
         return
     end
-    local vel = dir
+    local vel = dir:Normalized()*10
     --local _, pos = room:CheckLine(shooter.Position, shooter.Position + vel, 0)
 
     local stacks = math.max(player:GetCollectibleNum(mod.ITEMS.TECH_MODULO), 1)
@@ -23,13 +23,13 @@ local function fire(tear, dir)
     if not player or not tear.Parent or tear.Parent.Type ~= EntityType.ENTITY_PLAYER then
         return
     end
-    FirePerpendicularLasers(_,player,tear, tear.CollisionDamage/player.Damage, dir)
+    FirePerpendicularLasers(_,player, tear, tear.CollisionDamage/player.Damage, dir)
 end
 mod:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
     fire(tear, tear.Velocity)
 end)
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_LASER_FIRED, function (_, tear)
-    fire(tear, Vector.FromAngle(tear.Angle)*10)
+    fire(tear, Vector.FromAngle(tear.Angle))
 end)
 mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, function (_, bomb)
     if bomb.FrameCount ~= 1 then
@@ -39,5 +39,5 @@ mod:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, function (_, bomb)
     if not bomb or not bomb.IsFetus or not bomb.Parent or bomb.Parent.Type ~= EntityType.ENTITY_PLAYER then
         return
     end
-    FirePerpendicularLasers(_,player,bomb, bomb.ExplosionDamage/player.Damage)
+    FirePerpendicularLasers(_,player,bomb, bomb.ExplosionDamage/player.Damage, bomb.Position-player.Position)
 end)

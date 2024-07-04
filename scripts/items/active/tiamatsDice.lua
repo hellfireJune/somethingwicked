@@ -3,7 +3,7 @@ local mod = SomethingWicked
 
 local PricePool = 
 {
-    { 0, 20},
+    { -276, 20},
     { PickupPrice.PRICE_ONE_HEART, 13},
     { PickupPrice.PRICE_TWO_HEARTS, 10},
     { PickupPrice.PRICE_THREE_SOULHEARTS, 7},
@@ -31,6 +31,10 @@ local function UseItem(_, _, rngObj)
 
             local price = priceSelector:PickOutcome(rngObj)
             if price ~= nil then
+                if price == -276 then
+                    local room = game:GetRoom()
+                    price = room:GetShopItemPrice(PickupVariant.PICKUP_COLLECTIBLE, collectible, item.ShopItemId)
+                end
                 item.Price = price
                 item.AutoUpdatePrice = false
                 item.ShopItemId = -1

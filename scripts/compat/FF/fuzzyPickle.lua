@@ -8,7 +8,7 @@ local references = {
         {ID = mod.ITEMS.ITEM_BOX, Reference = "Mario Kart"},
         {ID = mod.ITEMS.BOOK_OF_INSANITY, Reference = "The King in Yellow"},
         {ID = mod.ITEMS.BOLINE, Reference = "King Gizzard and the Lizard Wizard", Partial=true},
-        {ID = mod.ITEMS.FEAR_STALKS_THE_LAND, Reference="Radiohead"},
+        {ID = mod.ITEMS.FEAR_STALKS_THE_LAND, Reference="Fear Stalks the Land! A Commonplace Book"},
 
         --currently unused
         {ID = mod.ITEMS.ICE_WAND, Reference = "Terraria"},

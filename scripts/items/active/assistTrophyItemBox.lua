@@ -24,9 +24,6 @@ end, mod.ITEMS.ITEM_BOX)
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     local p_data = player:GetData()
-    if not player:IsExtraAnimationFinished() then
-        return
-    end
     local tempEffects = player:GetEffects()
     local s = tempEffects:GetCollectibleEffect(mod.ITEMS.ITEM_BOX)
 

@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 
 local shardDelay = 2/3
-local angleVariance = 35
+local angleVariance = 25
 local dmgMult = 1/3
 local function UpdatePlayer(_, player)
     if not player:HasCollectible(mod.ITEMS.LIGHT_SHARD) and not player:HasCollectible(mod.ITEMS.DARK_SHARD) then

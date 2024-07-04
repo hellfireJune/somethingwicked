@@ -1367,3 +1367,31 @@ function SomethingWicked:SpawnTearSplit(tear, player, pos, vel, mult)
     end
     return nt
 end
+
+--fake fake knives
+
+--creates an invisible moms knife entity, then updates it to the stats and tearflags provided and forces it to collide with the enemy
+--should be a cheap way to do synergies, might be a bit laggy now though it runs the damage cache everytime
+function SomethingWicked:DoKnifeDamage(target, player, damage)
+    damage = damage or player.Damage
+
+    local knife = Isaac.Spawn(EntityType.ENTITY_KNIFE, mod.KNIFE_THING, 0, Vector(80000,80000), Vector.Zero, nil):ToKnife()
+    local params = player:GetTearHitParams(WeaponType.WEAPON_TEARS)
+    local flags = params.TearFlags
+
+    knife.Variant = 0
+    knife.Parent = player
+    knife.SpawnerEntity = player
+    knife.TearFlags = flags
+    player.Damage=damage/6
+    knife:Shoot(100, 1)
+    knife.Position = target.Position
+
+    knife:ForceCollide(target, true)
+
+    --knife.Position = Vector(80000, 80000)
+    knife.Variant = mod.KNIFE_THING
+    knife.Parent = nil
+    player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+    --knife.SpawnerEntity = nil
+end

@@ -1,3 +1,6 @@
+--item rerolling is a fickle thing, and it's going to break a lot of things across mods, but a lot of mods just use the d4 to reroll stuff, so this is good for me
+--remind me to make my own custom individual item rerolls fix this (yes, bad solution, idc)
+
 local mod = SomethingWicked
 
 function mod:PreUseD4(_, _, player)

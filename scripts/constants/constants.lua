@@ -28,6 +28,8 @@ TearVariant.SOMETHINGWICKED_FACESTABBER = Isaac.GetEntityVariantByName("Facestab
 TearVariant.SOMETHINGWICKED_VOIDSBLADE = Isaac.GetEntityVariantByName("Call of the Void Tear")
 TearVariant.SOMETHINGWICKED_LIGHT_SHARD = Isaac.GetEntityVariantByName("Light Shard Tear")
 
+SomethingWicked.KNIFE_THING = Isaac.GetEntityVariantByName("[SW] Secret Knife")
+
 SomethingWicked.ACHIEVEMENTS = {}
 SomethingWicked.ACHIEVEMENTS.TECHNICALACHIEVEMENT = Isaac.GetAchievementIdByName("Wicked - Don't Unlock Me!")
 SomethingWicked.ACHIEVEMENTS.BOLTS_OF_LIGHT = Isaac.GetAchievementIdByName("Wicked - Bolts of Light")

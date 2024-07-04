@@ -17,7 +17,7 @@ local function AirFreshUpdate(_, tear)
         local dontFall = true
 
         if t_data.sw_airFreshTarget ~= nil and t_data.sw_airFreshTarget:Exists()
-         and nearestFoe and GetPtrHash(t_data.sw_airFreshTarget) ~= GetPtrHash(nearestFoe.InitSeed) then
+         and nearestFoe and GetPtrHash(t_data.sw_airFreshTarget) ~= GetPtrHash(nearestFoe) then
             local newDis = nearestFoe.Position:Distance(tear.Position)
             local oldDis = t_data.sw_airFreshTarget.Position:Distance(tear.Position)
             if newDis < oldDis then
@@ -30,6 +30,10 @@ local function AirFreshUpdate(_, tear)
         end
 
         local target = t_data.sw_airFreshTarget
+        if target and not target:Exists() then
+            t_data.sw_airFreshTarget = nil
+            target = nil
+        end
         if target and activeLerp > 0.5 then
             local trgtdis = target.Position:Distance(tear.Position)
                 local d = (1-(math.min(radius-30, trgtdis)/radius))

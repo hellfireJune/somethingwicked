@@ -36,6 +36,9 @@ end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 
 local function PEffect(_, player)
+    if not player:IsExtraAnimationFinished() then
+        return
+    end
     local p_data = player:GetData()
     if p_data.sw_drData then
         local d = p_data.sw_drData
@@ -66,8 +69,8 @@ local function PEffect(_, player)
             while t_rng:RandomFloat() < charge do
                 charge = charge - 1
                 
-                local dice = mod:GetRandomElement(dice, t_rng)
-                player:UseActiveItem(dice)
+                local select_dice = mod:GetRandomElement(dice, t_rng)
+                player:UseActiveItem(select_dice)
             end
         end
         

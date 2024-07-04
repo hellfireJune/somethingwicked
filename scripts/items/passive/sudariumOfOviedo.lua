@@ -58,7 +58,6 @@ function mod:sudariumPeffectUpdate(player)
                 local cParams = player:GetColorParams()
                 for index, value in ipairs(cParams) do
                     if value:GetDuration() == 10 and value:GetLifespan() >= 9 then
-                        print(value:GetLifespan())
                         goto continue
                     end
                 end

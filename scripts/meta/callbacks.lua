@@ -156,7 +156,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, CheckForBossDeath)
 local brim = {
     LaserVariant.THICK_RED, LaserVariant.BRIM_TECH, LaserVariant.THICKER_RED, LaserVariant.THICKER_BRIM_TECH, }
 local function LaserUpdate(_, laser)
-    if not mod:UtilTableHasValue(brim) then
+    if not mod:UtilTableHasValue(brim, laser.Variant) then
         return
     end
     if laser.FrameCount % 4 == 1 then
@@ -168,7 +168,7 @@ end
 
 local function laserInit(_, laser)
     if laser.Variant == LaserVariant.THIN_RED then
-        local foes = Isaac.FindInRadius(laser.Position, 01, EntityPartition.ENTITY_FAMILIAR)
+        local foes = Isaac.FindInRadius(laser.Position, 01, EntityPartition.FAMILIAR)
         for key, value in pairs(foes) do
             if value.Type == 3 and value.Variant == FamiliarVariant.FINGER then
                 return
