@@ -41,6 +41,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         local ic = iconfig:GetCollectible(c)
         game:GetHUD():ShowItemText(player, ic)
 
+        mod:QueueItemPopUp(player, c, 1, 8)
         if ic.Type == ItemType.ITEM_ACTIVE then
             player:UseActiveItem(c)
         else
