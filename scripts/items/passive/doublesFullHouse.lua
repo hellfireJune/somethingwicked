@@ -44,7 +44,7 @@ local function getVolleySize(_, player)
     local weapon = player:GetWeapon(1)
     if weapon then
         local type = weapon:GetWeaponType()
-        local params = player:GetMultiShotParams()
+        local params = player:GetMultiShotParams(type)
         local p_data = player:GetData()
         
         local tears = (p_data.sw_doublesBonus or 1)-1 + (p_data.sw_fullHouseBonus or 0)

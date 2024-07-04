@@ -1,36 +1,5 @@
 <items gfxroot="gfx/items/" deathanm2="gfx/items_deathportraits.anm2" version="1">
   <!-- changelog:
-  Additions:
-
-  Changes:
-  Ganymede
-    - Tears now slightly glow
-
-  Item Box
-    - Now doesnt do the individual item's animation everytime (this was added last update, but now it really works and i forget to document it last time)
-
-  Tiamat's Dice
-    - Shop items and devil room items now roll into their default price instead of free
-
-  Dice Roller
-    - Now does the roll after the player's active animation is finished, delaying it
-
-  Wrath
-    - Wisp tears will dissapear after they hit their target, even with piercing, instead of circling around them infinitely
-
-  Devilsknife
-    - Orbits slower
-
-  Miscellaneous
-    - Book of Leviathan is now q3 (previously q0)
-    - New Fear Stalks The Land description (previously " ")
-    - Unfinished items can no longer be found with metronome
-
-  Fixes:
-  - Air Freshener, superiority, wrath and tech modulo now work 100% again
-  - Doubles! now always works regardless of other mods with multishot items
-  - Shard tears now have their glow at the right position
-  - Fixed several eid bugs, and gave vicodin the right description
   -->
 
   <!--planned qol :333
