@@ -382,6 +382,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   local lankyMushMult = player:GetCollectibleNum(mod.ITEMS.LANKY_MUSHROOM)
   local gachaponMult = mod:GachaponStatsEvaluate(player)
   local roguePlanet = mod:BoolToNum(player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM))
+  local darkness = mod:BoolToNum(player:HasCollectible(mod.ITEMS.DARKNESS))
 
   local soulId = ((game:GetLevel():GetCurses() == LevelCurse.CURSE_NONE) and mod.TRINKETS.VIRTUOUS_SOUL or mod.TRINKETS.DAMNED_SOUL)
   local curseSoulMult = player:GetTrinketMultiplier(soulId)
@@ -404,6 +405,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.Damage = mod:DamageUp(player, (0.7 * player:GetCollectibleNum(mod.ITEMS.CROSSED_HEART)))
     player.Damage = mod:DamageUp(player, 0.7 * player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD))
     player.Damage = mod:DamageUp(player, 0.4 * effects:GetCollectibleEffectNum(mod.ITEMS.BOOK_OF_LUCIFER))
+    player.Damage = mod:DamageUp(player, 0.3 * darkness)
     
     if p_data.WickedPData.inverterdmgToAdd then
         player.Damage = mod:DamageUp(player, 0, p_data.WickedPData.inverterdmgToAdd)
@@ -413,7 +415,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
   end
   if flags == CacheFlag.CACHE_FIREDELAY then
-    player.MaxFireDelay = mod:TearsUp(player, lankyMushMult * -0.4)
+    player.MaxFireDelay = mod:TearsUp(player, lankyMushMult+darkness * -0.4)
     player.MaxFireDelay = mod:TearsUp(player, gachaponMult*0.2)
     player.MaxFireDelay = mod:TearsUp(player, 0.45 * goldenWatchMult)
     player.MaxFireDelay = mod:TearsUp(player, 0, 0.5 * curseSoulMult)
@@ -453,11 +455,11 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
       player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
-      player.ShotSpeed = player.ShotSpeed - (0.16 * bolts)
+      player.ShotSpeed = player.ShotSpeed - (0.16 * (bolts+darkness))
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
-      player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult+goldenWatchMult+curseSoulMult))
+      player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult+goldenWatchMult+curseSoulMult+darkness))
       player.TearRange = player.TearRange + (roguePlanet * 13*40)
   end
   if flags == CacheFlag.CACHE_TEARFLAG then
@@ -495,6 +497,9 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
     if player:HasCollectible(mod.ITEMS.MONOKUMA) then
       player.TearColor = player.TearColor * mod.DreadTearColor
+    end
+    if darkness~=0 then
+      player.TearColor = player.TearColor * Color(1,0.05,0.05)
     end
   end
   if  flags == CacheFlag.CACHE_FAMILIARS then
@@ -856,6 +861,7 @@ function mod:OnNewRoom()
       local hasSpawnedBirettaYet, hasSpawnedWickermanYet, shouldGenRoom = false, false, mod:GenericShouldGenerateRoom(level, game)
       for _, player in ipairs(mod:UtilGetAllPlayers()) do
         local p_data = player:GetData()
+        p_data.sw_resetDis = true
         p_data.WickedPData.CurseRoomsHealedOff = {}
         if player:HasCollectible(mod.ITEMS.WOODEN_DICE) then
           player:UseActiveItem(CollectibleType.COLLECTIBLE_SMELTER, false)
@@ -960,6 +966,7 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
   local p = ent:ToPlayer()
   if p then
     local p_data = p:GetData()
+    p_data.sw_resetDis = true
     mod:StarSpawnPlayerDamage(p)
     mod:BolineTakeDMG(p)
 

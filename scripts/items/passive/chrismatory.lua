@@ -45,7 +45,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
                 p_data.sw_chrismatoryTick = -1
 
                 player.FireDelay = player.FireDelay + math.abs(player.FireDelay)
-                player.Velocity = player.Velocity - (vector*(math.max(player.MaxFireDelay*0.5, 0)^0.8))
+                player.Velocity = player.Velocity - (vector*(math.max(player.MaxFireDelay, 0)^0.8))
                 local color = Color(1, 1, 1, 1, 0.8, 0.8, 0.8)
                 player:SetColor(color, 10, 5, true, false)
                 sfx:Play(SoundEffect.SOUND_JELLY_BOUNCE, 1, 0)

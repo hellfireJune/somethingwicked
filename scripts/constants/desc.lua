@@ -538,7 +538,7 @@ local collectibles = {
     },
     [mod.ITEMS.HYDRUS] = {
         desc = "Spawns a trail of tears that will charge into any nearby enemies#Will respawn in a new room, or after a brief period after it dies",
-        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE}
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_ULTRA_SECRET}
     },
     [mod.ITEMS.DEVILSKNIFE_ITEM] = {
         desc = "Spawns an orbiting knife familiar which will deal heavy contact damage and will oscillate in distance from the player",
@@ -625,7 +625,7 @@ local collectibles = {
         }
     },
     [mod.ITEMS.DIS] = {
-        desc = "Picking up an item will grant another temporary item for a minute",
+        desc = "Picking up an item will grant another temporary item from the same pool, until you take damage or you reach the next floor",
         pools = {
             pools.POOL_DEVIL,
             pools.POOL_GREED_DEVIL
@@ -671,10 +671,6 @@ local collectibles = {
     [mod.ITEMS.GOLDEN_WATCH] = {
         desc = "!!! Buying anything from the shop will destroy this item#\1 {{Tears}} +0.2 Tears up #\1 {{Speed}} +0.2 Speed up #↑ {{Range}} +0.75 Range up#\1 {{Luck}} +1 Luck up",
         pools = { pools.POOL_SHOP, pools.POOL_GREED_SHOP }
-    },
-    [mod.ITEMS.ACHERON] = {
-        Hide = true,
-        desc = "",
     },
     [mod.ITEMS.BOOK_OF_LEVIATHAN] = {
         name = "Book of Leviathan",
@@ -726,6 +722,14 @@ local collectibles = {
         desc = "Grants the effect of a random mapping item every floor",
         pools = { pools.POOL_SHOP }
     },
+    [mod.ITEMS.ACHERON] = {
+        desc = "{{DevilRoom}} killing enemies sometimes grants the effects of random Devil Room items for 90 seconds",
+        pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
+    },
+    [mod.ITEMS.DARKNESS] = {
+        desc = "#↑{{Damage}} +0.3 Damage up#↑{{Range}} +0.75 Range up#↓ {{Shotspeed}} -0.16 Shot Speed down#↓ {{Tears}} -0.4 Tears down#Shooting tears cause other tears to slow down, piercing and dealing 33% damage to enemies multiple to times!!!Tear effects do not apply while phasing",
+        pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
+    }
 }
 
 for index, value in pairs(collectibles) do

@@ -120,7 +120,7 @@ local function updateRenderEffect(_,effect)
         e_data.sw_drknessScalar = (Vector.One*e_data.sw_savedScale)
         e_data.sw_drknessAnimPath = "Regular"..animPath
 
-        e_data.sw_drknessBackRender = "Regular"..mod:GetTearAnimPath(pathLerp*1.6)
+        e_data.sw_drknessBackRender = "Regular"..mod:GetTearAnimPath(pathLerp*2.4)
     elseif not t then
         effect:Remove()
     end
@@ -188,8 +188,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
 
             return true
         end
-    end,
-    TearColor = Color(1, 0, 1)
+    end
 })
 
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, tear, offset)
@@ -199,7 +198,7 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, tear, offset)
         --print("do it again")
         beamSprite:Play(t_data.sw_drknessBackRender)
         --beamSprite.Scale = t_data.sw_drknessScalar
-        beamSprite.Color = Color(1, 1, 1, 1, 0.33, 0, 0.66)
+        beamSprite.Color = Color(1, 1, 1, 1, 0.66, 0, 0)
         beamSprite:Render(Isaac.WorldToScreen(pos))
 
         beamSprite:Play(t_data.sw_drknessAnimPath)

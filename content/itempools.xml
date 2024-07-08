@@ -136,6 +136,8 @@
 		<Item Name="Wicked Ring" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Dis" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Dark Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Acheron" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Darkness" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	
@@ -203,6 +205,7 @@
 		<Item Name="Strange Apple" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Red Cap" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Devilsknife" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Snake" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<!--<Item Name="Band of Regeneration" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>-->
 	</Pool>
 	
@@ -356,6 +359,8 @@
 		<Item Name="Dis" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Dark Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Name="Acheron" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Darkness" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">

@@ -26,9 +26,11 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
     local p_data = player:GetData()
     local tempEffects = player:GetEffects()
     local s = tempEffects:GetCollectibleEffect(mod.ITEMS.ITEM_BOX)
+    local count = s and s.Count or 0
 
-    while s ~= nil and s.Count > 0 do
+    while s ~= nil and count > 0 do
         tempEffects:RemoveCollectibleEffect(mod.ITEMS.ITEM_BOX)
+        count = count - 1
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.ITEM_BOX)
 
         local c = -1
@@ -39,11 +41,11 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
 
         local iconfig = Isaac.GetItemConfig()
         local ic = iconfig:GetCollectible(c)
-        game:GetHUD():ShowItemText(player, ic)
+        --game:GetHUD():ShowItemText(player, ic)
 
         mod:QueueItemPopUp(player, c, 1, 8)
         if ic.Type == ItemType.ITEM_ACTIVE then
-            player:UseActiveItem(c)
+            player:UseActiveItem(c, UseFlag.USE_NOANIM)
         else
             p_data.sw_mysteryWisps = p_data.sw_mysteryWisps or {}
             p_data.sw_mysteryWisps[c] = (p_data.sw_mysteryWisps[c] or 0) + 1

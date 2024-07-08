@@ -36,12 +36,13 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         if popUp then
             table.remove(p_data.sw_itemPopUps, 1)
             mod:SpawnStandaloneItemPopup(popUp.item, popUp.type, player.Position, player)
+            p_data.sw_popupWait = popUp.frame
         end
     end
 end)
 
 local startOffset,endOffest = Vector(0, -40), Vector(0, -65)
-local moveSpeed, timeToRampUp, turnSpeed, minRadius, maxRadius = 24, 16, 32, 10, 160
+local moveSpeed, timeToRampUp, turnSpeed, minRadius, maxRadius = 24, 16, 32, 16, 160
 local disHopDuration, heightOffGround = 20, -40
 
 local color = Color(1, 1, 1, 0.835) local whitenedColour = Color(1, 1, 1, 0.835, 1, 1, 1)

@@ -43,19 +43,19 @@ local references = {
         {ID = mod.ITEMS.LIGHT_SHARD, Reference = "Terraria"},
         {ID = mod.ITEMS.THE_SHRINKS, Reference = "The Twits"},
         {ID = mod.ITEMS.MONOKUMA, Reference = "Danganronpa: Trigger Happy Havoc"},
+        {ID = mod.ITEMS.ACHERON, Reference = "Geometry Dash" },
+        {ID = mod.ITEMS.DARKNESS, Reference = "Chainsaw Man"},
 
         --currently unused items
         {ID = mod.ITEMS.BOLTS_OF_LIGHT, Reference = "Bloons TD 6"},
         {ID = mod.ITEMS.GANYMEDE, Reference = "Planetside of Gunymede" },
         {ID = mod.ITEMS.SCREW_ATTACK, Reference = "Metroid" },
-        {ID = mod.ITEMS.ACHERON, Reference = "Geometry Dash", Partial=true },
         {ID = mod.ITEMS.BLOOD_HAIL, Reference = "black midi", Partial=true },
         {ID = mod.ITEMS.CALL_OF_THE_VOID, Reference = "MACHINEGIRL", Partial=true },
         {ID = mod.ITEMS.CURSE_MASK, Reference = "Ring of Pain" },
         {ID = mod.ITEMS.MS_GONORRHEA, Reference = "black midi"},
         {ID = mod.ITEMS.STAR_OF_PROVIDENCE, Reference = "Star of Providence"},
         {ID = mod.ITEMS.PIECE_OF_SILVER, Reference = "ULTRAKILL"},
-        {ID = mod.ITEMS.DARKNESS, Reference = "Chainsaw Man"},
         {ID = mod.ITEMS.FUZZY_FLY, Reference = "Yoshi's Island" },
         {ID = mod.ITEMS.TOMBSTONE, Reference = "Terraria" },
         {ID = mod.ITEMS.SUDARIUM, Reference = "Risk of Rain Returns", Partial = true}

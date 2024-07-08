@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 local game = Game()
 
-local time = 60
+local time = 90
 time=time*30
 function mod:AddDisItem(player, isActuallyDis, pool, pos)
     if isActuallyDis == nil then
@@ -41,6 +41,7 @@ local disYellow = Color(1, 1, 0) local disRed = Color(1, 0, 0)
 local disOffsetYellow = Color(1, 1, 1, 0.635, 0.5, 0.5) local disOffsetRed = Color(1, 1, 1, 0.635, 0.5)
 local function PlayerUpdate(_, player)
     local p_data = player:GetData()
+    local reset = p_data.sw_resetDis
     if p_data.WickedPData.disItems then
         p_data.WickedPData.disRenderData = p_data.WickedPData.disRenderData or {}
         local madeFunnySoundThisFrame = false
@@ -86,30 +87,32 @@ local function PlayerUpdate(_, player)
                     else
                         if (not effect and tab.position) then
                             effect = mod:SpawnStandaloneItemPopup(tab.id, mod.ItemPopupSubtypes.MOVE_TO_PLAYER, tab.position, player)
+                            sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.8, 0)
+                            effect:MakeBloodPoof()
                             tab.gainEffect = effect
                             tab.position = nil
                         end
                     end
                     if tab.position == nil and (effect == nil or not effect:Exists()) then
                         tab.readyToProcess = true
+                        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, player.Position, Vector.Zero, nil)
                         game:GetHUD():ShowItemText(player, iConfig:GetCollectible(tab.id))
                         if tab.dis then
                             if tab.renderIdx then
                                 sfx:Play(SoundEffect.SOUND_DEATH_CARD)
                             end
                         else
-
+                            sfx:Play(SoundEffect.SOUND_DEATH_CARD)
                         end
                         --do on gain item vfx stuff here ig
                     end
                 end
                 ::finishedUnProcess::
 
-                if tab.time > time then
+                if (not tab.dis and tab.time > time) or (tab.dis and reset) then
                     table.remove(p_data.WickedPData.disItems, i)
                     i = i - 1
 
-                    mod:QueueItemPopUp(player, tab.id)
                     if tab.dis then
                         if tab.renderIdx then
                             local effect = p_data.WickedPData.disRenderData[tab.renderIdx].effect
@@ -123,11 +126,11 @@ local function PlayerUpdate(_, player)
                             p_data.WickedPData.disRenderData[tab.renderIdx] = nil
                         end
                     else
-
-                        if not madeFunnySoundThisFrame then
-                            madeFunnySoundThisFrame = true
-                            sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0)
-                        end
+                        mod:QueueItemPopUp(player, tab.id)
+                    end
+                    if not madeFunnySoundThisFrame then
+                        madeFunnySoundThisFrame = true
+                        sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0)
                     end
                 else
                     p_data.WickedPData.disItems[i] = tab
@@ -170,16 +173,11 @@ local function PlayerUpdate(_, player)
             if renderTab.effect then
                 local effect = renderTab.effect
                 effect.Position = renderTab.renderPos
-                
-                local mainTab = p_data.WickedPData.disItems[renderTab.mainIdx]
-                if mainTab and mainTab.time > time-(2*30) then
-                    effect.Visible = mainTab.time % 4 > 1
-
-                end
             end
             p_data.WickedPData.disRenderData[key] = renderTab
         end
     end
+    p_data.sw_resetDis = nil
 end
 
 local function EnemyDies(_, enemy)

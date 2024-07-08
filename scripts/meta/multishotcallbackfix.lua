@@ -22,12 +22,12 @@ end
 
 BeginClass(EntityPlayer)
 local origGetMultishotParams = META0.GetMultiShotParams
-function META:GetMultiShotParams(type)
+function META:GetMultiShotParams(t)
     local p_data = self:GetData()
     if p_data.currentModifiedMultishotObj ~= nil then
         return p_data.currentModifiedMultishotObj
     end
-    return origGetMultishotParams(self, type)
+    return origGetMultishotParams(self, t or WeaponType.WEAPON_TEARS)
 end
 EndClass()
 
