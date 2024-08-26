@@ -45,12 +45,14 @@ local references = {
         {ID = mod.ITEMS.MONOKUMA, Reference = "Danganronpa: Trigger Happy Havoc"},
         {ID = mod.ITEMS.ACHERON, Reference = "Geometry Dash" },
         {ID = mod.ITEMS.DARKNESS, Reference = "Chainsaw Man"},
+        {ID = mod.ITEMS.GANYMEDE, Reference = "Planetside of Gunymede" },
+        {ID = mod.ITEMS.ZERO_POINT_REACTOR, Reference = "Stellaris"},
+        {ID = mod.ITEMS.DEMONIUM_PAGE, Partial=true, Reference = "hellfirejune's Oddments"},
 
         --currently unused items
         {ID = mod.ITEMS.BOLTS_OF_LIGHT, Reference = "Bloons TD 6"},
-        {ID = mod.ITEMS.GANYMEDE, Reference = "Planetside of Gunymede" },
         {ID = mod.ITEMS.SCREW_ATTACK, Reference = "Metroid" },
-        {ID = mod.ITEMS.BLOOD_HAIL, Reference = "black midi", Partial=true },
+        {ID = mod.ITEMS.BLOOD_HAIL, Reference = "Queens of the Stone Age", Partial=true },
         {ID = mod.ITEMS.CALL_OF_THE_VOID, Reference = "MACHINEGIRL", Partial=true },
         {ID = mod.ITEMS.CURSE_MASK, Reference = "Ring of Pain" },
         {ID = mod.ITEMS.MS_GONORRHEA, Reference = "black midi"},
@@ -58,7 +60,7 @@ local references = {
         {ID = mod.ITEMS.PIECE_OF_SILVER, Reference = "ULTRAKILL"},
         {ID = mod.ITEMS.FUZZY_FLY, Reference = "Yoshi's Island" },
         {ID = mod.ITEMS.TOMBSTONE, Reference = "Terraria" },
-        {ID = mod.ITEMS.SUDARIUM, Reference = "Risk of Rain Returns", Partial = true}
+        {ID = mod.ITEMS.SUDARIUM, Reference = "Risk of Rain Returns", Partial = true},
     },
     Trinkets = {
         {ID = mod.TRINKETS.CATS_EYE, Reference = "The Cat Empire"},

@@ -116,7 +116,7 @@ local function PlayerUpdate(_, player)
                     if tab.dis then
                         if tab.renderIdx then
                             local effect = p_data.WickedPData.disRenderData[tab.renderIdx].effect
-                            local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, effect.Position + effect.PositionOffset, Vector.Zero, effect)
+                            local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_EXPLODE, 0, effect.Position + effect.PositionOffset, Vector.Zero, effect)
                             explode.DepthOffset = 20
                             sfx:Play(SoundEffect.SOUND_DEMON_HIT, 0.8, 0)
                             local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, effect.Position+effect.PositionOffset, Vector.Zero, effect)
@@ -155,7 +155,7 @@ local function PlayerUpdate(_, player)
                 if renderTab.effect == nil or not renderTab.effect:Exists() then
                     
                 local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, 
-                EffectVariant.SOMETHINGWICKED_DIS_WISP, 0, renderTab.renderPos+groundOffset, Vector.Zero, nil)
+                mod.EFFECTS.DIS_WISP, 0, renderTab.renderPos+groundOffset, Vector.Zero, nil)
                 effect.Color = renderTab.color
                 effect:GetSprite():Play("Idle")
                 effect.SpriteOffset = groundOffset

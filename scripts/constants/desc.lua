@@ -295,8 +295,7 @@ local collectibles = {
         pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_CRANE_GAME}
     },
     [mod.ITEMS.STRANGE_APPLE] = {
-        desc = [[↑ Spawns a snake familiar that takes up half a grid of position and moves along the grid every 6 frames#
-            Deals 10 damage from the head, 5 damage from the body, and does individual damage from every segment colliding]],
+        desc = [[↑ Spawns a snake familiar that takes up half a grid of position and moves along the grid every 6 frames#Deals 10 damage from the head, 5 damage from the body, and does individual damage from every segment colliding]],
         pools = {
             pools.POOL_TREASURE, pools.POOL_SECRET,
             pools.POOL_ULTRA_SECRET, pools.POOL_BABY_SHOP,
@@ -723,13 +722,25 @@ local collectibles = {
         pools = { pools.POOL_SHOP }
     },
     [mod.ITEMS.ACHERON] = {
-        desc = "{{DevilRoom}} killing enemies sometimes grants the effects of random Devil Room items for 90 seconds",
+        desc = "{{DevilRoom}} Killing enemies sometimes grants the effects of random Devil Room items for 90 seconds",
         pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
     },
     [mod.ITEMS.DARKNESS] = {
-        desc = "#↑{{Damage}} +0.3 Damage up#↑{{Range}} +0.75 Range up#↓ {{Shotspeed}} -0.16 Shot Speed down#↓ {{Tears}} -0.4 Tears down#Shooting tears cause other tears to slow down, piercing and dealing 33% damage to enemies multiple to times!!!Tear effects do not apply while phasing",
+        desc = "↑ {{Damage}} +0.3 Damage up#↑ {{Range}} +0.75 Range up#↓ {{Shotspeed}} -0.16 Shot Speed down#↓ {{Tears}} -0.4 Tears down#Shooting tears cause other tears to slow down, piercing and dealing 33% damage to enemies multiple to times#!!! Tear effects do not apply while phasing",
         pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
-    }
+    },
+    [mod.ITEMS.ZERO_POINT_REACTOR] = {
+        desc = "Tears fire additional orbital spectral tears upon hitting anything",
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE }
+    },
+    [mod.ITEMS.LIVING_WATER] = {
+        desc = "12% chance to shoot sticky tears which create a holy aura while stuck to an enemy#{{Luck}} Not affected by luck#Standing inside a tear's aura grants:#↑ {{Tears}} +150% Tears Multiplier#Homing tears",
+        pools = { pools.POOL_TREASURE, pools.POOL_ANGEL, pools.POOL_GREED_TREASURE, pools.POOL_ANGEL }
+    },
+    [mod.ITEMS.DEMONIUM_PAGE] = {
+        desc = "{{BossRoom}} Boss Room items grant additional stats up if you didn't take damage during the boss",
+        pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
+    },
 }
 
 for index, value in pairs(collectibles) do
@@ -821,9 +832,6 @@ local trinkets = {
     },
     [mod.TRINKETS.EMPTY_BOOK] = {
         desc = "{{Bookworm}} While held, counts as 1 item towards the Bookworm transformation",
-    },
-    [mod.TRINKETS.DEMONIUM_PAGE] = {
-        desc = "!!! {{Damage}} While held, the only {{BossRoom}} Boss Room items that can appear are ones that modify damage",
     },
     [mod.TRINKETS.OWL_FEATHER] = {
         desc = "{{Trinket113}} 25% chance for a blue fly to turn into a Locust of War",

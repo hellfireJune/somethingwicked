@@ -126,7 +126,7 @@ local function BookEffect(player, trinket, inInventory)
     if inInventory then
         player:AddTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG)
     else
-        SomethingWicked:UtilAddSmeltedTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG, player) 
+        player:AddSmeltedTrinket(trinket + TrinketType.TRINKET_GOLDEN_FLAG) 
     end
 
     local poof = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.POOF01, 0, player.Position, Vector.Zero, player)

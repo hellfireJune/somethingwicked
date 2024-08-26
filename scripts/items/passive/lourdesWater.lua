@@ -118,7 +118,7 @@ local function NewRoomLogic()
             end
         end
 
-        local circle = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE, 0, rock.Position, Vector.Zero, nil)
+        local circle = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.HOLY_STATUE_CIRCLE, 0, rock.Position, Vector.Zero, nil)
         local c_data = circle:GetData()
         c_data.somethingWicked_edithparentRock = rock
 
@@ -168,7 +168,7 @@ local function EffectUpdate(_, effect)
 
         local rHelper = e_data.sw_renderHelper
         if e_data.sw_renderHelper == nil then
-            e_data.sw_renderHelper = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 4, effect.Position, Vector.Zero, effect)
+            e_data.sw_renderHelper = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MOTV_HELPER, 4, effect.Position, Vector.Zero, effect)
             rHelper = e_data.sw_renderHelper
             rHelper.Parent = effect
             local sprite = rHelper:GetSprite()
@@ -215,5 +215,5 @@ local function PEffectUpdate(_, player)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, NewRoomLogic)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.HOLY_STATUE_CIRCLE)
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)

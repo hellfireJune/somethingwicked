@@ -15,6 +15,7 @@ local stackableItems = {
     mod.ITEMS.TECH_MODULO,
     mod.ITEMS.JUSTICE_AND_SPLENDOR,
     mod.ITEMS.STRANGE_APPLE,
+    mod.ITEMS.LANKY_MUSHROOM,
 }
 
 return stackableItems

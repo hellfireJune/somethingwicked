@@ -21,7 +21,7 @@ end
 
 function mod:microSilencerInstanceUpdate(effect)
     local player = effect.Parent
-    local mandrake = effect.Variant == EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE
+    local mandrake = effect.Variant == mod.EFFECTS.MANDRAKE_SCREAM_LARGE
 
     local e_data = effect:GetData()
     e_data.sw_previouslyHitEnemies = e_data.sw_previouslyHitEnemies or {}
@@ -170,23 +170,23 @@ local function megaBlankRender(_, effect)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, megaBlankRender, EffectVariant.SOMETHINGWICKED_BLANK)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.microSilencerInstanceUpdate, EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, megaBlankRender, mod.EFFECTS.BLANK)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, mod.microSilencerInstanceUpdate, mod.EFFECTS.MANDRAKE_SCREAM_LARGE)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_,effect)
     if effect.SubType == 0 then
         mod:microSilencerInstanceUpdate(effect)
     else
         mod:fullSilencerInstanceUpdate(effect)
     end
-end, EffectVariant.SOMETHINGWICKED_BLANK)
+end, mod.EFFECTS.BLANK)
 
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, function (_,effect)
     local s = effect:GetSprite()
     s:Load("effect_andshedbeniceshedbesoniceandshedbeallofmine.anm2", true)
-end, EffectVariant.SOMETHINGWICKED_BLANK)
+end, mod.EFFECTS.BLANK)
 
 local function SpawnBlankInternal(position, player, subtype)
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_BLANK, subtype, position, Vector.Zero, player)
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.BLANK, subtype, position, Vector.Zero, player)
 end
 
 function mod:DoMicroBlank(position, player)

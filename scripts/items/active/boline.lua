@@ -10,7 +10,7 @@ local scaleMult = 1.4
 local function PlayerUpdate(_, player)
     if mod:HoldItemUpdateHelper(player, mod.ITEMS.BOLINE) then
         local direction = mod:GetFireVector(player) * 4
-        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 1, player.Position, direction, player)
+        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MOTV_HELPER, 1, player.Position, direction, player)
         local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, player.Position, Vector.Zero, player):ToLaser()
         effect.Visible = false
         void.Parent = effect
@@ -34,7 +34,7 @@ local function EffectUpdate(_, effect)
         effect.Velocity = mod:Lerp(effect.Velocity, Vector.Zero, 0.2)
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.MOTV_HELPER)
 
 function mod:BolineTakeDMG(player)
     if player:HasCollectible(mod.ITEMS.BOLINE) then
@@ -50,7 +50,7 @@ function mod:PostBolineWispTakeDamage(wisp, collectible)
 
     local void = Isaac.Spawn(EntityType.ENTITY_LASER, 1, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, wisp.Position, Vector.Zero, wisp):ToLaser()
     if wisp:HasMortalDamage() then    
-        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, wisp.Position, Vector.Zero, wisp)
+        local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MOTV_HELPER, 0, wisp.Position, Vector.Zero, wisp)
         effect.Visible = false
         void.Parent = effect
     else

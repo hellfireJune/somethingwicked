@@ -31,7 +31,7 @@ local function PlayerUpdate(_, player)
                 randomPos = room:GetClampedGridIndex(randomPos)
                 randomPos = room:GetGridPosition(randomPos)
 
-                local glitchedTile = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE, 0, randomPos, Vector.Zero, player):ToEffect()
+                local glitchedTile = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.GLITCHED_TILE, 0, randomPos, Vector.Zero, player):ToEffect()
                 glitchedTile.Timeout = 170
                 p_data.sw_glitchCityTimer = p_data.sw_glitchCityTimer + 170
             end
@@ -99,7 +99,7 @@ local function EffectUpdate(_, effect)
             --mod:DoKnifeDamage(effect, ent, Isaac.GetPlayer(1), damage)
             
             local veloc = (ent.Position - pos):Normalized()
-            local pf = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_GLITCH_POOF, 0, pos+(veloc*40), Vector.Zero, nil)
+            local pf = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.GLITCH_POOF, 0, pos+(veloc*40), Vector.Zero, nil)
             pf.Color = Color(1, 0.7, 0)
             pf.DepthOffset = 18
             if not ent:HasEntityFlags(EntityFlag.FLAG_NO_PHYSICS_KNOCKBACK) then
@@ -167,5 +167,5 @@ local function EffectInit(_, effect)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, EffectInit, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_GLITCHED_TILE)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, EffectInit, mod.EFFECTS.GLITCHED_TILE)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.GLITCHED_TILE)

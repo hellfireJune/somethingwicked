@@ -89,9 +89,14 @@ local rotatesWithVelocity = {
 }
 mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 	local var = tear.Variant
+	local t_data = tear:GetData()
+	if t_data.sw_edgingOffset then
+		t_data.sw_edgingOffset = mod:Lerp(Vector.Zero, t_data.sw_edgingOffset, 0.85)
+	end
 	if not mod:UtilTableHasValue(wickedTears, var) then
 		return
 	end
+	t_data.sw_savedScale = tear.Scale
 	local animated, rotates = mod:UtilTableHasValue(anims, var), mod:UtilTableHasValue(rotatesWithVelocity, var)
 	
 	local animPath = mod:GetTearAnimPath(tear, animated)
@@ -114,8 +119,6 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 		local vel = tear.Velocity + Vector(0, tear.FallingSpeed)
 		tear.SpriteRotation = mod:GetAngleDegreesButGood(vel) + 90
 	end
-	local t_data = tear:GetData()
-	t_data.sw_savedScale = tear.Scale
 
 	if tear.Variant == TearVariant.SOMETHINGWICKED_LIGHT_SHARD or tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then
 		t_data.sw_tearBackScale = tear.Scale * 0.4 * Vector.One
@@ -125,11 +128,12 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 		end
 		t_data.sw_tearBackAnim = "ShardBack"
 	end
+
 end)
 
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
 	if tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then
-        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
 		explode.SpriteScale = Vector.One*(tear:GetData().sw_savedScale or 1) *1.2
 
 		sfx:Play(SoundEffect.SOUND_FREEZE_SHATTER)
@@ -155,5 +159,8 @@ mod:AddPriorityCallback(ModCallbacks.MC_PRE_TEAR_RENDER, CallbackPriority.LATE, 
 		backSprite.Color = t_data.sw_tearBackColor
 		backSprite.Scale = t_data.sw_tearBackScale
 		backSprite:Render( Isaac.WorldToRenderPosition(tear.Position+tear.PositionOffset)+oset)
+	end
+	if t_data.sw_edgingOffset then
+		return t_data.sw_edgingOffset
 	end
 end)

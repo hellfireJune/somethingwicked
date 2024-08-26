@@ -141,11 +141,11 @@ end
 
 function mod:addWickedTearFlag(tear, flag)
     local t_data = tear:GetData()
+    local p = mod:UtilGetPlayerFromTear(tear)
     if mod.TearFlagData[flag].PostApply then
-        local p = mod:UtilGetPlayerFromTear(tear)
         mod.TearFlagData[flag]:PostApply(p, tear)
-        PostApply(p, tear, flag)
     end
+    PostApply(p, tear, flag)
     t_data.somethingWicked_customTearFlags = (t_data.somethingWicked_customTearFlags or 0) | flag
 end
 
@@ -261,12 +261,21 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_POST_TEAR_UPDATE, CallbackPr
 
 mod:AddCallback(ModCallbacks.MC_POST_UPDATE, function ()
     for idx, tear in pairs(mod.tearRefs) do
+        local doBounce = false
         if tear and tear:Exists()  then
+            doBounce = tear.Height == -5
+            local p = nil
+            if doBounce then
+                p = mod:UtilGetPlayerFromTear(tear)
+            end
             local flags = tearsWithFlags[idx]
             for _, flag in pairs(flags) do
                 local f_data = SomethingWicked.TearFlagData[flag]
                 if f_data.OverrideTearUpdate then
                     f_data:OverrideTearUpdate(tear)
+                end
+                if doBounce and f_data.EndHitEffect then
+                    f_data:EndHitEffect(tear, tear.Position, p)
                 end
             end
         end

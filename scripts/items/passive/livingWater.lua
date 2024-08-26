@@ -1,6 +1,6 @@
 local mod = SomethingWicked
 
---EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA
+--mod.EFFECTS.TEAR_HOLY_AURA
 
 local auraRadius = 70
 
@@ -24,7 +24,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_GODSTICKY, {
 
         local effect = t_data.sw_stickyAura
         if glow and not effect then
-            local neffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA, 0, tear.Position, Vector.Zero, nil):ToEffect()
+            local neffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.TEAR_HOLY_AURA, 0, tear.Position, Vector.Zero, nil):ToEffect()
             neffect.Parent = tear
             neffect:FollowParent(tear)
 
@@ -32,8 +32,9 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_GODSTICKY, {
             t_data.sw_stickyAura = effect
             effect:Update()
         end
-        if glow and effect and effect:Exists() then
-            effect.ParentOffset = tear.PositionOffset
+        if glow and effect~=nil and effect:Exists() then
+            tear.CollisionDamage = 0
+            effect.PositionOffset = tear.PositionOffset
         end
     end,
     TearColor = Color(1,1,1,1,0.3,0.3,0.3)
@@ -64,10 +65,10 @@ local function EffectUpdate(_, effect)
         end
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.TEAR_HOLY_AURA)
 
 local function PlayerUpdate(_, player)
-    local auras = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA, 0)
+    local auras = Isaac.FindByType(EntityType.ENTITY_EFFECT, mod.EFFECTS.TEAR_HOLY_AURA, 0)
     local num = 0
     for index, value in ipairs(auras) do
         local e_data = value:GetData()
@@ -82,7 +83,7 @@ local function PlayerUpdate(_, player)
     local shouldEvaluate = p_data.sw_currentWaterAuras == num
     p_data.sw_currentWaterAuras = num
     if shouldEvaluate then
-        player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY, true)
+        player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY | CacheFlag.CACHE_TEARFLAG | CacheFlag.CACHE_TEARCOLOR, true)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)

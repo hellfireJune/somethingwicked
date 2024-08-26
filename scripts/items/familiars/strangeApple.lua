@@ -184,6 +184,7 @@ end
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, HeadUpdate, FamiliarVariant.SOMETHINGWICKED_RETROSNAKE)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
+    print(familiar.Position)
     if familiar.FrameCount % frameCountShit == 1 then
         if not familiar.Parent or not familiar.Parent:Exists() then
             familiar:Die()

@@ -58,6 +58,7 @@ function mod:UtilScheduleForUpdate(func, delay, callback)
   table.insert(delayedFuncs[callback], { Func = func, Delay = delay })
 end
 
+--[[rest in pentogon sweet prince
 --removes the player's current trinkets, gives the player the one you provided, uses the smelter, then gives the player back the original trinkets.
 --TY to kittenchilly for this snippet.
 function mod:UtilAddSmeltedTrinket(trinket, player)
@@ -90,7 +91,7 @@ function mod:UtilAddSmeltedTrinket(trinket, player)
   if trinket1 ~= 0 then
       player:AddTrinket(trinket1)
   end
-end
+end]]
 
 --lambchop_is_ok gave me this one, big thanks go to her
 --Checks the spawner entity of a tear, or any tear likes. Will also check incubus
@@ -210,6 +211,7 @@ local earlyLoad = {
   "meta/toolbox",
   "meta/unlocks",
   "meta/savedata",
+  "meta/savedPickupData",
   "meta/callbacks",
   "meta/customslots",
   "meta/cardController",
@@ -315,8 +317,8 @@ local midLoad = {
   p_.."tefelin",
   p_.."doublesFullHouse",
   p_.."19inchrack",
-  p_.."ultrachancesplititemthing",
   p_.."yoyo",
+  p_.."mydoomZeroPoint",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -346,7 +348,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_ELECTROSTUN, {
       end
   end,
   EnemyHitEffect = function (_, tear, pos, enemy, p)
-      mod:UtilAddElectrostun(enemy, p, 60)
+      mod:UtilAddElectrostun(enemy, p, 1.2)
   end,
   TearColor = mod.ElectroStunTearColor
 })
@@ -391,6 +393,7 @@ function mod:EvaluateGenericStatItems(player, flags)
 
   local p_data = player:GetData()
   local lourdesBuff = p_data.sw_shouldEdithBoost
+  local waterBoosts = p_data.sw_currentWaterAuras or 0
 
   if flags == CacheFlag.CACHE_DAMAGE then
     player.Damage = mod:DamageUp(player, 0.5 * wickedSoulMult)
@@ -413,9 +416,10 @@ function mod:EvaluateGenericStatItems(player, flags)
     if p_data.sw_supCount ~= nil then
         player.Damage = mod:DamageUp(player, 0, 0.7*math.min(p_data.sw_supCount, 7))
     end
+    player.Damage = mod:DamageUp(player, 0, 0.1*p_data.WickedPData.candyLocketEsqueBuffs["damage"])
   end
   if flags == CacheFlag.CACHE_FIREDELAY then
-    player.MaxFireDelay = mod:TearsUp(player, lankyMushMult+darkness * -0.4)
+    player.MaxFireDelay = mod:TearsUp(player, (lankyMushMult+darkness) * -0.4)
     player.MaxFireDelay = mod:TearsUp(player, gachaponMult*0.2)
     player.MaxFireDelay = mod:TearsUp(player, 0.45 * goldenWatchMult)
     player.MaxFireDelay = mod:TearsUp(player, 0, 0.5 * curseSoulMult)
@@ -436,10 +440,12 @@ function mod:EvaluateGenericStatItems(player, flags)
     if p_data.WickedPData.reliqBuff then
         player.MaxFireDelay = mod:TearsUp(player, 0, p_data.WickedPData.reliqBuff*0.25)
     end
+        player.MaxFireDelay = mod:TearsUp(player, 0, p_data.WickedPData.candyLocketEsqueBuffs["firedelay"]*0.05)
   end
   if flags == CacheFlag.CACHE_LUCK then
     player.Luck = player.Luck + (1 * (wickedSoulMult+gachaponMult+goldenWatchMult+curseSoulMult))
     player.Luck = player.Luck + player:GetCollectibleNum(mod.ITEMS.ADDER_STONE)
+        player.Luck = player.Luck + p_data.WickedPData.candyLocketEsqueBuffs["luck"]*0.1
   end
   if flags == CacheFlag.CACHE_SPEED then
     player.MoveSpeed = player.MoveSpeed + (0.2 * (wickedSoulMult+gachaponMult+goldenWatchMult))
@@ -451,19 +457,24 @@ function mod:EvaluateGenericStatItems(player, flags)
     leviathanBuff = math.min(leviathanBuff, 4)
     leviathanBuff = ((2^leviathanBuff)-1)/(2^leviathanBuff)/0.9375
     player.MoveSpeed = player.MoveSpeed + leviathanBuff*0.4
+        player.MoveSpeed = player.MoveSpeed + p_data.WickedPData.candyLocketEsqueBuffs["speed"]*0.02
   end
   if flags == CacheFlag.CACHE_SHOTSPEED then
       player.ShotSpeed = player.ShotSpeed + (0.1 * (wickedSoulMult+gachaponMult+curseSoulMult))
       player.ShotSpeed = player.ShotSpeed + (0.14 * player:GetCollectibleNum(mod.ITEMS.STAR_TREAT))
       player.ShotSpeed = player.ShotSpeed - (0.16 * (bolts+darkness))
+      
+      player.ShotSpeed = player.ShotSpeed + p_data.WickedPData.candyLocketEsqueBuffs["shotspeed"]*0.02
   end
   if flags == CacheFlag.CACHE_RANGE then
       player.TearRange = player.TearRange + (1.2 * wickedSoulMult * 40)
       player.TearRange = player.TearRange + (40 * 0.75 * (lankyMushMult+gachaponMult+goldenWatchMult+curseSoulMult+darkness))
       player.TearRange = player.TearRange + (roguePlanet * 13*40)
+      
+      player.TearRange = player.TearRange + p_data.WickedPData.candyLocketEsqueBuffs["range"]*0.25*40
   end
   if flags == CacheFlag.CACHE_TEARFLAG then
-    if lourdesBuff then
+    if lourdesBuff or waterBoosts>0 then
       player.TearFlags = player.TearFlags | TearFlags.TEAR_HOMING
     end
     if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
@@ -489,7 +500,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
   end
   if flags == CacheFlag.CACHE_TEARCOLOR then
-    if lourdesBuff then
+    if lourdesBuff or waterBoosts>0 then
       player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
     end
     if bolts > 0 then
@@ -531,7 +542,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.MINOS_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_HEAD, mod:BoolToNum(player:HasCollectible(mod.ITEMS.MINOS_ITEM)), rng, source)
-    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 2) + (stacks > 0 and 2 - stacks or 0), rng, source)
+    player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_MINOS_BODY, (stacks * 4)-1, rng, source)
 
     stacks = mod:BoolToNum(player:HasTrinket(mod.TRINKETS.NIGHTMARE_FUEL)) rng = player:GetTrinketRNG(mod.TRINKETS.NIGHTMARE_FUEL)
     source = Isaac.GetItemConfig():GetTrinket(mod.TRINKETS.NIGHTMARE_FUEL)
@@ -539,7 +550,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   end
 
   if flags == CacheFlag.CACHE_SIZE then
-    player.SpriteScale = player.SpriteScale * (lankyMushMult == 0 and Vector(1, 1) or Vector(0.75, 1.5))
+    player.SpriteScale = player.SpriteScale * (lankyMushMult == 0 and Vector(1, 1) or Vector(0.75^lankyMushMult, 1.5^lankyMushMult))
   end
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
@@ -560,7 +571,9 @@ function mod:EvaluateLateStats(player, flags)
     if boltsOfLight then
       player.MaxFireDelay = mod:TearsUp(player, 0, 0, 3.6)
     end
-    player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1+(waterBoosts/5))
+    if waterBoosts > 0 then
+      player.MaxFireDelay = mod:TearsUp(player, 0, 0, 1.5)
+    end
   end
   if flags == CacheFlag.CACHE_DAMAGE then
     if player:HasCollectible(mod.ITEMS.SILVER_RING) then
@@ -572,7 +585,7 @@ function mod:EvaluateLateStats(player, flags)
     if player:HasCollectible(mod.ITEMS.FRUIT_MILK) then
       player.Damage = player.Damage * 0.25
     end
-    if shouldBoost or waterBoosts > 0 then
+    if shouldBoost then
       player.Damage = player.Damage * 1.2
     end
     if player:HasCollectible(mod.ITEMS.TECH_MODULO) then
@@ -615,7 +628,7 @@ function mod:useItemGeneric(id, rng, player, flags)
   end
 
   if id == mod.ITEMS.BABY_MANDRAKE then
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE, 0, player.Position, Vector.Zero, player)
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MANDRAKE_SCREAM_LARGE, 0, player.Position, Vector.Zero, player)
     sfx:Play(SoundEffect.SOUND_MULTI_SCREAM)
 
     return true
@@ -654,7 +667,7 @@ function mod:useCardGeneric(id, player, useflags)
     sfx:Play(SoundEffect.SOUND_CHOIR_UNLOCK, 1, 0)
     local trinket = game:GetItemPool():GetTrinket()
     player:AnimateTrinket(trinket, "Pickup")
-    mod:UtilAddSmeltedTrinket(trinket, player)
+    player:AddSmeltedTrinket(trinket)
     mod:IncrementStonesOfThePitUsed()
     return
   end
@@ -854,7 +867,9 @@ function mod:OnNewRoom()
 
   if currRoom.VisitedCount == 1 and level:GetStartingRoomIndex() == currIdx then
       -- new floor
+      mod:clearPickupData(true)
       mod.save.runData.CurseList = {}
+      mod.save.runData.TookDamageInBossRoom = false
       mod.HasGenerateRedThisFloor = false
       mod.generatedLuciferMiniboss = false
       
@@ -969,6 +984,13 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
     p_data.sw_resetDis = true
     mod:StarSpawnPlayerDamage(p)
     mod:BolineTakeDMG(p)
+    
+    local room = game:GetRoom()
+    local level = game:GetLevel()
+    local desc = level:GetCurrentRoomDesc()
+    if room:GetType(RoomType.ROOM_BOSS) or (room:GetType(RoomType.ROOM_CHALLENGE) and desc.Data.SubType == 1) then
+      mod.save.runData.TookDamageInBossRoom = true
+    end
 
     --indulgence
     if p:HasTrinket(mod.TRINKETS.PRINT_OF_INDULGENCE) then
@@ -988,7 +1010,14 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
         p_data.WickedPData.demonCoreFlag = true
       end
     end
-    
+
+    if p:HasTrinket(mod.TRINKETS.SILLY_BRIM_TRINKET) then
+      local t_rng = p:GetTrinketRNG(mod.TRINKETS.SILLY_BRIM_TRINKET)
+      if t_rng:RandomFloat() < 0.33*p:GetTrinketMultiplier(mod.TRINKETS.SILLY_BRIM_TRINKET) then 
+        p:UseActiveItem(CollectibleType.COLLECTIBLE_SULFUR, UseFlag.USE_NOANIM)
+      end
+    end
+
     if p:HasCollectible(mod.ITEMS.YELLOW_SIGIL) then
       local c_rng = p:GetCollectibleRNG(mod.ITEMS.YELLOW_SIGIL)
       if c_rng:RandomFloat() < 0.5 then
@@ -1112,7 +1141,7 @@ function mod:BombUpdate(bomb)
       if b_data.sw_isVoidBomb then
         local c_rng = p:GetCollectibleRNG(mod.ITEMS.VOID_BOMBS)
         if not bomb.IsFetus or (c_rng:RandomFloat() < 0.15 + (0.026 * p.Luck)) then
-          local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER, 0, bomb.Position, Vector.Zero, p)
+          local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MOTV_HELPER, 0, bomb.Position, Vector.Zero, p)
           local void = Isaac.Spawn(EntityType.ENTITY_LASER, LaserVariant.THICK_RED, LaserSubType.LASER_SUBTYPE_RING_FOLLOW_PARENT, bomb.Position, Vector.Zero, p)
           void=void:ToLaser()
 

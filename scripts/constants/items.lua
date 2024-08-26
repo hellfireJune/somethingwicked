@@ -132,7 +132,7 @@ SomethingWicked.ITEMS.BOLTS_OF_LIGHT = Isaac.GetItemIdByName("Bolts of Light")
 SomethingWicked.ITEMS.ACTIVATED_CHARCOAL = Isaac.GetItemIdByName("Activated Charcoal")
 SomethingWicked.ITEMS.LIVING_WATER = Isaac.GetItemIdByName("Living Water")
 SomethingWicked.ITEMS.THE_SHRINKS = Isaac.GetItemIdByName("The Shrinks")
-SomethingWicked.ITEMS.ADDER_STONE = Isaac.GetItemIdByName("Adder Stone")
+SomethingWicked.ITEMS.ADDER_STONE = Isaac.GetItemIdByName("Puzzle Ball")
 SomethingWicked.ITEMS.STAR_OF_PROVIDENCE = Isaac.GetItemIdByName("Mazzaroth")
 SomethingWicked.ITEMS.MAGIC_EYE = Isaac.GetItemIdByName("Magic Eye")
 SomethingWicked.ITEMS.SUDARIUM = Isaac.GetItemIdByName("Sudarium of Oviedo")
@@ -144,6 +144,8 @@ SomethingWicked.ITEMS.WNIC = Isaac.GetItemIdByName("W.N.I.C.")
 SomethingWicked.ITEMS.MALEDICTION = Isaac.GetItemIdByName("Mom's Wax")
 SomethingWicked.ITEMS.MONOKUMA = Isaac.GetItemIdByName("Toy Bear")
 SomethingWicked.ITEMS.MY_DOOM = Isaac.GetItemIdByName("MyDoom")
+SomethingWicked.ITEMS.ZERO_POINT_REACTOR = Isaac.GetItemIdByName("Zero-Point Reactor")
+SomethingWicked.ITEMS.DEMONIUM_PAGE = Isaac.GetItemIdByName("Demonium Page")
 
 SomethingWicked.ITEMS.MAGIC_CLAY1 = Isaac.GetItemIdByName(" Magic Clay ")
 SomethingWicked.ITEMS.MAGIC_CLAY2 = Isaac.GetItemIdByName("  Magic Clay  ")
@@ -165,7 +167,6 @@ SomethingWicked.TRINKETS.MEAL_COUPON = Isaac.GetTrinketIdByName("Meal Coupon") -
 SomethingWicked.TRINKETS.DAMNED_SOUL = Isaac.GetTrinketIdByName("Damned Soul")
 SomethingWicked.TRINKETS.VIRTUOUS_SOUL = Isaac.GetTrinketIdByName("Virtuous Soul") --remove or redesign
 SomethingWicked.TRINKETS.DEMON_CORE = Isaac.GetTrinketIdByName("Demon Core") -- retouch
-SomethingWicked.TRINKETS.DEMONIUM_PAGE = Isaac.GetTrinketIdByName("Demonium Page")
 SomethingWicked.TRINKETS.DICE_ROLLER = Isaac.GetTrinketIdByName("Dice Roller")
 SomethingWicked.TRINKETS.EMPTY_BOOK = Isaac.GetTrinketIdByName("Blank Book") -- might deserve a resprite
 SomethingWicked.TRINKETS.GACHAPON = Isaac.GetTrinketIdByName("Gachapon") -- needs retouch, maybe resprite?
@@ -192,6 +193,7 @@ SomethingWicked.TRINKETS.SAMPLE_BOX = Isaac.GetTrinketIdByName("Sample Box")
 SomethingWicked.TRINKETS.FLUKE_WORM = Isaac.GetTrinketIdByName("Fluke Worm")
 SomethingWicked.TRINKETS.VICODIN = Isaac.GetTrinketIdByName("Vicodin")
 SomethingWicked.TRINKETS.OPTIONS_TRINKET = Isaac.GetTrinketIdByName("options trinket")
+SomethingWicked.TRINKETS.SILLY_BRIM_TRINKET = Isaac.GetTrinketIdByName("silly brim trinket")
 
 SomethingWicked.TRINKETS.FIRST_TRINKET = SomethingWicked.TRINKETS.CATS_EYE
 SomethingWicked.TRINKETS.LAST_TRINKET = SomethingWicked.TRINKETS.OPTIONS_TRINKET
@@ -214,9 +216,10 @@ mod.CARDS.THOTH_FORTUNE = Isaac.GetCardIdByName("Fortune")
 mod.CARDS.THOTH_LUST = Isaac.GetCardIdByName("Lust")
 mod.CARDS.THOTH_THE_MAGUS = Isaac.GetCardIdByName("TheMagus")
 
-mod.NULL = {}
-mod.NULL.LUSTEFFECT = Isaac.GetNullItemIdByName("lust null item")
-mod.NULL.VIATHAN = Isaac.GetNullItemIdByName("nullviathan")
+SomethingWicked.NULL = {}
+SomethingWicked.NULL.LUSTEFFECT = Isaac.GetNullItemIdByName("lust null item")
+SomethingWicked.NULL.VIATHAN = Isaac.GetNullItemIdByName("nullviathan")
+SomethingWicked.NULL.PENDULUM = Isaac.GetNullItemIdByName("nulldulum")
 
 local itemPoolEnum = mod.ItemPools
 mod.CONST.POOLS = {

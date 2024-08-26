@@ -4,5 +4,5 @@
     <!--play 5 runs with wicked installed-->
     <achievement name="Wicked - Bolts of Light" text='"Bolts of Light" has appeared in the basement' hidden="true"/>
     <!--use stone of the pit atleast once-->
-    <achievement name="Wicked - Adder Stone" text='"Adder Stone" has appeared in the basement' hidden="true"/>
+    <achievement name="Wicked - Puzzle Ball" text='"Puzzle Ball" has appeared in the basement' hidden="true"/>
 </achievements>

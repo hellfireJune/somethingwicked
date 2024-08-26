@@ -182,8 +182,6 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, LaserUpdate)
 mod:AddCallback(ModCallbacks.MC_POST_LASER_INIT, laserInit)
-    
-
 
 mod:AddCallback(ModCallbacks.MC_POST_TRIGGER_WEAPON_FIRED, function (_, vector, amount, owner)
     local p = owner:ToPlayer()
@@ -198,79 +196,22 @@ mod:AddCallback(ModCallbacks.MC_POST_TRIGGER_WEAPON_FIRED, function (_, vector, 
             scalar = mod:GetFamiliarPureFireScalar(f, p:GetPlayerType())
         end
     end
+    if p and vector:Length() == 0 then
+        local p_data = p:GetData()
+        vector = p_data.somethingWicked_lastAimedDirection
+    end
 
     mod:CallCustomCback(ccabEnum.SWCB_ON_FIRE_PURE, owner, vector, scalar, p)
 end)
 --my favourite part of repentogon is having to comment out a hard day's of work plus more because its now obsolete :haha:
---[[local function PostFirePureEval(_, player)
+--actually deletes it because i need to salvage 1 bit of it
+local function PostFirePureEval(_, player)
     local p_data = player:GetData()
-    p_data.somethingWicked_processedPureFire = p_data.somethingWicked_processedPureFire or false
-    p_data.sw_processFireDelay = p_data.sw_processFireDelay or false
-    local sprite = player:GetSprite()
-    local animflag = (sprite:GetOverlayFrame() == 2)
-    local playerType = player:GetPlayerType()
-    if playerType == PlayerType.PLAYER_LILITH then
-        for index, value in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.INCUBUS)) do
-            value = value:ToFamiliar()
-            if value and GetPtrHash(value.Player) == GetPtrHash(player) then
-                sprite = value:GetSprite()
-                animflag = string.match(sprite:GetAnimation(), "Shoot")
-                if value.ShootDirection ~= Direction.NO_DIRECTION then
-                    p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(value.ShootDirection)
-                end
-                break
-            end
-        end
-    else
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE) then
-            
-        end
-        if player:GetFireDirection() ~= Direction.NO_DIRECTION then
-            p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(player:GetFireDirection())
-        end
+    if player:GetFireDirection() ~= Direction.NO_DIRECTION then
+        p_data.somethingWicked_lastAimedDirection = mod:DirectionToVector(player:GetFireDirection())
     end
-    if player.FireDelay < 0 then
-        p_data.sw_lastNegativeFireDelay = player.FireDelay
-    end
-
-    local fireDelayFlag = math.ceil(player.FireDelay - p_data.sw_lastNegativeFireDelay) >= (player.MaxFireDelay) and not p_data.sw_processFireDelay
-    if animflag or fireDelayFlag then
-        if not p_data.somethingWicked_processedPureFire or fireDelayFlag then
-            print("abywgere:()")
-            p_data.somethingWicked_processedPureFire = true
-            mod:CallCustomCback(ccabEnum., player, p_data.somethingWicked_lastAimedDirection, 1, player)
-            p_data.sw_lastNegativeFireDelay = 0
-
-            for index, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR)) do
-                familiar = familiar:ToFamiliar()
-                if familiar and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-                    if mod:DoesFamiliarShootPlayerTears(familiar)
-                    and not (familiar.Variant == FamiliarVariant.INCUBUS and playerType == PlayerType.PLAYER_LILITH) then
-                        local scalar = mod:GetFamiliarPureFireScalar(familiar, playerType)
-                        mod:CallCustomCback(ccabEnum., familiar, p_data.somethingWicked_lastAimedDirection, scalar, player)
-                    end
-                end
-            end
-        end
-        if fireDelayFlag then
-            p_data.sw_processFireDelay = true
-        end
-    elseif p_data.somethingWicked_processedPureFire then
-        p_data.somethingWicked_processedPureFire = false
-    end
-
-    if player.FireDelay < player.MaxFireDelay or player.MaxFireDelay - 1 < 0 then
-        p_data.sw_processFireDelay = false
-    end
-    --print(player:GetSprite():GetOverlayAnimation(), (player:GetSprite():GetOverlayFrame()))
-    
 end
-
-function mod:DebugPostPureFireCallback()
-    local player = Isaac.GetPlayer(1)
-    local p_data = player:GetData()
-    mod:CallCustomCback(ccabEnum., player, p_data.somethingWicked_lastAimedDirection, 1, player)
-end]]
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PostFirePureEval)
 
 function mod:GetFamiliarPureFireScalar(familiar, playertype)
     local variant = familiar.Variant

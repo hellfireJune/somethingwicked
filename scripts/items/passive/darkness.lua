@@ -125,7 +125,7 @@ local function updateRenderEffect(_,effect)
         effect:Remove()
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, updateRenderEffect, EffectVariant.SOMETHINGWICKED_MOTV_HELPER)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, updateRenderEffect, mod.EFFECTS.MOTV_HELPER)
 
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
     ApplyLogic = function (_, player, tear)
@@ -171,7 +171,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
 
         t_data.sw_fullDark = cmult <= otherSpeedMult
         if not t_data.sw_drknessEffect then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_MOTV_HELPER,
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.MOTV_HELPER,
             mod.MOTVHelperSubtypes.DARKNESSTRAIL, tear.Position, Vector.Zero, tear):ToEffect()
             effect.Parent = tear
             effect:FollowParent(tear)
@@ -212,11 +212,3 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, tear, offset)
         end
     end
 end)
-
---[[this.EIDEntries = {
-    [mod.ITEMS.DARKNESS] = {
-        desc = "",
-        Hide = true,
-    }
-}
-return this]]

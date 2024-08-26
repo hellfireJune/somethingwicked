@@ -49,6 +49,8 @@
 		<Item Name="Doubles!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Zero-Point Reactor" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -70,7 +72,7 @@
 		<Item Name="Golden Card" Weight="0.4" DecreaseBy="0.4" RemoveOn="0.04"/>
 		<Item Name="Lantern Battery" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Golden Watch" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
-		<Item Name="Tefillin" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Tefillin" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.08"/>
 		<Item Name="Magic Eye" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
@@ -138,6 +140,7 @@
 		<Item Name="Dark Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Acheron" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Darkness" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demonium Page" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	
@@ -151,6 +154,7 @@
 		<Item Name="Chrismatory" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Light Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
@@ -308,6 +312,8 @@
 		<Item Name="Doubles!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Zero-Point Reactor" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -361,6 +367,7 @@
 		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<Item Name="Acheron" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Darkness" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Demonium Page" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedCurse">
@@ -378,6 +385,7 @@
 		<Item Name="Chrismatory" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Light Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
+		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

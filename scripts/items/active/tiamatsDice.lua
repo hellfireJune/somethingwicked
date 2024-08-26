@@ -22,7 +22,7 @@ local function UseItem(_, _, rngObj)
     local itemsInRoom = Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE)
 
     for _, item in ipairs(itemsInRoom) do
-        if item.SubType > 0 then
+        if item.SubType ~= 0 then
             item = item:ToPickup()
             local itempool = mod:GetRandomPool(rngObj)
             local collectible = game:GetItemPool():GetCollectible(itempool, true)

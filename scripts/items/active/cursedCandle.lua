@@ -18,7 +18,7 @@ local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     and fire.Type == EntityType.ENTITY_EFFECT
     and fire.Variant == EffectVariant.BLUE_FLAME
     and fire.SubType == mod.WickedFireSubtype then
-        if e_data.sw_curseTick and e_data.sw_curseTick > 0
+        if e_data.sw_curseDuration and e_data.sw_curseDuration > 0
         then
             return false
         end

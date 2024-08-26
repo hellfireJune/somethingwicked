@@ -99,7 +99,7 @@ mod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, function (_, familiar)
                 tear.Height = tear.Height * 0.68
 
                 tear.CollisionDamage = player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and damage*2 or damage
-                tear.Color = Color(0, 0, 0)--Color(0.3, 0.3, 0.3, 0.55, -0.1, -0.1, -0.1)
+                tear.Color = Color(-1,-1,-1,1,1,0,0)--Color(0, 0, 0)--Color(0.3, 0.3, 0.3, 0.55, -0.1, -0.1, -0.1)
                 tear.FallingSpeed = -30
                 tear.FallingAcceleration = 0.9
                 tear:AddTearFlags(TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_HOMING)

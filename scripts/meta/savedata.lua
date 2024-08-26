@@ -9,8 +9,6 @@ else mod.save = {} end
 mod.save.runData = mod.save.runData or {}
 mod.save.runData.playersData = mod.save.runData.playersData or {}
 
-
-
 local function PlayerInit(_, player)
     local p_data = player:GetData()
 
@@ -20,7 +18,14 @@ local function PlayerInit(_, player)
                 p_data.WickedPData = SomethingWicked.save.runData.playersData[i] or {}
             end
         end
-    else p_data.WickedPData = {} end
+    else p_data.WickedPData = { candyLocketEsqueBuffs = {
+        ["damage"] = 0,
+        ["firedelay"] = 0, 
+        ["speed"] = 0,
+        ["range"] = 0,
+        ["luck"] = 0,
+        ["shotspeed"] = 0
+    } } end
 end
 
 local function PreGameExit()
@@ -32,6 +37,7 @@ function mod:SaveModData()
     for i, v in ipairs(SomethingWicked:UtilGetAllPlayers()) do
         SomethingWicked.save.runData.playersData[i] = v:GetData().WickedPData
     end
+    mod:clearPickupData(false)
 
     local string = json.encode(SomethingWicked.save)
     SomethingWicked:SaveData(string)
@@ -43,6 +49,7 @@ local function ClearRunData(_, continue)
         SomethingWicked.save.runData = nil
         SomethingWicked.save.runData = {}
         SomethingWicked.save.runData.playersData = {}
+        mod.save.runData.pickupData = {}
     end
 end
 

@@ -68,13 +68,6 @@ function mod:HellfireCOBUpdate(ent)
         end
         return
     end
-    if e_data.sw_crownOfBloodIFrames then
-        e_data.sw_crownOfBloodIFrames = e_data.sw_crownOfBloodIFrames - 1
-
-        if e_data.sw_crownOfBloodIFrames < 0 then
-            e_data.sw_crownOfBloodIFrames = nil
-        end
-    end
 
     if not e_data.sw_isHellfireMarked then
         return

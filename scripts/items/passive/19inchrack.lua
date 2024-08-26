@@ -38,7 +38,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_PING, {
 
 local function initLoopController()
     if not loopController or not loopController:Exists() then
-        local loopMaster = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_ONERENDERHELPER, 0, Vector(100, 100), Vector.Zero, nil)
+        local loopMaster = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.ONERENDERHELPER, 0, Vector(100, 100), Vector.Zero, nil)
         loopMaster.DepthOffset = -9999
         loopController = loopMaster
     end
@@ -236,6 +236,6 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_RENDER, function (_, effect)
             end
         end
     end
-end, EffectVariant.SOMETHINGWICKED_ONERENDERHELPER)
+end, mod.EFFECTS.ONERENDERHELPER)
 
 --i dont actually wish i had a 19 inch rack, that sounds like a pain to deal with

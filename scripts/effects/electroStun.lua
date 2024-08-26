@@ -9,12 +9,12 @@ function mod:ElectroStunStatusUpdate(npc)
         return
     end
 
-    e_data.sw_electroStun = e_data.sw_electroStun - 1
-    if e_data.sw_electroStun < 0 then
+    e_data.sw_electroStunDuration= e_data.sw_electroStunDuration- 1
+    if e_data.sw_electroStunDuration< 0 then
         if e_data.sw_removeConfusedWhenDone then
             npc:ClearEntityFlags(EntityFlag.FLAG_CONFUSION)
         end
-        e_data.sw_electroStun = nil
+        e_data.sw_electroStunDuration= nil
         e_data.sw_electroStunParent = nil
 
         return
@@ -23,7 +23,7 @@ function mod:ElectroStunStatusUpdate(npc)
     if npc:HasEntityFlags(EntityFlag.FLAG_CONFUSION) then
         npc:SetColor(mod.ElectroStunStatusColor, 2, 3, false, false)
 
-        if e_data.sw_electroStun % 6 == 0 then
+        if e_data.sw_electroStunDuration% 6 == 0 then
             local parent = e_data.sw_electroStunParent
             local lightning = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CHAIN_LIGHTNING, 0, npc.Position, Vector.Zero, nil)
             lightning.CollisionDamage = parent.Damage / 5

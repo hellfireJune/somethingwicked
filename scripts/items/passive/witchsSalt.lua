@@ -53,7 +53,7 @@ local function NPCUpdate(_, enemy)
 
     if e_data.sw_blackSaltDeathTimer then
         if not e_data.sw_blackSaltEffect then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_BLACK_SALT, 0, enemy.Position, Vector.Zero, enemy):ToEffect()
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.BLACK_SALT, 0, enemy.Position, Vector.Zero, enemy):ToEffect()
             effect.Parent = enemy
             effect.SpriteScale = Vector.One * (enemy.Size/10)
             effect.DepthOffset = 200
@@ -94,4 +94,4 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, salt)
     if sprite:IsFinished("Poof") then
         salt:Remove()
     end
-end, EffectVariant.SOMETHINGWICKED_BLACK_SALT)
+end, mod.EFFECTS.BLACK_SALT)

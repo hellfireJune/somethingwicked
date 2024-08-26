@@ -1,6 +1,7 @@
 local mod = SomethingWicked
 local sfx = SFXManager()
 local game = Game()
+local hud = game:GetHUD()
 
 local bolSprite = Sprite()
 bolSprite:Load("gfx/effect_leviathanitemoverlay.anm2", true)
@@ -46,13 +47,17 @@ local pulseSpeed = 0.1
 function mod:LeviathanPlayerUpdate(player)
     local p_data = player:GetData()
     p_data.sw_leviathanRenderTab = nil 
-    if player:HasCollectible(mod.ITEMS.BOOK_OF_LEVIATHAN) and IsCurseOnFloor() then
+    if player:HasCollectible(mod.ITEMS.BOOK_OF_LEVIATHAN) then
+        local curseOnFloor = IsCurseOnFloor()
         local tab = {}
 
-        local frame = game:GetFrameCount()
-        frame = (math.sin(frame*pulseSpeed)/2)+0.5
-
-        tab.alpha = frame
+        if curseOnFloor then
+            local frame = game:GetFrameCount()
+            frame = (math.sin(frame*pulseSpeed)/2)+0.5
+            tab.alpha = frame
+        else
+            tab.renderEmptyChargebar = true
+        end
 
         local tabsTab = {}
         for i = 0, 3, 1 do
@@ -69,18 +74,27 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, mod.LeviathanPlayerUpdate)
 --[[function mod:BookOfLeviathanOnDamage(player, effects)
 end]]
 
-mod:AddCallback(ModCallbacks.MC_POST_PLAYERHUD_RENDER_ACTIVE_ITEM, function (_,player, slot, offset, alpha, scale)
+mod:AddCallback(ModCallbacks.MC_POST_PLAYERHUD_RENDER_ACTIVE_ITEM, function (_,player, slot, offset, alpha, scale, chargeOffset)
     local p_data = player:GetData()
     if p_data.sw_leviathanRenderTab then
         local tab = p_data.sw_leviathanRenderTab[slot]
         if tab then
-            bolSprite.Scale = scale*Vector.One
-            bolSprite.Color = Color(1,1,1,alpha*tab.alpha)
-            bolSprite:Render(offset+(Vector(16,16)*scale))
+            if tab.renderEmptyChargebar then
+                local cbarSprite = hud:GetChargeBarSprite()
+                local rPos = offset+chargeOffset-Vector(4,0)
+                cbarSprite:Play("BarEmpty")
+                cbarSprite:Render(rPos)
+                cbarSprite:Play("BarOverlay4")
+                cbarSprite:Render(rPos)
+            else
+                bolSprite.Scale = scale*Vector.One
+                bolSprite.Color = Color(1,1,1,alpha*tab.alpha)
+                bolSprite:Render(offset+(Vector(16,16)*scale))
+            end
         end
     end
 end)
-mod:AddPriorityCallback(ModCallbacks.MC_POST_PLAYERHUD_RENDER_ACTIVE_ITEM, CallbackPriority.EARLY, function (_,player, slot, offset, alpha, scale)
+--[[mod:AddPriorityCallback(ModCallbacks.MC_POST_PLAYERHUD_RENDER_ACTIVE_ITEM, CallbackPriority.EARLY, function (_,player, slot, offset, alpha, scale)
     local p_data = player:GetData()
     if p_data.sw_leviathanRenderTab then
         local tab = p_data.sw_leviathanRenderTab[slot]
@@ -96,4 +110,4 @@ mod:AddPriorityCallback(ModCallbacks.MC_POST_PLAYERHUD_RENDER_ACTIVE_ITEM, Callb
             --bolSprite:Render(pos)
         end
     end
-end)
+end)]]

@@ -59,7 +59,7 @@ local function OnFixedUpdate(_, player)
 
     if ((mod:CheckPlayerForActiveData(player, mod.ITEMS.OLD_DICE) >= baseMaxCharge)
     or dice ~= nil) then
-        local dEffects = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD, -1, true)
+        local dEffects = Isaac.FindByType(EntityType.ENTITY_EFFECT, mod.EFFECTS.DICE_OVERHEAD, -1, true)
 
         local flag = true
         for index, dEffect in ipairs(dEffects) do
@@ -69,7 +69,7 @@ local function OnFixedUpdate(_, player)
         end
 
         if flag then
-            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD, 0, player.Position, Vector.Zero, player)
+            local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.DICE_OVERHEAD, 0, player.Position, Vector.Zero, player)
             effect.Parent = player
             effect.SpriteOffset = Vector(0, -40)
 
@@ -126,5 +126,5 @@ local function OnEffectUpdate(_, effect)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, OnFixedUpdate)
-mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, OnEffectUpdate, EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD)
+mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, OnEffectUpdate, mod.EFFECTS.DICE_OVERHEAD)
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, OnUse, mod.ITEMS.OLD_DICE)

@@ -1,24 +1,25 @@
 --june will put all global colours and etc here
 local mod = SomethingWicked
 
-EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
-EffectVariant.SOMETHINGWICKED_MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
-EffectVariant.SOMETHINGWICKED_ONERENDERHELPER = Isaac.GetEntityVariantByName("[SW] tear back helper")
-EffectVariant.SOMETHINGWICKED_HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
-EffectVariant.SOMETHINGWICKED_WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
-EffectVariant.SOMETHINGWICKED_WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
-EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
-EffectVariant.SOMETHINGWICKED_TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
-EffectVariant.SOMETHINGWICKED_DICE_OVERHEAD = Isaac.GetEntityVariantByName("Dice Overhead VFX")
-EffectVariant.SOMETHINGWICKED_ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked Item Pop-up")
-EffectVariant.SOMETHINGWICKED_SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
-EffectVariant.SOMETHINGWICKED_GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
-EffectVariant.SOMETHINGWICKED_GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
-EffectVariant.SOMETHINGWICKED_DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
-EffectVariant.SOMETHINGWICKED_BLACK_SALT = Isaac.GetEntityVariantByName("Black salt effect")
-EffectVariant.SOMETHINGWICKED_TEAR_HOLY_AURA = Isaac.GetEntityVariantByName("Tiny Holy Aura")
-EffectVariant.SOMETHINGWICKED_BLANK = Isaac.GetEntityVariantByName("Wicked Blank")
-EffectVariant.SOMETHINGWICKED_MANDRAKE_SCREAM_LARGE = Isaac.GetEntityVariantByName("Mandrake Scream (Large)")
+mod.EFFECTS = {}
+mod.EFFECTS.CHRISMATORYFIRE = Isaac.GetEntityVariantByName("Chrismatory Fire")
+mod.EFFECTS.MOTV_HELPER = Isaac.GetEntityVariantByName("[SW] maw of the void helper")
+mod.EFFECTS.ONERENDERHELPER = Isaac.GetEntityVariantByName("[SW] tear back helper")
+mod.EFFECTS.HOLY_STATUE_CIRCLE = Isaac.GetEntityVariantByName("Holy Statue Circle")
+mod.EFFECTS.WISP_TRAIL = Isaac.GetEntityVariantByName("Wisp Trail")
+mod.EFFECTS.WISP_EXPLODE = Isaac.GetEntityVariantByName("Wisp Tear Explode")
+mod.EFFECTS.THE_FOG_IS_COMING = Isaac.GetEntityVariantByName("Tombstone Fog")
+mod.EFFECTS.TOMBSTONE = Isaac.GetEntityVariantByName("Enemy Tombstone")
+mod.EFFECTS.DICE_OVERHEAD = Isaac.GetEntityVariantByName("Dice Overhead VFX")
+mod.EFFECTS.ITEMPOPUP = Isaac.GetEntityVariantByName("Wicked Item Pop-up")
+mod.EFFECTS.SPIDER_EGG = Isaac.GetEntityVariantByName("Spider Egg")
+mod.EFFECTS.GLITCHED_TILE = Isaac.GetEntityVariantByName("Glitchcity Glitched Tile")
+mod.EFFECTS.GLITCH_POOF = Isaac.GetEntityVariantByName("Glitchcity Explode")
+mod.EFFECTS.DIS_WISP = Isaac.GetEntityVariantByName("Dis Indicator")
+mod.EFFECTS.BLACK_SALT = Isaac.GetEntityVariantByName("Black salt effect")
+mod.EFFECTS.TEAR_HOLY_AURA = Isaac.GetEntityVariantByName("Tiny Holy Aura")
+mod.EFFECTS.BLANK = Isaac.GetEntityVariantByName("Wicked Blank")
+mod.EFFECTS.MANDRAKE_SCREAM_LARGE = Isaac.GetEntityVariantByName("Mandrake Scream (Large)")
 
 TearVariant.SOMETHINGWICKED_GANYSPARK = Isaac.GetEntityVariantByName("Ganymede Spark Tear")
 TearVariant.SOMETHINGWICKED_BALROG_CLUSTER = Isaac.GetEntityVariantByName("Balrog Tear")
@@ -33,7 +34,7 @@ SomethingWicked.KNIFE_THING = Isaac.GetEntityVariantByName("[SW] Secret Knife")
 SomethingWicked.ACHIEVEMENTS = {}
 SomethingWicked.ACHIEVEMENTS.TECHNICALACHIEVEMENT = Isaac.GetAchievementIdByName("Wicked - Don't Unlock Me!")
 SomethingWicked.ACHIEVEMENTS.BOLTS_OF_LIGHT = Isaac.GetAchievementIdByName("Wicked - Bolts of Light")
-SomethingWicked.ACHIEVEMENTS.ADDER_STONE = Isaac.GetAchievementIdByName("Wicked - Adder Stone")
+SomethingWicked.ACHIEVEMENTS.ADDER_STONE = Isaac.GetAchievementIdByName("Wicked - Puzzle Ball")
 
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 
@@ -72,10 +73,6 @@ FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("
 FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName("Teratoma Orbital")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
-
-LocustSubtypes.SOMETHINGWICKED_LOCUST_OF_WORMWOOD = 21
-LocustSubtypes.SOMETHINGWICKED_GLITCH_LOCUST = 22
-
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 --[LAMP OIL, ROPE,] BOMBS
@@ -195,6 +192,8 @@ SomethingWicked.CustomTearFlags = {
     FLAG_DARKNESS = 1 << 15,
     FLAG_CRITCHARGE = 1 << 16,
     FLAG_PING = 1 << 17,
+    FLAG_ORBITSPLIT = 1 << 18,
+    FLAG_PENDULUM = 1 << 19
 }
 SomethingWicked.CustomCardTypes = {
     CARDTYPE_THOTH = 1,

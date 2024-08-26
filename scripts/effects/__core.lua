@@ -10,7 +10,35 @@ include(directory.."curse")
 include(directory.."dread")
 include(directory.."electroStun")
 
-local function applyStatusEffect(ent, string, duration)
+local function getAllSegmentedEnemies(ent)
+    local segments = { ent }
+    local sigmaChild = ent
+    local loops = 0
+    for i = 1, 2, 1 do
+        Isaac.DebugString("start new search")
+        local childParent = ent
+        while childParent ~= nil do
+            sigmaChild = childParent
+            if i == 1 then
+                childParent = childParent.Child
+            else
+                childParent = childParent.Parent
+            end
+            if childParent ~= nil then
+                if childParent:Exists() and childParent:ToNPC() and (i ~= 1 or childParent.Parent) then
+                    table.insert(segments, childParent)
+                else
+                    childParent = nil
+                end
+            end
+            loops = loops + 1
+            Isaac.DebugString(tostring(loops))
+        end
+    end
+    return segments, sigmaChild
+end
+
+local function applyCooldowns(ent, string, duration)
     if duration == 0 then
         return
     end
@@ -41,49 +69,49 @@ local function getStatusEffectDuration(ent, time, string)
     return math.floor(time)
 end
 
-function mod:UtilAddCurse(ent, time)
-    time = 30 * getStatusEffectDuration(ent, time, "curse")
+local function AddStatusEffectInternal(ent, time, color, key, applyFunc)
+    local segments, main = getAllSegmentedEnemies(ent)
+    time = 30 * getStatusEffectDuration(main, time, key)
     if time == 0 then
         return
     end
 
-    local e_data = ent:GetData()
-    e_data.sw_curseTick = (e_data.sw_curseTick or 0) + time
-    ent:SetColor(mod.CurseStatusColor, e_data.sw_curseTick, 3, false, false)
-    applyStatusEffect(ent, "curse", time)
+    local dataKey = "sw_"..key.."Duration"
+    for index, segment in pairs(segments) do    
+        local e_data = segment:GetData()
+        e_data[dataKey] = (e_data[dataKey] or 0) + time
+        if color then
+            segment:SetColor(color, e_data[dataKey], 3, false, false) 
+        end
+        if applyFunc then
+            applyFunc(segment, e_data)
+        end
+    end
+    applyCooldowns(main, key, time)
+end
+
+function mod:UtilAddCurse(ent, time)
+    AddStatusEffectInternal(ent, time, mod.CurseStatusColor, "curse")
 end
 
 function mod:UtilAddDread(ent, time, p)
-    time = 30 * getStatusEffectDuration(ent, time, "dread")
-    if time == 0 then
-        return
-    end
-
-    local e_data = ent:GetData()
-    e_data.sw_dreadDuration = (e_data.sw_dreadDuration or 0) + time
-    e_data.sw_dreadPlayer = p
-    ent:SetColor(mod.DreadStatusColor, e_data.sw_dreadDuration, 3, false, false)
-    applyStatusEffect(ent, "dread", time)
+    AddStatusEffectInternal(ent, time, mod.DreadStatusColor, "dread", function (_, data)
+        data.sw_dreadPlayer = p
+    end)
 end
 
-function mod:UtilAddElectrostun(ent, player, duration)
-    --print(duration)
-    duration = getStatusEffectDuration(ent, duration, "electroStun")
-    if duration == 0 then
-        return
-    end
-    local shouldRemove = false
-    if not ent:HasEntityFlags(EntityFlag.FLAG_CONFUSION) then
+function mod:UtilAddElectrostun(ent, p, time)
+    AddStatusEffectInternal(ent, time, nil, "electroStun", function (_, data)
+        data.sw_electroStunParent = p
         
-        ent:AddEntityFlags(EntityFlag.FLAG_CONFUSION)
-        shouldRemove = true
-    end
-
-    local e_data = ent:GetData()
-    e_data.sw_electroStun = (e_data.sw_electroStun or 0) + duration
-    e_data.sw_electroStunParent = player
-    e_data.sw_removeConfusedWhenDone = e_data.sw_removeConfusedWhenDone or shouldRemove
-    applyStatusEffect(ent, "electroStun", duration)
+        local shouldRemove = false
+        if not ent:HasEntityFlags(EntityFlag.FLAG_CONFUSION) then
+        
+            ent:AddEntityFlags(EntityFlag.FLAG_CONFUSION)
+            shouldRemove = true
+        end
+        data.sw_removeConfusedWhenDone = data.sw_removeConfusedWhenDone or shouldRemove
+    end)
 end
 
 function mod:StatusEffectUpdates(ent)
@@ -93,12 +121,19 @@ function mod:StatusEffectUpdates(ent)
 
     local statusType = nil
     local e_data = ent:GetData()
-    if e_data.sw_curseTick then
-        statusType = "Curse"
-    elseif e_data.sw_dreadDuration then
-        statusType = "Dread"
-    elseif e_data.sw_minotaurPrimed then
-        statusType = "Radiohead"
+    if ent.Parent and ent.Parent:ToNPC() then
+        e_data.sw_dontRenderIcon = true
+    end
+    if not e_data.FFStatusIcon and not e_data.sw_dontRenderIcon then
+        if e_data.sw_curseDuration then
+            statusType = "Curse"
+        elseif e_data.sw_dreadDuration then
+            statusType = "Dread"
+        elseif e_data.sw_minotaurPrimed then
+            statusType = "Radiohead"
+        end
+    else
+        statusType = nil
     end
 
     e_data.sw_statusIconAnim = statusType
@@ -123,12 +158,17 @@ function mod:RenderStatusEffects(npc, offset)
     if not anim then
         return
     end
-    local offsetPos = -(npc.Size + 55)
+    local npcSprite = npc:GetSprite()
+    local nullFrame = npcSprite:GetNullFrame("OverlayEffect")
+    local offsetPos = Vector(0,0)
+    if nullFrame then
+        offsetPos = nullFrame:GetPos()
+    end
 
     statusIcon:Play(anim)
     statusIcon:SetFrame(frameMaster%(frameDict[anim] or 1))
 
     local pos = npc.Position
-    statusIcon:Render(Isaac.WorldToScreen(pos + Vector(0, offsetPos))+(dreadOffset*(e_data.sw_dreadIconOffset or 0)))
+    statusIcon:Render(Isaac.WorldToScreen(pos)+ offsetPos+(dreadOffset*(e_data.sw_dreadIconOffset or 0)))
 end
 mod:AddCallback(ModCallbacks.MC_POST_NPC_RENDER, mod.RenderStatusEffects)

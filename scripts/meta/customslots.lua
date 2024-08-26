@@ -203,10 +203,7 @@ function mod:BeggarData(machine)
     end
 end
 
-
 --Helper Functions
-
-
 function mod:BeggarCoinCanPlay(player, slot, chance)
     if player:GetNumCoins() > 0 then
         player:AddCoins(-1)

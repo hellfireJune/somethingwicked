@@ -14,7 +14,7 @@ function SomethingWicked:SpawnStandaloneItemPopup(item, type, pos, player)
     local itemConfig = Isaac.GetItemConfig():GetCollectible(item)
     local gfx = itemConfig.GfxFileName
 
-    local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_ITEMPOPUP, type, pos, Vector.Zero, player)
+    local effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.ITEMPOPUP, type, pos, Vector.Zero, player)
     local sprite = effect:GetSprite()
     sprite:ReplaceSpritesheet(0, gfx)
     sprite.LoadGraphics(sprite)
@@ -122,7 +122,7 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
         end
         return
     end
-end, EffectVariant.SOMETHINGWICKED_ITEMPOPUP)
+end, mod.EFFECTS.ITEMPOPUP)
 
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, function (_, effect)
     --if effect.SubType == mod.ItemPopupSubtypes.STANDARD then
@@ -135,4 +135,4 @@ mod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, function (_, effect)
         e_data.sw_itemNotifTrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPRITE_TRAIL, 0, effect.Position, Vector.Zero, effect):ToEffect()
         e_data.sw_itemNotifTrail:FollowParent(effect)
     end
-end, EffectVariant.SOMETHINGWICKED_ITEMPOPUP)
+end, mod.EFFECTS.ITEMPOPUP)

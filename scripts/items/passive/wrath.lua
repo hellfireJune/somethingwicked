@@ -71,7 +71,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
         for i = 1, trailLength, 1 do
             local trail = t_data.sw_trails[i]
             if not trail then
-                trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                trail = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
                 trail.Parent = tear
                 t_data.sw_trails[i] = trail
 
@@ -88,7 +88,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
 
             local extrail = t_data.sw_extantTrails[i]
             if not extrail then
-                extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+                extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
                 extrail.Parent = tear
                 t_data.sw_extantTrails[i] = extrail
 
@@ -104,7 +104,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_RENDER, function (_, tear)
 
         local extrail = t_data.sw_extantRenderer
         if not extrail then
-            extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
+            extrail = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_TRAIL, 0, tear.Position, Vector.Zero, tear)
             extrail.Parent = tear
             t_data.sw_extantRenderer = extrail
 
@@ -161,7 +161,7 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
-        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
+        local explode = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.WISP_EXPLODE, 0, tear.Position + tear.PositionOffset, Vector.Zero, tear)
         explode.DepthOffset = 20
         sfx:Play(SoundEffect.SOUND_EXPLOSION_WEAK, 0.8, 0)
         sfx:Play(SoundEffect.SOUND_MEATY_DEATHS, 0.6, 0)
@@ -181,13 +181,13 @@ SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, eff
     if effect.Parent == nil or not effect.Parent:Exists() then
         effect:Remove()
     end
-end, EffectVariant.SOMETHINGWICKED_WISP_TRAIL)
+end, mod.EFFECTS.WISP_TRAIL)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
     local sprite = effect:GetSprite()
     if sprite:IsFinished("Appear") then
         effect:Remove()
     end
-end, EffectVariant.SOMETHINGWICKED_WISP_EXPLODE)
+end, mod.EFFECTS.WISP_EXPLODE)
 
 local RemoveTheseFlags = TearFlags.TEAR_ORBIT_ADVANCED | TearFlags.TEAR_ORBIT
 | TearFlags.TEAR_SPLIT | TearFlags.TEAR_QUADSPLIT | TearFlags.TEAR_BONE | TearFlags.TEAR_BURSTSPLIT | TearFlags.TEAR_LASERSHOT

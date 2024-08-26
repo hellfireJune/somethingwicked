@@ -20,7 +20,7 @@ local function IsFiring(_, player)
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.SPIDER_EGG)
         local vector = mod:UtilGetFireVector(player:GetAimDirection(), player)
         vector = vector:Rotated(c_rng:RandomFloat()*25)
-        local testEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_SPIDER_EGG, 0, player.Position, (vector:Normalized())*6, player):ToEffect()
+        local testEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.SPIDER_EGG, 0, player.Position, (vector:Normalized())*6, player):ToEffect()
         testEffect.FallingSpeed = 5
         testEffect.FallingAcceleration = -0.25
         testEffect.Parent = player
@@ -47,4 +47,4 @@ local function UpdateEffect(_, effect)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, IsFiring)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, UpdateEffect, EffectVariant.SOMETHINGWICKED_SPIDER_EGG)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, UpdateEffect, mod.EFFECTS.SPIDER_EGG)

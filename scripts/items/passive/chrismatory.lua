@@ -37,7 +37,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
     
                 SomethingWicked:UtilAddTrueHoming(wisp, mod:FindNearestVulnerableEnemy(wisp.Position), 35, false)
             end
-            local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_CHRISMATORYFIRE, 0, shooter.Position + Vector(0, -(shooter.Size/2)), Vector.Zero, nil):ToEffect()
+            local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.CHRISMATORYFIRE, 0, shooter.Position + Vector(0, -(shooter.Size/2)), Vector.Zero, nil):ToEffect()
             fire.SpriteRotation = vector:GetAngleDegrees()
             fire.SpriteScale = Vector(1,1)*scalar
 

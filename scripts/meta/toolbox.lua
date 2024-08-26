@@ -520,7 +520,6 @@ function SomethingWicked:ChargeFirstActive(player, chargeToAdd, skipBatteryCheck
                 player:AddActiveCharge(chargeToAdd, i, true, overCharge)
                 
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
-                game:GetHUD():FlashChargeBar(player, i)
                 sfx:Play(SoundEffect.SOUND_BEEP)
                 if not chargeAllActually then
                     goto outofloop
@@ -936,23 +935,12 @@ local CharacterDamageMultipliers = {
     [PlayerType.PLAYER_BLACKJUDAS] = 2,
 }
 
---This one was stolen from the damage multiplier stat mod. I thank them so so much
+--This one was largely referenced from the damage multiplier stat mod. I thank them so so much
 local DamageMultiplers = {
     [CollectibleType.COLLECTIBLE_MAXS_HEAD] = 1.5,
-    [CollectibleType.COLLECTIBLE_MAGIC_MUSHROOM] = function (player)
-      -- Cricket's Head/Blood of the Martyr/Magic Mushroom don't stack with each other
-      if player:HasCollectible(CollectibleType.COLLECTIBLE_MAXS_HEAD) then return 1 end
-      return 1.5
-    end,
-    [CollectibleType.COLLECTIBLE_BLOOD_MARTYR] = function (player)
-      if not player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL) then return 1 end
-  
-      -- Cricket's Head/Blood of the Martyr/Magic Mushroom don't stack with each other
-      if
-        player:HasCollectible(CollectibleType.COLLECTIBLE_MAXS_HEAD) or
-        player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_MAGIC_MUSHROOM)
-      then return 1 end
-      return 1.5
+    [CollectibleType.COLLECTIBLE_MAGIC_MUSHROOM] = 1.5,
+    [CollectibleType.COLLECTIBLE_BLOOD_MARTYR] = function (player, peffects)
+      if not peffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_BOOK_OF_BELIAL) then return 1.5 end
     end,
     [CollectibleType.COLLECTIBLE_POLYPHEMUS] = 2,
     [CollectibleType.COLLECTIBLE_SACRED_HEART] = 2.3,
@@ -966,9 +954,8 @@ local DamageMultiplers = {
       if player:HasCollectible(CollectibleType.COLLECTIBLE_ALMOND_MILK) then return 1 end
       return 0.2
     end,
-    [CollectibleType.COLLECTIBLE_CROWN_OF_LIGHT] = function (player)
-      if player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_CROWN_OF_LIGHT) then return 2 end
-      return 1
+    [CollectibleType.COLLECTIBLE_CROWN_OF_LIGHT] = function (player, peffects)
+      if peffects:HasCollectibleEffect(CollectibleType.COLLECTIBLE_CROWN_OF_LIGHT) then return 2 end 
     end,
     [CollectibleType.COLLECTIBLE_ALMOND_MILK] = 0.33,
     [CollectibleType.COLLECTIBLE_IMMACULATE_HEART] = 1.2,
@@ -976,16 +963,29 @@ local DamageMultiplers = {
 
 local TearMultipliers = {
     [CollectibleType.COLLECTIBLE_BRIMSTONE] = 0.33,
+    [CollectibleType.COLLECTIBLE_DR_FETUS] = 0.4,
+    [CollectibleType.COLLECTIBLE_EPIPHORA] = function (player)
+        return 1+(math.floor(player:GetEpiphoraCharge()/90)*1/3)
+    end,
+    [CollectibleType.COLLECTIBLE_EVES_MASCARA] = 0.66,
+    [CollectibleType.COLLECTIBLE_HAEMOLACRIA] = 0.66,
     [CollectibleType.COLLECTIBLE_IPECAC] = 0.33,
     [CollectibleType.COLLECTIBLE_MONSTROS_LUNG] = 0.2,
-    [CollectibleType.COLLECTIBLE_EVES_MASCARA] = 0.66,
     [CollectibleType.COLLECTIBLE_MUTANT_SPIDER] = 0.42,
     [CollectibleType.COLLECTIBLE_POLYPHEMUS] = 0.42,
     [CollectibleType.COLLECTIBLE_SOY_MILK] = 5.5,
+    [CollectibleType.COLLECTIBLE_TECHNOLOGY_2] = 0.66,
     [CollectibleType.COLLECTIBLE_ALMOND_MILK] = 4,
-    [CollectibleType.COLLECTIBLE_HAEMOLACRIA] = 0.66,
     [CollectibleType.COLLECTIBLE_INNER_EYE] = 0.66,
-    [CollectibleType.COLLECTIBLE_DR_FETUS] = 0.4
+    [CollectibleType.COLLECTIBLE_EYE_DROPS] = 1.2,
+    --todo, add berserk, soul of samson, reverse chariot
+}
+local characterTearMultipliers = {
+    [PlayerType.PLAYER_AZAZEL] = 0.267,
+    [PlayerType.PLAYER_EVE_B] = 0.66,
+    [PlayerType.PLAYER_THEFORGOTTEN] = 0.5,
+    [PlayerType.PLAYER_THEFORGOTTEN_B] = 0.5,
+    [PlayerType.PLAYER_AZAZEL_B] = 0.333,
 }
 
 -- no longer supports damage mults, DO IT MANUALLY WITH LATER CALLBACK PRIORITY
@@ -1003,7 +1003,7 @@ end
 
 function mod:GetCurrentDamageMultiplier(player)
     player = player:ToPlayer()
-    local mult = 1
+    local mult = player:GetD8DamageModifier()
     local playerType = player:GetPlayerType()
     local charMult = CharacterDamageMultipliers[playerType]
     if type(charMult) == "function" then charMult = charMult(player) end
@@ -1020,8 +1020,14 @@ function mod:GetCurrentDamageMultiplier(player)
 end
 
 function mod:GetCurrentTearsMultiplier(player)
-  local mult = 1
-  for collectible, multiplier in pairs(TearMultipliers) do
+    player = player:ToPlayer()
+    local mult = player:GetD8FireDelayModifier()
+    local playerType = player:GetPlayerType()
+    local charMult = characterTearMultipliers[playerType]
+    if type(charMult) == "function" then charMult = charMult(player) end
+    if charMult ~= nil then mult = charMult end
+    
+    for collectible, multiplier in pairs(TearMultipliers) do
     if type(multiplier) == "function" then
         multiplier = multiplier(player)
     end
@@ -1251,7 +1257,7 @@ function SomethingWicked:ShouldMultiplyTearVelocity(tear)
     return gany and not t_data.snakeTearData
 end
 
-function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult, bool)
+function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult, multTearFall)
     local t_data = tear:GetData()
     t_data.sw_velMults = t_data.sw_velMults or {}
     t_data.sw_velMults[index] = t_data.sw_velMults[index] or 1
@@ -1264,7 +1270,7 @@ function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult, bool)
         tear.HomingFriction = tear.HomingFriction * multiplier
         t_data.sw_velMults[index] = wantedMult
     end
-    if bool then
+    if multTearFall then
         mod:MultiplyTearFall(tear, index, wantedMult)
     end
     return lastMult
@@ -1364,6 +1370,7 @@ function SomethingWicked:SpawnTearSplit(tear, player, pos, vel, mult)
         local rng = nt:GetDropRNG()
         local fallSpeed = rng:RandomInt(-12, -4)
         nt.FallingSpeed = fallSpeed
+        nt:GetData().sw_isHaemoSplitShot = true
     end
     return nt
 end
@@ -1371,7 +1378,7 @@ end
 --fake fake knives
 
 --creates an invisible moms knife entity, then updates it to the stats and tearflags provided and forces it to collide with the enemy
---should be a cheap way to do synergies, might be a bit laggy now though it runs the damage cache everytime
+--should be a cheap way to do synergies
 function SomethingWicked:DoKnifeDamage(target, player, damage)
     damage = damage or player.Damage
 
@@ -1383,15 +1390,28 @@ function SomethingWicked:DoKnifeDamage(target, player, damage)
     knife.Parent = player
     knife.SpawnerEntity = player
     knife.TearFlags = flags
-    player.Damage=damage/6
+    --player.Damage=damage/6
     knife:Shoot(100, 1)
     knife.Position = target.Position
 
+    local k_data = knife:GetData()
+    k_data.sw_forcedDamage = damage
+    k_data.sw_damageToChange = player.Damage*6
     knife:ForceCollide(target, true)
 
     --knife.Position = Vector(80000, 80000)
     knife.Variant = mod.KNIFE_THING
     knife.Parent = nil
-    player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+    --player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
     --knife.SpawnerEntity = nil
 end
+
+mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.IMPORTANT, function (_, reciever, dmg, flags, source)
+    if not source.Entity then
+        return
+    end
+    local e_data = source.Entity:GetData()
+    if e_data.sw_damageToChange and e_data.sw_damageToChange==dmg and e_data.sw_damageToChange~=e_data.sw_forcedDamage then
+        return { Damage = e_data.sw_forcedDamage }
+    end
+end)

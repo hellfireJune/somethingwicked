@@ -13,7 +13,7 @@ function this:OnKillzEnemy(enemy)
     if flag and player then
         local c_rng = player:GetCollectibleRNG(mod.ITEMS.TOMBSTONE)
         if c_rng:RandomFloat() < procChance(player) then
-            local tombStone = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_TOMBSTONE, 0, enemy.Position, Vector.Zero, player):ToEffect()
+            local tombStone = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.TOMBSTONE, 0, enemy.Position, Vector.Zero, player):ToEffect()
             tombStone.Parent = player
 
             tombStone:SetTimeout(300) -- 10 seconds
@@ -46,7 +46,7 @@ function this:UpdateTombstone(effect)
         e_data.somethingWicked_fogTimer = nil
         local x = getRandomFogSpawn(e_rng) local y = getRandomFogSpawn(e_rng)
 
-        local fog = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING, 0, effect.Position + Vector(x, y), windBlow, effect):ToEffect()
+        local fog = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.THE_FOG_IS_COMING, 0, effect.Position + Vector(x, y), windBlow, effect):ToEffect()
 
         local f_data = fog:GetData()
         f_data.somethingWicked_fogAlpha = SomethingWicked.EnemyHelpers:Lerp(minFogAlpha, maxFogAlpha, e_rng:RandomFloat())
@@ -102,8 +102,8 @@ function this:UpdateFog(effect)
     effect.Velocity = windBlow
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateTombstone, EffectVariant.SOMETHINGWICKED_TOMBSTONE)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateFog, EffectVariant.SOMETHINGWICKED_THE_FOG_IS_COMING)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateTombstone, mod.EFFECTS.TOMBSTONE)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, this.UpdateFog, mod.EFFECTS.THE_FOG_IS_COMING)
 
 this.EIDEntries = {
     [mod.ITEMS.TOMBSTONE] = {

@@ -33,7 +33,7 @@ local function PEffectUpdate(_, player)
         game:GetHUD():ShowItemText(player, Isaac.GetItemConfig():GetTrinket(trinket))
     end
     if p_data.WickedPData.toyboxTrinket ~= nil then
-        mod:UtilAddSmeltedTrinket(p_data.WickedPData.toyboxTrinket, player)
+        player:AddSmeltedTrinket(p_data.WickedPData.toyboxTrinket)
         p_data.WickedPData.toyboxTrinket = nil
     end
 end
