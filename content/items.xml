@@ -2,12 +2,17 @@
   <!-- changelog:
   Additions:
   - Added Zero-Point Reactor, Living Water
+  - Re-added The Magus with a fresh coat of paint
 
   Changes:
   Demonium Page:
     - Now a passive devil room item
     - Entire effect reworked, now makes boss items grant several random stat ups upon clearing a boss room without taking damage
       - June's notes: wasnt originally intending to make this a full on item but the reworked effect came out better as an item than a trinket
+
+  Darkness:
+    - Aura now does a flat DPS, and enemies can only take damage from one darkness aura at a time
+      - June's notes: i dont mind strong items but this is the sort of strong item that i dont think this sort of item should be game winningly strong on account of it devouring every other tear modifying item's effectiveness currently. original intended idea behind the item was having to swap around the darkness aura and the not darkness aura for optimal uptime but rn u get more damage out of just holding darkness so idk
 
   Book of Leviathan
     - Now shows empty charge bar instead of no charge bar if the item isnt chargeable
@@ -23,6 +28,7 @@
     - Status icons will also be placed where their vanilla counterparts would be, and will hide themselves if another status effect is present from vanilla or Fiend Folio 
 
   Misc:
+    - Ludovico now works with wicked tear effects
     - Wicked tears up now respect any vanilla character's tears multipliers
     - Nightmare's tears now have a red outline
     - FSTL now counts for Bookworm
@@ -49,7 +55,7 @@
   <!--also make item id 12, 13, 14, 30, 32, 37, 39, 40, 73, 74, 104, 105
   and trinket id 15, 16, 22-->
 
-  <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="1" tags="offensive summonable"/> <!--Needs costume-->
+  <passive id="1" name="Avenger Emblem" description="DMG up" gfx="avengeremblem.png" cache="damage" quality="3" tags="offensive summonable"/> <!--Needs costume-->
   <active id="2" name="D-Stock" description="Shop reroll" gfx="dstock.png" maxcharges="8" quality="2" tags="offensive"/>
   <active id="3" name="Balrog's Head" description="Reusable ranged fires" gfx="balrog.png" maxcharges="2" quality="1" tags="offensive"/>
   <passive id="4" name="Disciple's Eye" description = "See what I can't see..." gfx="discipleseye.png" quality="3" tags="nogreed nocantrip" achievement="415"/> 
@@ -186,7 +192,7 @@
   <passive id="143" name="The Yo-Yo!" quality="1" hidden="true" tags="noeden" customtags="nometronome" gfx="sw_yoyo.png"/>
   <passive id="147" name="Piece of Silver" quality="3" hidden="true" tags="noeden" customtags="nometronome"/>
 
-  <passive id="11" name="Puzzle Ball" quality="2" description="Luck up + secrets inside" hidden="true" tags="noeden offensive" cache="luck" achievement="Wicked - Puzzle Ball" customtags="nometronome"/>
+  <passive id="11" name="Birthstone" quality="2" description="Luck up + secrets inside" hidden="true" tags="noeden offensive" cache="luck" achievement="Wicked - Birthstone" customtags="nometronome"/>
   <passive id="141" name="Bolts of Light" tags="noeden offensive summonable" hidden="true" quality="3" cache="shotspeed tearcolor" achievement="Wicked - Bolts of Light" customtags="nometronome"/>
   <active id="82" name = "Earth of Adam"  quality="3" hidden="true" tags="noeden offensive" gfx="lilmandrake.png" customtags="nometronome"/>
   <passive id="83" name=" Earth of Adam " quality="3" hidden="true" tags="noeden" gfx="lilmandrake.png" customtags="nometronome"/>

@@ -25,7 +25,7 @@ mod.addedCards = {
     }
 }
 local cardSpawnRules = {
-    [cType.CARDTYPE_THOTH] = 0.4,
+    [cType.CARDTYPE_THOTH] = 0.7,
     [cType.CARDTYPE_THOTH_REVERSED] = 0.6,
     [cType.CARDTYPE_FRENCH_PLAYING] = 0.6,
     [cType.CARDTYPE_RUNE_WICKEDMISC] = 1,

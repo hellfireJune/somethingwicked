@@ -1,8 +1,11 @@
 local mod = SomethingWicked
 local game = Game()
 
-local buffs = { "damage", "range", "speed", "firedelay", "luck", "shotspeed"}
+local buffs = { "damage", "range", "speed", "firedelay", "luck", "shotspeed" }
 local function BossItemSpawned(_, pickup)
+    if not pickup:Exists() then
+        return
+    end
     local p_data = pickup:GetData()    
     if p_data.sw_pickupData.isBossRoom == nil then
         local room = game:GetRoom()

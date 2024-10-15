@@ -34,7 +34,7 @@ SomethingWicked.KNIFE_THING = Isaac.GetEntityVariantByName("[SW] Secret Knife")
 SomethingWicked.ACHIEVEMENTS = {}
 SomethingWicked.ACHIEVEMENTS.TECHNICALACHIEVEMENT = Isaac.GetAchievementIdByName("Wicked - Don't Unlock Me!")
 SomethingWicked.ACHIEVEMENTS.BOLTS_OF_LIGHT = Isaac.GetAchievementIdByName("Wicked - Bolts of Light")
-SomethingWicked.ACHIEVEMENTS.ADDER_STONE = Isaac.GetAchievementIdByName("Wicked - Puzzle Ball")
+SomethingWicked.ACHIEVEMENTS.ADDER_STONE = Isaac.GetAchievementIdByName("Wicked - Birthstone")
 
 mod.CONST.HITSCAN_VAR = Isaac.GetEntityVariantByName("[SW] Hitscan Helper")
 

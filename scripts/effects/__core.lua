@@ -135,6 +135,12 @@ function mod:StatusEffectUpdates(ent)
     else
         statusType = nil
     end
+    if e_data.sw_darknessTick ~= nil then
+        e_data.sw_darknessTick = e_data.sw_darknessTick - 1
+        if e_data.sw_darknessTick <= 0 then
+            e_data.sw_darknessTick = nil
+        end
+    end
 
     e_data.sw_statusIconAnim = statusType
 end

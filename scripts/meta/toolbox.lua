@@ -1253,6 +1253,9 @@ end
 --for anything that should have special handling for how it modifies tear velocity
 function SomethingWicked:ShouldMultiplyTearVelocity(tear)
     local t_data = tear:GetData()
+    if tear:HasTearFlags(TearFlags.TEAR_FETUS) then
+        return
+    end
     local gany = t_data.sw_gany == nil or (t_data.sw_gany.isBomb and not t_data.sw_gany.gp)
     return gany and not t_data.snakeTearData
 end
@@ -1263,13 +1266,12 @@ function SomethingWicked:MultiplyTearVelocity(tear, index, wantedMult, multTearF
     t_data.sw_velMults[index] = t_data.sw_velMults[index] or 1
 
     local lastMult = t_data.sw_velMults[index]
+    local multiplier = (1 / lastMult) * wantedMult
     if SomethingWicked:ShouldMultiplyTearVelocity(tear) then
-        local multiplier = (1 / lastMult) * wantedMult
-
         tear.Velocity = tear.Velocity * multiplier
         tear.HomingFriction = tear.HomingFriction * multiplier
-        t_data.sw_velMults[index] = wantedMult
     end
+    t_data.sw_velMults[index] = wantedMult
     if multTearFall then
         mod:MultiplyTearFall(tear, index, wantedMult)
     end

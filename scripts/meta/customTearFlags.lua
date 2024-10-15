@@ -111,8 +111,24 @@ end
 
 local variantBlacklist = { TearVariant.BALLOON, TearVariant.BALLOON_BRIMSTONE, TearVariant.BALLOON_BOMB}
 local function FireTear(_, tear)
+    local changeVariant = true
     if tear.FrameCount ~= 1 then
-        return
+        changeVariant = false
+        if tear:HasTearFlags(TearFlags.TEAR_LUDOVICO) then
+            local player = SomethingWicked:UtilGetPlayerFromTear(tear)
+            if player and tear.FrameCount % player.MaxFireDelay ~= 1 then
+                return
+            end
+            if tearsWithFlags[tear.Index] or mod.tearRefs[tear.Index] then
+                tearsWithFlags[tear.Index] = nil
+                mod.tearRefs[tear.Index] = nil
+            end
+            local t_data = tear:GetData()
+            t_data.somethingWicked_customTearFlags = 0
+            t_data.sw_wasFired = true
+        else
+            return
+        end
     end
     if tear:HasTearFlags(TearFlags.TEAR_CHAIN) then
         return
@@ -129,11 +145,12 @@ local function FireTear(_, tear)
         if oldFlags then flags = flags | oldFlags end
 
         local t_variant = GetTearVariantFromFlags(flags)
-        if not mod:UtilTableHasValue(variantBlacklist, tear.Variant) and t_variant then
+        if changeVariant and not mod:UtilTableHasValue(variantBlacklist, tear.Variant) and t_variant then
             mod:ChangeTearVariant(t_variant)
         end
         local t_color = GetTearColorFromFlags(flags, nil, colorBlacklist)
         if t_color then
+            t_data.sw_savedDivideColor = t_color
             tear.Color = tear.Color * t_color
         end
     end

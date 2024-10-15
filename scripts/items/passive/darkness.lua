@@ -157,8 +157,9 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DARKNESS, {
 
             for index, value in ipairs(es) do
                 if value:IsVulnerableEnemy() then
-                    if value:TakeDamage(tear.CollisionDamage/3, 0, EntityRef(tear), 1) then
-                        --game:SpawnParticles(tear.Position + tear.PositionOffset, EffectVariant.BLOOD_SPLAT, 1, 4, Color(0,0,0))
+                    local v_data = value:GetData()
+                    if not v_data.sw_darknessTick and value:TakeDamage(2, 0, EntityRef(tear), 1) then
+                        v_data.sw_darknessTick = 2
                     end
                 end
             end

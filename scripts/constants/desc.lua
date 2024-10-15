@@ -894,19 +894,19 @@ local cards = {
         desc = "{{Trinket}} Smelts one random trinket onto you."
     },
     [mod.CARDS.KNIGHT_OF_CLUBS] = {
-        desc = "{{Bomb}} Spawns 4 bombs worth of pickups on use"
+        desc = "{{Bomb}} Spawns 4 bombs worth of pickups"
     },
     [mod.CARDS.KNIGHT_OF_HEARTS] = {
-        desc = "{{Heart}} Spawns 6 hearts worth of pickups on use"
+        desc = "{{Heart}} Spawns 6 hearts worth of pickups"
     },
     [mod.CARDS.KNIGHT_OF_SPADES] = {
-        desc = "{{Key}} Spawns 4 keys worth of pickups on use"
+        desc = "{{Key}} Spawns 4 keys worth of pickups"
     },
     [mod.CARDS.KNIGHT_OF_DIAMONDS] = {
-        desc = "{{Coin}} Spawns 12 coins worth of pickups on use"
+        desc = "{{Coin}} Spawns 12 coins worth of pickups"
     },
     [mod.CARDS.THE_GAME] = {
-        desc = "{{Card}} Spawns 3 playing cards on use"
+        desc = "{{Card}} Spawns 3 playing cards"
     },
     [mod.CARDS.MAGPIE_EYE] = {
         desc = "!!! Upon using this card, this card will become undroppable, and cannot be swapped out#While holding the used card, grants the effects of both {{Collectible414}}More Options and {{Collectible249}}There's Options#Using the card again will remove it"
@@ -916,7 +916,10 @@ local cards = {
     },
     [mod.CARDS.THOTH_LUST] = {
         desc = "{{Collectible313}} Grants the effect of Holy Mantle for 6 rooms"
-    }
+    },
+    [mod.CARDS.THOTH_THE_MAGUS] = {
+        desc = "{{Battery}} Spawns two Batteries"
+    },
 }
 for index, value in pairs(cards) do
     if EID ~= nil then

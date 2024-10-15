@@ -319,6 +319,7 @@ local midLoad = {
   p_.."19inchrack",
   p_.."yoyo",
   p_.."mydoomZeroPoint",
+  p_.."demoniumPage",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -328,7 +329,6 @@ local midLoad = {
   t_.."gachapon",
   t_.."powerInverter",
   t_.."scorchedWood",
-  t_.."demoniumPage",
   t_.."giftCard",
   t_.."bobsHeart",
   t_.."ticketRoll",
@@ -680,6 +680,13 @@ function mod:useCardGeneric(id, player, useflags)
   if id == mod.CARDS.THOTH_LUST then
     --player:AddSoulHearts(1)
     pEffects:AddNullEffect(mod.NULL.LUSTEFFECT, 6)
+    return
+  end
+  local room = game:GetRoom()
+  if id == mod.CARDS.THOTH_THE_MAGUS then
+    for i = 1, 2 do
+      Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_LIL_BATTERY, BatterySubType.BATTERY_NORMAL, room:FindFreePickupSpawnPosition(player.Position), Vector.Zero, player) 
+    end
   end
 end
 mod:AddCallback(ModCallbacks.MC_USE_CARD, mod.useCardGeneric)
