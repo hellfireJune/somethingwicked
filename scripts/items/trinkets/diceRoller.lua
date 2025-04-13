@@ -35,7 +35,7 @@ local function UseItem(_, id, _, player, flags)
 end
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 
-local function PEffect(_, player)
+function mod:diceRollerTick(player)
     if not player:IsExtraAnimationFinished() then
         return
     end
@@ -77,4 +77,6 @@ local function PEffect(_, player)
         p_data.sw_drData = nil
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffect)
+mod:AddPeffectCheck(function (player)
+    return player:HasTrinket(mod.TRINKETS.DICE_ROLLER)
+end, mod.diceRollerTick)

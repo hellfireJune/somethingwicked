@@ -12,11 +12,14 @@ local LaserColors = {
     [angle] = Color(1, 1, 1, 0.75, 0, 0, 0.5)
 }
 
-local function SplitTearsSometimes(_, tear)
+function mod:SplitTearsSometimes(tear)
+    if tear.FrameCount ~= 1 then
+        return
+    end
+    
     local player = SomethingWicked:UtilGetPlayerFromTear(tear)
     if player
     and player:HasCollectible(mod.ITEMS.THREED_GLASSES)
-    and tear.FrameCount == 1
     and tear.Parent then
         local t_data = tear:GetData()
         local ret = Retribution
@@ -133,6 +136,6 @@ local function SplitBombsAswell(_, bomb)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, SplitTearsSometimes)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.SplitTearsSometimes)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_LASER_FIRED, SplitLasersToo)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_BOMB_UPDATE, SplitBombsAswell)

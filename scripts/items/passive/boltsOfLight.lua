@@ -1,4 +1,5 @@
 local mod = SomethingWicked
+--MAKE THIS ABLE TO HIT ENEMIES MULTIPLE TIMES
 
 local rot = 180
 local function GetFunkyVelocityAngle(tearPos, tearVel, enemyPos)

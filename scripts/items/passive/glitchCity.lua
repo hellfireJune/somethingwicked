@@ -4,7 +4,7 @@ local sfx = SFXManager()
 
 local chanceToTurn = 1
 local blacklist = {mod.ITEMS.GLITCHCITY, CollectibleType.COLLECTIBLE_MISSINGNO}
-local function PlayerUpdate(_, player)
+function mod:glitchCityTick(player)
     if player:HasCollectible(mod.ITEMS.GLITCHCITY) then
         local stacks = player:GetCollectibleNum(mod.ITEMS.GLITCHCITY)
         local p_data = player:GetData()
@@ -79,7 +79,9 @@ local function PlayerUpdate(_, player)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.GLITCHCITY)
+end, mod.glitchCityTick)
 
 local damage = 60
 local function EffectUpdate(_, effect)

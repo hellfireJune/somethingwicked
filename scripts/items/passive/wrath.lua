@@ -8,7 +8,7 @@ local framesToSustainWithoutEnemy = 18
 local trailLength = 2
 local forceTrailDistanceMult = 1
 
-local function TearFire(_, tear)
+function mod.tearWispUpdate(_, tear)
     local t_data = tear:GetData()
     if t_data.somethingWicked_trueHoming ~= nil then
         local speed = t_data.sw_homingSpeed or 20
@@ -145,7 +145,7 @@ local function TearOnHit(_, tear, collider, player, procChance)
 end
 
 --this is only done because D4'ing into heartbreak gives 3 broken hearts
-local function PEffectUpdate(_, player)
+function mod:wrathTick(player)
     local p_data = player:GetData()
     p_data.WickedPData.wrathOwned = p_data.WickedPData.wrathOwned or player:GetCollectibleNum(mod.ITEMS.WRATH) 
 
@@ -155,9 +155,8 @@ local function PEffectUpdate(_, player)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, TearFire)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_ON_ENEMY_HIT, TearOnHit)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.wrathTick)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     if tear.Variant == TearVariant.SOMETHINGWICKED_WISP then
@@ -199,4 +198,5 @@ function SomethingWicked:UtilAddTrueHoming(tear, target, angleVariance, usesShot
     t_data.somethingWicked_trueHoming.target = target
     t_data.somethingWicked_trueHoming.angleVariance = angleVariance
     t_data.somethingWicked_trueHoming.usesShotspeed = usesShotspeed
+    mod:AddToTearUpdateList("sw_wispTear", tear, mod.tearWispUpdate)
 end

@@ -50,12 +50,8 @@ local function AirFreshUpdate(_, tear)
 end
 
 local dps = 8
-local damagePerTear = 15.5
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
-    if not player:HasCollectible(mod.ITEMS.AIR_FRESHENER) then
-        return
-    end
-
+local damagePerTear = 16
+function mod:airFreshenerTick(player)
     local r = Game():GetRoom()
     if r:GetAliveEnemiesCount() == 0 then
         return
@@ -80,4 +76,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         mod:AddToTearUpdateList("sw_airFreshener", tear, AirFreshUpdate)
         tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
     end
-end)
+end
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.AIR_FRESHENER)
+end, mod.airFreshenerTick)

@@ -26,6 +26,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_PING, {
             --[[local nt = p:FireTear(p.Position, tear.Velocity, false, true, false, nil, math.min(tear.CollisionDamage / p.Damage,1))
             nt.Parent = nil]]
             local nt = mod:SpawnTearSplit(tear, p, pos, tear.Velocity, 0.8)
+            nt:SetColor(tear.Color*Color(1,1,1,1,1,2,1), 15, 15, true, true)
             local nt_data = nt:GetData()
             nt_data.sw_loopIdx = tear.Index
             mod:addWickedTearFlag(nt, mod.CustomTearFlags.FLAG_PING)

@@ -13,12 +13,13 @@ local function ModifyVelocity(tear)
         tear.Height = tear.Height * (1 / speedMult)
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
+function mod:astigmatismTearUpdate(tear)
     if tear.FrameCount ~= 1 then
         return
     end
     ModifyVelocity(tear)
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.astigmatismTearUpdate )
 
 local function FastenBombs(_, bomb)
     if not bomb.IsFetus

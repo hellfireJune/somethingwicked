@@ -73,7 +73,7 @@ function mod:GetBonusTearFlagsToAdd(player)
     return newFlags
 end
 
-local function PEffectUpdate(_, player)
+function mod:fruitMilkTilk(player)
     local p_data = player:GetData()
     p_data.WickedPData.FlagCheckTimer = (p_data.WickedPData.FlagCheckTimer or 6) - 1
     if p_data.WickedPData.FlagCheckTimer <= 0 then
@@ -94,7 +94,7 @@ local function PEffectUpdate(_, player)
     end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.fruitMilkTilk)
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_, _, _, _, player)
     local p_data = player:GetData()
     p_data.WickedPData.FlagCheckTimer = 0
@@ -121,7 +121,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, function (_, trinket)
 
     for _, ent in ipairs(Isaac.FindInRadius(trinket.Position, 60, 8)) do
         if not ent:HasEntityFlags(EntityFlag.FLAG_NO_STATUS_EFFECTS) then
-            ent:AddFear(EntityRef(trinket), 25)
+            ent:AddFear(EntityRef(trinket), 20)
         end
     end
 end, PickupVariant.PICKUP_TRINKET)

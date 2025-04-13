@@ -1,8 +1,7 @@
 local mod = SomethingWicked
 
-local function PEffectUpdate(_, player)
+function mod:justiceSplendorTick(player)
     local p_data = player:GetData()
-    if player:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR) then
         p_data.WickedPData.splendorTimer = (p_data.WickedPData.splendorTimer or 120) - 1
         if p_data.WickedPData.isSplendorful == nil then
             p_data.WickedPData.isSplendorful = false
@@ -15,9 +14,10 @@ local function PEffectUpdate(_, player)
             player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
             player:EvaluateItems()
         end
-    end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.JUSTICE_AND_SPLENDOR)
+end, mod.justiceSplendorTick)
 
 local function GabeSwordInit(_,familiar)
     familiar:AddToOrbit(30)

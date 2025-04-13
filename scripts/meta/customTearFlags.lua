@@ -110,10 +110,9 @@ local function GetTearColorFromFlags(tflags, isLaser, colorBlacklist)
 end
 
 local variantBlacklist = { TearVariant.BALLOON, TearVariant.BALLOON_BRIMSTONE, TearVariant.BALLOON_BOMB}
-local function FireTear(_, tear)
+function mod:fireGenericTearEffect(tear)
     local changeVariant = true
     if tear.FrameCount ~= 1 then
-        changeVariant = false
         if tear:HasTearFlags(TearFlags.TEAR_LUDOVICO) then
             local player = SomethingWicked:UtilGetPlayerFromTear(tear)
             if player and tear.FrameCount % player.MaxFireDelay ~= 1 then
@@ -126,6 +125,7 @@ local function FireTear(_, tear)
             local t_data = tear:GetData()
             t_data.somethingWicked_customTearFlags = 0
             t_data.sw_wasFired = true
+            changeVariant = false
         else
             return
         end
@@ -166,7 +166,7 @@ function mod:addWickedTearFlag(tear, flag)
     t_data.somethingWicked_customTearFlags = (t_data.somethingWicked_customTearFlags or 0) | flag
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, FireTear)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.fireGenericTearEffect)
 --probably a better way to do this
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_FIRE_TEAR, function (_, tear)
     local t_data = tear:GetData()

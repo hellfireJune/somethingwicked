@@ -143,9 +143,14 @@ SomethingWicked.ITEMS.FULL_HOUSE = Isaac.GetItemIdByName("Full House")
 SomethingWicked.ITEMS.WNIC = Isaac.GetItemIdByName("W.N.I.C.")
 SomethingWicked.ITEMS.MALEDICTION = Isaac.GetItemIdByName("Mom's Wax")
 SomethingWicked.ITEMS.MONOKUMA = Isaac.GetItemIdByName("Toy Bear")
-SomethingWicked.ITEMS.MY_DOOM = Isaac.GetItemIdByName("MyDoom")
+SomethingWicked.ITEMS.MY_DOOM = Isaac.GetItemIdByName("WannaCry")
 SomethingWicked.ITEMS.ZERO_POINT_REACTOR = Isaac.GetItemIdByName("Zero-Point Reactor")
 SomethingWicked.ITEMS.DEMONIUM_PAGE = Isaac.GetItemIdByName("Demonium Page")
+SomethingWicked.ITEMS.UNFATHOMABLE_DEPTHS = Isaac.GetItemIdByName("Unfathomable Depths")
+SomethingWicked.ITEMS.HOLY_SPIRIT = Isaac.GetItemIdByName("The Holy Spirit")
+SomethingWicked.ITEMS.THE_SON = Isaac.GetItemIdByName("The Son")
+SomethingWicked.ITEMS.THE_SUN = Isaac.GetItemIdByName("sun familiar thing")
+SomethingWicked.ITEMS.HOT_POTATO_BOOK = Isaac.GetItemIdByName("Hot Potato Book")
 
 SomethingWicked.ITEMS.MAGIC_CLAY1 = Isaac.GetItemIdByName(" Magic Clay ")
 SomethingWicked.ITEMS.MAGIC_CLAY2 = Isaac.GetItemIdByName("  Magic Clay  ")
@@ -194,9 +199,10 @@ SomethingWicked.TRINKETS.FLUKE_WORM = Isaac.GetTrinketIdByName("Fluke Worm")
 SomethingWicked.TRINKETS.VICODIN = Isaac.GetTrinketIdByName("Vicodin")
 SomethingWicked.TRINKETS.OPTIONS_TRINKET = Isaac.GetTrinketIdByName("options trinket")
 SomethingWicked.TRINKETS.SILLY_BRIM_TRINKET = Isaac.GetTrinketIdByName("silly brim trinket")
+SomethingWicked.TRINKETS.RUNIC_CUBE = Isaac.GetTrinketIdByName("Runic Cube")
 
 SomethingWicked.TRINKETS.FIRST_TRINKET = SomethingWicked.TRINKETS.CATS_EYE
-SomethingWicked.TRINKETS.LAST_TRINKET = SomethingWicked.TRINKETS.OPTIONS_TRINKET
+SomethingWicked.TRINKETS.LAST_TRINKET = SomethingWicked.TRINKETS.RUNIC_CUBE
 
 --CARDS
 SomethingWicked.CARDS = {}

@@ -22,9 +22,7 @@ local function getEstimatedyoyos(player)
     return mod:BasicFamiliarNum(player, mod.ITEMS.THE_YOYO)
 end
 
-local function YoYoCheck(_, player)
-    if not player:HasCollectible(mod.ITEMS.THE_YOYO) then return end
-
+function mod:YoYoCheck(player)
     local p_data = player:GetData()
     if player:GetFireDirection() ~= Direction.NO_DIRECTION then
         local aim = player:GetAimDirection()
@@ -47,7 +45,9 @@ local function YoYoCheck(_, player)
         p_data.sw_yoyoDirection = nil
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, YoYoCheck)
+mod:AddPeffectCheck(function (player)
+    return player:HasCollectible(mod.ITEMS.THE_YOYO)
+end, mod.YoYoCheck)
 
 local function YoYoCollide(_, familiar, other)
     other = other:ToNPC()

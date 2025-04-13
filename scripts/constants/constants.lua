@@ -45,6 +45,7 @@ mod.DreadStatusColor = Color(1, 1, 1, 1, 0.2)
 mod.DreadTearColor = Color(1, 0.3, 0.3, 1, 0.1)
 mod.ElectroStunStatusColor = Color(1, 1, 1, 1, 0.5, 0.82, 1)
 SomethingWicked.SlowColour = Color(1.2,1.2,1.2,1,0.1,0.1,0.1)
+SomethingWicked.HolySpiritColor = Color(1, 0.8, 0.9, 1, 0.6, 0.3, 0.45)
 
 mod.ElectroStunTearColor = Color(1, 1, 1, 1, 0.4, 0.656, 0.8)
 mod.PlasmaGlobeBaseProc = 0.125
@@ -73,6 +74,7 @@ FamiliarVariant.SOMETHINGWICKED_RETROSNAKE_BODY = Isaac.GetEntityVariantByName("
 FamiliarVariant.SOMETHINGWICKED_TERATOMA_ORBITAL = Isaac.GetEntityVariantByName("Teratoma Orbital")
 FamiliarVariant.SOMETHINGWICKED_SOLOMON = Isaac.GetEntityVariantByName("Solomon")
 FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET = Isaac.GetEntityVariantByName("Rogue planet")
+FamiliarVariant.SOMETHINGWICKED_THE_SUN = Isaac.GetEntityVariantByName("Wicked Sun")
 FamiliarVariant.SOMETHINGWICKED_THE_CHECKER = Isaac.GetEntityVariantByName("[SW] room clear checker")
 
 --[LAMP OIL, ROPE,] BOMBS
@@ -212,6 +214,7 @@ SomethingWicked.ItemPopupSubtypes = {
     
     MOVE_TO_PLAYER = 11,
     DIS_FUNNY_MOMENTS = 12,
+    STANDALONE_WITH_VEL = 13,
 }
 SomethingWicked.MOTVHelperSubtypes = {
     STANDARD = 0,

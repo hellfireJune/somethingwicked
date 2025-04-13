@@ -33,7 +33,6 @@ end
 
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.LATE, OnTakeDamage, EntityType.ENTITY_PLAYER)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, PlayerUpdate)
---SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, this.PEffectUpdate)
 SomethingWicked:AddCustomCBack(SomethingWicked.CustomCallbacks.SWCB_PICKUP_ITEM, OnPickup, mod.ITEMS.DISCIPLES_EYE)
 
 

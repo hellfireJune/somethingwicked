@@ -62,10 +62,7 @@ local function UseItem(_, _, rngObj, player)
 end
 
 local lastEncycloCheck = nil
-local function PlayerUpdate(_, player)
-    if not player:HasCollectible(mod.ITEMS.ENCYCLOPEDIA) then
-        return
-    end
+function mod:encycloTick(player)
     local rng = player:GetCollectibleRNG(mod.ITEMS.ENCYCLOPEDIA)
     local encycloCheck = mod:RoomTypeCurrentlyExists(RoomType.ROOM_LIBRARY, nil, rng)
     if encycloCheck ~= lastEncycloCheck then
@@ -100,4 +97,6 @@ end, FamiliarVariant.WISP)
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.ENCYCLOPEDIA)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, NewLevel)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.ENCYCLOPEDIA)
+end, mod.encycloTick)

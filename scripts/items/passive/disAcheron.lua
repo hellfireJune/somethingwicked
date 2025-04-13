@@ -39,7 +39,7 @@ end
 local maxDisOrbitals, disOrbitSpeed, orbitDistance, groundOffset = 10, 2, 80, Vector(0, -16)
 local disYellow = Color(1, 1, 0) local disRed = Color(1, 0, 0)
 local disOffsetYellow = Color(1, 1, 1, 0.635, 0.5, 0.5) local disOffsetRed = Color(1, 1, 1, 0.635, 0.5)
-local function PlayerUpdate(_, player)
+function mod:acheronDisTick(player)
     local p_data = player:GetData()
     local reset = p_data.sw_resetDis
     if p_data.WickedPData.disItems then
@@ -196,7 +196,7 @@ local function EnemyDies(_, enemy)
 end
 
 mod:AddCallback(ModCallbacks.MC_POST_ADD_COLLECTIBLE, PickupItem) --FUUUUUTUUUUUUUUUUUUUURE
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.acheronDisTick)
 mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, EnemyDies)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_EVALUATE_TEMP_WISPS, function (_, player, data)

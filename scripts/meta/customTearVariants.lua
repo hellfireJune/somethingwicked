@@ -87,12 +87,12 @@ local rotatesWithVelocity = {
 	TearVariant.SOMETHINGWICKED_LIGHT_SHARD
 	--TearVariant.SOMETHINGWICKED_GANYSPARK
 }
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
-	local var = tear.Variant
+function mod:genericTearVariantUpdate(tear)
 	local t_data = tear:GetData()
 	if t_data.sw_edgingOffset then
 		t_data.sw_edgingOffset = mod:Lerp(Vector.Zero, t_data.sw_edgingOffset, 0.85)
 	end
+	local var = tear.Variant
 	if not mod:UtilTableHasValue(wickedTears, var) then
 		return
 	end
@@ -129,7 +129,8 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
 		t_data.sw_tearBackAnim = "ShardBack"
 	end
 
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.genericTearVariantUpdate)
 
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
 	if tear.Variant == TearVariant.SOMETHINGWICKED_GANYSPARK then

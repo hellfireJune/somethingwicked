@@ -1,9 +1,12 @@
 local mod = SomethingWicked
 
-local function ShootTear(_, tear)
+function mod:roguePlanetTearUpdate(tear)
+    if tear.FrameCount ~= 1 then
+        return
+    end
+
     local player = mod:UtilGetPlayerFromTear(tear)
-    if tear.FrameCount == 1
-    and player and player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
+    if  player and player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
         
         local planets = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
         for _, planet in ipairs(planets) do
@@ -91,6 +94,6 @@ end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
 SomethingWicked:AddCallback(ModCallbacks.MC_FAMILIAR_INIT, FamiliarInit, FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, ShootTear)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.roguePlanetTearUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, ShootLaser)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_LASER_INIT, ShootLaser)

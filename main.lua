@@ -320,6 +320,10 @@ local midLoad = {
   p_.."yoyo",
   p_.."mydoomZeroPoint",
   p_.."demoniumPage",
+  p_.."unfathomableDepths",
+  p_.."holySpirit",
+  f_.."thesun",
+  a_.."hotpotatobook",
 
   t_.."twoOfCoins",
   t_.."stoneKey",
@@ -374,6 +378,10 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_DREAD, {
 for index, value in ipairs(midLoad) do
   incl(value)
 end
+--preferably this be where i call custom func to directly call cache to set mod.globaleffectargs
+
+--cache system to hopefully be less laggy when running through every player
+mod.GlobalEffectArgs = {}
 function mod:EvaluateGenericStatItems(player, flags)
   if not player then
     return
@@ -392,7 +400,7 @@ function mod:EvaluateGenericStatItems(player, flags)
   local bolts = mod:BoolToNum(player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT))
 
   local p_data = player:GetData()
-  local lourdesBuff = p_data.sw_shouldEdithBoost
+  local lourdesBuff = p_data.sw_shouldEdithBoost or p_data.sw_holySpiritTick
   local waterBoosts = p_data.sw_currentWaterAuras or 0
 
   if flags == CacheFlag.CACHE_DAMAGE then
@@ -402,6 +410,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.Damage = mod:DamageUp(player, 0.3 * curseSoulMult)
 
     player.Damage = mod:DamageUp(player, 1 * mod:BoolToNum(player:HasCollectible(mod.ITEMS.AVENGER_EMBLEM)))
+    player.Damage = mod:DamageUp(player, 1 * player:GetCollectibleNum(mod.ITEMS.UNFATHOMABLE_DEPTHS))
     player.Damage = mod:DamageUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.WOODEN_HORN))
     player.Damage = mod:DamageUp(player, 0.3 * player:GetCollectibleNum(mod.ITEMS.SILVER_RING))
     player.Damage = mod:DamageUp(player, p_data.WickedPData.EncycloBelialBuff or 0)
@@ -425,6 +434,7 @@ function mod:EvaluateGenericStatItems(player, flags)
     player.MaxFireDelay = mod:TearsUp(player, 0, 0.5 * curseSoulMult)
 
     player.MaxFireDelay = mod:TearsUp(player, 0.4 * player:GetCollectibleNum(mod.ITEMS.WHITE_ROSE))
+    player.MaxFireDelay = mod:TearsUp(player, 0, 0.4 * player:GetCollectibleNum(mod.ITEMS.UNFATHOMABLE_DEPTHS))
     player.MaxFireDelay = mod:TearsUp(player, 0.5 * player:GetCollectibleNum(mod.ITEMS.BOTTLE_OF_SHAMPOO))
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.RAMS_HEAD) * 0.5)
     player.MaxFireDelay = mod:TearsUp(player, player:GetCollectibleNum(mod.ITEMS.ASTIGMATISM)* 0.35)
@@ -491,7 +501,7 @@ function mod:EvaluateGenericStatItems(player, flags)
       player.TearFlags = player.TearFlags | TearFlags.TEAR_SPECTRAL
     end
 
-    if player:HasCollectible(mod.ITEMS.ROGUE_PLANET_ITEM) then
+    if roguePlanet == 1 then
       player.TearFlags = player.TearFlags | (TearFlags.TEAR_ORBIT | TearFlags.TEAR_SPECTRAL)
     end
 
@@ -501,7 +511,11 @@ function mod:EvaluateGenericStatItems(player, flags)
   end
   if flags == CacheFlag.CACHE_TEARCOLOR then
     if lourdesBuff or waterBoosts>0 then
-      player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
+      if p_data.sw_holySpiritTick then
+        player.TearColor = player.TearColor * mod.HolySpiritColor
+      else
+        player.TearColor = player.TearColor * Color(1.5, 2, 2, 1, 0.15, 0.17, 0.17)
+      end
     end
     if bolts > 0 then
       player.TearColor = player.TearColor * Color(1,1,1)
@@ -511,6 +525,9 @@ function mod:EvaluateGenericStatItems(player, flags)
     end
     if darkness~=0 then
       player.TearColor = player.TearColor * Color(1,0.05,0.05)
+    end
+    if player:HasCollectible(mod.ITEMS.WNIC) then
+      player.TearColor = player.TearColor * Color(0.5, 0.7, 0.33, 0.7, 0.1, 0.2)
     end
   end
   if  flags == CacheFlag.CACHE_FAMILIARS then
@@ -536,6 +553,13 @@ function mod:EvaluateGenericStatItems(player, flags)
     
     _, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.ROGUE_PLANET_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_ROGUE_PLANET, roguePlanet, rng, source)
+
+    _, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.THE_SUN)
+    local spawnMe = player:CheckFamiliarEx(FamiliarVariant.SOMETHINGWICKED_THE_SUN, mod:BoolToNum(player:HasCollectible(mod.ITEMS.THE_SUN)), rng, source)
+    if spawnMe[1] then
+      local spawned = spawnMe[1]
+      spawned:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+    end
     
     stacks, rng, source = mod:BasicFamiliarNum(player, mod.ITEMS.FLY_SCREEN_ITEM)
     player:CheckFamiliar(FamiliarVariant.SOMETHINGWICKED_FLY_SCREEN, stacks, rng, source)
@@ -552,13 +576,48 @@ function mod:EvaluateGenericStatItems(player, flags)
   if flags == CacheFlag.CACHE_SIZE then
     player.SpriteScale = player.SpriteScale * (lankyMushMult == 0 and Vector(1, 1) or Vector(0.75^lankyMushMult, 1.5^lankyMushMult))
   end
+
+  if flags == CacheFlag.CACHE_FLYING then
+    if player:HasCollectible(mod.ITEMS.HOLY_SPIRIT) then
+      player.CanFly = true
+    end
+  end
 end
 mod:AddPriorityCallback(ModCallbacks.MC_EVALUATE_CACHE, CallbackPriority.EARLY, mod.EvaluateGenericStatItems)
+
+mod:AddCallback(ModCallbacks.MC_EVALUATE_CUSTOM_CACHE, function (_,player, cache)
+  if cache == "sw_globaleffecttick" then
+    local globaleffectargs = {
+      unfathomableDepths = PlayerManager.AnyoneHasCollectible(mod.ITEMS.UNFATHOMABLE_DEPTHS),
+      dadsWallet = PlayerManager.AnyoneHasCollectible(mod.ITEMS.DADS_WALLET),
+      evilPiggybank = PlayerManager.AnyoneHasCollectible(mod.ITEMS.EVIL_PIGGYBANK),
+      redCap = PlayerManager.AnyoneHasCollectible(mod.ITEMS.RED_CAP),
+    }
+    mod.GlobalEffectArgs = globaleffectargs
+  end
+
+  if cache == "sw_playereffecttick" then
+    local function pupdately(p) end
+
+    for _, value in ipairs(mod.peffectCheck) do
+      if value.check(player) then
+        local old_pupdately = pupdately
+        pupdately = function (p)
+          old_pupdately(p)
+          value:update(p)
+        end 
+      end
+    end
+
+    local p_data = player:GetData()
+    p_data.sw_updateFunc = pupdately
+  end
+end)
 
 function mod:EvaluateLateStats(player, flags)
   local p_data = player:GetData()
 
-  local shouldBoost = p_data.sw_shouldEdithBoost
+  local shouldBoost = p_data.sw_shouldEdithBoost or p_data.sw_holySpiritTick
   local waterBoosts = p_data.sw_currentWaterAuras or 0
   local boltsOfLight = player:HasCollectible(mod.ITEMS.BOLTS_OF_LIGHT)
   if flags == CacheFlag.CACHE_FIREDELAY then
@@ -593,6 +652,9 @@ function mod:EvaluateLateStats(player, flags)
     end
     if boltsOfLight then
       player.Damage = player.Damage * 0.2777776
+    end
+    if p_data.WickedPData.hotPotatoBuff then
+      player.Damage = player.Damage * p_data.WickedPData.hotPotatoBuff
     end
   end
   mod:StarSpawnEval(player, flags)
@@ -707,8 +769,9 @@ function mod:peffectGenericUpdate(player)
     p_data.WickedPData.queueNextItemBox = false
   end
 
-  mod:SOPPlayerUpdate(player)
-  mod:sudariumPeffectUpdate(player)
+  if p_data.sw_updateFunc ~= nil then
+    p_data.sw_updateFunc(player)
+  end
 end
 mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.peffectGenericUpdate)
 
@@ -851,8 +914,7 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_POST_PURCHASE_PICKUP, mod.GenericPos
 end
 mod:AddPriorityCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, CallbackPriority.LATE, mod.LatePickupUpdate)]]
 
-mod:AddCallback(ModCallbacks.MC_GET_SHOP_ITEM_PRICE, function (_, variant, id, shop, price)
-  
+local function evaluatePrice(_, variant, id, shop, price)
   if PlayerManager.AnyoneHasCollectible(mod.ITEMS.DADS_WALLET) or (variant == PickupVariant.PICKUP_HEART and PlayerManager.AnyoneHasTrinket(mod.TRINKETS.MEAL_COUPON))
   or (variant == PickupVariant.PICKUP_COLLECTIBLE and PlayerManager.AnyoneHasTrinket(mod.TRINKETS.SAMPLE_BOX)) then
     if price > 0 then
@@ -865,7 +927,8 @@ mod:AddCallback(ModCallbacks.MC_GET_SHOP_ITEM_PRICE, function (_, variant, id, s
       return PickupPrice.PRICE_FREE
     end
   end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_GET_SHOP_ITEM_PRICE, evaluatePrice)
 
 function mod:OnNewRoom()
   local level = game:GetLevel()
@@ -1008,6 +1071,14 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
           Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, pos, Vector.Zero, p)
       end
     end
+    
+    --runic cube
+    if p:HasTrinket(mod.TRINKETS.RUNIC_CUBE) then
+      local t_rng = p:GetTrinketRNG(mod.TRINKETS.PRINT_OF_INDULGENCE)
+      if t_rng:RandomFloat() < 0.15*p:GetTrinketMultiplier(mod.TRINKETS.RUNIC_CUBE) then
+        p:UseCard(Card.RUNE_JERA, UseFlag.USE_NOANIM)
+      end
+    end
 
     if p:HasTrinket(mod.TRINKETS.DEMON_CORE) then
       if p_data.WickedPData.demonCoreFlag ~= true then
@@ -1063,6 +1134,7 @@ function mod:PostEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
   end
 
   mod:PostDreadNormalDMG(ent, amount, flags, source, dmgCooldown)
+  mod:UnfathomableDepthsPostDMG(ent)
 end
 mod:AddCallback(ModCallbacks.MC_POST_ENTITY_TAKE_DMG, mod.PostEntityTakeDMG)
 
@@ -1074,6 +1146,11 @@ function mod:PreEntityTakeDMG(ent, amount, flags, source, dmgCooldown)
   if p then
     if p:HasCollectible(mod.ITEMS.STAR_OF_PROVIDENCE) and flags & DamageFlag.DAMAGE_EXPLOSION ~= 0 then
       return false
+    elseif p:HasCollectible(mod.ITEMS.THE_SON) and flags & DamageFlag.DAMAGE_SPIKES then
+      local room = game:GetRoom()
+      if room:GetType() == RoomType.ROOM_SACRIFICE then
+        return { DamageFlags = flags | DamageFlag.DAMAGE_FAKE}
+      end
     end
   end
 end
@@ -1280,7 +1357,7 @@ local postMiscLoad = {
 --[[
 Lead coder and spriter: hellfireJune
 Guest spriter (costumes and death items): steve2552
-Concept art + some general concepting: Nevernamed
+Concept art + some general concepting (book of exodus, the holy spirit): Nevernamed
 Playtesting, feedback, and reporting bugs: 
   TheTurtleMelon
   We Strvn
@@ -1302,7 +1379,5 @@ Special thanks:
   The Gungeon Modding Crew
   and the countless mods that i looked at for reference when i didn't know how to code in lua
 ]]
-
-
 
 print("Something wicked this way comes...")

@@ -1,6 +1,15 @@
 local mod = SomethingWicked
-
+local sfx = SFXManager()
 local copiesToAdd = 2
+
+local function zanyVFX(items, player)
+    sfx:Play(SoundEffect.SOUND_POWERUP1, 1, 0)
+    for i = 1, 2, 1 do
+        local item = items[i]
+        local effect = mod:SpawnStandaloneItemPopup(item, mod.ItemPopupSubtypes.STANDALONE_WITH_VEL, player.Position, player)
+        effect.Velocity = Vector((i == 1 and i or -1)/100, 0)
+    end
+end
 local function UseItem(_, id, rng, player, flags)
     local iConf = Isaac.GetItemConfig()
     local allItemIds = iConf:GetCollectibles().Size - 1
@@ -32,6 +41,8 @@ local function UseItem(_, id, rng, player, flags)
         p_data.WickedPData.dupedFamiliars = p_data.WickedPData.dupedFamiliars or {}
         table.insert(p_data.WickedPData.dupedFamiliars, items)
         player:AddCollectible(mod.ITEMS.SEED_OF_EDEN_PASSIVE)
+        zanyVFX(items, player)
+        return { Remove = true, ShowAnim = true }
     else
         return { Discharge = false, ShowAnim = true }
     end

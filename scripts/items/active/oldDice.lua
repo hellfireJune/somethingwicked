@@ -38,7 +38,7 @@ local function OnUse(_, _, rngObj, player, flags)
 
 end
 
-local function OnFixedUpdate(_, player)
+function mod:oldD6Tick(player)
     local item = player.QueuedItem.Item
     if item == nil then
         return
@@ -125,6 +125,6 @@ local function OnEffectUpdate(_, effect)
     effect:FollowParent(effect.Parent)
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, OnFixedUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.oldD6Tick)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, OnEffectUpdate, mod.EFFECTS.DICE_OVERHEAD)
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, OnUse, mod.ITEMS.OLD_DICE)

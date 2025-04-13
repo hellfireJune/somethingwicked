@@ -22,7 +22,7 @@ mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, _, player)
     return true
 end, mod.ITEMS.ITEM_BOX)
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
+function mod:assistTrophyItemBoxTick(player)
     local p_data = player:GetData()
     local tempEffects = player:GetEffects()
     local s = tempEffects:GetCollectibleEffect(mod.ITEMS.ITEM_BOX)
@@ -56,7 +56,8 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
             player:AnimateCollectible(c, "UseItem")
         end]]
     end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.assistTrophyItemBoxTick )
 
 mod:AddCallback(ModCallbacks.MC_USE_ITEM, function (_, _, c_rng, player)
     local c = -1

@@ -193,7 +193,7 @@ local function EffectUpdate(_, effect)
     end
 end
 
-local function PEffectUpdate(_, player)
+function mod:lourdesWaterTick(player)
     local p_data = player:GetData()
     local shouldBoost = p_data.sw_inEdithAura
     if shouldBoost == nil then
@@ -216,4 +216,4 @@ end
 
 mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, NewRoomLogic)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.HOLY_STATUE_CIRCLE)
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.lourdesWaterTick)

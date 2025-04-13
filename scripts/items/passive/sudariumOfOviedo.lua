@@ -78,6 +78,9 @@ function mod:sudariumPeffectUpdate(player)
         player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY, true)
     end
 end
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.SUDARIUM) or p:GetData().sw_mantleSudariumFrames ~= nil
+end, mod.sudariumPeffectUpdate)
 
 function mod:sudariumNewRoom(player)
     local p_data = player:GetData()

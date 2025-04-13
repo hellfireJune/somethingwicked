@@ -71,7 +71,7 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, function (_, ent)
     end
 end)
 
-local function PEffectUpdate(_, player)
+function mod:fortuneRTick(player)
     local p_data = player:GetData()
 
     if not player:IsExtraAnimationFinished() then
@@ -91,7 +91,7 @@ local function PEffectUpdate(_, player)
         p_data.WickedPData.FortuneR_Card = nil
     end
 end
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.fortuneRTick)
 
 local function OnDMG(_, ent)
     ent = ent:ToPlayer()

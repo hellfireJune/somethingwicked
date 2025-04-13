@@ -233,6 +233,7 @@ local function CheckTheChecker(_, familiar)
     familiar.Velocity = Vector(-400, -400)
     if familiar.RoomClearCount > 0 then
         queueNewWaveCheck = true
+        mod:BeforeChargeItem()
         mod:CallCustomCback(ccabEnum.SWCB_ON_ITEM_SHOULD_CHARGE, familiar.RoomClearCount)
         familiar.RoomClearCount = 0
     end
@@ -414,13 +415,13 @@ local function discItemWispDamage(_, entity, _, _, damageSourceRef)
 end
 mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, discItemWispDamage)
 
-local function discItemWispTears(_, tear)
+function mod:discItemWispTears(tear)
     local spawner = tear.SpawnerEntity
 	if spawner and spawner:GetData().sw_itemWisp then
 		tear:Remove()
 	end
 end
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, discItemWispTears)
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.discItemWispTears)
 
 
 --sac altar fix made by deadinfinity, for fiendfolio
@@ -457,8 +458,9 @@ function mod:Updately()
       npcs[i] = npc:ToNPC()
     end
   
+    local globalArgs = mod.GlobalEffectArgs
     for _, npc in pairs(npcs) do
-        mod:CallCustomCback(ccabEnum.SWCB_ON_NPC_EFFECT_TICK, npc)
+        mod:CallCustomCback(ccabEnum.SWCB_ON_NPC_EFFECT_TICK, npc, globalArgs)
     end
 
     mod:StatusTickMaster()

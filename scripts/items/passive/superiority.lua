@@ -1,10 +1,7 @@
 local mod = SomethingWicked
 local game = Game()
 
-local function Update(_, player)
-    if not player:HasCollectible(mod.ITEMS.SUPERIORITY) then
-        return
-    end
+function mod:superiorityTick(player)
     local p_data = player:GetData()
     p_data.sw_supCount = p_data.sw_supCount or 0
     local room = game:GetRoom()
@@ -15,4 +12,6 @@ local function Update(_, player)
         player:EvaluateItems()
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, Update)
+mod:AddPeffectCheck(function (player)
+    return player:HasCollectible(mod.ITEMS.SUPERIORITY)
+end, mod.superiorityTick)

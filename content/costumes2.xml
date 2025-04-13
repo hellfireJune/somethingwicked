@@ -7,5 +7,6 @@
     <costume id="52" anm2path="costume_sw_3dglasses.anm2" type="passive"/>
     <costume id="93" anm2path="costume_starspawnemissary.anm2" type="passive"/>
     <costume id="148" anm2path="costume_planetside.anm2" type="passive"/>
+	<costume id="106" anm2path="179_Fate.anm2" type="passive" isFlying="true" hasSkinAlt="true"/>
     <!--<costume id="705" anm2path="character_002_magdalenehead.anm2" type="passive"/>-->
 </costumes>

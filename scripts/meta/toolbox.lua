@@ -1010,10 +1010,19 @@ function mod:GetCurrentDamageMultiplier(player)
     if charMult ~= nil then mult = charMult end
     
     --Also, taken from the damage multiplier stat mod. Thanks to "FainT" so so so much
+    local p_effects = player:GetEffects()
+    local hasApplied150 = false
     for collectible, multiplier in pairs(DamageMultiplers) do
         if player:HasCollectible(collectible) then
-            if type(multiplier) == "function" then multiplier = multiplier(player) end
-            mult = mult * multiplier
+            if type(multiplier) == "function" then multiplier = multiplier(player, p_effects) end
+            if multiplier then
+                if multiplier ~= 1.5 or not hasApplied150 then
+                    mult = mult * multiplier
+                end
+                if multiplier == 1.5 then
+                    hasApplied150 = true
+                end
+            end
         end
     end
     return mult
@@ -1104,7 +1113,7 @@ mod:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, function (_, tear)
     end
 end, EntityType.ENTITY_TEAR)
 
-mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
+function mod:tearHitscanUpdate(tear)
     local t_data = tear:GetData()
     if t_data.sw_isHitScanner then
         local enemies = Isaac.FindInRadius(tear.Position, tear.Size/3, 8)
@@ -1131,7 +1140,8 @@ mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, function (_, tear)
         end
         tear:Update()
     end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, mod.tearHitscanUpdate )
 
 --general velocity and vector stuff
 --below 3 taken from fiendfolio
@@ -1417,3 +1427,9 @@ mod:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.IMPORT
         return { Damage = e_data.sw_forcedDamage }
     end
 end)
+
+
+mod.peffectCheck = {}
+function SomethingWicked:AddPeffectCheck(check, update)
+    table.insert(mod.peffectCheck, {check = check, update = update})
+end

@@ -4,6 +4,7 @@ local mod = SomethingWicked
 
 local auraRadius = 70
 
+local auras = {}
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_GODSTICKY, {
     ApplyLogic = function (_, player, tear)
         if player:HasCollectible(mod.ITEMS.LIVING_WATER) then
@@ -27,6 +28,7 @@ mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_GODSTICKY, {
             local neffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, mod.EFFECTS.TEAR_HOLY_AURA, 0, tear.Position, Vector.Zero, nil):ToEffect()
             neffect.Parent = tear
             neffect:FollowParent(tear)
+            table.insert(auras, neffect)
 
             effect = neffect
             t_data.sw_stickyAura = effect
@@ -67,8 +69,11 @@ local function EffectUpdate(_, effect)
 end
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, EffectUpdate, mod.EFFECTS.TEAR_HOLY_AURA)
 
-local function PlayerUpdate(_, player)
-    local auras = Isaac.FindByType(EntityType.ENTITY_EFFECT, mod.EFFECTS.TEAR_HOLY_AURA, 0)
+function mod:livingWaterTick(player)
+    local p_data = player:GetData()
+    if #auras == 0 and p_data.sw_currentWaterAuras then
+        return
+    end
     local num = 0
     for index, value in ipairs(auras) do
         local e_data = value:GetData()
@@ -79,11 +84,10 @@ local function PlayerUpdate(_, player)
         end
     end
 
-    local p_data = player:GetData()
     local shouldEvaluate = p_data.sw_currentWaterAuras == num
     p_data.sw_currentWaterAuras = num
     if shouldEvaluate then
         player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY | CacheFlag.CACHE_TEARFLAG | CacheFlag.CACHE_TEARCOLOR, true)
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.livingWaterTick)

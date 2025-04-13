@@ -3,7 +3,7 @@ local mod = SomethingWicked
 local shardDelay = 2/3
 local angleVariance = 25
 local dmgMult = 1/3
-local function UpdatePlayer(_, player)
+function mod:yinyangTick(player)
     if not player:HasCollectible(mod.ITEMS.LIGHT_SHARD) and not player:HasCollectible(mod.ITEMS.DARK_SHARD) then
         return
     end
@@ -35,7 +35,9 @@ local function UpdatePlayer(_, player)
 
     p_data.sw_shardFireDelay = p_data.sw_shardFireDelay - 1
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, UpdatePlayer)
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.LIGHT_SHARD) or p:HasCollectible(mod.ITEMS.DARK_SHARD)
+end)
 
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_PICKUP_ITEM, function (_, player)
     player:AddEternalHearts(1)

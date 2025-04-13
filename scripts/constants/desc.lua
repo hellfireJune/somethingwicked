@@ -741,6 +741,14 @@ local collectibles = {
         desc = "{{BossRoom}} Boss Room items grant additional stats up if you didn't take damage during the boss",
         pools = { pools.POOL_DEVIL, pools.POOL_GREED_DEVIL }
     },
+    [mod.ITEMS.THE_SON] = {
+        desc = "{{SacrificeRoom}} Sacrifice Rooms will do fake damage instead of actual damage#{{SoulHeart}} +3 Soul Hearts",
+        pools = { pools.POOL_ANGEL }
+    },
+    [mod.ITEMS.HOT_POTATO_BOOK] = {
+        desc = "{{Damage}} 1.1x Damage permanently on use#!!! Does not charge on room clear, can only be charged through batteries, items, or any other usual way",
+        pools = { pools.POOL_TREASURE, pools.POOL_GREED_TREASURE, pools.POOL_LIBRARY}
+    }
 }
 
 for index, value in pairs(collectibles) do
@@ -791,7 +799,7 @@ local trinkets = {
         end
     },
     [mod.TRINKETS.POWER_INVERTER] = {
-        desc = "{{Battery}} Batteries give a {{Damage}} +0.9 Damage up for the current floor, instead of active item charge",
+        desc = "{{Battery}} Batteries give a {{Damage}} +0.9 Damage up for the current floor",
         metadataFunction = function (item)
             EID:addGoldenTrinketMetadata(item, nil, {0.9})
         end
@@ -868,6 +876,9 @@ local trinkets = {
     },
     [mod.TRINKETS.CARD_GRAVEYARD] = {
         desc = "{{Card}} 50% chance to use a random card on damage#"..mod.GENERIC_DESCRIPTIONS.CARDDRAW
+    },
+    [mod.TRINKETS.RUNIC_CUBE] = {
+        desc = "{{Rune}} 50% chance to use Jera on damage#"
     }
 }
 

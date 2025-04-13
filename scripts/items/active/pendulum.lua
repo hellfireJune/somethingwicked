@@ -15,7 +15,6 @@ end
 function mod:PendulumPlayerUpdate(player)
     local p_data = player:GetData()
     p_data.sw_pendulumMe = nil
-    if player:HasCollectible(mod.ITEMS.PENDULUM) then
         local ceffects = player:GetEffects()
         local consumeCharge = ceffects:HasNullEffect(mod.NULL.PENDULUM)
         if consumeCharge then
@@ -41,8 +40,10 @@ function mod:PendulumPlayerUpdate(player)
                 ceffects:RemoveNullEffect(mod.NULL.PENDULUM) 
             end
         end
-    end
 end
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.PENDULUM)
+end, mod.PendulumPlayerUpdate)
 
 local chargeTime = 30
 mod:AddNewTearFlag(mod.CustomTearFlags.FLAG_PENDULUM, {

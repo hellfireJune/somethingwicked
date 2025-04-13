@@ -2,7 +2,7 @@ local framesToSpawnEggs, SpiderCap = 165, 7
 local mod = SomethingWicked
 local sfx, game = SFXManager(), Game()
 
-local function IsFiring(_, player)
+function mod:spiderNestTick(player)
     if not player:HasCollectible(mod.ITEMS.SPIDER_EGG) then
         return
     end
@@ -46,5 +46,7 @@ local function UpdateEffect(_, effect)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, IsFiring)
+mod:AddPeffectCheck(function (player)
+    return player:HasCollectible(mod.ITEMS.SPIDER_EGG)
+end, mod.spiderNestTick)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, UpdateEffect, mod.EFFECTS.SPIDER_EGG)

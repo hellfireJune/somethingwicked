@@ -1,7 +1,7 @@
 local mod = SomethingWicked
 local curseDuration = 5.5
 
-local function PlayerUpdate(_, player)
+function mod.cursedCandleTick(_, player)
     if mod:HoldItemUpdateHelper(player, mod.ITEMS.CURSED_CANDLE) then
         local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BLUE_FLAME, mod.WickedFireSubtype, player.Position, mod:GetFireVector(player):Resized(18), player)
         fire = fire:ToEffect()
@@ -32,7 +32,7 @@ local function OnEnemyTakeDMG(_, ent, amount, flags, source, dmgCooldown)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.cursedCandleTick)
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, CallbackPriority.EARLY, OnEnemyTakeDMG)
 
 

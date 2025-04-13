@@ -23,7 +23,7 @@ function SomethingWicked:SpawnStandaloneItemPopup(item, type, pos, player)
     return effect
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
+function mod:itemPopupTick(player)
     local p_data = player:GetData()
     if p_data.sw_itemPopUps then
         p_data.sw_popupWait = p_data.sw_popupWait or 0
@@ -39,7 +39,8 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
             p_data.sw_popupWait = popUp.frame
         end
     end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.itemPopupTick)
 
 local startOffset,endOffest = Vector(0, -40), Vector(0, -65)
 local moveSpeed, timeToRampUp, turnSpeed, minRadius, maxRadius = 24, 16, 32, 16, 160
@@ -48,9 +49,12 @@ local disHopDuration, heightOffGround = 20, -40
 local color = Color(1, 1, 1, 0.835) local whitenedColour = Color(1, 1, 1, 0.835, 1, 1, 1)
 mod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, function (_, effect)
     local e_data = effect:GetData()
-    if effect.SubType == mod.ItemPopupSubtypes.STANDARD then
+    if effect.SubType == mod.ItemPopupSubtypes.STANDARD or effect.SubType == mod.ItemPopupSubtypes.STANDALONE_WITH_VEL then
         local mult = mod:Clamp((20/effect.FrameCount)/20, 0, 1)^0.4
         local velLerp = mod:Lerp(endOffest, startOffset, mult)
+        if effect.SubType == mod.ItemPopupSubtypes.STANDALONE_WITH_VEL then
+            velLerp = velLerp:Rotated(45*effect.Velocity.X*100)
+        end
         effect.SpriteOffset = velLerp
 
         if effect.FrameCount > 20 then

@@ -51,6 +51,7 @@
 		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Zero-Point Reactor" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hot Potato Book" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="shop">
@@ -83,6 +84,7 @@
 		<Item Name="Encyclopedia" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Fear Stalks The Land!" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="  Book of Leviathan  " Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hot Potato Book" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="curse">
@@ -155,6 +157,8 @@
 		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Light Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="The Son" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Earth of Adam" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="goldenChest">
@@ -314,6 +318,7 @@
 		<Item Name="Toy Bear" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Zero-Point Reactor" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Hot Potato Book" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 	
 	<Pool Name="greedShop">
@@ -386,6 +391,7 @@
 		<Item Name="Reliquary" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 		<Item Name="Light Shard" Weight="0.5" DecreaseBy="0.5" RemoveOn="0.05"/>
 		<Item Name="Living Water" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+		<Item Name="Earth of Adam" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
 	</Pool>
 
 	<Pool Name="greedSecret">

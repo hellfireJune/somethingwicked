@@ -14,7 +14,7 @@ local function UseItem(_, _, _, player)
     return { Remove = true}
 end
 
-local function PEffectUpdate(_, player)
+function mod:toyboxTick(player)
     if not player:IsExtraAnimationFinished() then
         return
     end
@@ -39,4 +39,4 @@ local function PEffectUpdate(_, player)
 end
 
 SomethingWicked:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem, mod.ITEMS.TOYBOX)
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.toyboxTick)

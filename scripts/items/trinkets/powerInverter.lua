@@ -8,7 +8,6 @@ local chargeTypes = {
 }
 local dmgPer6Charges = 0.9
 SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, CallbackPriority.LATE, function (_, pickup, player)
-
     player = player:ToPlayer()
     if not player or not player:HasTrinket(mod.TRINKETS.POWER_INVERTER) then
         return
@@ -17,25 +16,41 @@ SomethingWicked:AddPriorityCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, Callba
         return
     end
 
-    local sprite = pickup:GetSprite()
-    sprite:Play("Collect")
-    pickup:Die()
-    sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
+    local i_data = pickup:GetData()
+    if not i_data.sw_pickupData.invertPlayer then
+        i_data.sw_pickupData.invertPlayer = player
 
-    local tmult = math.min(player:GetTrinketMultiplier(mod.TRINKETS.POWER_INVERTER), 1)
-    local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
-
-    local p_data = player:GetData()
-    p_data.WickedPData = p_data.WickedPData or {}
-    if pickup.SubType == BatterySubType.BATTERY_GOLDEN then
-        p_data.WickedPData.goldenBatteryRandomRoom = mod:DoGoldenBattery(player, pickup)
-    end
+        local p_data = player:GetData()
+        local tmult = math.min(player:GetTrinketMultiplier(mod.TRINKETS.POWER_INVERTER), 1)
+        local dmgToAdd = ((chargeTypes[pickup.SubType] or 6) / 6) * dmgPer6Charges * tmult
     
-    p_data.WickedPData.inverterdmgToAdd = (p_data.WickedPData.inverterdmgToAdd or 0) + dmgToAdd
-    player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
-    player:EvaluateItems()
-    return true
+        p_data.WickedPData.inverterdmgToAdd = (p_data.WickedPData.inverterdmgToAdd or 0) + dmgToAdd
+        player:AddCacheFlags(CacheFlag.CACHE_DAMAGE)
+        player:EvaluateItems()
+        mod:savePickupData()
+    end
+    pickup.Friction = 0
+    pickup.Mass = 0
+end, PickupVariant.PICKUP_LIL_BATTERY)
+
+mod:AddCallback(ModCallbacks.MC_POST_PICKUP_COLLISION, function (_, pickup)
+    local i_data = pickup:GetData()
+    if pickup:Exists() and i_data.sw_pickupData.invertPlayer then
+        local player = i_data.sw_pickupData.invertPlayer
+        i_data.sw_pickupData.invertPlayer = nil
+
+        local p_data = player:GetData()
+        if pickup.SubType == BatterySubType.BATTERY_GOLDEN then
+            p_data.WickedPData.goldenBatteryRandomRoom = mod:DoGoldenBattery(player, pickup)
+        end
+        local sprite = pickup:GetSprite()
+        sprite:Play("Collect")
+        pickup:Die()
+        sfx:Play(SoundEffect.SOUND_BATTERYCHARGE)
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BATTERY, 0, player.Position - Vector(0, 60), Vector.Zero, player)
+
+        mod:savePickupData()
+    end
 end, PickupVariant.PICKUP_LIL_BATTERY)
 
 function mod:DoGoldenBattery(player, battery)

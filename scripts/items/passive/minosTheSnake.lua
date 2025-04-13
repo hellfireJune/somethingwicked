@@ -378,7 +378,7 @@ function mod:MakeTearSnake(player, p_data, type, dmgMult, length, lastTear, curr
     --nt:Update()
 end
 
-local function HydrusPlayerUpdate(_, player)
+function mod:HydrusPlayerUpdate(player)
     local p_data = player:GetData()
     if player:HasCollectible(mod.ITEMS.HYDRUS) then
         p_data.somethingwicked_HydrusTearRespawnTime = p_data.somethingwicked_HydrusTearRespawnTime or 0
@@ -437,7 +437,9 @@ local function NewRoom()
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, HydrusPlayerUpdate)
+mod:AddPeffectCheck(function (player)
+    return player:HasCollectible(mod.ITEMS.HYDRUS)
+end, mod.HydrusPlayerUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, HydrusTearRemove, EntityType.ENTITY_TEAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, NewRoom)
 

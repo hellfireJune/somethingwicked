@@ -32,7 +32,7 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_USE_BOMB, function (_, player, bomb)
 
         local ready = p_data.sw_superProviBombTimer == nil
         if ready then
-            --p_data.sw_superProviBombReady = 15*30
+            p_data.sw_superProviBombTimer = 15*30
             local b_data = bomb:GetData()
             b_data.sw_superProviBomb = true
         end
@@ -40,7 +40,6 @@ mod:AddCallback(ModCallbacks.MC_POST_PLAYER_USE_BOMB, function (_, player, bomb)
 end)
 
 function mod:SOPPlayerUpdate(player)
-    if player:HasCollectible(mod.ITEMS.STAR_OF_PROVIDENCE) then
         local p_data = player:GetData()
         if p_data.WickedPData.sw_superProviBombTimer then
             p_data.WickedPData.sw_superProviBombTimer = p_data.WickedPData.sw_superProviBombTimer -1
@@ -48,5 +47,8 @@ function mod:SOPPlayerUpdate(player)
                 p_data.WickedPData.sw_superProviBombTimer = nil
             end
         end
-    end
 end 
+
+mod:AddPeffectCheck(function (p)
+    return p:HasCollectible(mod.ITEMS.STAR_OF_PROVIDENCE)
+end, mod.SOPPlayerUpdate)

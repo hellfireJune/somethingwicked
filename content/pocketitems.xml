@@ -10,7 +10,7 @@
     <card type="special" name="Boon of the Magpie's Eye" description="Discard your more options" pickup="7002" mimiccharge="1" hud="MagpieEyeBoon" achievement="Wicked - Don't unlock me"/>
 
     <!--Thoth Cards (Unreversed)-->
-    <card type="tarot" name="I - The Magus" description="May you manifest your energy" pickup="7003" mimiccharge="12" hud="TheMagus"/>
+    <card type="tarot" name="I - The Magus" description="Manifest your energy" pickup="7003" mimiccharge="12" hud="TheMagus"/>
     <card type="tarot" name="VIII - Lust" description="Your fortitude grows" pickup="7003" mimiccharge="12" hud="Lust" achievement="Wicked - Don't unlock me"/>
     <card type="tarot" name="X - Fortune" description="Favours bravery" pickup="7003" mimiccharge="3" hud="Fortune" achievement="Wicked - Don't unlock me"/>
     <card type="tarot" name="XI - The Adjustment" description="May you get what you must" pickup="7003" mimiccharge="6" hud="TheAdjustment" achievement="Wicked - Don't unlock me"/>
@@ -30,5 +30,5 @@
     <card type="suit" name="Knight of Spades" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfSpades"/>
     <card type="suit" name="Knight of Hearts" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfHearts"/>
     <card type="suit" name="Knight of Diamonds" description="Pickups-o-plenty" pickup="7004" mimiccharge="12" hud="KnightOfDiamonds"/>
-    <card type="special" name="XX - The Game" description="Draw of the cards" pickup="7004" mimiccharge="12" hud="TheGame"/>
+    <card type="special" name="XX - The Game" description="Indoor games" pickup="7004" mimiccharge="12" hud="TheGame"/>
 </pocketitems>

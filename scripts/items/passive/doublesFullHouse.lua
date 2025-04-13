@@ -18,7 +18,7 @@ local function postFire(_, shooter, _, _, player)
 end
 mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, postFire)
 
-local function pEffectUpdate(_, player)
+function mod.doubklespEffectUpdate(_, player)
     local p_data = player:GetData()
     if p_data.sw_resetVolley == true then
         p_data.sw_resetVolley = nil
@@ -38,7 +38,7 @@ local function pEffectUpdate(_, player)
         p_data.sw_weaponsToBone = {}
     end
 end
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, pEffectUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.doubklespEffectUpdate)
  
 local function getVolleySize(_, player)
     local weapon = player:GetWeapon(1)

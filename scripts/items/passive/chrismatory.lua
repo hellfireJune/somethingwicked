@@ -56,7 +56,8 @@ mod:AddCustomCBack(mod.CustomCallbacks.SWCB_ON_FIRE_PURE, function (_,  shooter,
     end
 end)
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
+
+function mod:chrismatoryTick(player)
     local p_data = player:GetData()
     if p_data.sw_chrismatoryTick then
         p_data.sw_chrismatoryTick = p_data.sw_chrismatoryTick - 1
@@ -66,4 +67,5 @@ mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, function (_, player)
         local color = Color(1, 1, 1, 1, 0.25, 0.25, 0.25)
         player:SetColor(color, 2, 3, false, false)
     end
-end)
+end
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.chrismatoryTick )

@@ -2,7 +2,7 @@ local mod = SomethingWicked
 local head = Isaac.GetEntityVariantByName("Balrog Head")
 local sfx = SFXManager()
 
-local function PlayerUpdate(_, player)
+function mod:balrogPlayerUpdate(player)
     if mod:HoldItemUpdateHelper(player, mod.ITEMS.BALROGS_HEAD) then
         local tear = player:FireTear(player.Position, (mod:UtilGetFireVector(player)), false, true, false)
         tear.Velocity = tear.Velocity * 1.5
@@ -45,6 +45,6 @@ local function OnWispDie(entity)
     end
 end
 
-SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+SomethingWicked:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.balrogPlayerUpdate)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_REMOVE, TearCollision, EntityType.ENTITY_TEAR)
 SomethingWicked:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, OnWispDie, EntityType.ENTITY_FAMILIAR)

@@ -2,7 +2,6 @@ local mod = SomethingWicked
 local sfx = SFXManager()
 
 local function PEffectUpdate(_, player)
-    if player:HasTrinket(mod.TRINKETS.GIFT_CARD) then
         local p_data = player:GetData()
         p_data.somethingWicked_giftCardCountdown = p_data.somethingWicked_giftCardCountdown or 4
 
@@ -37,7 +36,8 @@ local function PEffectUpdate(_, player)
                 end
             end
         end
-    end
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PEffectUpdate)
+mod:AddPeffectCheck(function (player)
+    return player:HasTrinket(mod.TRINKETS.GIFT_CARD)
+end, PEffectUpdate)

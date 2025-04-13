@@ -12,7 +12,7 @@ local function itemCheck(player, hasItem, hasTrinket, item)
     end
 end
 
-local function PlayerUpdate(_, player)
+function mod:blankBookTick(player)
     local hasTrinket = player:HasTrinket(mod.TRINKETS.EMPTY_BOOK)
     local hasItem = player:HasCollectible(dummyItem)
     itemCheck(player, hasItem, hasTrinket, dummyItem)
@@ -22,4 +22,4 @@ local function PlayerUpdate(_, player)
     itemCheck(player, hasGoldenItem, hasGoldenTrinket, gDummy)
 end
 
-mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PlayerUpdate)
+mod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, mod.blankBookTick)
